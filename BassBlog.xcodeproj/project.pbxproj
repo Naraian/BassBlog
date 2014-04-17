@@ -26,13 +26,11 @@
 		08C1D1A21763510C00513530 /* BBMixesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C1D19E1763510C00513530 /* BBMixesViewController.m */; };
 		08C1D1A41763510C00513530 /* BBMixesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08C1D19F1763510C00513530 /* BBMixesViewController.xib */; };
 		08C4375A175E4A2600929669 /* BBNowPlayingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C43742175E4A2600929669 /* BBNowPlayingViewController.m */; };
-		08C4375C175E4A2600929669 /* BBNowPlayingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08C43743175E4A2600929669 /* BBNowPlayingViewController.xib */; };
 		08C4375E175E4A2600929669 /* BBAllMixesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C43748175E4A2600929669 /* BBAllMixesViewController.m */; };
 		08C43760175E4A2600929669 /* BBTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C4374A175E4A2600929669 /* BBTabBarController.m */; };
 		08C43762175E4A2600929669 /* BBFavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C4374D175E4A2600929669 /* BBFavoritesViewController.m */; };
 		08C43764175E4A2600929669 /* BBHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C43750175E4A2600929669 /* BBHistoryViewController.m */; };
 		08C4376A175E4A2600929669 /* BBTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C43757175E4A2600929669 /* BBTagsViewController.m */; };
-		08C4376C175E4A2600929669 /* BBTagsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08C43758175E4A2600929669 /* BBTagsViewController.xib */; };
 		08C43770175E4A9700929669 /* BBRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C4376F175E4A9700929669 /* BBRootViewController.m */; };
 		08C5FDF81757CFDC007A9F04 /* BBMixesJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C5FDF71757CFDC007A9F04 /* BBMixesJSONParser.m */; };
 		08C85850175B3FF50024281E /* BBTimeProfiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C8584F175B3FF50024281E /* BBTimeProfiler.m */; };
@@ -73,7 +71,6 @@
 		08EEF4DE176DC80E00D003DA /* BBAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EEF4DD176DC80E00D003DA /* BBAudioManager.m */; };
 		08EF067D17D133C100B07616 /* BBTagsViewControllerModelLoadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EF067C17D133C100B07616 /* BBTagsViewControllerModelLoadOperation.m */; };
 		08F21D1617D8EB4700F182C6 /* BBAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F21D1417D8EB4700F182C6 /* BBAboutViewController.m */; };
-		08F21D1717D8EB4700F182C6 /* BBAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08F21D1517D8EB4700F182C6 /* BBAboutViewController.xib */; };
 		08FC718D171949C6001B144B /* BBModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FC718C171949C6001B144B /* BBModelManager.m */; };
 		08FFCB071712A2C900F21D86 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FFCB061712A2C900F21D86 /* UIKit.framework */; };
 		08FFCB091712A2C900F21D86 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FFCB081712A2C900F21D86 /* Foundation.framework */; };
@@ -136,7 +133,6 @@
 		08C1D1A11763510C00513530 /* BBEntitiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBEntitiesViewController.m; sourceTree = "<group>"; };
 		08C43741175E4A2600929669 /* BBNowPlayingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBNowPlayingViewController.h; sourceTree = "<group>"; };
 		08C43742175E4A2600929669 /* BBNowPlayingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBNowPlayingViewController.m; sourceTree = "<group>"; };
-		08C43743175E4A2600929669 /* BBNowPlayingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BBNowPlayingViewController.xib; sourceTree = "<group>"; };
 		08C43747175E4A2600929669 /* BBAllMixesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAllMixesViewController.h; sourceTree = "<group>"; };
 		08C43748175E4A2600929669 /* BBAllMixesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAllMixesViewController.m; sourceTree = "<group>"; };
 		08C43749175E4A2600929669 /* BBTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBTabBarController.h; sourceTree = "<group>"; };
@@ -147,7 +143,6 @@
 		08C43750175E4A2600929669 /* BBHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBHistoryViewController.m; sourceTree = "<group>"; };
 		08C43756175E4A2600929669 /* BBTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBTagsViewController.h; sourceTree = "<group>"; };
 		08C43757175E4A2600929669 /* BBTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBTagsViewController.m; sourceTree = "<group>"; };
-		08C43758175E4A2600929669 /* BBTagsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BBTagsViewController.xib; sourceTree = "<group>"; };
 		08C43759175E4A2600929669 /* BBTagsViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBTagsViewControllerDelegate.h; sourceTree = "<group>"; };
 		08C4376E175E4A9700929669 /* BBRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBRootViewController.h; sourceTree = "<group>"; };
 		08C4376F175E4A9700929669 /* BBRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBRootViewController.m; sourceTree = "<group>"; };
@@ -222,7 +217,6 @@
 		08EF067C17D133C100B07616 /* BBTagsViewControllerModelLoadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBTagsViewControllerModelLoadOperation.m; sourceTree = "<group>"; };
 		08F21D1317D8EB4700F182C6 /* BBAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAboutViewController.h; sourceTree = "<group>"; };
 		08F21D1417D8EB4700F182C6 /* BBAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAboutViewController.m; sourceTree = "<group>"; };
-		08F21D1517D8EB4700F182C6 /* BBAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BBAboutViewController.xib; sourceTree = "<group>"; };
 		08FC718B171949C6001B144B /* BBModelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBModelManager.h; sourceTree = "<group>"; };
 		08FC718C171949C6001B144B /* BBModelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBModelManager.m; sourceTree = "<group>"; };
 		08FFCB031712A2C900F21D86 /* BassBlog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BassBlog.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -426,7 +420,6 @@
 			children = (
 				08C43741175E4A2600929669 /* BBNowPlayingViewController.h */,
 				08C43742175E4A2600929669 /* BBNowPlayingViewController.m */,
-				08C43743175E4A2600929669 /* BBNowPlayingViewController.xib */,
 				08C43744175E4A2600929669 /* ShareMix */,
 			);
 			path = NowPlaying;
@@ -488,7 +481,6 @@
 			children = (
 				08C43756175E4A2600929669 /* BBTagsViewController.h */,
 				08C43757175E4A2600929669 /* BBTagsViewController.m */,
-				08C43758175E4A2600929669 /* BBTagsViewController.xib */,
 				08C43759175E4A2600929669 /* BBTagsViewControllerDelegate.h */,
 				08EF067A17D1322D00B07616 /* Model */,
 				08E084C81764C92F00C2BEE4 /* View */,
@@ -850,7 +842,6 @@
 			children = (
 				08F21D1317D8EB4700F182C6 /* BBAboutViewController.h */,
 				08F21D1417D8EB4700F182C6 /* BBAboutViewController.m */,
-				08F21D1517D8EB4700F182C6 /* BBAboutViewController.xib */,
 			);
 			path = About;
 			sourceTree = "<group>";
@@ -1069,8 +1060,6 @@
 				C14D4A9918BE958C00ED7041 /* BBAllMixesTableViewCell.xib in Resources */,
 				080463D517147E26009EBD9C /* Default.png in Resources */,
 				080463D617147E26009EBD9C /* Default@2x.png in Resources */,
-				08C4375C175E4A2600929669 /* BBNowPlayingViewController.xib in Resources */,
-				08C4376C175E4A2600929669 /* BBTagsViewController.xib in Resources */,
 				08C1D1A41763510C00513530 /* BBMixesViewController.xib in Resources */,
 				08E084D51764CF4C00C2BEE4 /* BBTagsTableViewCell.xib in Resources */,
 				08D69800176F6B6900941621 /* BBMixesTableSectionHeaderView.xib in Resources */,
@@ -1081,7 +1070,6 @@
 				C19B4F8B18C1307F0021A100 /* BBHistoryTableViewCell.xib in Resources */,
 				C1EB985E18CE4669008A3303 /* BBMixesTableFooterView.xib in Resources */,
 				C19B4F8918C12ECB0021A100 /* BBFavoritesTableViewCell.xib in Resources */,
-				08F21D1717D8EB4700F182C6 /* BBAboutViewController.xib in Resources */,
 				084501BA17DDEBDE002B09F7 /* BlackTheme.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

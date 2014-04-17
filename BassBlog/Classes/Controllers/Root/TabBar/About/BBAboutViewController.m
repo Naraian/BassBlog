@@ -22,4 +22,31 @@
                          tag:4];
 }
 
+-(IBAction)facebookClick:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.facebook.com/dnb.mix.blog"]];
+}
+
+-(IBAction)twitterClick:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/bass_blog"]];
+}
+
+-(IBAction)VkontakteClick:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://vk.com/bass_blog"]];
+    
+}
+
+-(IBAction)aboutClick:(id)sender
+{
+    
+}
+
+- (IBAction)webSiteClick:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.bassblog.pro"]];
+    
+}
+
 @end
