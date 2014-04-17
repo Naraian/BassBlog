@@ -48,9 +48,9 @@
     
     BBMixesViewControllerModelLoadOperation *operation = [super modelLoadOperation];
     
-    operation.handleEntity = ^(BBMixesViewControllerModelLoadOperation *operation, BBMix *mix) {
+    operation.handleEntity = ^(BBMixesViewControllerModelLoadOperation *anOperation, BBMix *mix) {
         
-        [operation.tableModel addCellKey:mix.key toSectionID:eBBDefaultTableModelSectionID];
+        [anOperation.tableModel addCellKey:mix.key toSectionID:eBBDefaultTableModelSectionID];
     };
     
     return operation;

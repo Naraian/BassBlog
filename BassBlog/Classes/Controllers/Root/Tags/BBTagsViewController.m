@@ -98,7 +98,7 @@ const NSInteger kBBAllTagTableModelRow = 0;
     BBMixesSelectionOptions *mixesSelectionOptions = [BBMixesSelectionOptions new];
     mixesSelectionOptions.category = _tagsSelectionOptions.category;
     
-    operation.handleEntity = ^(BBTagsViewControllerModelLoadOperation *operation, BBTag *tag) {
+    operation.handleEntity = ^(BBTagsViewControllerModelLoadOperation *anOperation, BBTag *tag) {
         
         NSString *key = tag.key;
         
@@ -106,9 +106,9 @@ const NSInteger kBBAllTagTableModelRow = 0;
         
         NSNumber *mixesCountNumber = @([[BBModelManager defaultManager] mixesCountWithSelectionOptions:mixesSelectionOptions]);
         
-        [operation.mixesCountNumbersDictionary setObject:mixesCountNumber forKey:key];
+        [anOperation.mixesCountNumbersDictionary setObject:mixesCountNumber forKey:key];
         
-        [operation.tableModel addCellKey:key toSectionID:eBBDefaultTableModelSectionID];
+        [anOperation.tableModel addCellKey:key toSectionID:eBBDefaultTableModelSectionID];
     };
     
     return operation;

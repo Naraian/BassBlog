@@ -8,8 +8,8 @@
 
 @interface BBEntitiesViewControllerModelLoadOperation : NSOperation
 
-@property (nonatomic, copy) void (^finish)(id operation);
-@property (nonatomic, copy) void (^handleEntity)(id operation, id entity);
+@property (nonatomic, copy) void (^finish)(id anOperation);
+@property (nonatomic, copy) void (^handleEntity)(id anOperation, id anEntity);
 
 - (BOOL)isCompleted;
 

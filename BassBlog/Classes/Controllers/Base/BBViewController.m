@@ -135,18 +135,19 @@
     
     self.view.backgroundColor = color;
     
-    UINavigationBar *navigationBar = self.navigationController.navigationBar;
-    
-    UIImage *image = [themeManager imageNamed:@"navigation_bar/background"];
-    [navigationBar setBackgroundImage:image
-                        forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    self.navigationController.navigationBar.translucent = YES;
+
+#warning REMOVE
+//    UIImage *image = [themeManager imageNamed:@"navigation_bar/background"];
+//    [navigationBar setBackgroundImage:image
+//                        forBarMetrics:UIBarMetricsDefault];
     
     NSDictionary *attributes = @{UITextAttributeTextColor:[UIColor whiteColor],
                                  UITextAttributeFont:[BBFont boldFontOfSize:18]};
-    [navigationBar setTitleTextAttributes:attributes];
+    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
     
-    [navigationBar setTitleVerticalPositionAdjustment:4.f
-                                        forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:4.f forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void)setTabBarItemTitle:(NSString *)title
@@ -164,9 +165,10 @@
     
     [self.tabBarItem setTitleTextAttributes:attributes
                                    forState:UIControlStateNormal];
-    
-    [self.tabBarItem setFinishedSelectedImage:image
-                  withFinishedUnselectedImage:image];
+
+#warning TODO remove
+//    [self.tabBarItem setFinishedSelectedImage:image
+//                  withFinishedUnselectedImage:image];
 }
 
 - (void)startObserveNotifications {

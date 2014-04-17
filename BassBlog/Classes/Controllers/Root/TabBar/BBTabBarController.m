@@ -47,9 +47,15 @@
 - (void)updateTheme {
     
     BBThemeManager *tm = [BBThemeManager defaultManager];
+
+#warning REMOVE
+//    [self.tabBar setSelectionIndicatorImage:[tm imageNamed:@"tab_bar/item/selection_indicator"]];
+//    [self.tabBar setBackgroundImage:[tm imageNamed:@"tab_bar/background"]];
     
-    [self.tabBar setSelectionIndicatorImage:[tm imageNamed:@"tab_bar/item/selection_indicator"]];
-    [self.tabBar setBackgroundImage:[tm imageNamed:@"tab_bar/background"]];
+    self.tabBar.barStyle = UIBarStyleDefault;
+    self.tabBar.translucent = YES;
+    self.tabBar.tintColor = [UIColor redColor];
+    self.tabBar.selectedImageTintColor = [UIColor redColor];
 }
 
 - (void)setUserInteractionEnabled:(BOOL)enabled
@@ -81,9 +87,7 @@
      {
          UIViewController *controller = [aClass new];
          
-         UINavigationController *navigationController =
-         [[UINavigationController alloc] initWithRootViewController:controller];
-         
+         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
          [viewControllers addObject:navigationController];
      }];
     

@@ -62,15 +62,15 @@
     
     __weak BBAllMixesViewController *weakSelf = self;
     
-    operation.handleEntity = ^(BBMixesViewControllerModelLoadOperation *operation, BBMix *mix) {
+    operation.handleEntity = ^(BBMixesViewControllerModelLoadOperation *anOperation, BBMix *mix) {
         
         NSInteger sectionID = [weakSelf sectionIDForMix:mix];
         
-        [operation.tableModel addCellKey:mix.key toSectionID:sectionID];
-        operation.detailTextsDictionary[mix.key] = [BBUIUtils tagsStringForMix:mix];
+        [anOperation.tableModel addCellKey:mix.key toSectionID:sectionID];
+        anOperation.detailTextsDictionary[mix.key] = [BBUIUtils tagsStringForMix:mix];
         
-        if (operation.headerTextsDictionary[@(sectionID)] == nil) {
-            operation.headerTextsDictionary[@(sectionID)] = [weakSelf headerTextForMix:mix];
+        if (anOperation.headerTextsDictionary[@(sectionID)] == nil) {
+            anOperation.headerTextsDictionary[@(sectionID)] = [weakSelf headerTextForMix:mix];
         }
     };
     

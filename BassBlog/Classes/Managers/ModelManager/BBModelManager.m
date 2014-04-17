@@ -79,7 +79,7 @@ static const NSUInteger kBBMaxNumberOfUpdatedObjectsForAutoSave = 10;
 @property (nonatomic, strong) NSManagedObjectContext *mainContext;
 @property (nonatomic, strong) NSPersistentStoreCoordinator *coordinator;
 
-@property (nonatomic, assign) dispatch_queue_t dispatchQueue;
+@property (nonatomic, strong) dispatch_queue_t dispatchQueue;
 
 @property (nonatomic, strong) NSError *error;
 
@@ -104,8 +104,7 @@ TIME_PROFILER_PROPERTY_DECLARATION
     
     if (_dispatchQueue == NULL) {
         
-        _dispatchQueue =
-        dispatch_queue_create("pro.bassblog.ModelManagerDispatchQueue", NULL);
+        _dispatchQueue = dispatch_queue_create("pro.bassblog.ModelManagerDispatchQueue", NULL);
     
         // TODO: configure priority here if needed...
     }

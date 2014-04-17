@@ -6,13 +6,14 @@
 //  Copyright (c) 2013 BassBlog. All rights reserved.
 //
 
+#import "SWRevealViewController.h"
+
 @class BBTagsViewController;
 @class BBNowPlayingViewController;
 
-@interface BBRootViewController : UIViewController
+@interface BBRootViewController : SWRevealViewController
 
 - (void)toggleTagsVisibility;
-- (void)toggleTagsVisibilityWithCompletionBlock:(void (^)(BOOL visible))completionBlock;
 
 - (void)toggleNowPlayingVisibility;
 - (void)toggleNowPlayingVisibilityWithCompletionBlock:(void (^)(BOOL visible))completionBlock;

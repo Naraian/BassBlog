@@ -71,9 +71,9 @@
     NSString *suffix = [BBThemeManager defaultManager].themeName;
     NSString *cellNibThemeName = [cellNibName stringByAppendingString:suffix];
     
-    UITableViewCell *cell =
-    [tableView dequeueReusableCellWithIdentifier:cellNibThemeName];
-    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellNibThemeName];
+
+#warning TODO remove this fallback, all cells must be created from storyboard prototypes
     if (cell == nil) {
         
         UINib *nib = [UINib nibWithNibName:cellNibName bundle:nil];

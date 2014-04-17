@@ -23,14 +23,14 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 
 @interface BBRootViewController () <UIGestureRecognizerDelegate>
 {
-    BBTabBarController *tabBarController;
-    BBTagsViewController *tagsViewController;
-    UINavigationController *nowPlayingViewController;
+    BBTabBarController *_tabBarController;
+    BBTagsViewController *_tagsViewController;
+    UINavigationController *_nowPlayingViewController;
     
 #warning TODO: rename nowPlayingViewController
     
-    BOOL nowPlayingViewIsVisible;
-    BOOL tagsViewIsVisible;
+    BOOL _nowPlayingViewIsVisible;
+    BOOL _tagsViewIsVisible;
 }
 
 @property (nonatomic, strong) BBActivityView *modelRefreshActivityView;
@@ -38,37 +38,6 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 @end
 
 @implementation BBRootViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nil bundle:nil];
-    
-    if (self)
-    {
-        [self initChildController:&tabBarController
-               withViewController:[BBTabBarController new]];
-        
-        [self initChildController:&tagsViewController
-               withViewController:[BBTagsViewController new]];
-        
-        UINavigationController *navigationController =
-        [[UINavigationController alloc] initWithRootViewController:[BBNowPlayingViewController new]];
-        
-        [self initChildController:&nowPlayingViewController
-               withViewController:navigationController];
-    }
-    
-    return self;
-}
-
-- (void)initChildController:(UIViewController *__strong *)childController
-         withViewController:(UIViewController *)viewController
-{
-    *childController = viewController;
-    
-    [self addChildViewController:viewController];
-    [viewController didMoveToParentViewController:self];
-}
 
 - (void)dealloc {
     
@@ -80,6 +49,11 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    
+    _tagsViewController = (BBTagsViewController *)self.rearViewController;
+    _tabBarController = (BBTabBarController *)self.frontViewController;
+    
+//    [self.navigationController.navigationBar addGestureRecognizer: self.panGestureRecognizer];
     
     [self addViewControllers];
     
@@ -101,17 +75,17 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 {
     // NOTE: order matters.
     
-    [self.view addSubview:nowPlayingViewController.view];
-    
-    [self.view addSubview:tagsViewController.view];
-    
-    CGRect tagsViewFrame = tagsViewController.view.frame;
-    tagsViewFrame.size.height = CGRectGetHeight(self.view.bounds);
-    tagsViewController.view.frame = tagsViewFrame;
-    
-    [self.view addSubview:tabBarController.view];
-    
-    [self setNowPlayingViewVisible:YES];    
+//    [self.view addSubview:nowPlayingViewController.view];
+//    
+//    [self.view addSubview:tagsViewController.view];
+//    
+//    CGRect tagsViewFrame = tagsViewController.view.frame;
+//    tagsViewFrame.size.height = CGRectGetHeight(self.view.bounds);
+//    tagsViewController.view.frame = tagsViewFrame;
+//    
+//    [self.view addSubview:tabBarController.view];
+//    
+//    [self setNowPlayingViewVisible:YES];    
 }
 
 - (void)showModelRefreshActivityView
@@ -142,7 +116,7 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 
 - (void)activate
 {
-    [tabBarController activate];
+    [_tabBarController activate];
     [self.nowPlayingViewController activate];
     
     [self setNowPlayingViewVisible:NO];
@@ -152,7 +126,7 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 
 - (void)drawShadow {
     
-    CALayer *layer = tabBarController.view.layer;
+    CALayer *layer = _tabBarController.view.layer;
     CGRect shadowPathRect = self.view.bounds;
     shadowPathRect.size.width = 10.f;
     layer.shadowPath = [UIBezierPath bezierPathWithRect:shadowPathRect].CGPath;
@@ -165,15 +139,7 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 
 - (void)toggleTagsVisibility
 {
-    [self toggleTagsVisibilityWithCompletionBlock:nil];
-}
-
-- (void)toggleTagsVisibilityWithCompletionBlock:(void (^)(BOOL visible))completionBlock {
-    
-    [self toggleVisibility:&tagsViewIsVisible
-          ofSideController:tagsViewController
-             withAnimation:^(BOOL visible) { [self setTagsViewVisible:visible]; }
-                completion:completionBlock];
+    [self revealToggleAnimated:YES];
 }
 
 - (void)toggleNowPlayingVisibility
@@ -183,8 +149,8 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 
 - (void)toggleNowPlayingVisibilityWithCompletionBlock:(void (^)(BOOL visible))completionBlock {
     
-    [self toggleVisibility:&nowPlayingViewIsVisible
-          ofSideController:nowPlayingViewController
+    [self toggleVisibility:&_nowPlayingViewIsVisible
+          ofSideController:_nowPlayingViewController
              withAnimation:^(BOOL visible) { [self setNowPlayingViewVisible:visible]; }
                 completion:completionBlock];
 }
@@ -204,12 +170,12 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
         if (*visibility) {
             
             [sideController viewWillAppear:animated];
-            [tabBarController viewWillDisappear:animated];
+            [_tabBarController viewWillDisappear:animated];
         }
         else {
             
             [sideController viewWillDisappear:animated];
-            [tabBarController viewWillAppear:animated];
+            [_tabBarController viewWillAppear:animated];
         }
         
         animation(*visibility);
@@ -221,12 +187,12 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
         if (*visibility) {
             
             [sideController viewWillAppear:animated];
-            [tabBarController viewDidDisappear:animated];
+            [_tabBarController viewDidDisappear:animated];
         }
         else {
             
             [sideController viewDidDisappear:animated];
-            [tabBarController viewDidAppear:animated];
+            [_tabBarController viewDidAppear:animated];
         }
         
         if (completion) {
@@ -239,53 +205,39 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 
 - (BBTagsViewController *)tagsViewController
 {
-    return tagsViewController;
+    return _tagsViewController;
 }
 
 - (BBNowPlayingViewController *)nowPlayingViewController
 {
     return (BBNowPlayingViewController *)
-           [nowPlayingViewController.viewControllers objectAtIndex:0];
+           [_nowPlayingViewController.viewControllers objectAtIndex:0];
 }
 
 #pragma mark - Frames
 
-- (void)setTagsViewVisible:(BOOL)visible
-{
-    CGRect tabBarViewFrame = tabBarController.view.frame;
-    
-    if (visible)
-        tabBarViewFrame.origin.x = CGRectGetWidth(tagsViewController.view.frame);
-    else
-        tabBarViewFrame.origin.x = 0;
-    
-    tabBarController.view.frame = tabBarViewFrame;
-    
-    [tabBarController setUserInteractionEnabled:!visible];
-}
-
 - (void)setNowPlayingViewVisible:(BOOL)visible {
     
-    CGRect tabBarViewFrame = tabBarController.view.frame;
-    CGRect tagsViewFrame = tagsViewController.view.frame;
-    CGRect nowPlayingViewFrame = nowPlayingViewController.view.frame;
-    
-    if (visible) {
-        
-        tabBarViewFrame.origin.x = - CGRectGetWidth(tabBarViewFrame);
-        tagsViewFrame.origin.x = - CGRectGetWidth(tagsViewFrame);
-        nowPlayingViewFrame.origin.x = 0;
-    }
-    else {
-        
-        tabBarViewFrame.origin.x = 0;
-        tagsViewFrame.origin.x = 0;
-        nowPlayingViewFrame.origin.x = CGRectGetWidth(tabBarViewFrame);;
-    }
-    
-    tabBarController.view.frame = tabBarViewFrame;
-    tagsViewController.view.frame = tagsViewFrame;
-    nowPlayingViewController.view.frame = nowPlayingViewFrame;
+//    CGRect tabBarViewFrame = _tabBarController.view.frame;
+//    CGRect tagsViewFrame = _tagsViewController.view.frame;
+//    CGRect nowPlayingViewFrame = _nowPlayingViewController.view.frame;
+//    
+//    if (visible) {
+//        
+//        tabBarViewFrame.origin.x = - CGRectGetWidth(tabBarViewFrame);
+//        tagsViewFrame.origin.x = - CGRectGetWidth(tagsViewFrame);
+//        nowPlayingViewFrame.origin.x = 0;
+//    }
+//    else {
+//        
+//        tabBarViewFrame.origin.x = 0;
+//        tagsViewFrame.origin.x = 0;
+//        nowPlayingViewFrame.origin.x = CGRectGetWidth(tabBarViewFrame);;
+//    }
+//    
+//    _tabBarController.view.frame = tabBarViewFrame;
+//    _tagsViewController.view.frame = tagsViewFrame;
+//    _nowPlayingViewController.view.frame = nowPlayingViewFrame;
 }
 
 #pragma mark - Notifications

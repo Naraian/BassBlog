@@ -419,9 +419,9 @@ typedef NSInputStream *(^rdhttp_httpbody_stream_block_t)();
 /** RDHTTPOperation. This is <NSOperation> subclass that is actually responsible for HTTP request completion. */
 @interface RDHTTPOperation : NSOperation
 
-@property (readonly) BOOL isExecuting;
-@property (readonly) BOOL isFinished;
-@property (readonly) BOOL isCancelled;
+@property (readonly, atomic) BOOL isExecuting;
+@property (readonly, atomic) BOOL isFinished;
+@property (readonly, atomic) BOOL isCancelled;
 
 @end
 

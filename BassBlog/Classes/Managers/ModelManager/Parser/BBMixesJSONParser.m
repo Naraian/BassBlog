@@ -118,14 +118,16 @@ static const float BBProgressDelta = 0.05f; // 5%
         return;
     }
     
-    NSUInteger mixesCount = [json count];
+    NSArray *jsonArray = (NSArray*)json;
+    
+    NSUInteger mixesCount = [jsonArray count];
     NSUInteger mixIdxProgressDelta = mixesCount * BBProgressDelta;
     __block NSUInteger mixIdxToReportProgress = mixIdxProgressDelta;
     if (progressBlock == nil) {
         mixIdxToReportProgress = mixesCount;
     }
     
-    [json enumerateObjectsUsingBlock:^(id mix, NSUInteger mixIdx, BOOL *mixStop) {
+    [jsonArray enumerateObjectsUsingBlock:^(id mix, NSUInteger mixIdx, BOOL *mixStop) {
 
 #ifdef DEBUG
         
@@ -137,39 +139,43 @@ static const float BBProgressDelta = 0.05f; // 5%
             return;
         }
 #endif
+        
+        NSDictionary *mixDictionary = (NSDictionary*)mix;
     
-        NSString *ID = [[mix objectForKey:BBMixIDJSONKey] stringValue];
-        NSString *url = [mix objectForKey:BBMixUrlJSONKey];
-        NSString *name = [mix objectForKey:BBMixNameJSONKey];
+        NSString *ID = [[mixDictionary objectForKey:BBMixIDJSONKey] stringValue];
+        NSString *url = [mixDictionary objectForKey:BBMixUrlJSONKey];
+        NSString *name = [mixDictionary objectForKey:BBMixNameJSONKey];
         
         NSString *tracklist = nil;
-        id tracklistObject = [mix objectForKey:BBMixTracklistJSONKey];
+        id tracklistObject = [mixDictionary objectForKey:BBMixTracklistJSONKey];
         if ([tracklistObject isKindOfClass:[NSString class]])
         {
             tracklist = [tracklistObject stringByUnescapingFromHTML];
         }
         
         NSInteger bitrate = 0;
-        id bitrateObject = [mix objectForKey:BBMixBitrateJSONKey];
+        id bitrateObject = [mixDictionary objectForKey:BBMixBitrateJSONKey];
         if ([bitrateObject isKindOfClass:[NSString class]])
         {
-            NSRange range = NSMakeRange(0, [bitrateObject length]);
+            NSString *bitrateString = (NSString *)bitrateObject;
             
-            NSString *bitrateString =
-            [_bitrateRegularExpression stringByReplacingMatchesInString:bitrateObject
+            NSRange range = NSMakeRange(0, [bitrateString length]);
+            
+            bitrateString =
+            [_bitrateRegularExpression stringByReplacingMatchesInString:bitrateString
                                                                 options:kNilOptions
                                                                   range:range
                                                            withTemplate:@"$1"];
             bitrate = [bitrateString intValue];
         }
         
-        NSArray *tags = [[mix objectForKey:BBMixTagsJSONKey]
+        NSArray *tags = [[mixDictionary objectForKey:BBMixTagsJSONKey]
                          componentsSeparatedByString:@","];
         
         NSDate *date = [_dateFormatter dateFromString:
-                        [mix objectForKey:BBMixDateJSONKey]];
+                        [mixDictionary objectForKey:BBMixDateJSONKey]];
         
-        BOOL deleted = [[mix objectForKey:BBMixDeletedJSONKey] boolValue];
+        BOOL deleted = [[mixDictionary objectForKey:BBMixDeletedJSONKey] boolValue];
         
         mixBlock(ID, url, name, tracklist, bitrate, tags, date, deleted);
         
