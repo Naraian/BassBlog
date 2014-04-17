@@ -10,6 +10,4 @@
 
 - (void)setUserInteractionEnabled:(BOOL)enabled;
 
-- (void)activate;
-
 @end

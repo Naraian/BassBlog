@@ -21,20 +21,17 @@
 
 @implementation BBAllMixesViewController
 
-- (id)init {
+- (void)commonInit
+{
+    [super commonInit];
     
-    self = [super init];
+    self.title = NSLocalizedString(@"ALL MIXES", @"");
     
-    if (self) {
+    [self setTabBarItemTitle:self.title
+                  imageNamed:@"all_mixes_icon"
+                         tag:eAllMixesCategory];
         
-        [self setTabBarItemTitle:NSLocalizedString(@"ALL MIXES", @"")
-                      imageNamed:@"all_mixes_icon"
-                             tag:eAllMixesCategory];
-        
-        _tableModelSectionRule = BBMixesTableModelSectionRuleEachMonth;
-    }
-    
-    return self;
+    _tableModelSectionRule = BBMixesTableModelSectionRuleEachMonth;
 }
 
 #pragma mark - View

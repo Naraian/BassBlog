@@ -27,16 +27,16 @@ static NSString *const BBMixPlaybackDateKey = @"playbackDate";
 
 #pragma mark -
 
-@interface BBMix (PrimitiveAccessors)
+@interface BBMix ()
+{
+    BOOL _favorite;
+}
 
 - (void)setPrimitiveLocalUrl:(NSString *)localUrl;
 - (NSString *)primitiveLocalUrl;
 
 - (void)setPrimitivePlaybackDate:(NSDate *)playbackDate;
 - (NSDate *)primitivePlaybackDate;
-
-- (void)setPrimitiveFavorite:(BOOL)favorite;
-- (BOOL)primitiveFavorite;
 
 @end
 
@@ -77,7 +77,7 @@ static NSString *const BBMixPlaybackDateKey = @"playbackDate";
     
     [self willChangeValueForKey:BBMixFavoriteKey];
     
-    [self setPrimitiveFavorite:favorite];
+    _favorite = favorite;
     
     [self didChangeValueForKey:BBMixFavoriteKey];
     

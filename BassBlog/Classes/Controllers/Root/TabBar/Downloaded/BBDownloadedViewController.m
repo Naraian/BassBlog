@@ -11,20 +11,17 @@
 
 @implementation BBDownloadedViewController
 
-- (id)init
+- (void)commonInit
 {
-    self = [super init];
+    [super commonInit];
     
-    if (self)
-    {
-        [self setTabBarItemTitle:NSLocalizedString(@"DOWNLOADED", @"")
-                           image:[UIImage imageNamed:@"downloads_icon"]
-                             tag:eDownloadedMixesCategory];
+    self.title = NSLocalizedString(@"DOWNLOADED", @"");
         
-        mixesSelectionOptions.category = eDownloadedMixesCategory;
-    }
-    
-    return self;
+    [self setTabBarItemTitle:self.title
+                       image:[UIImage imageNamed:@"downloads_icon"]
+                         tag:eDownloadedMixesCategory];
+        
+    mixesSelectionOptions.category = eDownloadedMixesCategory;
 }
 
 @end

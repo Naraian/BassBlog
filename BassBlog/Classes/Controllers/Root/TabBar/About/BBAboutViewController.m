@@ -11,20 +11,15 @@
 
 @implementation BBAboutViewController
 
-- (id)init
+- (void)commonInit
 {
-    self = [super init];
+    [super commonInit];
     
-    if (self)
-    {
-        self.title = NSLocalizedString(@"MORE", @"");
-        
-        [self setTabBarItemTitle:self.title
-                      imageNamed:@"more_icon"
-                             tag:4];
-    }
+    self.title = NSLocalizedString(@"MORE", @"");
     
-    return self;
+    [self setTabBarItemTitle:self.title
+                  imageNamed:@"more_icon"
+                         tag:4];
 }
 
 @end

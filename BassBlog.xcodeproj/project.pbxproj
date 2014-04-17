@@ -84,7 +84,7 @@
 		08FFCB2E1712ADE300F21D86 /* BBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FFCB2D1712ADE300F21D86 /* BBAppDelegate.m */; };
 		9A57211E18FF1F8300169E6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A57211D18FF1F8300169E6A /* Main.storyboard */; };
 		9A57212118FF29D500169E6A /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A57212018FF29D500169E6A /* SWRevealViewController.m */; };
-		9A57212318FF413400169E6A /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A57212218FF413400169E6A /* Reveal.framework */; };
+		9A61FF97190077EA004AE70E /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A61FF96190077EA004AE70E /* Reveal.framework */; };
 		C12D9DF018BA21DB00F7693A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C12D9DEF18BA21DB00F7693A /* MediaPlayer.framework */; };
 		C14D4A9118BE94FA00ED7041 /* BBFavoritesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C14D4A9018BE94FA00ED7041 /* BBFavoritesTableViewCell.m */; };
 		C14D4A9418BE951100ED7041 /* BBAllMixesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C14D4A9318BE951100ED7041 /* BBAllMixesTableViewCell.m */; };
@@ -239,7 +239,7 @@
 		9A57211D18FF1F8300169E6A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9A57211F18FF29D500169E6A /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		9A57212018FF29D500169E6A /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
-		9A57212218FF413400169E6A /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reveal.framework; path = BassBlog/Libraries/Reveal.framework; sourceTree = "<group>"; };
+		9A61FF96190077EA004AE70E /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reveal.framework; path = BassBlog/Libraries/Reveal.framework; sourceTree = "<group>"; };
 		C12D9DEF18BA21DB00F7693A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		C14D4A8F18BE94FA00ED7041 /* BBFavoritesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFavoritesTableViewCell.h; sourceTree = "<group>"; };
 		C14D4A9018BE94FA00ED7041 /* BBFavoritesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFavoritesTableViewCell.m; sourceTree = "<group>"; };
@@ -266,6 +266,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A61FF97190077EA004AE70E /* Reveal.framework in Frameworks */,
 				C12D9DF018BA21DB00F7693A /* MediaPlayer.framework in Frameworks */,
 				C1EBC3F418B9D30F00B77297 /* CoreMedia.framework in Frameworks */,
 				08EC6917178016DF0074CEC9 /* AudioToolbox.framework in Frameworks */,
@@ -273,7 +274,6 @@
 				08FFCB071712A2C900F21D86 /* UIKit.framework in Frameworks */,
 				08FFCB091712A2C900F21D86 /* Foundation.framework in Frameworks */,
 				08FFCB0B1712A2C900F21D86 /* CoreGraphics.framework in Frameworks */,
-				9A57212318FF413400169E6A /* Reveal.framework in Frameworks */,
 				08FFCB0D1712A2C900F21D86 /* CoreData.framework in Frameworks */,
 				08C85854175B43E60024281E /* QuartzCore.framework in Frameworks */,
 				08DC106A176C85F400F09024 /* SystemConfiguration.framework in Frameworks */,
@@ -875,7 +875,7 @@
 		08FFCB051712A2C900F21D86 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9A57212218FF413400169E6A /* Reveal.framework */,
+				9A61FF96190077EA004AE70E /* Reveal.framework */,
 				C12D9DEF18BA21DB00F7693A /* MediaPlayer.framework */,
 				C1EBC3F318B9D30F00B77297 /* CoreMedia.framework */,
 				08D08EDB17D267F400E462EC /* MobileCoreServices.framework */,
@@ -1203,6 +1203,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -1275,6 +1279,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1313,6 +1321,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;

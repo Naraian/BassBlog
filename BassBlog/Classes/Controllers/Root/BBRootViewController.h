@@ -15,8 +15,7 @@
 
 - (void)toggleTagsVisibility;
 
-- (void)toggleNowPlayingVisibility;
-- (void)toggleNowPlayingVisibilityWithCompletionBlock:(void (^)(BOOL visible))completionBlock;
+- (void)toggleNowPlayingVisibilityFromNavigationController:(UINavigationController *)navigationController;
 
 - (BBTagsViewController *)tagsViewController;
 - (BBNowPlayingViewController *)nowPlayingViewController;

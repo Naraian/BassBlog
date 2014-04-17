@@ -71,29 +71,6 @@
     self.tabBar.userInteractionEnabled = enabled;
 }
 
-- (void)activate
-{
-    if (self.viewControllers.count)
-        return;
-    
-    NSMutableArray *viewControllers = [NSMutableArray array];
-    
-    [@[BBAllMixesViewController.class,
-       BBFavoritesViewController.class,
-       BBHistoryViewController.class,
-       BBAboutViewController.class]
-     enumerateObjectsUsingBlock:
-     ^(Class aClass, NSUInteger aClassIdx, BOOL *aClassStop)
-     {
-         UIViewController *controller = [aClass new];
-         
-         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
-         [viewControllers addObject:navigationController];
-     }];
-    
-    self.viewControllers = viewControllers;
-}
-
 #pragma mark - Notifications
 
 - (void)themeManagerDidToggleThemeNotification:(NSNotification *)notification {

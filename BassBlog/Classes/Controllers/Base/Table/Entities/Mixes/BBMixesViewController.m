@@ -67,20 +67,15 @@ BBMixesTableViewCellDelegate
 
 @implementation BBMixesViewController
 
-- (id)init {
+- (void)commonInit
+{    
+    [super commonInit];
     
-    self = [self initWithNibName:[BBMixesViewController nibName]
-                          bundle:nil];
-    if (self) {
-        
-        _mixesSelectionOptions = [BBMixesSelectionOptions new];
-        _mixesSelectionOptions.category = eAllMixesCategory;
-        _mixesSelectionOptions.sortKey = eMixDateSortKey;
-        _mixesSelectionOptions.limit = kBBMixesStartFetchRequestLimit;
-        _mixesSelectionOptions.tag = [BBModelManager allTag];
-    }
-    
-    return self;
+    _mixesSelectionOptions = [BBMixesSelectionOptions new];
+    _mixesSelectionOptions.category = eAllMixesCategory;
+    _mixesSelectionOptions.sortKey = eMixDateSortKey;
+    _mixesSelectionOptions.limit = kBBMixesStartFetchRequestLimit;
+    _mixesSelectionOptions.tag = [BBModelManager allTag];
 }
 
 #pragma mark - View
@@ -522,7 +517,7 @@ BBMixesTableViewCellDelegate
 
 - (void)nowPlayingBarButtonItemPressed {
     
-    [[BBAppDelegate rootViewController] toggleNowPlayingVisibility];
+    [[BBAppDelegate rootViewController] toggleNowPlayingVisibilityFromNavigationController:self.navigationController];
 }
 
 #pragma mark - Notifications
@@ -594,7 +589,7 @@ BBMixesTableViewCellDelegate
   
     [self pause:NO mix:mix];
     
-    [[BBAppDelegate rootViewController] toggleNowPlayingVisibility];
+    [[BBAppDelegate rootViewController] toggleNowPlayingVisibilityFromNavigationController:self.navigationController];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {

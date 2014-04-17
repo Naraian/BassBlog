@@ -16,6 +16,10 @@
 
 @interface BBViewController (Protected)
 
+#pragma mark Common Initialization
+
+- (void)commonInit;
+
 #pragma mark View
 
 - (void)updateTheme;

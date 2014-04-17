@@ -23,10 +23,29 @@
 
 @implementation BBViewController
 
-- (id)init
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    return [self initWithNibName:[self.class nibName]
-                          bundle:nil];
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
+    {
+        [self commonInit];
+    }
+    
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    if (self = [super initWithCoder:aDecoder])
+    {
+        [self commonInit];
+    }
+    
+    return self;
+}
+
+- (void)commonInit
+{
+    
 }
 
 - (void)didReceiveMemoryWarning

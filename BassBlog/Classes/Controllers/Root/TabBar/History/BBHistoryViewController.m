@@ -19,23 +19,20 @@
 
 @implementation BBHistoryViewController
 
-- (id)init {
+- (void)commonInit
+{
+    [super commonInit];
     
-    self = [super init];
+    self.title = NSLocalizedString(@"HISTORY", @"");
+        
+    [self setTabBarItemTitle:self.title
+                  imageNamed:@"history_icon"
+                         tag:eListenedMixesCategory];
     
-    if (self) {
-        
-        [self setTabBarItemTitle:NSLocalizedString(@"HISTORY", @"")
-                      imageNamed:@"history_icon"
-                             tag:eListenedMixesCategory];
-        
-        _tableModelSectionRule = BBMixesTableModelSectionRuleEachDay;
-        
-        _mixesSelectionOptions.category = eListenedMixesCategory;
-        _mixesSelectionOptions.sortKey = eMixPlaybackDateSortKey;
-    }
+    _tableModelSectionRule = BBMixesTableModelSectionRuleEachDay;
     
-    return self;
+    _mixesSelectionOptions.category = eListenedMixesCategory;
+    _mixesSelectionOptions.sortKey = eMixPlaybackDateSortKey;
 }
 
 #pragma mark - View

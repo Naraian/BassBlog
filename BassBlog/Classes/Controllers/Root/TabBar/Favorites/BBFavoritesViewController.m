@@ -19,20 +19,17 @@
 
 @implementation BBFavoritesViewController
 
-- (id)init {
+- (void)commonInit
+{
+    [super commonInit];
     
-    self = [super init];
-    
-    if (self)
-    {
-        [self setTabBarItemTitle:NSLocalizedString(@"FAVORITES", @"")
-                      imageNamed:@"favorites_icon"
-                             tag:eFavoriteMixesCategory];
+    self.title = NSLocalizedString(@"FAVORITES", @"");
         
-        _mixesSelectionOptions.category = eFavoriteMixesCategory;
-    }
-    
-    return self;
+    [self setTabBarItemTitle:self.title
+                  imageNamed:@"favorites_icon"
+                         tag:eFavoriteMixesCategory];
+        
+    _mixesSelectionOptions.category = eFavoriteMixesCategory;
 }
 
 #pragma mark - View

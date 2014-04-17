@@ -13,8 +13,24 @@
 
 @interface BBNowPlayingViewController : BBViewController
 
-@property (nonatomic, strong) BBMix *mix;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UISlider *slider;
+@property (strong, nonatomic) IBOutlet UILabel *currentTimeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *fullTimeLabel;
+@property (strong, nonatomic) IBOutlet UIButton *prevButton;
+@property (strong, nonatomic) IBOutlet UIButton *favoritesButton;
+@property (strong, nonatomic) IBOutlet UIButton *nextButton;
+@property (strong, nonatomic) IBOutlet UIButton *playButton;
+@property (strong, nonatomic) IBOutlet UITextView *tracklistTextView;
 
-- (void)activate;
+-(IBAction)playClick:(id)sender;
+-(IBAction)prevClick:(id)sender;
+-(IBAction)nextClick:(id)sender;
+-(IBAction)favoritesClick:(id)sender;
+
+-(IBAction)sliderTouchDown:(id)sender;
+-(IBAction)sliderTouchUp:(id)sender;
+
+-(IBAction)sliderValueChanged:(UISlider *)slider;
 
 @end

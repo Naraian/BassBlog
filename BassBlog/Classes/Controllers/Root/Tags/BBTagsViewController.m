@@ -42,19 +42,14 @@ const NSInteger kBBAllTagTableModelRow = 0;
 
 @implementation BBTagsViewController
 
-- (id)init {
+- (void)commonInit
+{
+    [super commonInit];
     
-    self = [super init];
+    _tagsSelectionOptions = [BBTagsSelectionOptions new];
+    _tagsSelectionOptions.sortKey = eTagNameSortKey;
     
-    if (self) {
-        
-        _tagsSelectionOptions = [BBTagsSelectionOptions new];
-        _tagsSelectionOptions.sortKey = eTagNameSortKey;
-        
-        _tag = [BBModelManager allTag];
-    }
-    
-    return self;
+    _tag = [BBModelManager allTag];
 }
 
 #pragma mark - View
