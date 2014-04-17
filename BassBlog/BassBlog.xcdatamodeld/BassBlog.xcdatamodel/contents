@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12A269" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="BBMix" syncable="YES">
+        <attribute name="bitrate" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tracks" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="tags" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BBTag" inverseName="mixes" inverseEntity="BBTag" syncable="YES"/>
+    </entity>
+    <entity name="BBTag" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="mixes" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BBMix" inverseName="tags" inverseEntity="BBMix" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="BBMix" positionX="160" positionY="192" width="128" height="150"/>
+        <element name="BBTag" positionX="160" positionY="192" width="128" height="90"/>
+    </elements>
+</model>
