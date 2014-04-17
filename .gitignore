@@ -1,0 +1,6 @@
+*.svn
+BassBlog.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+BassBlog.xcodeproj/project.xcworkspace/xcshareddata/BassBlog.xccheckout
+BassBlog.xcodeproj/project.xcworkspace/xcuserdata/tos.xcuserdatad/UserInterfaceState.xcuserstate
+BassBlog.xcodeproj/xcuserdata/tos.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+BassBlog.xcodeproj/xcuserdata/tos.xcuserdatad/xcschemes/BassBlog.xcscheme
