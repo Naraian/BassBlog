@@ -64,7 +64,6 @@
 		08E084C6176498EA00C2BEE4 /* BBThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E084C5176498EA00C2BEE4 /* BBThemeManager.m */; };
 		08E084CE1764CB6E00C2BEE4 /* BBHighlightableTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E084CD1764CB6E00C2BEE4 /* BBHighlightableTableViewCell.m */; };
 		08E084D21764CC5400C2BEE4 /* BBTagsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E084D11764CC5400C2BEE4 /* BBTagsTableViewCell.m */; };
-		08E084D51764CF4C00C2BEE4 /* BBTagsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08E084D41764CF4C00C2BEE4 /* BBTagsTableViewCell.xib */; };
 		08E767F117CD16A6006B2320 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E767EF17CD1695006B2320 /* AVFoundation.framework */; };
 		08EC6915178016D60074CEC9 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EC6914178016D60074CEC9 /* CFNetwork.framework */; };
 		08EC6917178016DF0074CEC9 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EC6916178016DF0074CEC9 /* AudioToolbox.framework */; };
@@ -82,6 +81,10 @@
 		9A57211E18FF1F8300169E6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A57211D18FF1F8300169E6A /* Main.storyboard */; };
 		9A57212118FF29D500169E6A /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A57212018FF29D500169E6A /* SWRevealViewController.m */; };
 		9A61FF97190077EA004AE70E /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A61FF96190077EA004AE70E /* Reveal.framework */; };
+		9ABB6A9F1900954B00691B3F /* WinterTheme.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9ABB6A9E1900954B00691B3F /* WinterTheme.bundle */; };
+		9ABB6AA41901C54B00691B3F /* NSLayoutConstraint+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB6AA11901C54B00691B3F /* NSLayoutConstraint+Extensions.m */; };
+		9ABB6AA51901C54B00691B3F /* UIView+ConstraintsExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB6AA31901C54B00691B3F /* UIView+ConstraintsExtensions.m */; };
+		9ABB6AA91901C5EC00691B3F /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB6AA81901C5EC00691B3F /* DeviceUtils.m */; };
 		C12D9DF018BA21DB00F7693A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C12D9DEF18BA21DB00F7693A /* MediaPlayer.framework */; };
 		C14D4A9118BE94FA00ED7041 /* BBFavoritesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C14D4A9018BE94FA00ED7041 /* BBFavoritesTableViewCell.m */; };
 		C14D4A9418BE951100ED7041 /* BBAllMixesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C14D4A9318BE951100ED7041 /* BBAllMixesTableViewCell.m */; };
@@ -207,7 +210,6 @@
 		08E084CD1764CB6E00C2BEE4 /* BBHighlightableTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBHighlightableTableViewCell.m; sourceTree = "<group>"; };
 		08E084D01764CC5400C2BEE4 /* BBTagsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBTagsTableViewCell.h; sourceTree = "<group>"; };
 		08E084D11764CC5400C2BEE4 /* BBTagsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBTagsTableViewCell.m; sourceTree = "<group>"; };
-		08E084D41764CF4C00C2BEE4 /* BBTagsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BBTagsTableViewCell.xib; sourceTree = "<group>"; };
 		08E767EF17CD1695006B2320 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		08EC6914178016D60074CEC9 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		08EC6916178016DF0074CEC9 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -234,6 +236,13 @@
 		9A57211F18FF29D500169E6A /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		9A57212018FF29D500169E6A /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		9A61FF96190077EA004AE70E /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reveal.framework; path = BassBlog/Libraries/Reveal.framework; sourceTree = "<group>"; };
+		9ABB6A9E1900954B00691B3F /* WinterTheme.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WinterTheme.bundle; sourceTree = "<group>"; };
+		9ABB6AA01901C54B00691B3F /* NSLayoutConstraint+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+Extensions.h"; sourceTree = "<group>"; };
+		9ABB6AA11901C54B00691B3F /* NSLayoutConstraint+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+Extensions.m"; sourceTree = "<group>"; };
+		9ABB6AA21901C54B00691B3F /* UIView+ConstraintsExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ConstraintsExtensions.h"; sourceTree = "<group>"; };
+		9ABB6AA31901C54B00691B3F /* UIView+ConstraintsExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ConstraintsExtensions.m"; sourceTree = "<group>"; };
+		9ABB6AA71901C5EC00691B3F /* DeviceUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceUtils.h; sourceTree = "<group>"; };
+		9ABB6AA81901C5EC00691B3F /* DeviceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceUtils.m; sourceTree = "<group>"; };
 		C12D9DEF18BA21DB00F7693A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		C14D4A8F18BE94FA00ED7041 /* BBFavoritesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFavoritesTableViewCell.h; sourceTree = "<group>"; };
 		C14D4A9018BE94FA00ED7041 /* BBFavoritesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFavoritesTableViewCell.m; sourceTree = "<group>"; };
@@ -328,6 +337,7 @@
 		084501B717DDC40F002B09F7 /* Themes */ = {
 			isa = PBXGroup;
 			children = (
+				9ABB6A9E1900954B00691B3F /* WinterTheme.bundle */,
 				084501B817DDC40F002B09F7 /* BlackTheme.bundle */,
 			);
 			path = Themes;
@@ -708,6 +718,7 @@
 		08DBE74617134C5C00FFCC3F /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				9ABB6AA61901C5EC00691B3F /* Device */,
 				C1E9960A18BDDF8900B7ABC7 /* UI */,
 				08DBE74717134C5C00FFCC3F /* Log */,
 				08D35F5C17D691F8006FC3E2 /* Font */,
@@ -788,7 +799,6 @@
 			children = (
 				08E084D01764CC5400C2BEE4 /* BBTagsTableViewCell.h */,
 				08E084D11764CC5400C2BEE4 /* BBTagsTableViewCell.m */,
-				08E084D41764CF4C00C2BEE4 /* BBTagsTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -927,6 +937,15 @@
 			path = AppDelegate;
 			sourceTree = "<group>";
 		};
+		9ABB6AA61901C5EC00691B3F /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				9ABB6AA71901C5EC00691B3F /* DeviceUtils.h */,
+				9ABB6AA81901C5EC00691B3F /* DeviceUtils.m */,
+			);
+			path = Device;
+			sourceTree = "<group>";
+		};
 		C14D4A8418BE93F000ED7041 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -968,6 +987,10 @@
 		C1E9960A18BDDF8900B7ABC7 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				9ABB6AA01901C54B00691B3F /* NSLayoutConstraint+Extensions.h */,
+				9ABB6AA11901C54B00691B3F /* NSLayoutConstraint+Extensions.m */,
+				9ABB6AA21901C54B00691B3F /* UIView+ConstraintsExtensions.h */,
+				9ABB6AA31901C54B00691B3F /* UIView+ConstraintsExtensions.m */,
 				C1E9960B18BDDFB400B7ABC7 /* BBUIUtils.h */,
 				C1E9960C18BDDFB400B7ABC7 /* BBUIUtils.m */,
 			);
@@ -1061,13 +1084,13 @@
 				080463D517147E26009EBD9C /* Default.png in Resources */,
 				080463D617147E26009EBD9C /* Default@2x.png in Resources */,
 				08C1D1A41763510C00513530 /* BBMixesViewController.xib in Resources */,
-				08E084D51764CF4C00C2BEE4 /* BBTagsTableViewCell.xib in Resources */,
 				08D69800176F6B6900941621 /* BBMixesTableSectionHeaderView.xib in Resources */,
 				9A57211E18FF1F8300169E6A /* Main.storyboard in Resources */,
 				083641B317C54238001B07E5 /* BBActivityView.xib in Resources */,
 				08D35F5817D68FA5006FC3E2 /* HelveticaLTStd-BoldCond.otf in Resources */,
 				08D35F5A17D68FA5006FC3E2 /* HelveticaLTStd-Cond.otf in Resources */,
 				C19B4F8B18C1307F0021A100 /* BBHistoryTableViewCell.xib in Resources */,
+				9ABB6A9F1900954B00691B3F /* WinterTheme.bundle in Resources */,
 				C1EB985E18CE4669008A3303 /* BBMixesTableFooterView.xib in Resources */,
 				C19B4F8918C12ECB0021A100 /* BBFavoritesTableViewCell.xib in Resources */,
 				084501BA17DDEBDE002B09F7 /* BlackTheme.bundle in Resources */,
@@ -1110,6 +1133,7 @@
 				08C4375E175E4A2600929669 /* BBAllMixesViewController.m in Sources */,
 				C1FEAF4F18C5390C009D755F /* BBNowPlayingInfoCenter.m in Sources */,
 				08C43760175E4A2600929669 /* BBTabBarController.m in Sources */,
+				9ABB6AA51901C54B00691B3F /* UIView+ConstraintsExtensions.m in Sources */,
 				08C43762175E4A2600929669 /* BBFavoritesViewController.m in Sources */,
 				08C43764175E4A2600929669 /* BBHistoryViewController.m in Sources */,
 				08C4376A175E4A2600929669 /* BBTagsViewController.m in Sources */,
@@ -1121,6 +1145,7 @@
 				08E084CE1764CB6E00C2BEE4 /* BBHighlightableTableViewCell.m in Sources */,
 				08E084D21764CC5400C2BEE4 /* BBTagsTableViewCell.m in Sources */,
 				08C8EF381766216A003C87F4 /* UIColor+HEX.m in Sources */,
+				9ABB6AA91901C5EC00691B3F /* DeviceUtils.m in Sources */,
 				08DC1067176C67EC00F09024 /* BBTagsSelectionOptions.m in Sources */,
 				08DC106F176C879900F09024 /* BBAnalytics.m in Sources */,
 				08EEF4DE176DC80E00D003DA /* BBAudioManager.m in Sources */,
@@ -1132,6 +1157,7 @@
 				C1EB985C18CE4654008A3303 /* BBMixesTableFooterView.m in Sources */,
 				08CA9B1817CFBF1B00084257 /* BBOperationManager.m in Sources */,
 				08EF067D17D133C100B07616 /* BBTagsViewControllerModelLoadOperation.m in Sources */,
+				9ABB6AA41901C54B00691B3F /* NSLayoutConstraint+Extensions.m in Sources */,
 				08D08ED417D2521400E462EC /* BBMixesViewControllerModelLoadOperation.m in Sources */,
 				08D08ED917D2667600E462EC /* RDHTTP.m in Sources */,
 				08D08EE117D269A700E462EC /* BBMixesJSONLoader.m in Sources */,

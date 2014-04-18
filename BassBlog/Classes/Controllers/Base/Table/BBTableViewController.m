@@ -23,30 +23,12 @@
 
 - (void)viewDidLoad {
     
-    NSString *cellNibName = [self cellNibNameAtIndexPath:nil];
-    UITableViewCell *cell = [NSClassFromString(cellNibName) instanceFromNib:nil];
-    
-    if (cell) {
-    
-        self.tableView.rowHeight = CGRectGetHeight(cell.bounds);
-    }
-    
     [super viewDidLoad];
 }
 
 - (void)updateTheme
 {
     [super updateTheme];
-    
-    UIColor *color = nil;
-    switch ([BBThemeManager defaultManager].theme)
-    {
-        default:
-            color = [UIColor blackColor];
-            break;
-    }
-    
-    self.tableView.separatorColor = color;
     
     [self.tableView reloadData];
 }

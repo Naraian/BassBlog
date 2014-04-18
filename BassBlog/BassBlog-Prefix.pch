@@ -9,10 +9,22 @@
 #endif
 
 #ifdef __OBJC__
-    #import <UIKit/UIKit.h>
-    #import <Foundation/Foundation.h>
 
-    #import "UIColor+HEX.h"
-    #import "BBAnalytics.h"
-    #import "BBLog.h"
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+
+#import "UIColor+HEX.h"
+#import "BBAnalytics.h"
+#import "BBLog.h"
+
+#import "UIView+ConstraintsExtensions.h"
+#import "NSLayoutConstraint+Extensions.h"
+#import "DeviceUtils.h"
+
+#define RUNNING_ON_IPAD         ([DeviceUtils instance].isRunningOnIPad)
+#define RUNNING_ON_IPOD         ([DeviceUtils instance].isRunningOnIPod)
+#define RUNNING_ON_IOS7         ([DeviceUtils instance].isRunningOnIOS7)
+#define RUNNING_ON_3_5_INCH     ([DeviceUtils instance].isRunningOn3_5Inch)
+#define UI_SCREEN_SCALE         ([DeviceUtils instance].screenScale)
+
 #endif

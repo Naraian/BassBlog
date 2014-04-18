@@ -26,21 +26,25 @@
     {
         default:
         {
-            selectedBackgroundColor = [UIColor colorWithHEX:0x555555FF];
-            highlightedBackgroundColor = [UIColor colorWithHEX:0x777777FF];
+            self.bottomSeparatorColor = [UIColor colorWithHEX:0x1E1E1EFF];
+            self.selectedBottomSeparatorColor = [UIColor colorWithHEX:0x1E1E1EFF];
+            
+            self.backgroundColor = [UIColor colorWithHEX:0x252525FF];
+            self.selectedBackgroundColor = [UIColor colorWithHEX:0x333333FF];
+            self.highlightedBackgroundColor = [UIColor colorWithHEX:0x333333FF];
+            
+            self.leftColorView.layer.borderWidth = 1.f;
+            self.leftColorView.layer.borderColor = self.bottomSeparatorColor.CGColor;
         }
-            break;
+        break;
     }
 }
 
-- (UILabel *)textLabel {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
     
-    return self.label;
-}
-
-- (UILabel *)detailTextLabel {
-    
-    return self.detailLabel;
+    self.leftColorView.backgroundColor = selected ? [UIColor colorWithHEX:0xD46464FF] : self.bottomSeparatorColor;
 }
 
 @end

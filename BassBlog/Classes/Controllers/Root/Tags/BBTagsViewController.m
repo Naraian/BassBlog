@@ -14,6 +14,8 @@
 #import "BBRootViewController.h"
 #import "BBAppDelegate.h"
 
+#import "BBThemeManager.h"
+
 #import "BBTagsSelectionOptions.h"
 #import "BBMixesSelectionOptions.h"
 
@@ -61,9 +63,9 @@ const NSInteger kBBAllTagTableModelRow = 0;
 
 - (void)configureCell:(BBTagsTableViewCell *)cell withEntity:(BBTag *)tag {
     
-    cell.textLabel.text = [tag.name uppercaseString];
+    cell.label.text = [tag.name uppercaseString];
     
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d",
+    cell.detailLabel.text = [NSString stringWithFormat:@"%d",
                                  [_mixesCountNumbersDictionary[tag.key] unsignedIntegerValue]];
 }
 
@@ -72,6 +74,16 @@ const NSInteger kBBAllTagTableModelRow = 0;
     NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
     
     [super updateTheme];
+    
+    switch ([BBThemeManager defaultManager].theme)
+    {
+        default:
+        {
+            self.view.backgroundColor = [UIColor colorWithHEX:0x252525FF];
+            self.tableView.backgroundColor = [UIColor colorWithHEX:0x252525FF];
+        }
+        break;
+    }
     
     [self.tableView selectRowAtIndexPath:selectedIndexPath
                                 animated:NO

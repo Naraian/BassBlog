@@ -11,6 +11,7 @@
 
 @interface BBTagsTableViewCell : BBHighlightableTableViewCell
 
+@property (nonatomic, strong) IBOutlet UIView *leftColorView;
 @property (nonatomic, strong) IBOutlet UILabel *label;
 @property (nonatomic, strong) IBOutlet UILabel *detailLabel;
 

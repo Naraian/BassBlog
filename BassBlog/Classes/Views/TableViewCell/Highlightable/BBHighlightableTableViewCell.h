@@ -10,10 +10,12 @@
 
 
 @interface BBHighlightableTableViewCell : UITableViewCell
-{
-    UIColor *highlightedBackgroundColor;
-    UIColor *selectedBackgroundColor;
-    UIColor *backgroundColor;
-}
+
+@property (strong, nonatomic) UIColor *backgroundColor;
+@property (strong, nonatomic) UIColor *selectedBackgroundColor;
+@property (strong, nonatomic) UIColor *highlightedBackgroundColor;
+
+@property (strong, nonatomic) UIColor *bottomSeparatorColor;
+@property (strong, nonatomic) UIColor *selectedBottomSeparatorColor;
 
 @end
