@@ -26,8 +26,8 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>HelveticaLTStd-Cond.otf</string>
-		<string>HelveticaLTStd-BoldCond.otf</string>
+		<string>HelveticaLTStd-Cond.ttf</string>
+		<string>HelveticaLTStd-BoldCond.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

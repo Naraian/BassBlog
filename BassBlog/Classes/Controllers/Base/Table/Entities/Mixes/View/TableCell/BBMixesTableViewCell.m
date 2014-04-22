@@ -15,12 +15,28 @@
 
 @implementation BBMixesTableViewCell
 
-- (void)awakeFromNib {
-    
-    self.backgroundColor =
-    [[BBThemeManager defaultManager] colorWithPatternImageNamed:@"table_view/cell/mix_background"];
-    
+- (void)awakeFromNib
+{
     [super awakeFromNib];
+    
+    switch ([BBThemeManager defaultManager].theme)
+    {
+        case BBThemeBlack:
+        case BBThemeWinter:
+        {
+            self.backgroundColor = [UIColor whiteColor];
+            self.selectedBackgroundColor = [UIColor colorWithHEX:0x333333FF];
+            self.highlightedBackgroundColor = [UIColor colorWithHEX:0x333333FF];
+            
+            self.label.textColor = [UIColor colorWithHEX:0x515151FF];
+            self.detailLabel.textColor = [UIColor colorWithHEX:0x8A8A8AFF];
+            
+            break;
+        }
+            
+        default:
+            break;
+    }
     
     self.label.font = [BBFont fontLikeFont:self.label.font];
     self.detailLabel.font = [BBFont fontLikeFont:self.detailLabel.font];

@@ -10,7 +10,7 @@
 typedef NS_ENUM(NSInteger, BBTheme)
 {
     BBThemeBlack,
-    BBWinter,
+    BBThemeWinter,
     BBNumberOfThemes
 };
 

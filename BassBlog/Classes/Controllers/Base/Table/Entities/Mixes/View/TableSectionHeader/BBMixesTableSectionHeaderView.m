@@ -21,15 +21,24 @@
     
     self.label.font = [BBFont boldFontLikeFont:self.label.font];
     
-    BBThemeManager *tm = [BBThemeManager defaultManager];
-    
-    self.backgroundColor =
-    [tm colorWithPatternImageNamed:@"table_view/section_header/mix_background"];
+    switch ([BBThemeManager defaultManager].theme)
+    {
+        case BBThemeBlack:
+        case BBThemeWinter:
+            self.backgroundColor = [UIColor colorWithHEX:0xEBEBEBFF];
+            self.layer.borderColor = [UIColor colorWithHEX:0xCCCCCCFF].CGColor;
+            self.layer.borderWidth = 1.f/UI_SCREEN_SCALE;
+            self.label.textColor = [UIColor colorWithHEX:0x5C5C5CFF];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 - (void)setFrame:(CGRect)frame
 {
-    if (CGRectGetWidth(frame))
+    if (CGRectGetWidth(frame) > 0.f)
     {
         [super setFrame:frame];
     }
@@ -37,7 +46,7 @@
 
 + (CGFloat)height
 {
-    return 30.f;
+    return 26.f;
 }
 
 @end

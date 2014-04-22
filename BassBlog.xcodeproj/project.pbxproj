@@ -49,8 +49,6 @@
 		08D08EDD17D267FD00E462EC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D08EDB17D267F400E462EC /* MobileCoreServices.framework */; };
 		08D08EE117D269A700E462EC /* BBMixesJSONLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D08EE017D269A700E462EC /* BBMixesJSONLoader.m */; };
 		08D0D3E21761196C0052D7C7 /* BBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D0D3E11761196C0052D7C7 /* BBViewController.m */; };
-		08D35F5817D68FA5006FC3E2 /* HelveticaLTStd-BoldCond.otf in Resources */ = {isa = PBXBuildFile; fileRef = 08D35F5617D68FA5006FC3E2 /* HelveticaLTStd-BoldCond.otf */; };
-		08D35F5A17D68FA5006FC3E2 /* HelveticaLTStd-Cond.otf in Resources */ = {isa = PBXBuildFile; fileRef = 08D35F5717D68FA5006FC3E2 /* HelveticaLTStd-Cond.otf */; };
 		08D35F5F17D69212006FC3E2 /* BBFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D35F5E17D69212006FC3E2 /* BBFont.m */; };
 		08D69800176F6B6900941621 /* BBMixesTableSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D697FF176F6B6900941621 /* BBMixesTableSectionHeaderView.xib */; };
 		08DBE74517134B9300FFCC3F /* BBTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DBE74417134B9300FFCC3F /* BBTableModel.m */; };
@@ -81,6 +79,8 @@
 		9A57211E18FF1F8300169E6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A57211D18FF1F8300169E6A /* Main.storyboard */; };
 		9A57212118FF29D500169E6A /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A57212018FF29D500169E6A /* SWRevealViewController.m */; };
 		9A61FF97190077EA004AE70E /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A61FF96190077EA004AE70E /* Reveal.framework */; };
+		9AA6538719070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AA6538519070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf */; };
+		9AA6538819070CB1000BAA6E /* HelveticaLTStd-Cond.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AA6538619070CB1000BAA6E /* HelveticaLTStd-Cond.ttf */; };
 		9ABB6A9F1900954B00691B3F /* WinterTheme.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9ABB6A9E1900954B00691B3F /* WinterTheme.bundle */; };
 		9ABB6AA41901C54B00691B3F /* NSLayoutConstraint+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB6AA11901C54B00691B3F /* NSLayoutConstraint+Extensions.m */; };
 		9ABB6AA51901C54B00691B3F /* UIView+ConstraintsExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB6AA31901C54B00691B3F /* UIView+ConstraintsExtensions.m */; };
@@ -183,8 +183,6 @@
 		08D08EE017D269A700E462EC /* BBMixesJSONLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMixesJSONLoader.m; sourceTree = "<group>"; };
 		08D0D3E01761196C0052D7C7 /* BBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBViewController.h; sourceTree = "<group>"; };
 		08D0D3E11761196C0052D7C7 /* BBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBViewController.m; sourceTree = "<group>"; };
-		08D35F5617D68FA5006FC3E2 /* HelveticaLTStd-BoldCond.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaLTStd-BoldCond.otf"; sourceTree = "<group>"; };
-		08D35F5717D68FA5006FC3E2 /* HelveticaLTStd-Cond.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaLTStd-Cond.otf"; sourceTree = "<group>"; };
 		08D35F5D17D69212006FC3E2 /* BBFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFont.h; sourceTree = "<group>"; };
 		08D35F5E17D69212006FC3E2 /* BBFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFont.m; sourceTree = "<group>"; };
 		08D697FF176F6B6900941621 /* BBMixesTableSectionHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BBMixesTableSectionHeaderView.xib; sourceTree = "<group>"; };
@@ -236,6 +234,8 @@
 		9A57211F18FF29D500169E6A /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		9A57212018FF29D500169E6A /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		9A61FF96190077EA004AE70E /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reveal.framework; path = BassBlog/Libraries/Reveal.framework; sourceTree = "<group>"; };
+		9AA6538519070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaLTStd-BoldCond.ttf"; sourceTree = "<group>"; };
+		9AA6538619070CB1000BAA6E /* HelveticaLTStd-Cond.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaLTStd-Cond.ttf"; sourceTree = "<group>"; };
 		9ABB6A9E1900954B00691B3F /* WinterTheme.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WinterTheme.bundle; sourceTree = "<group>"; };
 		9ABB6AA01901C54B00691B3F /* NSLayoutConstraint+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+Extensions.h"; sourceTree = "<group>"; };
 		9ABB6AA11901C54B00691B3F /* NSLayoutConstraint+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+Extensions.m"; sourceTree = "<group>"; };
@@ -619,8 +619,8 @@
 		08D35F5517D68FA5006FC3E2 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				08D35F5617D68FA5006FC3E2 /* HelveticaLTStd-BoldCond.otf */,
-				08D35F5717D68FA5006FC3E2 /* HelveticaLTStd-Cond.otf */,
+				9AA6538519070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf */,
+				9AA6538619070CB1000BAA6E /* HelveticaLTStd-Cond.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -1086,11 +1086,11 @@
 				08C1D1A41763510C00513530 /* BBMixesViewController.xib in Resources */,
 				08D69800176F6B6900941621 /* BBMixesTableSectionHeaderView.xib in Resources */,
 				9A57211E18FF1F8300169E6A /* Main.storyboard in Resources */,
+				9AA6538719070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf in Resources */,
 				083641B317C54238001B07E5 /* BBActivityView.xib in Resources */,
-				08D35F5817D68FA5006FC3E2 /* HelveticaLTStd-BoldCond.otf in Resources */,
-				08D35F5A17D68FA5006FC3E2 /* HelveticaLTStd-Cond.otf in Resources */,
 				C19B4F8B18C1307F0021A100 /* BBHistoryTableViewCell.xib in Resources */,
 				9ABB6A9F1900954B00691B3F /* WinterTheme.bundle in Resources */,
+				9AA6538819070CB1000BAA6E /* HelveticaLTStd-Cond.ttf in Resources */,
 				C1EB985E18CE4669008A3303 /* BBMixesTableFooterView.xib in Resources */,
 				C19B4F8918C12ECB0021A100 /* BBFavoritesTableViewCell.xib in Resources */,
 				084501BA17DDEBDE002B09F7 /* BlackTheme.bundle in Resources */,
