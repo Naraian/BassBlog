@@ -67,7 +67,7 @@
         anOperation.detailTextsDictionary[mix.key] = [BBUIUtils tagsStringForMix:mix];
         
         if (anOperation.headerTextsDictionary[@(sectionID)] == nil) {
-            anOperation.headerTextsDictionary[@(sectionID)] = [weakSelf headerTextForMix:mix];
+            anOperation.headerTextsDictionary[@(sectionID)] = [weakSelf composeHeaderTextForMix:mix];
         }
     };
     

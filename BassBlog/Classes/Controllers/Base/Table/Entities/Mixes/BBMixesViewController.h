@@ -7,6 +7,7 @@
 //
 
 #import "BBEntitiesViewController.h"
+#import "BBMixesTableViewCell.h"
 
 #import "BBTagsViewControllerDelegate.h"
 
@@ -22,7 +23,7 @@ typedef NS_ENUM(NSInteger, BBMixesTableModelSectionRule) {
 @class BBMixesSelectionOptions;
 @class BBMixesTableSectionHeaderView;
 
-@interface BBMixesViewController : BBEntitiesViewController <BBTagsViewControllerDelegate>
+@interface BBMixesViewController : BBEntitiesViewController <BBTagsViewControllerDelegate, BBMixesTableViewCellDelegate>
 {
     BBMixesTableModelSectionRule _tableModelSectionRule;
     
@@ -42,10 +43,13 @@ typedef NS_ENUM(NSInteger, BBMixesTableModelSectionRule) {
 
 - (NSString *)detailTextForMix:(BBMix *)mix;
 
-- (NSString *)headerTextForMix:(BBMix *)mix;
+- (NSString *)composeDetailTextForMix:(BBMix *)mix;
+
+- (NSString *)composeHeaderTextForMix:(BBMix *)mix;
 
 - (NSInteger)sectionIDForMix:(BBMix *)mix;
 
 - (NSDate *)dateOfMix:(BBMix *)mix;
+
 
 @end

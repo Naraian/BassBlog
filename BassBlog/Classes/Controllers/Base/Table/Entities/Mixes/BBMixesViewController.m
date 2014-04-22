@@ -40,8 +40,7 @@ static const NSUInteger kBBMixesStartFetchRequestLimit = 30;
 
 @interface BBMixesViewController ()
 <
-BBAudioManagerDelegate,
-BBMixesTableViewCellDelegate
+BBAudioManagerDelegate
 >
 {
     BBEntitiesViewControllerModelLoadOperation *_uploadOperation;
@@ -103,7 +102,7 @@ BBMixesTableViewCellDelegate
     BBAudioManager *audioManager = [BBAudioManager defaultManager];
     
     cell.label.text = mix.name;
-    cell.detailLabel.text = _detailTextsDictionary[mix.key];
+    cell.detailLabel.text = [self detailTextForMix:mix];
     [cell.button setImage:[BBUIUtils defaultImage] forState:UIControlStateNormal];
     
     cell.paused = mix == audioManager.mix ? audioManager.paused : YES;
@@ -460,7 +459,7 @@ BBMixesTableViewCellDelegate
         [_entitiesDictionary setObject:mix forKey:key];
         
         if (_detailTextsDictionary) {
-            _detailTextsDictionary[key] = [self detailTextForMix:mix];
+            _detailTextsDictionary[key] = [self composeDetailTextForMix:mix];
         }
     }
     
@@ -493,7 +492,7 @@ BBMixesTableViewCellDelegate
         [_tableModel addCellKey:key toSectionID:sectionID];
         
         if (_headerTextsDictionary) {
-            _headerTextsDictionary[@(sectionID)] = [self headerTextForMix:mix];
+            _headerTextsDictionary[@(sectionID)] = [self composeHeaderTextForMix:mix];
         }
     }
 }
@@ -654,11 +653,15 @@ BBMixesTableViewCellDelegate
 }
 
 - (NSString *)detailTextForMix:(BBMix *)mix {
+    return _detailTextsDictionary[mix.key];
+}
+
+- (NSString *)composeDetailTextForMix:(BBMix *)mix {
     
     return [self.detailTextDateFormatter stringFromDate:[self dateOfMix:mix]];
 }
 
-- (NSString *)headerTextForMix:(BBMix *)mix {
+- (NSString *)composeHeaderTextForMix:(BBMix *)mix {
     
     return [self.headerDateFormatter stringFromDate:[self dateOfMix:mix]];
 }

@@ -24,9 +24,11 @@
         case BBThemeBlack:
         case BBThemeWinter:
         {
+            self.bottomSeparatorColor = [UIColor colorWithHEX:0xCCCCCCFF];
+            self.selectedBottomSeparatorColor = [UIColor colorWithHEX:0xCCCCCCFF];
+
             self.backgroundColor = [UIColor whiteColor];
-            self.selectedBackgroundColor = [UIColor colorWithHEX:0x333333FF];
-            self.highlightedBackgroundColor = [UIColor colorWithHEX:0x333333FF];
+            self.highlightedBackgroundColor = [UIColor colorWithHEX:0xCCCCCCFF];
             
             self.label.textColor = [UIColor colorWithHEX:0x515151FF];
             self.detailLabel.textColor = [UIColor colorWithHEX:0x8A8A8AFF];
@@ -38,7 +40,9 @@
             break;
     }
     
-    self.label.font = [BBFont fontLikeFont:self.label.font];
+    self.bottomSeparatorInset = UIEdgeInsetsMake(0.f, 14.f, 0.f, 0.f);
+    
+    self.label.font = [BBFont boldFontLikeFont:self.label.font];
     self.detailLabel.font = [BBFont fontLikeFont:self.detailLabel.font];
     
     [self setPaused:YES];

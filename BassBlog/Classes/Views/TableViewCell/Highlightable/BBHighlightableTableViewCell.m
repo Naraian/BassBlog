@@ -82,7 +82,7 @@
 {
     if (!self.selected && !self.highlighted)
     {
-        self.separatorView.backgroundColor = _bottomSeparatorColor;
+        self.separatorView.backgroundColor = self.bottomSeparatorColor;
     }
     else
     {
@@ -101,37 +101,41 @@
 {
     _bottomSeparatorColor = separatorColor;
     
-    if (!_bottomSeparatorColor)
-    {
-        [self.separatorView removeFromSuperview];
-        self.separatorView = nil;
-    }
-    else
-    {
-        if (!self.separatorView)
-        {
-            self.separatorView = [UIView new];
-            self.separatorView.translatesAutoresizingMaskIntoConstraints = NO;
-            [self.contentView addSubview:self.separatorView];
-            
-            [self setupConstraintForSeparator];
-        }
-        
-        [self updateBottomSeparatorColor];
-    }
+    [self setupConstraintForSeparator];
+    [self updateBottomSeparatorColor];
+}
+
+- (void)setBottomSeparatorInset:(UIEdgeInsets)bottomSeparatorInset
+{
+    _bottomSeparatorInset = bottomSeparatorInset;
+    
+    [self setupConstraintForSeparator];
 }
 
 - (void)setupConstraintForSeparator
 {
+    if (!self.separatorView)
+    {
+        self.separatorView = [UIView new];
+        self.separatorView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.contentView addSubview:self.separatorView];
+    }
+    else
+    {
+        [self.separatorView removeAllConstraints];
+    }
+    
     CGFloat separatorHeight = 1.f/UI_SCREEN_SCALE;
     NSDictionary *theViews = NSDictionaryOfVariableBindings(_separatorView);
     
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorView
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.separatorView
                                                                  attribute:NSLayoutAttributeLeft
-                                                                    toItem:self.contentView]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorView
+                                                                    toItem:self.contentView
+                                                                  constant:self.bottomSeparatorInset.left]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.separatorView
                                                                  attribute:NSLayoutAttributeRight
-                                                                    toItem:self.contentView]];
+                                                                    toItem:self.contentView
+                                                                  constant:self.bottomSeparatorInset.right]];
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_separatorView(height)]|" metrics:@{@"height" : @(separatorHeight)} views:theViews]];
 }

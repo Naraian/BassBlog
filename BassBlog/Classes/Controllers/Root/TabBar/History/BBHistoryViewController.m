@@ -13,6 +13,7 @@
 #import "BBMixesViewControllerModelLoadOperation.h"
 #import "BBTableModel.h"
 #import "BBMix.h"
+#import "BBAudioManager.h"
 
 #import "NSObject+Notification.h"
 
@@ -42,6 +43,17 @@
     return [BBHistoryTableViewCell nibName];
 }
 
+- (void)configureCell:(BBMixesTableViewCell *)cell withEntity:(BBMix *)mix {
+    
+    BBAudioManager *audioManager = [BBAudioManager defaultManager];
+
+    cell.label.text = [NSString stringWithFormat:@"%@ [%@]", mix.name, [self detailTextForMix:mix]];
+    
+    cell.paused = mix == audioManager.mix ? audioManager.paused : YES;
+    
+    cell.delegate = self;
+}
+
 #pragma mark - Model
 
 - (id)modelReloadOperation {
@@ -65,10 +77,10 @@
         NSInteger sectionID = [weakSelf sectionIDForMix:mix];
         
         [anOperation.tableModel addCellKey:mix.key toSectionID:sectionID];
-        anOperation.detailTextsDictionary[mix.key] = [weakSelf detailTextForMix:mix];
+        anOperation.detailTextsDictionary[mix.key] = [weakSelf composeDetailTextForMix:mix];
         
         if (anOperation.headerTextsDictionary[@(sectionID)] == nil) {
-            anOperation.headerTextsDictionary[@(sectionID)] = [weakSelf headerTextForMix:mix];
+            anOperation.headerTextsDictionary[@(sectionID)] = [weakSelf composeHeaderTextForMix:mix];
         }
     };
     
