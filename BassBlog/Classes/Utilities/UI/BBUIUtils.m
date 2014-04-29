@@ -15,25 +15,7 @@
 
 + (NSString *)tagsStringForMix:(BBMix *)mix {
     
-    NSMutableString *string = [NSMutableString string];
-    
-    for (NSString *tagName in [BBTag formalNamesOfTags:mix.tags]) {
-        
-        NSString *resultName = tagName;
-        
-        if ([tagName isEqualToString:[BBTag drumAndBassName]]) {
-            resultName = @"dnb";
-        }
-        
-        if (string.length) {
-            [string appendFormat:@", %@", resultName];
-        }
-        else {
-            [string appendString:resultName];
-        }
-    }
-    
-    return [NSString stringWithString:string];
+    return [[[BBTag formalNamesOfTags:mix.tags] allObjects] componentsJoinedByString:@", "];
 }
 
 + (UIImage *)scaledImage:(UIImage *)image toSize:(CGSize)size {

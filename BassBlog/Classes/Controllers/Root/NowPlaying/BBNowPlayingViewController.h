@@ -14,14 +14,19 @@
 @interface BBNowPlayingViewController : BBViewController
 
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *dateLabel;
+@property (strong, nonatomic) IBOutlet UILabel *tagsLabel;
+
 @property (strong, nonatomic) IBOutlet UISlider *slider;
 @property (strong, nonatomic) IBOutlet UILabel *currentTimeLabel;
-@property (strong, nonatomic) IBOutlet UILabel *fullTimeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *remainingTimeLabel;
+
 @property (strong, nonatomic) IBOutlet UIButton *prevButton;
-@property (strong, nonatomic) IBOutlet UIButton *favoritesButton;
 @property (strong, nonatomic) IBOutlet UIButton *nextButton;
 @property (strong, nonatomic) IBOutlet UIButton *playButton;
-@property (strong, nonatomic) IBOutlet UITextView *tracklistTextView;
+@property (strong, nonatomic) IBOutlet UIButton *favoritesButton;
+
+@property (strong, nonatomic) IBOutlet UIImageView *artworkImageView;
 
 -(IBAction)playClick:(id)sender;
 -(IBAction)prevClick:(id)sender;

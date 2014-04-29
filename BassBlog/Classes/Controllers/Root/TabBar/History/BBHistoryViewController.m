@@ -77,7 +77,7 @@
         NSInteger sectionID = [weakSelf sectionIDForMix:mix];
         
         [anOperation.tableModel addCellKey:mix.key toSectionID:sectionID];
-        anOperation.detailTextsDictionary[mix.key] = [weakSelf composeDetailTextForMix:mix];
+//        anOperation.detailTextsDictionary[mix.key] = [weakSelf composeDetailTextForMix:mix];
         
         if (anOperation.headerTextsDictionary[@(sectionID)] == nil) {
             anOperation.headerTextsDictionary[@(sectionID)] = [weakSelf composeHeaderTextForMix:mix];

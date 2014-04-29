@@ -22,11 +22,6 @@
     return self.name;
 }
 
-+ (NSString *)drumAndBassName {
-    
-    return @"drum and bass";
-}
-
 + (NSString *)allName {
     
     return @"all mixes";
@@ -34,7 +29,7 @@
 
 + (NSArray *)formalNames {
     
-    return @[[self drumAndBassName],
+    return @[@"dnb",
              @"320 kbps",
              @"deep",
              @"drumfunk",

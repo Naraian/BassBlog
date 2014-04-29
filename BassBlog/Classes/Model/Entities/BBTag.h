@@ -16,8 +16,6 @@
 
 + (NSSet *)formalNamesOfTags:(NSSet *)tags;
 
-+ (NSString *)drumAndBassName;
-
 + (NSString *)allName;
 
 @end

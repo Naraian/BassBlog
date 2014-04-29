@@ -196,7 +196,12 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     
     if (self.playerIsReady) {
     
-        [self.player seekToTime:[self timeForProgress:progress]];
+        CMTime timeToSeek = [self timeForProgress:progress];
+        
+        if (!CMTIME_IS_INDEFINITE(timeToSeek))
+        {
+            [self.player seekToTime:timeToSeek];
+        }
     }
 }
 

@@ -322,7 +322,7 @@ typedef enum
 
 @interface SWRevealViewControllerSegue : UIStoryboardSegue
 
-@property (strong) void(^performBlock)( SWRevealViewControllerSegue* segue, UIViewController* svc, UIViewController* dvc );
+@property (strong, nonatomic) void(^performBlock)( SWRevealViewControllerSegue* segue, UIViewController* svc, UIViewController* dvc );
 
 @end
 
