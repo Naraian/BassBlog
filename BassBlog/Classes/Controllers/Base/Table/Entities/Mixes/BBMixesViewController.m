@@ -92,7 +92,7 @@ BBAudioManagerDelegate
     
     [super updateTheme];
     
-    [self showTagsBarButtonItem];
+    [self showLeftBarButtonItem];
     
     [self showNowPlayingBarButtonItem];
 }
@@ -171,7 +171,7 @@ BBAudioManagerDelegate
     return _tableFooterView;
 }
 
-- (void)showTagsBarButtonItem
+- (void)showLeftBarButtonItem
 {
     self.navigationItem.leftBarButtonItem =
     [self barButtonItemWithImageName:@"tags"
@@ -185,27 +185,6 @@ BBAudioManagerDelegate
     self.navigationItem.rightBarButtonItem =
     [self barButtonItemWithImageName:@"now_playing"
                             selector:@selector(nowPlayingBarButtonItemPressed)];
-}
-
-- (UIBarButtonItem *)barButtonItemWithImageName:(NSString *)imageName
-                                       selector:(SEL)selector
-{
-    BBThemeManager *tm = [BBThemeManager defaultManager];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    [button addTarget:self
-               action:selector
-            forControlEvents:UIControlEventTouchUpInside];
-    
-    imageName = [@"navigation_bar/item" stringByAppendingPathComponent:imageName];
-    [button setImage:[tm imageNamed:imageName] forState:UIControlStateNormal];
-    
-    imageName = [imageName stringByAppendingString:@"_highlighted"];
-    [button setImage:[tm imageNamed:imageName] forState:UIControlStateHighlighted];
-    
-    [button setFrame:CGRectMake(0, 0, 40, 40)];
-    
-    return [[UIBarButtonItem alloc] initWithCustomView:button];
 }
 
 - (void)updateNavigationBar

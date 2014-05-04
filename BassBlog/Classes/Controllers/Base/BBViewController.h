@@ -22,6 +22,9 @@
 
 #pragma mark View
 
+- (UIBarButtonItem *)barButtonItemWithImageName:(NSString *)imageName
+                                       selector:(SEL)selector;
+
 - (void)updateTheme;
 
 - (void)setTabBarItemTitle:(NSString *)title

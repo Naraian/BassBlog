@@ -45,6 +45,7 @@
 
 + (NSString *)nibName
 {
+    NSLog(@"%@", self);
     return NSStringFromClass([self class]);
 }
 

@@ -15,6 +15,7 @@
 #import "BBMix.h"
 
 #import "NSObject+Notification.h"
+#import "BBFont.h"
 
 
 @implementation BBFavoritesViewController
@@ -32,11 +33,49 @@
     _mixesSelectionOptions.category = eFavoriteMixesCategory;
 }
 
+- (UIBarButtonItem *)editButtonItem
+{
+    UIBarButtonItem *editButtonItem = [super editButtonItem];
+    
+    NSDictionary *attributes = @{UITextAttributeTextColor:[UIColor whiteColor],
+                                 UITextAttributeFont:[BBFont fontOfSize:18]};
+
+    [editButtonItem setTitleTextAttributes:attributes forState:UIControlStateNormal];
+    
+    return editButtonItem;
+}
+
+- (void)showLeftBarButtonItem
+{
+    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    //self.navigationItem.leftBarButtonItem.enabled = NO;
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+    [self.tableView setEditing:editing animated:animated];
+}
+
 #pragma mark - View
 
 - (NSString *)cellNibNameAtIndexPath:(NSIndexPath *)indexPath {
     
     return [BBFavoritesTableViewCell nibName];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        BBMix *mix = [self entityAtIndexPath:indexPath];
+        mix.favorite = NO;
+    }
 }
 
 #pragma mark - Model

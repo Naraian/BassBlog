@@ -212,13 +212,16 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
         return 0.f;
     }
     
-    NSTimeInterval duration = [[self duration] timeIntervalSince1970];
+    CMTime duration = [self duration];
     
-    if (duration) {
+    if (CMTIME_IS_NUMERIC(duration)) {
         
-        NSTimeInterval currentTime = [[self currentDate] timeIntervalSince1970];
+        CMTime currentTime = [self currentTime];
         
-        return [self.class adjustedProgress:currentTime / duration];
+        if (!CMTIME_IS_NUMERIC(currentTime)) {
+            
+            return [self.class adjustedProgress:currentTime.value / duration.value];
+        }
     }
     
     return 0.f;
@@ -235,24 +238,19 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
 
 #pragma mark - Time
 
-- (NSDate *)duration {
+- (CMTime)duration {
     
-    return [self.class dateFromTime:self.player.currentItem.duration];
+    return self.player.currentItem.duration;
 }
 
-- (NSDate *)currentDate {
+- (CMTime)currentTime {
     
-    return [self.class dateFromTime:self.player.currentItem.currentTime];
+    return self.player.currentItem.currentTime;
 }
 
-- (NSDate *)currentDateLeft {
+- (CMTime)currentTimeLeft {
     
-    return [self.class dateFromTime:self.player.currentItem.forwardPlaybackEndTime];
-}
-
-- (NSDate *)dateForProgress:(float)progress {
-    
-    return [self.class dateFromTime:[self timeForProgress:progress]];
+    return CMTimeSubtract(self.duration, self.currentTime);
 }
 
 #pragma mark - Notifications

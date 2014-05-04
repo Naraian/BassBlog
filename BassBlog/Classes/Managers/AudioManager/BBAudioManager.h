@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 BassBlog. All rights reserved.
 //
 
+#import <CoreMedia/CoreMedia.h>
+
 extern NSString *const BBAudioManagerDidStartPlayNotification;
 extern NSString *const BBAudioManagerDidChangeProgressNotification;
 extern NSString *const BBAudioManagerDidStopNotification;
@@ -39,11 +41,11 @@ typedef NS_ENUM(NSInteger, BBAudioManagerStopReason) {
 - (void)playNext;
 - (void)playPrev;
 
-- (NSDate *)duration;
-- (NSDate *)currentDate;
-- (NSDate *)currentDateLeft;
+- (CMTime)duration;
+- (CMTime)currentTime;
+- (CMTime)currentTimeLeft;
 
-- (NSDate *)dateForProgress:(float)progress;
+- (CMTime)timeForProgress:(float)progress;
 
 @end
 

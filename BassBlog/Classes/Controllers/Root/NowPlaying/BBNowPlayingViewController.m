@@ -25,6 +25,8 @@
 
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
+@property (nonatomic, strong) NSTimer *refreshTimer;
+
 @end
 
 @implementation BBNowPlayingViewController
@@ -133,7 +135,7 @@
 }
 
 
--(void) customizeSlider
+- (void)customizeSlider
 {
     BBThemeManager *tm = [BBThemeManager defaultManager];
     
@@ -153,9 +155,7 @@
     [self setImage:@"player_previous_mix" toButton:self.prevButton];
     [self setImage:@"player_play" toButton:self.playButton];
     [self setImage:@"add_to_favorites" toButton:self.favoritesButton];
-    
 }
-
 
 -(IBAction)playClick:(id)sender
 {
@@ -186,10 +186,11 @@
     BBMix *mix = [BBAudioManager defaultManager].mix;
     
     self.titleLabel.text = [mix.name uppercaseString];
-    self.dateLabel.text = [NSString stringWithFormat:@"[%@]", [self.dateFormatter stringFromDate:mix.date]];
     self.tagsLabel.text = [BBUIUtils tagsStringForMix:mix];
     
     [self setArtworkImage:nil];
+    
+    [self updateTrackInfo];
 }
 
 - (void)setArtworkImage:(UIImage *)artworkImage
@@ -200,6 +201,21 @@
     }
     
     self.artworkImageView.image = artworkImage;
+}
+
+- (void)refreshTimerFired:(NSTimer *)aTimer
+{
+    [self updateTrackInfo];
+}
+
+- (void)updateTrackInfo
+{
+    BBAudioManager *audioManager = [BBAudioManager defaultManager];
+    
+    self.currentTimeLabel.text = [self.class timeStringFromTime:audioManager.currentTime];
+    self.remainingTimeLabel.text = [self.class timeStringFromTime:audioManager.currentTimeLeft];
+    
+    self.slider.value = audioManager.progress;
 }
 
 -(void) viewDidLoad
@@ -214,7 +230,6 @@
         default:
         {
             self.titleLabel.textColor = [UIColor colorWithHEX:0x333333FF];
-            self.dateLabel.textColor = [UIColor colorWithHEX:0x333333FF];
             self.tagsLabel.textColor = [UIColor colorWithHEX:0x8A8A8AFF];
             
             self.currentTimeLabel.textColor = [UIColor blackColor];
@@ -225,24 +240,7 @@
     }
     
     self.titleLabel.font = [BBFont boldFontLikeFont:self.titleLabel.font];
-    self.dateLabel.font = self.titleLabel.font;
     self.tagsLabel.font = [BBFont fontLikeFont:self.tagsLabel.font];
-    
-    //  Player *player          =  [[Player alloc] init];
-    //  player.currentTime      = self.currentTimeLabel;
-    //  player.totalTime        = self.fullTimeLabel;
-    //  player.name             = self.titleLabel;
-    //  player.slider           = self.slider;
-    //  player.playerPlayButton = self.playButton;
-    //  player.playerFavoritesButton = self.favoritesButton;
-    //  player.tracklistTextView = self.tracklistTextView;
-    //
-    //  [AudioPlayer setPlayerView:player];
-    //
-    //  player.tracklistTextView.font = [BBFont fontOfSize:12];
-    //  player.currentTime.font = [BBFont fontOfSize:12];
-    //  player.totalTime.font = [BBFont fontOfSize:12];
-    //  player.name.font = [BBFont fontOfSize:19];
 }
 
 -(void) viewWillAppear:(BOOL)animated
@@ -250,24 +248,20 @@
     [super viewWillAppear:animated];
     
     [self customizeTrackInfo];
+    
+    self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                         target:self
+                                                       selector:@selector(refreshTimerFired:)
+                                                       userInfo:nil
+                                                        repeats:YES];
 }
 
-- (UIBarButtonItem *)barButtonItemWithImageName:(NSString *)imageName
-                                       selector:(SEL)selector
+- (void)viewDidDisappear:(BOOL)animated
 {
-    BBThemeManager *tm = [BBThemeManager defaultManager];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [super viewDidDisappear:animated];
     
-    [button addTarget:self
-               action:selector
-     forControlEvents:UIControlEventTouchUpInside];
-    
-    imageName = [@"navigation_bar/item" stringByAppendingPathComponent:imageName];
-    [button setImage:[tm imageNamed:imageName] forState:UIControlStateNormal];
-    
-    [button setFrame:CGRectMake(0, 0, 40, 40)];
-    
-    return [[UIBarButtonItem alloc] initWithCustomView:button];
+    [self.refreshTimer invalidate];
+    self.refreshTimer = nil;
 }
 
 - (void)showBackBarButtonItem
@@ -320,6 +314,8 @@
 -(IBAction)sliderValueChanged:(UISlider *)slider
 {
     [BBAudioManager defaultManager].progress = slider.value;
+    
+    [self updateTrackInfo];
 }
 
 #pragma mark - Actions
@@ -336,11 +332,27 @@
     if (_dateFormatter == nil)
     {
         _dateFormatter = [NSDateFormatter new];
-        [_dateFormatter setDateStyle:NSDateFormatterShortStyle];
-        [_dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+        [_dateFormatter setDateStyle:NSDateFormatterNoStyle];
+        [_dateFormatter setTimeStyle:NSDateFormatterShortStyle];
     }
     
     return _dateFormatter;
+}
+
++ (NSString *)timeStringFromTime:(CMTime)time
+{
+    NSUInteger dTotalSeconds = CMTimeGetSeconds(time);
+    
+    if (!CMTIME_IS_NUMERIC(time))
+    {
+        return nil;
+    }
+    
+    NSUInteger dHours = floor(dTotalSeconds / 3600);
+    NSUInteger dMinutes = floor(dTotalSeconds % 3600 / 60);
+    NSUInteger dSeconds = floor(dTotalSeconds % 3600 % 60);
+    
+    return [NSString stringWithFormat:@"%i:%02i:%02i",dHours, dMinutes, dSeconds];
 }
 
 @end

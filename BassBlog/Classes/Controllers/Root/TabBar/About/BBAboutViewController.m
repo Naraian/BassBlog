@@ -7,7 +7,25 @@
 //
 
 #import "BBAboutViewController.h"
+#import "BBAboutTableViewCell.h"
 
+#import "BBThemeManager.h"
+
+typedef NS_ENUM(NSInteger, BBAboutTableModelSection)
+{
+    BBAboutTableModelSectionSocial = 0,
+    BBAboutTableModelSectionBassblog,
+    BBAboutTableModelSectionTellAFriend,
+    BBAboutTableModelSectionFeedback
+};
+
+typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
+{
+    BBAboutTableModelSocialSectionRowFacebook = 0,
+    BBAboutTableModelSocialSectionRowTwitter,
+    BBAboutTableModelSocialSectionRowVkontakte,
+    BBAboutTableModelSocialSectionRowCount
+};
 
 @implementation BBAboutViewController
 
@@ -22,31 +40,193 @@
                          tag:4];
 }
 
--(IBAction)facebookClick:(id)sender
+- (void)viewDidLoad
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.facebook.com/dnb.mix.blog"]];
-}
-
--(IBAction)twitterClick:(id)sender
-{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/bass_blog"]];
-}
-
--(IBAction)VkontakteClick:(id)sender
-{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://vk.com/bass_blog"]];
+    [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor colorWithHEX:0xEFEFF4FF];
+    self.tableView.backgroundColor = [UIColor colorWithHEX:0xEFEFF4FF];
 }
 
--(IBAction)aboutClick:(id)sender
-{
+- (NSString *)cellNibNameAtIndexPath:(NSIndexPath *)indexPath {
     
+    return [BBAboutTableViewCell nibName];
 }
 
-- (IBAction)webSiteClick:(id)sender
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.bassblog.pro"]];
+    return 4;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    switch (section)
+    {
+        case BBAboutTableModelSectionSocial:
+            return BBAboutTableModelSocialSectionRowCount;
+            
+        default:
+            break;
+    }
     
+    return 1;
+}
+
++ (UIImage *)imageForCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *imageName = nil;
+    switch (indexPath.section)
+    {
+        case BBAboutTableModelSectionSocial:
+            if (indexPath.row == BBAboutTableModelSocialSectionRowFacebook)
+            {
+                imageName = @"facebook";
+            }
+            else if (indexPath.row == BBAboutTableModelSocialSectionRowFacebook)
+            {
+                imageName = @"twitter";
+            }
+            else
+            {
+                imageName = @"vk";
+            }
+            break;
+        case BBAboutTableModelSectionBassblog:
+            imageName = @"website";
+            break;
+        default:
+            imageName = @"about";
+            break;
+    }
+    
+    imageName = [@"social" stringByAppendingPathComponent:imageName];
+    UIImage *image = [[BBThemeManager defaultManager] imageNamed:imageName];
+    
+    return image;
+}
+
++ (NSString *)titleForCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *title = nil;
+    switch (indexPath.section)
+    {
+        case BBAboutTableModelSectionSocial:
+            if (indexPath.row == BBAboutTableModelSocialSectionRowFacebook)
+            {
+                title = @"facebook";
+            }
+            else if (indexPath.row == BBAboutTableModelSocialSectionRowTwitter)
+            {
+                title = @"twitter";
+            }
+            else
+            {
+                title = @"vkontakte";
+            }
+            break;
+        case BBAboutTableModelSectionBassblog:
+            title = @"bassblog.pro";
+            break;
+        case BBAboutTableModelSectionTellAFriend:
+            title = @"tell a friend";
+            break;
+        case BBAboutTableModelSectionFeedback:
+            title = @"leave feedback";
+            break;
+        default:
+            
+            break;
+    }
+    
+    title = NSLocalizedString(title, nil);
+    
+    return title;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    BBAboutTableViewCell *cell = (BBAboutTableViewCell*)[super tableView:tableView cellForRowAtIndexPath:indexPath];
+    [cell.button setImage:[self.class imageForCellAtIndexPath:indexPath] forState:UIControlStateNormal];
+    cell.label.text = [[self.class titleForCellAtIndexPath:indexPath] uppercaseString];
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(BBAboutTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    cell.backgroundColor = [UIColor whiteColor];
+    
+    BOOL hideSeparator = YES;
+    
+    if (indexPath.section == BBAboutTableModelSectionSocial)
+    {
+        if (indexPath.row < BBAboutTableModelSocialSectionRowCount - 1)
+        {
+            hideSeparator = NO;
+        }
+    }
+    
+    if (hideSeparator)
+    {
+        cell.bottomSeparatorColor = nil;
+        cell.selectedBottomSeparatorColor = nil;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    switch (section)
+    {
+        case BBAboutTableModelSectionSocial:
+        case BBAboutTableModelSectionBassblog:
+            return 36.f;
+            
+        default:
+            break;
+    }
+    
+    return 18.f;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    NSString *urlString = nil;
+    switch (indexPath.section)
+    {
+        case BBAboutTableModelSectionSocial:
+            if (indexPath.row == BBAboutTableModelSocialSectionRowFacebook)
+            {
+                urlString = @"http://www.facebook.com/dnb.mix.blog";
+            }
+            else if (indexPath.row == BBAboutTableModelSocialSectionRowTwitter)
+            {
+                urlString = @"https://twitter.com/bass_blog";
+            }
+            else
+            {
+                urlString = @"http://vk.com/bass_blog";
+            }
+            break;
+        case BBAboutTableModelSectionBassblog:
+            urlString = @"http://www.bassblog.pro";
+            break;
+        case BBAboutTableModelSectionTellAFriend:
+            urlString = nil;
+            break;
+        case BBAboutTableModelSectionFeedback:
+            urlString = nil;
+            break;
+        default:
+            
+            break;
+    }
+    
+    if (urlString != nil)
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+    }
 }
 
 @end

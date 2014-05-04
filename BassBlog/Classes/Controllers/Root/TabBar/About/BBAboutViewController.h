@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 BassBlog. All rights reserved.
 //
 
-#import "BBViewController.h"
+#import "BBTableViewController.h"
 
-@interface BBAboutViewController : BBViewController
+@interface BBAboutViewController : BBTableViewController
 
 @end

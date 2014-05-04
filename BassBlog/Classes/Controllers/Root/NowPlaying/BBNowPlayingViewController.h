@@ -14,7 +14,6 @@
 @interface BBNowPlayingViewController : BBViewController
 
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
-@property (strong, nonatomic) IBOutlet UILabel *dateLabel;
 @property (strong, nonatomic) IBOutlet UILabel *tagsLabel;
 
 @property (strong, nonatomic) IBOutlet UISlider *slider;

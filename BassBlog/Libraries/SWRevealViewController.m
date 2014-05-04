@@ -161,19 +161,21 @@ static CGFloat scaledValue( CGFloat v1, CGFloat min2, CGFloat max2, CGFloat min1
     
         _frontView = [[UIView alloc] initWithFrame:bounds];
         _frontView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-
+        [self reloadShadow];
+        
         [self addSubview:_frontView];
-
-        CALayer *frontViewLayer = _frontView.layer;
-        frontViewLayer.masksToBounds = NO;
-        frontViewLayer.shadowColor = [UIColor blackColor].CGColor;
-        //frontViewLayer.shadowOpacity = 1.0f;
-        frontViewLayer.shadowOpacity = _c.frontViewShadowOpacity;
-        frontViewLayer.shadowOffset = _c.frontViewShadowOffset;
-        frontViewLayer.shadowRadius = _c.frontViewShadowRadius;
     }
-    
     return self;
+}
+
+
+- (void)reloadShadow
+{
+    CALayer *frontViewLayer = _frontView.layer;
+    frontViewLayer.shadowColor = [UIColor blackColor].CGColor;
+    frontViewLayer.shadowOpacity = _c.frontViewShadowOpacity;
+    frontViewLayer.shadowOffset = _c.frontViewShadowOffset;
+    frontViewLayer.shadowRadius = _c.frontViewShadowRadius;
 }
 
 
@@ -647,13 +649,19 @@ static NSString * const SWSegueRightIdentifier = @"sw_right";
         {
             [self performSegueWithIdentifier:SWSegueRearIdentifier sender:nil];
         }
-        @catch(NSException *exception) {}
+        @catch(NSException *exception)
+        {
+            NSLog(@"exception while performing segue:%@ [%@]", SWSegueRearIdentifier,exception);
+        }
         
         @try
         {
             [self performSegueWithIdentifier:SWSegueFrontIdentifier sender:nil];
         }
-        @catch(NSException *exception) {}
+        @catch(NSException *exception)
+        {
+            NSLog(@"exception while performing segue:%@ [%@]", SWSegueFrontIdentifier,exception);
+        }
         
         @try
         {
@@ -873,6 +881,27 @@ static NSString * const SWSegueRightIdentifier = @"sw_right";
 }
 
 
+- (void)setFrontViewShadowRadius:(CGFloat)frontViewShadowRadius
+{
+    _frontViewShadowRadius = frontViewShadowRadius;
+    [_contentView reloadShadow];
+}
+
+
+- (void)setFrontViewShadowOffset:(CGSize)frontViewShadowOffset
+{
+    _frontViewShadowOffset = frontViewShadowOffset;
+    [_contentView reloadShadow];
+}
+
+
+- (void)setFrontViewShadowOpacity:(CGFloat)frontViewShadowOpacity
+{
+    _frontViewShadowOpacity = frontViewShadowOpacity;
+    [_contentView reloadShadow];
+}
+
+
 - (UIPanGestureRecognizer*)panGestureRecognizer
 {
     if ( _panGestureRecognizer == nil )
@@ -1081,8 +1110,9 @@ static NSString * const SWSegueRightIdentifier = @"sw_right";
     CGFloat width = recognizerView.bounds.size.width;
     
     BOOL draggableBorderAllowing = (
-        _frontViewPosition != FrontViewPositionLeft || _draggableBorderWidth == 0.0f ||
-        xLocation <= _draggableBorderWidth || xLocation >= (width - _draggableBorderWidth) );
+         _frontViewPosition != FrontViewPositionLeft || _draggableBorderWidth == 0.0f ||
+         (_rearViewController && xLocation <= _draggableBorderWidth) ||
+         (_rightViewController && xLocation >= (width - _draggableBorderWidth)) );
 
     // allow gesture only within the bounds defined by the draggableBorderWidth property
     return draggableBorderAllowing ;
@@ -1535,29 +1565,16 @@ static NSString * const SWSegueRightIdentifier = @"sw_right";
     CGRect frame = view.bounds;
     
     UIView *controllerView = controller.view;
-    UIView *controllerScrollView = nil;
-    
-    if ([controllerView isKindOfClass:[UIScrollView class]])
-    {
-        controllerScrollView = (UIScrollView*)controllerView;
-    }
-    else if (controllerView.subviews > 0)
-    {
-        UIView *firstSubview = [controllerView.subviews objectAtIndex:0];
-        if ([firstSubview isKindOfClass:[UIScrollView class]])
-        {
-            controllerScrollView = (UIScrollView*)firstSubview;
-        }
-    }
-    
     controllerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     controllerView.frame = frame;
     
-    if ([controller respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)] && controllerScrollView)
+    if ( [controller respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)] && [controllerView isKindOfClass:[UIScrollView class]] )
     {
-        if ( controller.automaticallyAdjustsScrollViewInsets )
+        BOOL adjust = (BOOL)[controller performSelector:@selector(automaticallyAdjustsScrollViewInsets) withObject:nil];
+        
+        if ( adjust )
         {
-            [(id)controllerScrollView setContentInset:UIEdgeInsetsMake(statusBarAdjustment(_contentView), 0, 0, 0)];
+            [(id)controllerView setContentInset:UIEdgeInsetsMake(statusBarAdjustment(_contentView), 0, 0, 0)];
         }
     }
     

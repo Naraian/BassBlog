@@ -169,6 +169,33 @@
     [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:4.f forBarMetrics:UIBarMetricsDefault];
 }
 
+- (UIBarButtonItem *)barButtonItemWithImageName:(NSString *)imageName
+                                       selector:(SEL)selector
+{
+    BBThemeManager *tm = [BBThemeManager defaultManager];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    [button addTarget:self
+               action:selector
+     forControlEvents:UIControlEventTouchUpInside];
+    
+    imageName = [@"navigation_bar/item" stringByAppendingPathComponent:imageName];
+    [button setImage:[tm imageNamed:imageName] forState:UIControlStateNormal];
+    
+    imageName = [imageName stringByAppendingString:@"_highlighted"];
+    
+    UIImage *highlightedImage = [tm imageNamed:imageName];
+    
+    if (highlightedImage)
+    {
+        [button setImage:highlightedImage forState:UIControlStateHighlighted];
+    }
+    
+    [button setFrame:CGRectMake(0, 0, 40, 40)];
+    
+    return [[UIBarButtonItem alloc] initWithCustomView:button];
+}
+
 - (void)setTabBarItemTitle:(NSString *)title
                 imageNamed:(NSString *)imageName
                        tag:(NSInteger)tag

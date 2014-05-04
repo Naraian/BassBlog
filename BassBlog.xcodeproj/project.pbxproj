@@ -16,7 +16,6 @@
 		080FB7A1175A2BB70047B395 /* BBMixesSelectionOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 080FB7A0175A2BB70047B395 /* BBMixesSelectionOptions.m */; };
 		083641B017C5420D001B07E5 /* BBActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 083641AF17C5420D001B07E5 /* BBActivityView.m */; };
 		083641B317C54238001B07E5 /* BBActivityView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 083641B217C54238001B07E5 /* BBActivityView.xib */; };
-		084501BA17DDEBDE002B09F7 /* BlackTheme.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 084501B817DDC40F002B09F7 /* BlackTheme.bundle */; };
 		085953B31714766A000991B9 /* BBFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 085953B21714766A000991B9 /* BBFileManager.m */; };
 		087FD22A17FB2CAA00B87CAA /* BBEntitiesViewControllerModelLoadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 087FD22917FB2CAA00B87CAA /* BBEntitiesViewControllerModelLoadOperation.m */; };
 		08BB8E71176E4BEB00FAAA7D /* BBMixesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BB8E6D176E4BEB00FAAA7D /* BBMixesTableViewCell.m */; };
@@ -81,10 +80,13 @@
 		9A61FF97190077EA004AE70E /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A61FF96190077EA004AE70E /* Reveal.framework */; };
 		9AA6538719070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AA6538519070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf */; };
 		9AA6538819070CB1000BAA6E /* HelveticaLTStd-Cond.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AA6538619070CB1000BAA6E /* HelveticaLTStd-Cond.ttf */; };
-		9ABB6A9F1900954B00691B3F /* WinterTheme.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9ABB6A9E1900954B00691B3F /* WinterTheme.bundle */; };
 		9ABB6AA41901C54B00691B3F /* NSLayoutConstraint+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB6AA11901C54B00691B3F /* NSLayoutConstraint+Extensions.m */; };
 		9ABB6AA51901C54B00691B3F /* UIView+ConstraintsExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB6AA31901C54B00691B3F /* UIView+ConstraintsExtensions.m */; };
 		9ABB6AA91901C5EC00691B3F /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB6AA81901C5EC00691B3F /* DeviceUtils.m */; };
+		9AD60F9119169615000C49BD /* BBAboutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD60F8F19169615000C49BD /* BBAboutTableViewCell.m */; };
+		9AD60F931916A289000C49BD /* BBAboutTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9AD60F9019169615000C49BD /* BBAboutTableViewCell.xib */; };
+		9AD60F961916A2D2000C49BD /* BlackTheme.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9AD60F941916A2D2000C49BD /* BlackTheme.bundle */; };
+		9AD60F971916A2D2000C49BD /* WinterTheme.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9AD60F951916A2D2000C49BD /* WinterTheme.bundle */; };
 		C12D9DF018BA21DB00F7693A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C12D9DEF18BA21DB00F7693A /* MediaPlayer.framework */; };
 		C14D4A9118BE94FA00ED7041 /* BBFavoritesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C14D4A9018BE94FA00ED7041 /* BBFavoritesTableViewCell.m */; };
 		C14D4A9418BE951100ED7041 /* BBAllMixesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C14D4A9318BE951100ED7041 /* BBAllMixesTableViewCell.m */; };
@@ -116,7 +118,6 @@
 		083641AE17C5420D001B07E5 /* BBActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBActivityView.h; sourceTree = "<group>"; };
 		083641AF17C5420D001B07E5 /* BBActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBActivityView.m; sourceTree = "<group>"; };
 		083641B217C54238001B07E5 /* BBActivityView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BBActivityView.xib; sourceTree = "<group>"; };
-		084501B817DDC40F002B09F7 /* BlackTheme.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = BlackTheme.bundle; sourceTree = "<group>"; };
 		085953B11714766A000991B9 /* BBFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFileManager.h; sourceTree = "<group>"; };
 		085953B21714766A000991B9 /* BBFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFileManager.m; sourceTree = "<group>"; };
 		087FD22817FB2CAA00B87CAA /* BBEntitiesViewControllerModelLoadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBEntitiesViewControllerModelLoadOperation.h; sourceTree = "<group>"; };
@@ -236,13 +237,17 @@
 		9A61FF96190077EA004AE70E /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reveal.framework; path = BassBlog/Libraries/Reveal.framework; sourceTree = "<group>"; };
 		9AA6538519070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaLTStd-BoldCond.ttf"; sourceTree = "<group>"; };
 		9AA6538619070CB1000BAA6E /* HelveticaLTStd-Cond.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaLTStd-Cond.ttf"; sourceTree = "<group>"; };
-		9ABB6A9E1900954B00691B3F /* WinterTheme.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WinterTheme.bundle; sourceTree = "<group>"; };
 		9ABB6AA01901C54B00691B3F /* NSLayoutConstraint+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+Extensions.h"; sourceTree = "<group>"; };
 		9ABB6AA11901C54B00691B3F /* NSLayoutConstraint+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+Extensions.m"; sourceTree = "<group>"; };
 		9ABB6AA21901C54B00691B3F /* UIView+ConstraintsExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ConstraintsExtensions.h"; sourceTree = "<group>"; };
 		9ABB6AA31901C54B00691B3F /* UIView+ConstraintsExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ConstraintsExtensions.m"; sourceTree = "<group>"; };
 		9ABB6AA71901C5EC00691B3F /* DeviceUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceUtils.h; sourceTree = "<group>"; };
 		9ABB6AA81901C5EC00691B3F /* DeviceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceUtils.m; sourceTree = "<group>"; };
+		9AD60F8E19169615000C49BD /* BBAboutTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAboutTableViewCell.h; sourceTree = "<group>"; };
+		9AD60F8F19169615000C49BD /* BBAboutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAboutTableViewCell.m; sourceTree = "<group>"; };
+		9AD60F9019169615000C49BD /* BBAboutTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BBAboutTableViewCell.xib; sourceTree = "<group>"; };
+		9AD60F941916A2D2000C49BD /* BlackTheme.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = BlackTheme.bundle; sourceTree = "<group>"; };
+		9AD60F951916A2D2000C49BD /* WinterTheme.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WinterTheme.bundle; sourceTree = "<group>"; };
 		C12D9DEF18BA21DB00F7693A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		C14D4A8F18BE94FA00ED7041 /* BBFavoritesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFavoritesTableViewCell.h; sourceTree = "<group>"; };
 		C14D4A9018BE94FA00ED7041 /* BBFavoritesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFavoritesTableViewCell.m; sourceTree = "<group>"; };
@@ -337,8 +342,8 @@
 		084501B717DDC40F002B09F7 /* Themes */ = {
 			isa = PBXGroup;
 			children = (
-				9ABB6A9E1900954B00691B3F /* WinterTheme.bundle */,
-				084501B817DDC40F002B09F7 /* BlackTheme.bundle */,
+				9AD60F941916A2D2000C49BD /* BlackTheme.bundle */,
+				9AD60F951916A2D2000C49BD /* WinterTheme.bundle */,
 			);
 			path = Themes;
 			sourceTree = "<group>";
@@ -852,6 +857,7 @@
 			children = (
 				08F21D1317D8EB4700F182C6 /* BBAboutViewController.h */,
 				08F21D1417D8EB4700F182C6 /* BBAboutViewController.m */,
+				9AD60F8D19169615000C49BD /* View */,
 			);
 			path = About;
 			sourceTree = "<group>";
@@ -944,6 +950,16 @@
 				9ABB6AA81901C5EC00691B3F /* DeviceUtils.m */,
 			);
 			path = Device;
+			sourceTree = "<group>";
+		};
+		9AD60F8D19169615000C49BD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9AD60F8E19169615000C49BD /* BBAboutTableViewCell.h */,
+				9AD60F8F19169615000C49BD /* BBAboutTableViewCell.m */,
+				9AD60F9019169615000C49BD /* BBAboutTableViewCell.xib */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		C14D4A8418BE93F000ED7041 /* View */ = {
@@ -1077,6 +1093,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AD60F931916A289000C49BD /* BBAboutTableViewCell.xib in Resources */,
 				08FFCB131712A2C900F21D86 /* InfoPlist.strings in Resources */,
 				080463D417147E26009EBD9C /* Default-568h@2x.png in Resources */,
 				C19BAF1418BEAD2C00F3BAE8 /* default_image.png in Resources */,
@@ -1089,11 +1106,11 @@
 				9AA6538719070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf in Resources */,
 				083641B317C54238001B07E5 /* BBActivityView.xib in Resources */,
 				C19B4F8B18C1307F0021A100 /* BBHistoryTableViewCell.xib in Resources */,
-				9ABB6A9F1900954B00691B3F /* WinterTheme.bundle in Resources */,
 				9AA6538819070CB1000BAA6E /* HelveticaLTStd-Cond.ttf in Resources */,
+				9AD60F971916A2D2000C49BD /* WinterTheme.bundle in Resources */,
 				C1EB985E18CE4669008A3303 /* BBMixesTableFooterView.xib in Resources */,
 				C19B4F8918C12ECB0021A100 /* BBFavoritesTableViewCell.xib in Resources */,
-				084501BA17DDEBDE002B09F7 /* BlackTheme.bundle in Resources */,
+				9AD60F961916A2D2000C49BD /* BlackTheme.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1112,6 +1129,7 @@
 				08DBE75B17134FCD00FFCC3F /* NSObject+Notification.m in Sources */,
 				C14D4A9718BE953200ED7041 /* BBHistoryTableViewCell.m in Sources */,
 				085953B31714766A000991B9 /* BBFileManager.m in Sources */,
+				9AD60F9119169615000C49BD /* BBAboutTableViewCell.m in Sources */,
 				08C04E921715F0C700726742 /* BBTableViewController.m in Sources */,
 				08FC718D171949C6001B144B /* BBModelManager.m in Sources */,
 				08CC79A3175685A500A64212 /* BassBlog.xcdatamodeld in Sources */,
