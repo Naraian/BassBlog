@@ -19,6 +19,24 @@
 
 @implementation BBEntitiesViewControllerModelLoadOperation
 
+- (void)main
+{
+    if ([self isCancelled])
+    {
+        [self finishAfterBlock:nil];
+        return;
+    }
+    
+    @autoreleasepool
+    {
+        [self finishAfterBlock:^
+        {
+            self.completed = YES;
+        }];
+        
+    }
+}
+
 - (void)finishAfterBlock:(void(^)())blockOrNil {
     
     if ([self isCancelled]) {

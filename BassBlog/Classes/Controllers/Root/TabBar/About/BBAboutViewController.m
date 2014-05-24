@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
     self.title = NSLocalizedString(@"MORE", @"");
     
     [self setTabBarItemTitle:self.title
-                  imageNamed:@"more_icon"
+                  imageNamed:@"more_tab"
                          tag:4];
 }
 

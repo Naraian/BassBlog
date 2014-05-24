@@ -27,7 +27,7 @@
     self.title = NSLocalizedString(@"HISTORY", @"");
         
     [self setTabBarItemTitle:self.title
-                  imageNamed:@"history_icon"
+                  imageNamed:@"history_tab"
                          tag:eListenedMixesCategory];
     
     _tableModelSectionRule = BBMixesTableModelSectionRuleEachDay;
@@ -73,15 +73,16 @@
     __weak BBHistoryViewController *weakSelf = self;
     
     operation.handleEntity = ^(BBMixesViewControllerModelLoadOperation *anOperation, BBMix *mix) {
-        
-        NSInteger sectionID = [weakSelf sectionIDForMix:mix];
-        
-        [anOperation.tableModel addCellKey:mix.key toSectionID:sectionID];
-//        anOperation.detailTextsDictionary[mix.key] = [weakSelf composeDetailTextForMix:mix];
-        
-        if (anOperation.headerTextsDictionary[@(sectionID)] == nil) {
-            anOperation.headerTextsDictionary[@(sectionID)] = [weakSelf composeHeaderTextForMix:mix];
-        }
+
+#warning TODO
+//        NSInteger sectionID = [weakSelf sectionIDForMix:mix];
+//        
+//        [anOperation.tableModel addCellKey:mix.key toSectionID:sectionID];
+////        anOperation.detailTextsDictionary[mix.key] = [weakSelf composeDetailTextForMix:mix];
+//        
+//        if (anOperation.headerTextsDictionary[@(sectionID)] == nil) {
+//            anOperation.headerTextsDictionary[@(sectionID)] = [weakSelf composeHeaderTextForMix:mix];
+//        }
     };
     
     return operation;
@@ -92,14 +93,6 @@
 - (void)startObserveNotifications {
     
     [super startObserveNotifications];
-    
-    [self addSelector:@selector(mixDidChangePlaybackDateNotification:)
-    forNotificationWithName:BBMixDidChangePlaybackDateNotification];
-}
-
-- (void)mixDidChangePlaybackDateNotification:(NSNotification *)notification {
-    
-    [self mergeWithEntity:notification.object];
 }
 
 @end

@@ -19,7 +19,9 @@
 
 #import "BBUIUtils.h"
 #import "BBFont.h"
+
 #import "UIColor+HEX.h"
+#import "NSObject+Notification.h"
 
 @interface BBNowPlayingViewController ()
 
@@ -40,67 +42,29 @@
     self.title = @"NOW PLAYING";
 }
 
-//static NSRegularExpression *tracksRegularExpression = nil;
-//static NSRegularExpression *tracksDelimiterRegularExpression = nil;
-//
-//+ (void)setupTracksRegularExpressions
-//{
-//    if (!tracksRegularExpression)
-//    {
-//        NSError *__autoreleasing error = nil;
-//        tracksRegularExpression =
-//        [[NSRegularExpression alloc] initWithPattern:@"^\\d+\\W*\\d*\\W*"
-//                                             options:NSRegularExpressionCaseInsensitive
-//                                               error:&error];
-//        if (error)
-//        {
-//            ERR(@"Couldn't create regular expression due (%@)", error);
-//        }
-//    }
-//
-//    if (!tracksDelimiterRegularExpression)
-//    {
-//        NSError *__autoreleasing error = nil;
-//        tracksDelimiterRegularExpression =
-//        [[NSRegularExpression alloc] initWithPattern:@"^\\W+"
-//                                             options:NSRegularExpressionCaseInsensitive
-//                                               error:&error];
-//        if (error)
-//        {
-//            ERR(@"Couldn't create regular expression due (%@)", error);
-//        }
-//    }
-//}
+- (void)startObserveNotifications {
+    
+    [super startObserveNotifications];
+    
+    [self addSelector:@selector(audioManagerDidStartPlayNotification)
+    forNotificationWithName:BBAudioManagerDidStartPlayNotification];
+    
+    [self addSelector:@selector(audioManagerDidStopNotification:)
+    forNotificationWithName:BBAudioManagerDidStopNotification];
+}
 
+- (void)audioManagerDidStartPlayNotification {
+#warning TOOD 15/05/2014
+//    [self updateNowPlayingCellAndSelectRow:YES];
+}
 
-//    enumerateObjectsUsingBlock:^(NSString *track, NSUInteger trackIdx, BOOL *trackStop)
-//    {
-//        track =
-//        [track stringByTrimmingCharactersInSet:
-//         [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-//
-//        NSRange range = NSMakeRange(0, track.length);
-//
-//        track =
-//        [tracksRegularExpression stringByReplacingMatchesInString:track
-//                                                          options:kNilOptions
-//                                                            range:range
-//                                                     withTemplate:@"$1"];
-//
-//        range = NSMakeRange(0, track.length);
-//
-//        if ([tracksDelimiterRegularExpression numberOfMatchesInString:track
-//                                                              options:kNilOptions
-//                                                                range:range])
-//        {
-//            return;
-//        }
-//
-//        if (track.length)
-//        {
-//            [orderedSet addObject:track];
-//        }
-//    }];
+- (void)audioManagerDidStopNotification:(NSNotification *)notification {
+#warning TOOD 15/05/2014
+//    BBAudioManagerStopReason reason =
+//    [notification.userInfo[BBAudioManagerStopReasonKey] integerValue];
+//    
+//    [self updateNowPlayingCellAndSelectRow:reason != BBAudioManagerWillChangeMix];
+}
 
 #pragma mark - View
 
@@ -114,26 +78,37 @@
     //  [self.slider setMinimumTrackImage:[tm imageNamed:imageName] forState:UIControlStateNormal];
 }
 
--(void) setImage:(NSString*) imageName toButton:(UIButton*)button
+-(void)setImage:(NSString*)imageName toButton:(UIButton*)button
 {
     BBThemeManager *tm = [BBThemeManager defaultManager];
     
-    NSString *imageName1 = [@"controls/" stringByAppendingString:imageName];
-    [button setImage:[tm imageNamed:imageName1] forState:UIControlStateNormal];
+    NSString *imageNameNormal = [@"controls/" stringByAppendingString:imageName];
+    UIImage *normalImage = [tm imageNamed:imageNameNormal];
+    
+    NSString *imageNameHighlighted = [imageNameNormal stringByAppendingString:@"_pressed"];
+    UIImage *highlightedImage = [tm imageNamed:imageNameHighlighted];
     
     if ([imageName isEqualToString:@"player_play"])
     {
-        NSString *imageName2 = [@"controls/" stringByAppendingString:@"player_pause"];
-        [button setImage:[tm imageNamed:imageName2] forState:UIControlStateSelected];
+        NSString *imageName2Normal = [@"controls/" stringByAppendingString:@"player_pause"];
+        [button setImage:[tm imageNamed:imageName2Normal] forState:UIControlStateSelected];
+        
+        NSString *imageName2Highlighted = [imageName2Normal stringByAppendingString:@"_pressed"];
+        [button setImage:[tm imageNamed:imageName2Highlighted] forState:UIControlStateSelected | UIControlStateHighlighted];
     }
     
     if ([imageName isEqualToString:@"add_to_favorites"])
     {
-        NSString *imageName2 = [@"controls/" stringByAppendingString:@"add_to_favorites_selected"];
-        [button setImage:[tm imageNamed:imageName2] forState:UIControlStateSelected];
+        NSString *imageName2 = [imageName stringByAppendingString:@"_selected"];
+        
+        UIImage *selectedImage = [tm imageNamed:imageName2];
+        [button setImage:selectedImage forState:UIControlStateSelected];
+        highlightedImage = selectedImage;
     }
+         
+    [button setImage:normalImage forState:UIControlStateNormal];
+    [button setImage:highlightedImage forState:UIControlStateHighlighted];
 }
-
 
 - (void)customizeSlider
 {
@@ -266,18 +241,8 @@
 
 - (void)showBackBarButtonItem
 {
-    //    NSString *title = NSLocalizedString(@"Back",
-    //                                       @"Back bar button item title.");
-    
     self.navigationItem.leftBarButtonItem =  [self barButtonItemWithImageName:@"back"
                                                                      selector:@selector(backBarButtonItemPressed)];
-    
-    
-    /*  self.navigationItem.leftBarButtonItem =
-     [[UIBarButtonItem alloc] initWithTitle:title
-     style:UIBarButtonItemStyleBordered
-     target:self
-     action:@selector(backBarButtonItemPressed)];*/
 }
 
 -(IBAction)sliderTouchDown:(id)sender

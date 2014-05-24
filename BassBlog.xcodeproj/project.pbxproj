@@ -1260,7 +1260,7 @@
 					FREE,
 				);
 				INFOPLIST_FILE = "BassBlog/BassBlog-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/BassBlog/Libraries/Flurry\"",
@@ -1379,7 +1379,7 @@
 					FREE,
 				);
 				INFOPLIST_FILE = "BassBlog/BassBlog-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/BassBlog/Libraries/Flurry\"",
@@ -1404,7 +1404,7 @@
 					FREE,
 				);
 				INFOPLIST_FILE = "BassBlog/BassBlog-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/BassBlog/Libraries/Flurry\"",

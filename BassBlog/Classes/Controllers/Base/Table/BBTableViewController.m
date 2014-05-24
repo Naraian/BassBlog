@@ -13,6 +13,7 @@
 #import "BBAppDelegate.h"
 
 #import "BBTableModel.h"
+#import "BBModelManager.h"
 
 #import "NSObject+Nib.h"
 
@@ -21,8 +22,8 @@
 
 #pragma mark - View
 
-- (void)viewDidLoad {
-    
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 }
 
@@ -33,17 +34,43 @@
     [self.tableView reloadData];
 }
 
+- (NSFetchedResultsController *)fetchedResultsController
+{
+    if (_fetchedResultsController != nil)
+    {
+        return _fetchedResultsController;
+    }
+    
+    NSFetchRequest *fetchRequest = [self fetchRequest];
+    
+    NSString *sectionNameKeyPath = [self sectionNameKeyPath];
+    
+    NSFetchedResultsController *theFetchedResultsController =
+    [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                        managedObjectContext:[[BBModelManager defaultManager] currentThreadContext]
+                                          sectionNameKeyPath:sectionNameKeyPath
+                                                   cacheName:nil]; //NSStringFromClass(self.class)];
+#warning deal with cache name
+    
+    _fetchedResultsController = theFetchedResultsController;
+    _fetchedResultsController.delegate = self;
+    
+    return _fetchedResultsController;
+    
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    return [_tableModel numberOfRowsInSection:section];
+    id<NSFetchedResultsSectionInfo> sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
+    return [sectionInfo numberOfObjects];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [_tableModel numberOfSections];
+    return [[_fetchedResultsController sections] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -54,17 +81,62 @@
     NSString *cellNibThemeName = [cellNibName stringByAppendingString:suffix];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellNibThemeName];
-
-#warning TODO remove this fallback, all cells must be created from storyboard prototypes
-    if (cell == nil) {
-        
-        UINib *nib = [UINib nibWithNibName:cellNibName bundle:nil];
-        [tableView registerNib:nib forCellReuseIdentifier:cellNibThemeName];
-        
-        cell = [tableView dequeueReusableCellWithIdentifier:cellNibThemeName];
-    }
     
     return cell;
+}
+
+#pragma mark - NSFetchedResultsControllerDelegate
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
+    [self.tableView beginUpdates];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+    UITableView *tableView = self.tableView;
+    
+    switch(type)
+    {
+        case NSFetchedResultsChangeInsert:
+            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            [tableView reloadRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            [tableView moveRowAtIndexPath:indexPath toIndexPath:newIndexPath];
+            break;
+    }
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id )sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+    
+    switch(type)
+    {
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+    }
+}
+
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
+    [self.tableView endUpdates];
 }
 
 @end

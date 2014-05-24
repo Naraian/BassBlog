@@ -534,51 +534,54 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
     __block NSMutableDictionary *urlsDictionary =
     [NSMutableDictionary dictionaryWithCapacity:5200];
     
-    [parser parseWithMixBlock:^(NSString *ID,
-                                NSString *url,
-                                NSString *name,
-                                NSString *tracklist,
-                                NSInteger bitrate,
-                                NSArray *tags,
-                                NSDate *date,
+    [parser parseWithMixBlock:^(NSString *parsedID,
+                                NSString *parsedUrl,
+                                NSString *parsedName,
+                                NSString *parsedTracklist,
+                                NSInteger parsedBitrate,
+                                NSArray *parsedTags,
+                                NSDate *parsedDate,
                                 BOOL deleted)
     {
-        if (deleted) {
+        if (deleted)
+        {
             return;
         }
         
-        BBMix *mix = [urlsDictionary objectForKey:url];
-        if (mix) {
+        BBMix *mix = [urlsDictionary objectForKey:parsedUrl];
+        if (mix)
+        {
             [mix removeTags:mix.tags];
-        } else {
+        }
+        else
+        {
             mix = [BBMix createInContext:context];
-            [urlsDictionary setObject:mix forKey:url];
+            [urlsDictionary setObject:mix forKey:parsedUrl];
         }
         
-        mix.ID = ID;
+        mix.ID = parsedID;
         
-        setMixAttributes(mix, url, name, tracklist, bitrate, date);
+        setMixAttributes(mix, parsedUrl, parsedName, parsedTracklist, parsedBitrate, parsedDate);
         
-        [tags enumerateObjectsUsingBlock:
-         ^(NSString *name, NSUInteger nameIdx, BOOL *nameStop)
-         {
-             BBTag *tag = [tagsDictionary objectForKey:name];
+        [parsedTags enumerateObjectsUsingBlock: ^(NSString *aName, NSUInteger aNameIdx, BOOL *aNameStop)
+        {
+             BBTag *tag = [tagsDictionary objectForKey:aName];
              if (tag == nil)
              {
                  tag = [BBTag createInContext:context];
-                 tag.name = name;
+                 tag.name = aName;
                  
-                 [tagsDictionary setObject:tag forKey:name];
+                 [tagsDictionary setObject:tag forKey:aName];
              }
              
              [mix addTagsObject:tag];
          }];
     }
-                progressBlock:^(float progress)
+    progressBlock:^(float progress)
     {
         [self postNotificationForRefreshProgress:progress];
     }
-              completionBlock:^(NSInteger newRequestArgValue)
+    completionBlock:^(NSInteger newRequestArgValue)
     {
         [self refreshCompletionInContext:context
                   withNewRequestArgValue:newRequestArgValue];
@@ -1065,7 +1068,7 @@ withCompletionBlock:(void(^)(BOOL saved))completionBlock
     
         if (![self addAutoMigratingSqliteStore])
         {
-            [self performSelector:@selector(addAutoMigratingSqliteStore:)
+            [self performSelector:@selector(addAutoMigratingSqliteStore)
                        withObject:nil
                        afterDelay:0.5];
         }

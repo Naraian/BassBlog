@@ -8,6 +8,8 @@
 
 #import "BBViewController.h"
 
+#import <CoreData/CoreData.h>
+
 
 // Base abstract class for table view controller.
 
@@ -15,14 +17,12 @@ enum { eBBTableViewRowAnimation = UITableViewRowAnimationFade };
 
 @class BBTableModel;
 
-@interface BBTableViewController : BBViewController
-<
-UITableViewDelegate,
-UITableViewDataSource
->
+@interface BBTableViewController : BBViewController <UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate>
 {
-    BBTableModel *_tableModel;
+
 }
+
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 
@@ -33,5 +33,9 @@ UITableViewDataSource
 @interface BBTableViewController (Abstract)
 
 - (NSString *)cellNibNameAtIndexPath:(NSIndexPath *)indexPath;
+
+- (NSFetchRequest *)fetchRequest;
+
+- (NSString *)sectionNameKeyPath;
 
 @end

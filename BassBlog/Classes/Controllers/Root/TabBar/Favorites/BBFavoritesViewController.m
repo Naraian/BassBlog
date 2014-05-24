@@ -27,7 +27,7 @@
     self.title = NSLocalizedString(@"FAVORITES", @"");
         
     [self setTabBarItemTitle:self.title
-                  imageNamed:@"favorites_icon"
+                  imageNamed:@"favorites_tab"
                          tag:eFavoriteMixesCategory];
         
     _mixesSelectionOptions.category = eFavoriteMixesCategory;
@@ -94,17 +94,9 @@
 
 #pragma mark - Notifications
 
-- (void)startObserveNotifications {
-    
+- (void)startObserveNotifications
+{
     [super startObserveNotifications];
-    
-    [self addSelector:@selector(mixDidChangeFavoriteNotification:)
-    forNotificationWithName:BBMixDidChangeFavoriteNotification];
-}
-
-- (void)mixDidChangeFavoriteNotification:(NSNotification *)notification {
-    
-    [self mergeWithEntity:notification.object];
 }
 
 @end

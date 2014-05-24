@@ -28,7 +28,7 @@
     self.title = NSLocalizedString(@"ALL MIXES", @"");
     
     [self setTabBarItemTitle:self.title
-                  imageNamed:@"all_mixes_icon"
+                  imageNamed:@"mixes_tab"
                          tag:eAllMixesCategory];
         
     _tableModelSectionRule = BBMixesTableModelSectionRuleEachMonth;
@@ -59,16 +59,17 @@
     
     __weak BBAllMixesViewController *weakSelf = self;
     
-    operation.handleEntity = ^(BBMixesViewControllerModelLoadOperation *anOperation, BBMix *mix) {
-        
-        NSInteger sectionID = [weakSelf sectionIDForMix:mix];
-        
-        [anOperation.tableModel addCellKey:mix.key toSectionID:sectionID];
-        anOperation.detailTextsDictionary[mix.key] = [BBUIUtils tagsStringForMix:mix];
-        
-        if (anOperation.headerTextsDictionary[@(sectionID)] == nil) {
-            anOperation.headerTextsDictionary[@(sectionID)] = [weakSelf composeHeaderTextForMix:mix];
-        }
+    operation.handleEntity = ^(BBMixesViewControllerModelLoadOperation *anOperation, BBMix *mix)
+    {
+#warning TODO
+//        NSInteger sectionID = [weakSelf sectionIDForMix:mix];
+//        
+//        [anOperation.tableModel addCellKey:mix.key toSectionID:sectionID];
+//        anOperation.detailTextsDictionary[mix.key] = [BBUIUtils tagsStringForMix:mix];
+//        
+//        if (anOperation.headerTextsDictionary[@(sectionID)] == nil) {
+//            anOperation.headerTextsDictionary[@(sectionID)] = [weakSelf composeHeaderTextForMix:mix];
+//        }
     };
     
     return operation;

@@ -43,8 +43,6 @@ static const NSUInteger kBBMixesStartFetchRequestLimit = 30;
 BBAudioManagerDelegate
 >
 {
-    BBEntitiesViewControllerModelLoadOperation *_uploadOperation;
-    
     NSMutableDictionary *_detailTextsDictionary;
     
     NSMutableDictionary *_headerTextsDictionary;
@@ -52,15 +50,12 @@ BBAudioManagerDelegate
     NSMutableArray *_mixesArray;
     
     UINib *_sectionHeaderNib;
-    
-    BOOL _shouldUploadModel;
 }
 
 @property (nonatomic) NSDateFormatter *detailTextDateFormatter;
 @property (nonatomic) NSDateFormatter *headerDateFormatter;
 
 @property (nonatomic) BBMixesTableFooterView *tableFooterView;
-@property (nonatomic) BOOL uploadModelOnSaveFinish;
 
 @end
 
@@ -189,14 +184,16 @@ BBAudioManagerDelegate
 
 - (void)updateNavigationBar
 {
-    BOOL hasMixes = (_entitiesDictionary.count > 0);
+    BOOL hasMixes = (self.fetchedResultsController.fetchedObjects.count > 0);
     
     self.navigationItem.leftBarButtonItem.enabled = hasMixes;
     
-    if (hasMixes) {
+    if (hasMixes)
+    {
         self.title = [_mixesSelectionOptions.tag.name uppercaseString];
     }
-    else {
+    else
+    {
         self.title = self.tabBarItem.title;
     }
 }
@@ -215,11 +212,6 @@ BBAudioManagerDelegate
 - (void)modelManagerDidFinishSaveNotification {
     
     [super modelManagerDidFinishSaveNotification];
-    
-    if (self.uploadModelOnSaveFinish) {
-        
-        [self uploadModel];
-    }
 }
 
 - (id)modelReloadOperation {
@@ -233,89 +225,11 @@ BBAudioManagerDelegate
     return operation;
 }
 
-- (id)modelUploadOperation {
-    
-    BBMixesViewControllerModelLoadOperation *operation = [self modelLoadOperation];
-    
-    operation.tableModel = [_tableModel mutableCopy];
-    operation.mixesArray = [_mixesArray mutableCopy];
-    operation.mixesDictionary = [_entitiesDictionary mutableCopy];
-    operation.detailTextsDictionary = [_detailTextsDictionary mutableCopy];
-    operation.headerTextsDictionary = [_headerTextsDictionary mutableCopy];
-    operation.mixesSelectionOptions.offset = _mixesArray.count;
-    
-    return operation;
-}
-
-- (void)applyModelLoadOperation:(BBMixesViewControllerModelLoadOperation *)operation {
-        
-    _tableModel = operation.tableModel;
-    _mixesArray = operation.mixesArray;
-    _entitiesDictionary = operation.mixesDictionary;
-    _detailTextsDictionary = operation.detailTextsDictionary;
-    _headerTextsDictionary = operation.headerTextsDictionary;
-    
-    _shouldUploadModel = operation.mixesSelectionOptions.totalLimit == _mixesArray.count;
-}
-
-- (void)completeModelReload {
-    
+- (void)completeModelReload
+{
     [super completeModelReload];
     
     [self updateNavigationBar];
-}
-
-- (void)uploadModel {
-    
-    [_uploadOperation cancel];
-    _uploadOperation = nil;
-    
-    [self showTableFooterView];
-    
-    self.uploadModelOnSaveFinish = NO;
-    
-    if ([[BBModelManager defaultManager] isSaveInProgress]) {
-        
-        self.uploadModelOnSaveFinish = YES;
-        return;
-    }
-    
-    _uploadOperation = [self modelUploadOperation];
-    
-    __weak BBMixesViewController *weakSelf = self;
-    __weak BBEntitiesViewControllerModelLoadOperation *uploadOperation = _uploadOperation;
-    
-    uploadOperation.finish = ^(BBEntitiesViewControllerModelLoadOperation *operation) {
-        
-        if ([operation isCompleted]) {
-            
-            [weakSelf applyModelLoadOperation:operation];
-            [weakSelf mergePendingEntities];
-            return;
-        }
-        
-        ERR(@"Couldn't complete model upload operation!");
-    };
-    
-    [uploadOperation setCompletionBlock:^{
-        
-        if ([uploadOperation isCancelled]) {
-            return;
-        }
-        
-        [self.class mainThreadAsyncBlock:^{
-            [weakSelf completeModelUpload];
-        }];
-    }];
-    
-    [[BBOperationManager defaultManager] addOperation:_uploadOperation];
-}
-
-- (void)completeModelUpload {
-    
-    [self hideTableFooterView];
-    
-    [self.tableView reloadData];
 }
 
 - (void)pause:(BOOL)pause mix:(BBMix *)mix {
@@ -398,98 +312,20 @@ BBAudioManagerDelegate
     return sectionID;
 }
 
-- (void)mergeModelAndViewWithEntity:(BBMix *)mix {
-    
-    if (NO == [self shouldMergeMix:mix]) {
-        return;
+- (NSString *)sectionNameKeyPath
+{
+    if (self.mixesSelectionOptions.sortKey == eMixPlaybackDateSortKey)
+    {
+        return (_tableModelSectionRule == BBMixesTableModelSectionRuleEachDay)? BBMixPlaybackDaySectionIdentifierKey : BBMixPlaybackMonthSectionIdentifierKey;
     }
     
-#warning TODO: implement using table view animations...
-    
-    [self mergeModelWithEntity:mix];
-    
-    [self.tableView reloadData];
-}
-
-- (void)mergeModelWithEntity:(BBMix *)mix {
-    
-    if (NO == [self shouldMergeMix:mix]) {
-        return;
-    }
-    
-    // Updated containers.
-    
-    id key = mix.key;
-    NSUInteger mixesArrayIndex = 0;
-    
-    if ([self hasEntity:mix]) {
-     
-        [_mixesArray removeObject:mix];
-        [_tableModel removeCellKey:key];
-        
-        mixesArrayIndex =
-        [_mixesArray indexOfObjectPassingTest:^BOOL(BBMix *theMix, NSUInteger idx, BOOL *stop) {
-            
-            return [[self dateOfMix:mix] compare:[self dateOfMix:theMix]] != NSOrderedAscending;
-        }];
-    }
-    else {
-        
-        [_entitiesDictionary setObject:mix forKey:key];
-        
-        if (_detailTextsDictionary) {
-            _detailTextsDictionary[key] = [self composeDetailTextForMix:mix];
-        }
-    }
-    
-    [_mixesArray insertObject:mix atIndex:mixesArrayIndex];
-    
-    // Update table model.
-    
-    NSInteger sectionID = [self sectionIDForMix:mix];
-    NSArray *cellKeysArray = [_tableModel cellKeysInSectionID:sectionID];
-    
-    if (cellKeysArray) {
-        
-        BBMix *nextMix = [_mixesArray objectAtIndex:mixesArrayIndex + 1];
-        NSUInteger cellKeysArrayIndex = [cellKeysArray indexOfObject:nextMix.key];
-        
-        [_tableModel insertCellKey:key toSectionID:sectionID atIndex:cellKeysArrayIndex];
-    }
-    else {
-        
-        for (NSUInteger section = 0; section < [_tableModel numberOfSections]; ++section) {
-            
-            NSInteger IDOfSection = [_tableModel IDOfSection:section];
-            if (sectionID > IDOfSection) {
-                
-                [_tableModel insertSectionID:sectionID atIndex:section];
-                break;
-            }
-        }
-        
-        [_tableModel addCellKey:key toSectionID:sectionID];
-        
-        if (_headerTextsDictionary) {
-            _headerTextsDictionary[@(sectionID)] = [self composeHeaderTextForMix:mix];
-        }
-    }
-}
-
-- (BOOL)shouldMergeMix:(BBMix *)mix {
-    
-    BBTag *tag = _mixesSelectionOptions.tag;
-    
-#warning TODO: replace containsObject with custom contains test if needed...
-    
-    return tag == [BBModelManager allTag]
-        || [mix.tags containsObject:tag];
+    return (_tableModelSectionRule == BBMixesTableModelSectionRuleEachDay) ? BBMixDaySectionIdentifierKey : BBMixMonthSectionIdentifierKey;
 }
 
 #pragma mark - Actions
 
-- (void)tagsBarButtonItemPressed {
-    
+- (void)tagsBarButtonItemPressed
+{
     [[BBAppDelegate rootViewController] toggleTagsVisibility];
 }
 
@@ -578,9 +414,10 @@ BBAudioManagerDelegate
     }
     
     BBMixesTableSectionHeaderView *headerView = [self sectionHeaderView];
-    
-    id key = @([_tableModel IDOfSection:section]);
-    headerView.label.text = _headerTextsDictionary[key];
+
+#warning TODO
+//    id key = @([_tableModel IDOfSection:section]);
+//    headerView.label.text = _headerTextsDictionary[key];
     
     return headerView;
 }
@@ -601,19 +438,16 @@ BBAudioManagerDelegate
                      withVelocity:(CGPoint)velocity
               targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    if (_shouldUploadModel == NO) {
+#warning there was upload
+    if (self.tableView.tableFooterView)
+    {
         return;
     }
     
-    if (self.tableView.tableFooterView) {
+    if ((*targetContentOffset).y < self.tableView.contentSize.height - CGRectGetHeight(self.tableView.bounds))
+    {
         return;
     }
-    
-    if ((*targetContentOffset).y < self.tableView.contentSize.height - CGRectGetHeight(self.tableView.bounds)) {
-        return;
-    }
-    
-    [self uploadModel];
 }
 
 @end
@@ -621,6 +455,11 @@ BBAudioManagerDelegate
 #pragma mark -
 
 @implementation BBMixesViewController (Protected)
+
+- (NSFetchRequest *)fetchRequest
+{
+    return [[BBModelManager defaultManager] fetchRequestForMixesWithSelectionOptions:_mixesSelectionOptions];
+}
 
 - (BBMixesViewControllerModelLoadOperation *)modelLoadOperation {
     
@@ -643,17 +482,6 @@ BBAudioManagerDelegate
 - (NSString *)composeHeaderTextForMix:(BBMix *)mix {
     
     return [self.headerDateFormatter stringFromDate:[self dateOfMix:mix]];
-}
-
-- (NSInteger)sectionIDForMix:(BBMix *)mix {
-    
-    NSUInteger components = NSYearCalendarUnit | NSMonthCalendarUnit;
-    
-    if (_tableModelSectionRule == BBMixesTableModelSectionRuleEachDay) {
-        components |= NSDayCalendarUnit;
-    }
-    
-    return [self sectionIDFromDate:[self dateOfMix:mix] components:components];
 }
 
 - (NSDate *)dateOfMix:(BBMix *)mix {

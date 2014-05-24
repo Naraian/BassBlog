@@ -56,6 +56,16 @@ const NSInteger kBBAllTagTableModelRow = 0;
 
 #pragma mark - View
 
+- (NSFetchRequest *)fetchRequest
+{
+    return [[BBModelManager defaultManager] fetchRequestForTagsWithSelectionOptions:_tagsSelectionOptions];
+}
+
+- (NSString *)sectionNameKeyPath
+{
+    return nil;
+}
+
 - (NSString *)cellNibNameAtIndexPath:(NSIndexPath *)indexPath
 {
     return [BBTagsTableViewCell nibName];
@@ -121,25 +131,6 @@ const NSInteger kBBAllTagTableModelRow = 0;
     return operation;
 }
 
-- (void)applyModelLoadOperation:(BBTagsViewControllerModelLoadOperation *)operation {
-    
-    _tableModel = operation.tableModel;
-    _entitiesDictionary = operation.tagsDictionary;
-    _mixesCountNumbersDictionary = operation.mixesCountNumbersDictionary;
-    
-    NSIndexPath *oldAllTagIndexPath = [self indexPathOfEntity:[BBModelManager allTag]];
-    
-    if (oldAllTagIndexPath.row == kBBAllTagTableModelRow) {
-        return;
-    }
-    
-    NSIndexPath *newAllTagIndexPath =
-    [NSIndexPath indexPathForRow:kBBAllTagTableModelRow
-                       inSection:eBBDefaultTableModelSectionID];
-
-    [_tableModel moveCellAtIndexPath:oldAllTagIndexPath toIndexPath:newAllTagIndexPath];
-}
-
 - (void)completeModelReload {
     
     [super completeModelReload];
@@ -147,18 +138,6 @@ const NSInteger kBBAllTagTableModelRow = 0;
     [self.tableView selectRowAtIndexPath:[self indexPathOfEntity:_tag]
                                 animated:NO
                           scrollPosition:UITableViewScrollPositionNone];
-}
-
-- (void)mergeModelAndViewWithEntity:(BBTag *)tag {
-    
-    [self mergeModelWithEntity:tag];
-    
-    [self updateCellForEntity:tag];
-}
-
-- (void)mergeModelWithEntity:(BBTag *)tag {
-    
-#warning TODO: implement ...
 }
 
 - (BOOL)needApplyDelegateSelectionOptions {

@@ -43,11 +43,6 @@
     return self;
 }
 
-- (void)commonInit
-{
-    
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -140,6 +135,11 @@
 
 @implementation BBViewController (Protected)
 
+- (void)commonInit
+{
+    
+}
+
 - (void)updateTheme {
     
     BBThemeManager *themeManager = [BBThemeManager defaultManager];
@@ -148,7 +148,7 @@
     switch (themeManager.theme) {
             
         default:
-            color = [UIColor blackColor];
+            color = [UIColor lightGrayColor];
             break;
     }
     
@@ -156,65 +156,58 @@
     
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.translucent = YES;
+    
+    if (RUNNING_ON_IOS7)
+    {
+        self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    }
+    else
+    {
+        self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    }
 
-#warning REMOVE
-//    UIImage *image = [themeManager imageNamed:@"navigation_bar/background"];
-//    [navigationBar setBackgroundImage:image
-//                        forBarMetrics:UIBarMetricsDefault];
+    NSDictionary *attributes = @{NSForegroundColorAttributeName:[UIColor whiteColor],
+                                 NSFontAttributeName:[BBFont boldFontOfSize:18]};
     
-    NSDictionary *attributes = @{UITextAttributeTextColor:[UIColor whiteColor],
-                                 UITextAttributeFont:[BBFont boldFontOfSize:18]};
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
-    
-    [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:4.f forBarMetrics:UIBarMetricsDefault];
 }
 
 - (UIBarButtonItem *)barButtonItemWithImageName:(NSString *)imageName
                                        selector:(SEL)selector
 {
     BBThemeManager *tm = [BBThemeManager defaultManager];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    [button addTarget:self
-               action:selector
-     forControlEvents:UIControlEventTouchUpInside];
-    
     imageName = [@"navigation_bar/item" stringByAppendingPathComponent:imageName];
-    [button setImage:[tm imageNamed:imageName] forState:UIControlStateNormal];
     
-    imageName = [imageName stringByAppendingString:@"_highlighted"];
-    
-    UIImage *highlightedImage = [tm imageNamed:imageName];
-    
-    if (highlightedImage)
-    {
-        [button setImage:highlightedImage forState:UIControlStateHighlighted];
-    }
-    
-    [button setFrame:CGRectMake(0, 0, 40, 40)];
-    
-    return [[UIBarButtonItem alloc] initWithCustomView:button];
+    UIImage *image = [tm imageNamed:imageName];
+
+    return [[UIBarButtonItem alloc] initWithImage:image
+                                            style:UIBarButtonItemStylePlain
+                                           target:self
+                                           action:selector];
 }
 
 - (void)setTabBarItemTitle:(NSString *)title
                 imageNamed:(NSString *)imageName
                        tag:(NSInteger)tag
 {
+    BBThemeManager *themeManager = [BBThemeManager defaultManager];
+    
     imageName = [@"tab_bar/item" stringByAppendingPathComponent:imageName];
-    UIImage *image = [[BBThemeManager defaultManager] imageNamed:imageName];
+    UIImage *image = [themeManager imageNamed:imageName];
+    
+    imageName = [imageName stringByAppendingString:@"_selected"];
+    UIImage *selectedImage = [themeManager imageNamed:imageName];
     
     self.tabBarItem = [[UITabBarItem alloc] initWithTitle:title
                                                     image:image
-                                                      tag:tag];
+                                            selectedImage:selectedImage];
+    self.tabBarItem.tag = tag;
     
-    NSDictionary *attributes = @{UITextAttributeFont:[BBFont boldFontOfSize:9.f]};
-    
+    NSDictionary *attributes = @{NSFontAttributeName : [BBFont boldFontOfSize:9.f]};
+
     [self.tabBarItem setTitleTextAttributes:attributes
                                    forState:UIControlStateNormal];
-
-#warning TODO remove
-//    [self.tabBarItem setFinishedSelectedImage:image
-//                  withFinishedUnselectedImage:image];
 }
 
 - (void)startObserveNotifications {

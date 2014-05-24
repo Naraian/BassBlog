@@ -27,12 +27,10 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 
 @interface BBEntitiesViewController ()
 {
-    BBEntitiesViewControllerModelLoadOperation *_reloadOperation;    
+    BBEntitiesViewControllerModelLoadOperation *_reloadOperation;
 }
 
 @property (nonatomic) BBActivityView *activityView;
-
-@property (nonatomic) NSMutableArray *entitiesToMerge;
 
 @property (nonatomic) BOOL reloadModelOnSaveFinish;
 @property (nonatomic) BOOL reloadDataOnViewWillAppear;
@@ -132,23 +130,6 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 
 #pragma mark View
 
-- (void)updateCellForEntity:(BBEntity *)entity {
-    
-    [self updateCellForEntity:entity
-             withRowAnimation:eBBTableViewRowAnimation];
-}
-
-- (void)updateCellForEntity:(BBEntity *)entity
-           withRowAnimation:(UITableViewRowAnimation)rowAnimation
-{
-    if ([self hasEntity:entity])
-    {
-        NSIndexPath *indexPath = [self indexPathOfEntity:entity];
-        [self.tableView reloadRowsAtIndexPaths:@[indexPath]
-                              withRowAnimation:rowAnimation];
-    }
-}
-
 - (void)showDelayedBlockingActivityView {
     
     if (self.activityView.superview) {
@@ -196,70 +177,59 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 
 #pragma mark - Model
 
-- (void)modelManagerDidFinishSaveNotification {
-    
-    if (self.reloadModelOnSaveFinish) {
-        
+- (void)modelManagerDidFinishSaveNotification
+{
+    if (self.reloadModelOnSaveFinish)
+    {
         [self reloadModel];
     }
 }
 
-- (id)entityAtIndexPath:(NSIndexPath *)indexPath {
+- (id)entityAtIndexPath:(NSIndexPath *)indexPath
+{
+    id object = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    id key = [_tableModel cellKeyAtIndexPath:indexPath];
-    
-    return [_entitiesDictionary objectForKey:key];
+    return object;
 }
 
-- (id)entityForCell:(UITableViewCell *)cell {
-    
+- (id)entityForCell:(UITableViewCell *)cell
+{
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
     return [self entityAtIndexPath:indexPath];
 }
 
-- (NSIndexPath *)indexPathOfEntity:(BBEntity *)entity {
-    
-    return [_tableModel indexPathOfCellKey:entity.key];
+- (NSIndexPath *)indexPathOfEntity:(BBEntity *)entity
+{
+#warning TODO
+    return nil;//[_tableModel indexPathOfCellKey:entity.key];
 }
 
-- (void)mergePendingEntities {
-    
-    for (BBEntity *entity in self.entitiesToMerge) {
-        
-        [self mergeModelWithEntity:entity];
-    }
-    
-    [self.entitiesToMerge removeAllObjects];
+- (void)mergePendingEntities
+{
 }
 
-- (void)mergeWithEntity:(BBEntity *)entity {
-    
-    if (self.reloadModelOnSaveFinish) {
-        
-        if (self.entitiesToMerge == nil) {
-            self.entitiesToMerge = [NSMutableArray array];
-        }
-        
-        [self.entitiesToMerge addObject:entity];
+- (void)mergeWithEntity:(BBEntity *)entity
+{
+    if (self.reloadModelOnSaveFinish)
+    {
         return;
     }
     
-    if (self.viewDidAppear) {
-        
-        [self mergeModelAndViewWithEntity:entity];
+    if (self.viewDidAppear)
+    {
     }
-    else {
-        
-        [self mergeModelWithEntity:entity];
-        
+    else
+    {
         self.reloadDataOnViewWillAppear = YES;
     }
 }
 
-- (BOOL)hasEntity:(BBEntity *)entity {
-    
-    return [_entitiesDictionary objectForKey:entity.key] != nil;
+- (BOOL)hasEntity:(BBEntity *)entity
+{
+#warning TODO
+    return YES;
+//    return [_entitiesDictionary objectForKey:entity.key] != nil;
 }
 
 - (void)reloadModel {
@@ -277,17 +247,22 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
         return;
     }
     
-    _reloadOperation = [self modelReloadOperation];
+    _reloadOperation = [BBEntitiesViewControllerModelLoadOperation new];
     
     __weak BBEntitiesViewController *weakSelf = self;
     __weak BBEntitiesViewControllerModelLoadOperation *reloadOperation = _reloadOperation;
     
-    reloadOperation.finish = ^(BBEntitiesViewControllerModelLoadOperation *operation) {
-        
-        if ([operation isCompleted]) {
+    reloadOperation.finish = ^(BBEntitiesViewControllerModelLoadOperation *operation)
+    {    
+        if ([operation isCompleted])
+        {
+            NSError *error = nil;
             
-            [weakSelf applyModelLoadOperation:operation];
-            [weakSelf mergePendingEntities];
+            if (![self.fetchedResultsController performFetch:&error])
+            {
+                
+            }
+            
             return;
         }
         

@@ -36,7 +36,7 @@ SINGLETON_IMPLEMENTATION(BBThemeManager, defaultManager)
         _themeNames = @[@"Black", @"Winter"];
         _bundleNames = @[@"BlackTheme.bundle",@"WinterTheme.bundle"];
         
-        self.theme = BBThemeWinter;
+        self.theme = BBThemeBlack;
     }
     
     return self;

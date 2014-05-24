@@ -113,7 +113,7 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     
     self.nowPlayingInfoCenter.mix = self.mix;
     
-    self.player = [AVPlayer playerWithURL:URL];
+//    self.player = [AVPlayer playerWithURL:URL];
 }
 
 - (void)setPlayer:(AVPlayer *)player {

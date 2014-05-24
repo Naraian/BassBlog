@@ -13,6 +13,12 @@ extern NSString *const BBMixDidChangeLocalUrlNotification;
 extern NSString *const BBMixDidChangePlaybackDateNotification;
 extern NSString *const BBMixDidChangeFavoriteNotification;
 
+extern NSString *const BBMixDaySectionIdentifierKey;
+extern NSString *const BBMixMonthSectionIdentifierKey;
+
+extern NSString *const BBMixPlaybackDaySectionIdentifierKey;
+extern NSString *const BBMixPlaybackMonthSectionIdentifierKey;
+
 @interface BBMix : BBEntity
 
 @property (nonatomic, strong) NSString *ID;
@@ -25,5 +31,11 @@ extern NSString *const BBMixDidChangeFavoriteNotification;
 @property (nonatomic, strong) NSSet *tags;
 @property (nonatomic) int16_t bitrate;
 @property (nonatomic) BOOL favorite;
+
+@property (nonatomic, readonly) int32_t daySectionIdentifier;
+@property (nonatomic, readonly) int32_t monthSectionIdentifier;
+
+@property (nonatomic, readonly) int32_t playbackDaySectionIdentifier;
+@property (nonatomic, readonly) int32_t playbackMonthSectionIdentifier;
 
 @end

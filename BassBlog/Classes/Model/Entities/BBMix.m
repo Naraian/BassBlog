@@ -23,7 +23,15 @@ DEFINE_CONST_NSSTRING(BBMixDidChangeFavoriteNotification);
 
 static NSString *const BBMixLocalUrlKey = @"localUrl";
 static NSString *const BBMixFavoriteKey = @"favorite";
+static NSString *const BBMixDateKey = @"date";
 static NSString *const BBMixPlaybackDateKey = @"playbackDate";
+
+NSString *const BBMixDaySectionIdentifierKey = @"daySectionIdentifier";
+NSString *const BBMixMonthSectionIdentifierKey = @"monthSectionIdentifier";
+
+NSString *const BBMixPlaybackDaySectionIdentifierKey = @"playbackDaySectionIdentifier";
+NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionIdentifier";
+
 
 #pragma mark -
 
@@ -32,11 +40,16 @@ static NSString *const BBMixPlaybackDateKey = @"playbackDate";
     BOOL _favorite;
 }
 
-- (void)setPrimitiveLocalUrl:(NSString *)localUrl;
-- (NSString *)primitiveLocalUrl;
+@property (nonatomic, strong) NSString *primitiveLocalUrl;
 
-- (void)setPrimitivePlaybackDate:(NSDate *)playbackDate;
-- (NSDate *)primitivePlaybackDate;
+@property (nonatomic, strong) NSDate *primitiveDate;
+@property (nonatomic, strong) NSDate *primitivePlaybackDate;
+
+@property (nonatomic, strong) NSNumber *primitiveDaySectionIdentifier;
+@property (nonatomic, strong) NSNumber *primitiveMonthSectionIdentifier;
+
+@property (nonatomic, strong) NSNumber *primitivePlaybackDaySectionIdentifier;
+@property (nonatomic, strong) NSNumber *primitivePlaybackMonthSectionIdentifier;
 
 @end
 
@@ -47,13 +60,21 @@ static NSString *const BBMixPlaybackDateKey = @"playbackDate";
 @dynamic ID;
 @dynamic url;
 @dynamic name;
-@dynamic date;
+@dynamic date, primitiveDate;
 @dynamic tags;
 @dynamic bitrate;
 @dynamic localUrl;
 @dynamic favorite;
 @dynamic tracklist;
-@dynamic playbackDate;
+@dynamic playbackDate, primitivePlaybackDate;
+
+@dynamic primitiveLocalUrl;
+
+@dynamic daySectionIdentifier, primitiveDaySectionIdentifier;
+@dynamic monthSectionIdentifier, primitiveMonthSectionIdentifier;
+
+@dynamic playbackDaySectionIdentifier, primitivePlaybackDaySectionIdentifier;
+@dynamic playbackMonthSectionIdentifier, primitivePlaybackMonthSectionIdentifier;
 
 #pragma mark -
 
@@ -84,6 +105,18 @@ static NSString *const BBMixPlaybackDateKey = @"playbackDate";
     [self postNotificationWithName:BBMixDidChangeFavoriteNotification];
 }
 
+- (void)setDate:(NSDate *)date
+{
+    [self willChangeValueForKey:BBMixDateKey];
+    
+    [self setPrimitiveDate:date];
+    
+    [self didChangeValueForKey:BBMixDateKey];
+    
+    [self setPrimitiveDaySectionIdentifier:nil];
+    [self setPrimitiveMonthSectionIdentifier:nil];
+}
+
 - (void)setPlaybackDate:(NSDate *)playbackDate {
     
     [self willChangeValueForKey:BBMixPlaybackDateKey];
@@ -92,7 +125,102 @@ static NSString *const BBMixPlaybackDateKey = @"playbackDate";
     
     [self didChangeValueForKey:BBMixPlaybackDateKey];
     
+    [self setPrimitivePlaybackDaySectionIdentifier:nil];
+    [self setPrimitivePlaybackMonthSectionIdentifier:nil];
+    
     [self postNotificationWithName:BBMixDidChangePlaybackDateNotification];
+}
+
+- (NSNumber *)sectionIDFromDate:(NSDate *)date components:(int32_t)components
+{
+    int32_t sectionID = 0;
+    
+    NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:components fromDate:date];
+    
+    if (components & NSDayCalendarUnit)
+    {
+        sectionID |= dateComponents.day;
+    }
+    
+    if (components & NSMonthCalendarUnit)
+    {
+        sectionID |= dateComponents.month << 5; // 31 (11111)
+    }
+    
+    if (components & NSYearCalendarUnit)
+    {
+        sectionID |= dateComponents.year << 9; // 12 (1100)
+    }
+    
+    return @(sectionID);
+}
+
+- (int32_t)daySectionIdentifier
+{
+    // Create and cache the section identifier on demand.
+    [self willAccessValueForKey:BBMixDaySectionIdentifierKey];
+    NSNumber *tmp = [self primitiveDaySectionIdentifier];
+    [self didAccessValueForKey:BBMixDaySectionIdentifierKey];
+    
+    if (!tmp)
+    {
+        tmp = [self sectionIDFromDate:self.date components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit];
+        
+        [self setPrimitiveDaySectionIdentifier:tmp];
+    }
+    
+    return [tmp integerValue];
+}
+
+- (int32_t)monthSectionIdentifier
+{
+    // Create and cache the section identifier on demand.
+    [self willAccessValueForKey:BBMixMonthSectionIdentifierKey];
+    NSNumber *tmp = [self primitiveMonthSectionIdentifier];
+    [self didAccessValueForKey:BBMixMonthSectionIdentifierKey];
+    
+    if (!tmp)
+    {
+        tmp = [self sectionIDFromDate:self.date components:NSYearCalendarUnit | NSMonthCalendarUnit];
+        
+        [self setPrimitiveMonthSectionIdentifier:tmp];
+    }
+    
+    return [tmp integerValue];
+}
+
+- (int32_t)playbackDaySectionIdentifier
+{
+    // Create and cache the section identifier on demand.
+    [self willAccessValueForKey:BBMixPlaybackDaySectionIdentifierKey];
+    NSNumber *tmp = [self primitivePlaybackDaySectionIdentifier];
+    [self didAccessValueForKey:BBMixPlaybackDaySectionIdentifierKey];
+    
+    if (!tmp)
+    {
+        tmp = [self sectionIDFromDate:self.playbackDate components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit];
+        
+        [self setPrimitivePlaybackDaySectionIdentifier:tmp];
+    }
+    
+    return [tmp integerValue];
+}
+
+- (int32_t)playbackMonthSectionIdentifier
+{
+    // Create and cache the section identifier on demand.
+    [self willAccessValueForKey:BBMixPlaybackMonthSectionIdentifierKey];
+    NSNumber *tmp = [self primitivePlaybackMonthSectionIdentifier];
+    [self didAccessValueForKey:BBMixPlaybackMonthSectionIdentifierKey];
+    
+    if (!tmp)
+    {
+        tmp = [self sectionIDFromDate:self.playbackDate components:NSYearCalendarUnit | NSMonthCalendarUnit];
+        
+        [self setPrimitivePlaybackMonthSectionIdentifier:tmp];
+    }
+    
+    return [tmp integerValue];
 }
 
 @end
@@ -192,6 +320,14 @@ static NSString *const BBMixPlaybackDateKey = @"playbackDate";
 + (NSString *)favoritePredicateFormat
 {
     return @"favorite == YES";
+}
+
+#pragma mark - Key path dependencies
+
++ (NSSet *)keyPathsForValuesAffectingSectionIdentifier
+{
+    // If the value of timeStamp changes, the section identifier may change as well.
+    return [NSSet setWithObjects:@"date", @"playbackDate", nil];
 }
 
 @end

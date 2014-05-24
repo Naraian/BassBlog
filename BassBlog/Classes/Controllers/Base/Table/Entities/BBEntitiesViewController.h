@@ -17,7 +17,7 @@
 
 @interface BBEntitiesViewController : BBTableViewController
 {
-    NSMutableDictionary *_entitiesDictionary;    
+
 }
 
 @end
@@ -28,15 +28,7 @@
 
 - (void)configureCell:(UITableViewCell *)cell withEntity:(id)entity;
 
-- (void)applyModelLoadOperation:(id)operation;
-
-- (void)mergeModelAndViewWithEntity:(id)entity;
-
-- (void)mergeModelWithEntity:(id)entity;
-
 - (id)modelReloadOperation;
-
-- (id)modelUploadOperation;
 
 @end
 

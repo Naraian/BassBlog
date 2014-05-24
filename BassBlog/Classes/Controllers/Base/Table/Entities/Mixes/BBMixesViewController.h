@@ -47,8 +47,6 @@ typedef NS_ENUM(NSInteger, BBMixesTableModelSectionRule) {
 
 - (NSString *)composeHeaderTextForMix:(BBMix *)mix;
 
-- (NSInteger)sectionIDForMix:(BBMix *)mix;
-
 - (NSDate *)dateOfMix:(BBMix *)mix;
 
 
