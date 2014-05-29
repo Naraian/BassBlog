@@ -61,8 +61,7 @@
 
 #pragma mark - UITableViewDataSource
 
-- (NSInteger)tableView:(UITableView *)tableView
- numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     id<NSFetchedResultsSectionInfo> sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
     return [sectionInfo numberOfObjects];
@@ -73,14 +72,22 @@
     return [[_fetchedResultsController sections] count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *cellNibName = [self cellNibNameAtIndexPath:indexPath];
     NSString *suffix = [BBThemeManager defaultManager].themeName;
     NSString *cellNibThemeName = [cellNibName stringByAppendingString:suffix];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellNibThemeName];
+    
+    if (cell == nil)
+    {
+#warning TODO remove this fallback, all cells must be created from storyboard prototypes 
+        UINib *nib = [UINib nibWithNibName:cellNibName bundle:nil];
+        [tableView registerNib:nib forCellReuseIdentifier:cellNibThemeName];
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:cellNibThemeName];
+    }
     
     return cell;
 }

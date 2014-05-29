@@ -114,8 +114,7 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [super tableView:tableView
-                       cellForRowAtIndexPath:indexPath];
+    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
     [self configureCell:cell withEntity:[self entityAtIndexPath:indexPath]];
     
@@ -232,8 +231,8 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 //    return [_entitiesDictionary objectForKey:entity.key] != nil;
 }
 
-- (void)reloadModel {
-    
+- (void)reloadModel
+{
     [_reloadOperation cancel];
     _reloadOperation = nil;
     
@@ -241,11 +240,13 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
     
     self.reloadModelOnSaveFinish = NO;
     
-    if ([[BBModelManager defaultManager] isSaveInProgress]) {
-        
+    if ([[BBModelManager defaultManager] isSaveInProgress])
+    {
         self.reloadModelOnSaveFinish = YES;
         return;
     }
+    
+    self.fetchedResultsController = nil;
     
     _reloadOperation = [BBEntitiesViewControllerModelLoadOperation new];
     
@@ -269,13 +270,15 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
         ERR(@"Couldn't complete model reload operation!");
     };
     
-    [reloadOperation setCompletionBlock:^{
-        
-        if ([reloadOperation isCancelled]) {
+    [reloadOperation setCompletionBlock:^
+    {
+        if ([reloadOperation isCancelled])
+        {
             return;
         }
         
-        [self.class mainThreadAsyncBlock:^{
+        [self.class mainThreadAsyncBlock:^
+        {
             [weakSelf completeModelReload];
         }];
     }];
@@ -283,16 +286,16 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
     [[BBOperationManager defaultManager] addOperation:_reloadOperation];
 }
 
-- (void)completeModelReload {
-    
+- (void)completeModelReload
+{
     [self.tableView reloadData];
     
-    if ([self.tableView numberOfSections]) {
-        
+    if ([self.tableView numberOfSections])
+    {
         [self hideStubView];
     }
-    else {
-        
+    else
+    {
         [self showStubView];
     }
     

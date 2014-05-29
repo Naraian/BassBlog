@@ -214,8 +214,8 @@ BBAudioManagerDelegate
     [super modelManagerDidFinishSaveNotification];
 }
 
-- (id)modelReloadOperation {
-    
+- (id)modelReloadOperation
+{    
     BBMixesViewControllerModelLoadOperation *operation = [self modelLoadOperation];
     
     operation.tableModel = [BBTableModel new];
@@ -232,16 +232,16 @@ BBAudioManagerDelegate
     [self updateNavigationBar];
 }
 
-- (void)pause:(BOOL)pause mix:(BBMix *)mix {
-    
+- (void)pause:(BOOL)pause mix:(BBMix *)mix
+{
     BBAudioManager *audioManager = [BBAudioManager defaultManager];
     
     [audioManager setMix:mix paused:pause];
     audioManager.delegate = self;
 }
 
-- (BBMix *)mixWithCurrentIndexOffset:(NSInteger)indexOffset {
-    
+- (BBMix *)mixWithCurrentIndexOffset:(NSInteger)indexOffset
+{
     BBMix *currentMix = [BBAudioManager defaultManager].mix;
     
     NSInteger currentMixIndex = [_mixesArray indexOfObject:currentMix];
@@ -316,10 +316,18 @@ BBAudioManagerDelegate
 {
     if (self.mixesSelectionOptions.sortKey == eMixPlaybackDateSortKey)
     {
-        return (_tableModelSectionRule == BBMixesTableModelSectionRuleEachDay)? BBMixPlaybackDaySectionIdentifierKey : BBMixPlaybackMonthSectionIdentifierKey;
+        return (_tableModelSectionRule == BBMixesTableModelSectionRuleEachDay) ? BBMixPlaybackDaySectionIdentifierKey : BBMixPlaybackMonthSectionIdentifierKey;
     }
     
     return (_tableModelSectionRule == BBMixesTableModelSectionRuleEachDay) ? BBMixDaySectionIdentifierKey : BBMixMonthSectionIdentifierKey;
+}
+
+- (NSInteger)sectionIDForMix:(BBMix *)mix
+{
+    NSString *keyPath = [self sectionNameKeyPath];
+    NSNumber *sectionID = [mix valueForKey:keyPath];
+    
+    return [sectionID integerValue];
 }
 
 #pragma mark - Actions
@@ -352,18 +360,17 @@ BBAudioManagerDelegate
     [self updateNowPlayingCellAndSelectRow:YES];
 }
 
-- (void)audioManagerDidStopNotification:(NSNotification *)notification {
+- (void)audioManagerDidStopNotification:(NSNotification *)notification{
     
-    BBAudioManagerStopReason reason =
-    [notification.userInfo[BBAudioManagerStopReasonKey] integerValue];
+    BBAudioManagerStopReason reason = [notification.userInfo[BBAudioManagerStopReasonKey] integerValue];
     
     [self updateNowPlayingCellAndSelectRow:reason != BBAudioManagerWillChangeMix];
 }
 
 #pragma mark - BBMixesTableViewCellDelegate
 
-- (void)mixesTableViewCell:(BBMixesTableViewCell *)cell paused:(BOOL)paused {
-    
+- (void)mixesTableViewCell:(BBMixesTableViewCell *)cell paused:(BOOL)paused
+{
     BBMix *mix = [self entityForCell:cell];
     
     [self pause:paused mix:mix];
@@ -371,8 +378,8 @@ BBAudioManagerDelegate
 
 #pragma mark - BBTagsViewControllerDelegate
 
-- (void)tagsViewControllerDidChangeTag:(BBTag *)tag {
-    
+- (void)tagsViewControllerDidChangeTag:(BBTag *)tag
+{
     _mixesSelectionOptions.tag = tag;
     
     [self reloadModel];
@@ -385,13 +392,13 @@ BBAudioManagerDelegate
 
 #pragma mark - BBAudioManagerDelegate
 
-- (BBMix *)nextMix {
-    
+- (BBMix *)nextMix
+{
     return [self mixWithCurrentIndexOffset:1];
 }
 
-- (BBMix *)prevMix {
-    
+- (BBMix *)prevMix
+{
     return [self mixWithCurrentIndexOffset:-1];
 }
 
@@ -406,26 +413,29 @@ BBAudioManagerDelegate
     [[BBAppDelegate rootViewController] toggleNowPlayingVisibilityFromNavigationController:self.navigationController];
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
-    if (_headerTextsDictionary == nil) {
-        
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{    
+    if (_headerTextsDictionary == nil)
+    {
         return nil;
     }
     
     BBMixesTableSectionHeaderView *headerView = [self sectionHeaderView];
 
-#warning TODO
-//    id key = @([_tableModel IDOfSection:section]);
-//    headerView.label.text = _headerTextsDictionary[key];
+    id<NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
+    
+    NSString *sectionIDString = [sectionInfo name];
+    NSNumber *sectionID = @([sectionIDString integerValue]);
+    
+    headerView.label.text = _headerTextsDictionary[sectionID];
     
     return headerView;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    
-    if (_headerTextsDictionary == nil) {
-        
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (_headerTextsDictionary == nil)
+    {
         return 0.f;
     }
     

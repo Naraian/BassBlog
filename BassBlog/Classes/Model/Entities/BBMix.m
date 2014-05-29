@@ -196,7 +196,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
     NSNumber *tmp = [self primitivePlaybackDaySectionIdentifier];
     [self didAccessValueForKey:BBMixPlaybackDaySectionIdentifierKey];
     
-    if (!tmp)
+    if (!tmp || ([tmp integerValue] == 0))
     {
         tmp = [self sectionIDFromDate:self.playbackDate components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit];
         

@@ -102,10 +102,9 @@ const NSInteger kBBAllTagTableModelRow = 0;
 
 #pragma mark - Model
 
-- (id)modelReloadOperation {
-    
-    BBTagsViewControllerModelLoadOperation *operation =
-    [BBTagsViewControllerModelLoadOperation new];
+- (id)modelReloadOperation
+{
+    BBTagsViewControllerModelLoadOperation *operation = [BBTagsViewControllerModelLoadOperation new];
     
     operation.tableModel = [BBTableModel new];
     operation.tagsDictionary = [NSMutableDictionary new];
@@ -115,8 +114,8 @@ const NSInteger kBBAllTagTableModelRow = 0;
     BBMixesSelectionOptions *mixesSelectionOptions = [BBMixesSelectionOptions new];
     mixesSelectionOptions.category = _tagsSelectionOptions.category;
     
-    operation.handleEntity = ^(BBTagsViewControllerModelLoadOperation *anOperation, BBTag *tag) {
-        
+    operation.handleEntity = ^(BBTagsViewControllerModelLoadOperation *anOperation, BBTag *tag)
+    {
         NSString *key = tag.key;
         
         mixesSelectionOptions.tag = tag;
@@ -131,8 +130,8 @@ const NSInteger kBBAllTagTableModelRow = 0;
     return operation;
 }
 
-- (void)completeModelReload {
-    
+- (void)completeModelReload
+{
     [super completeModelReload];
     
     [self.tableView selectRowAtIndexPath:[self indexPathOfEntity:_tag]
@@ -140,17 +139,18 @@ const NSInteger kBBAllTagTableModelRow = 0;
                           scrollPosition:UITableViewScrollPositionNone];
 }
 
-- (BOOL)needApplyDelegateSelectionOptions {
-    
+- (BOOL)needApplyDelegateSelectionOptions
+{
     BBMixesSelectionOptions *options = [self.delegate mixesSelectionOptions];
     
-    return _tagsSelectionOptions.category != options.category
-        || _tag != options.tag;
+    return  (_tagsSelectionOptions.category != options.category) ||
+            (_tag != options.tag);
 }
 
-- (void)setDelegate:(id<BBTagsViewControllerDelegate>)delegate {
-    
-    if (_delegate == delegate) {
+- (void)setDelegate:(id<BBTagsViewControllerDelegate>)delegate
+{
+    if (_delegate == delegate)
+    {
         return;
     }
     
@@ -164,16 +164,16 @@ const NSInteger kBBAllTagTableModelRow = 0;
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     
-    if ([self needApplyDelegateSelectionOptions]) {
-        
+    if ([self needApplyDelegateSelectionOptions])
+    {
         [self performSelector:@selector(applyDelegateSelectionOptionsAndUpdateModel)
                    withObject:nil
                    afterDelay:0.5];
     }
 }
 
-- (void)applyDelegateSelectionOptionsAndUpdateModel {
-    
+- (void)applyDelegateSelectionOptionsAndUpdateModel
+{
     BBMixesSelectionOptions *options = [self.delegate mixesSelectionOptions];
     
     _tagsSelectionOptions.category = options.category;
@@ -184,12 +184,12 @@ const NSInteger kBBAllTagTableModelRow = 0;
 
 #pragma mark - UITableViewDelegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     BBTag *tag = (BBTag *)[self entityAtIndexPath:indexPath];
     
-    if (_tag != tag) {
-        
+    if (_tag != tag)
+    {
         _tag = tag;
     
         [self.delegate tagsViewControllerDidChangeTag:_tag];

@@ -39,6 +39,8 @@ typedef NS_ENUM(NSInteger, BBMixesTableModelSectionRule) {
 
 @interface BBMixesViewController (Protected)
 
+- (NSInteger)sectionIDForMix:(BBMix *)mix;
+
 - (BBMixesViewControllerModelLoadOperation *)modelLoadOperation;
 
 - (NSString *)detailTextForMix:(BBMix *)mix;

@@ -38,13 +38,13 @@
 
 #pragma mark - View
 
-- (NSString *)cellNibNameAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (NSString *)cellNibNameAtIndexPath:(NSIndexPath *)indexPath
+{
     return [BBHistoryTableViewCell nibName];
 }
 
-- (void)configureCell:(BBMixesTableViewCell *)cell withEntity:(BBMix *)mix {
-    
+- (void)configureCell:(BBMixesTableViewCell *)cell withEntity:(BBMix *)mix
+{
     BBAudioManager *audioManager = [BBAudioManager defaultManager];
 
     cell.label.text = [NSString stringWithFormat:@"%@ [%@]", mix.name, [self detailTextForMix:mix]];
@@ -56,8 +56,8 @@
 
 #pragma mark - Model
 
-- (id)modelReloadOperation {
-    
+- (id)modelReloadOperation
+{
     BBMixesViewControllerModelLoadOperation *operation = [super modelReloadOperation];
     
     operation.detailTextsDictionary = [NSMutableDictionary new];
@@ -66,23 +66,23 @@
     return operation;
 }
 
-- (BBMixesViewControllerModelLoadOperation *)modelLoadOperation {
-    
+- (BBMixesViewControllerModelLoadOperation *)modelLoadOperation
+{
     BBMixesViewControllerModelLoadOperation *operation = [super modelLoadOperation];
     
     __weak BBHistoryViewController *weakSelf = self;
     
-    operation.handleEntity = ^(BBMixesViewControllerModelLoadOperation *anOperation, BBMix *mix) {
-
-#warning TODO
-//        NSInteger sectionID = [weakSelf sectionIDForMix:mix];
-//        
-//        [anOperation.tableModel addCellKey:mix.key toSectionID:sectionID];
-////        anOperation.detailTextsDictionary[mix.key] = [weakSelf composeDetailTextForMix:mix];
-//        
-//        if (anOperation.headerTextsDictionary[@(sectionID)] == nil) {
-//            anOperation.headerTextsDictionary[@(sectionID)] = [weakSelf composeHeaderTextForMix:mix];
-//        }
+    operation.handleEntity = ^(BBMixesViewControllerModelLoadOperation *anOperation, BBMix *mix)
+    {
+        NSInteger sectionID = [weakSelf sectionIDForMix:mix];
+        
+        [anOperation.tableModel addCellKey:mix.key toSectionID:sectionID];
+        anOperation.detailTextsDictionary[mix.key] = [weakSelf composeDetailTextForMix:mix];
+        
+        if (anOperation.headerTextsDictionary[@(sectionID)] == nil)
+        {
+            anOperation.headerTextsDictionary[@(sectionID)] = [weakSelf composeHeaderTextForMix:mix];
+        }
     };
     
     return operation;
@@ -90,8 +90,8 @@
 
 #pragma mark - Notifications
 
-- (void)startObserveNotifications {
-    
+- (void)startObserveNotifications
+{
     [super startObserveNotifications];
 }
 

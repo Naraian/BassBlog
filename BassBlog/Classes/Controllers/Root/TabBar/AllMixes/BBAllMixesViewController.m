@@ -36,15 +36,15 @@
 
 #pragma mark - View
 
-- (NSString *)cellNibNameAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (NSString *)cellNibNameAtIndexPath:(NSIndexPath *)indexPath
+{    
     return [BBAllMixesTableViewCell nibName];
 }
 
 #pragma mark - Model
 
-- (id)modelReloadOperation {
-    
+- (id)modelReloadOperation
+{
     BBMixesViewControllerModelLoadOperation *operation = [super modelReloadOperation];
     
     operation.detailTextsDictionary = [NSMutableDictionary new];
@@ -53,23 +53,23 @@
     return operation;
 }
 
-- (BBMixesViewControllerModelLoadOperation *)modelLoadOperation {
-    
+- (BBMixesViewControllerModelLoadOperation *)modelLoadOperation
+{
     BBMixesViewControllerModelLoadOperation *operation = [super modelLoadOperation];
     
     __weak BBAllMixesViewController *weakSelf = self;
     
     operation.handleEntity = ^(BBMixesViewControllerModelLoadOperation *anOperation, BBMix *mix)
     {
-#warning TODO
-//        NSInteger sectionID = [weakSelf sectionIDForMix:mix];
-//        
-//        [anOperation.tableModel addCellKey:mix.key toSectionID:sectionID];
-//        anOperation.detailTextsDictionary[mix.key] = [BBUIUtils tagsStringForMix:mix];
-//        
-//        if (anOperation.headerTextsDictionary[@(sectionID)] == nil) {
-//            anOperation.headerTextsDictionary[@(sectionID)] = [weakSelf composeHeaderTextForMix:mix];
-//        }
+        NSInteger sectionID = [weakSelf sectionIDForMix:mix];
+        
+        [anOperation.tableModel addCellKey:mix.key toSectionID:sectionID];
+        anOperation.detailTextsDictionary[mix.key] = [BBUIUtils tagsStringForMix:mix];
+        
+        if (anOperation.headerTextsDictionary[@(sectionID)] == nil)
+        {
+            anOperation.headerTextsDictionary[@(sectionID)] = [weakSelf composeHeaderTextForMix:mix];
+        }
     };
     
     return operation;
