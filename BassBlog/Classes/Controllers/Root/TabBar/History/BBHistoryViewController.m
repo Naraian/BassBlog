@@ -56,36 +56,18 @@
 
 #pragma mark - Model
 
-- (id)modelReloadOperation
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(BBMix *)mix atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
-    BBMixesViewControllerModelLoadOperation *operation = [super modelReloadOperation];
+    [super controller:controller didChangeObject:mix atIndexPath:indexPath forChangeType:type newIndexPath:newIndexPath];
     
-    operation.detailTextsDictionary = [NSMutableDictionary new];
-    operation.headerTextsDictionary = [NSMutableDictionary new];
+    NSInteger sectionID = [self sectionIDForMix:mix];
     
-    return operation;
-}
-
-- (BBMixesViewControllerModelLoadOperation *)modelLoadOperation
-{
-    BBMixesViewControllerModelLoadOperation *operation = [super modelLoadOperation];
+    self.detailTextsDictionary[mix.key] = [self composeDetailTextForMix:mix];
     
-    __weak BBHistoryViewController *weakSelf = self;
-    
-    operation.handleEntity = ^(BBMixesViewControllerModelLoadOperation *anOperation, BBMix *mix)
+    if (self.headerTextsDictionary[@(sectionID)] == nil)
     {
-        NSInteger sectionID = [weakSelf sectionIDForMix:mix];
-        
-        [anOperation.tableModel addCellKey:mix.key toSectionID:sectionID];
-        anOperation.detailTextsDictionary[mix.key] = [weakSelf composeDetailTextForMix:mix];
-        
-        if (anOperation.headerTextsDictionary[@(sectionID)] == nil)
-        {
-            anOperation.headerTextsDictionary[@(sectionID)] = [weakSelf composeHeaderTextForMix:mix];
-        }
-    };
-    
-    return operation;
+        self.headerTextsDictionary[@(sectionID)] = [self composeHeaderTextForMix:mix];
+    }
 }
 
 #pragma mark - Notifications

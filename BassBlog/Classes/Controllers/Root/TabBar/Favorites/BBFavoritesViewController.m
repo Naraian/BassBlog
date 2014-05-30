@@ -78,20 +78,6 @@
     }
 }
 
-#pragma mark - Model
-
-- (BBMixesViewControllerModelLoadOperation *)modelLoadOperation {
-    
-    BBMixesViewControllerModelLoadOperation *operation = [super modelLoadOperation];
-    
-    operation.handleEntity = ^(BBMixesViewControllerModelLoadOperation *anOperation, BBMix *mix) {
-        
-        [anOperation.tableModel addCellKey:mix.key toSectionID:eBBDefaultTableModelSectionID];
-    };
-    
-    return operation;
-}
-
 #pragma mark - Notifications
 
 - (void)startObserveNotifications

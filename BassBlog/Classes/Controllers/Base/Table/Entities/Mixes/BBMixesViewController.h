@@ -30,6 +30,9 @@ typedef NS_ENUM(NSInteger, BBMixesTableModelSectionRule) {
     BBMixesSelectionOptions *_mixesSelectionOptions;
 }
 
+@property (nonatomic, strong) NSMutableDictionary *detailTextsDictionary;
+@property (nonatomic, strong) NSMutableDictionary *headerTextsDictionary;
+
 @end
 
 #pragma mark -

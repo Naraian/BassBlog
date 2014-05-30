@@ -17,7 +17,7 @@
 #import "BBMixesTableSectionHeaderView.h"
 
 #import "BBMixesSelectionOptions.h"
-#import "BBMixesViewControllerModelLoadOperation.h"
+#import "BBEntitiesViewControllerModelLoadOperation.h"
 
 #import "BBOperationManager.h"
 #import "BBAudioManager.h"
@@ -42,11 +42,7 @@ static const NSUInteger kBBMixesStartFetchRequestLimit = 30;
 <
 BBAudioManagerDelegate
 >
-{
-    NSMutableDictionary *_detailTextsDictionary;
-    
-    NSMutableDictionary *_headerTextsDictionary;
-    
+{    
     NSMutableArray *_mixesArray;
     
     UINib *_sectionHeaderNib;
@@ -70,6 +66,9 @@ BBAudioManagerDelegate
     _mixesSelectionOptions.sortKey = eMixDateSortKey;
     _mixesSelectionOptions.limit = kBBMixesStartFetchRequestLimit;
     _mixesSelectionOptions.tag = [BBModelManager allTag];
+    
+    _detailTextsDictionary = [NSMutableDictionary new];
+    _headerTextsDictionary = [NSMutableDictionary new];
 }
 
 #pragma mark - View
@@ -216,11 +215,7 @@ BBAudioManagerDelegate
 
 - (id)modelReloadOperation
 {    
-    BBMixesViewControllerModelLoadOperation *operation = [self modelLoadOperation];
-    
-    operation.tableModel = [BBTableModel new];
-    operation.mixesArray = [NSMutableArray new];
-    operation.mixesDictionary = [NSMutableDictionary new];
+    BBEntitiesViewControllerModelLoadOperation *operation = [self modelLoadOperation];
     
     return operation;
 }
@@ -415,7 +410,7 @@ BBAudioManagerDelegate
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {    
-    if (_headerTextsDictionary == nil)
+    if (_headerTextsDictionary.count == 0)
     {
         return nil;
     }
@@ -434,7 +429,7 @@ BBAudioManagerDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (_headerTextsDictionary == nil)
+    if (_headerTextsDictionary.count == 0)
     {
         return 0.f;
     }
@@ -471,11 +466,9 @@ BBAudioManagerDelegate
     return [[BBModelManager defaultManager] fetchRequestForMixesWithSelectionOptions:_mixesSelectionOptions];
 }
 
-- (BBMixesViewControllerModelLoadOperation *)modelLoadOperation {
-    
-    BBMixesViewControllerModelLoadOperation *operation = [BBMixesViewControllerModelLoadOperation new];
-    
-    operation.mixesSelectionOptions = [_mixesSelectionOptions mutableCopy];
+- (BBEntitiesViewControllerModelLoadOperation *)modelLoadOperation
+{
+    BBEntitiesViewControllerModelLoadOperation *operation = [BBEntitiesViewControllerModelLoadOperation new];
     
     return operation;
 }
