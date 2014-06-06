@@ -42,6 +42,7 @@ typedef NS_ENUM(NSUInteger, BBModelManagerRefreshStage) {
 - (NSFetchRequest *)fetchRequestForTagsWithSelectionOptions:(BBTagsSelectionOptions *)options;
 - (NSFetchRequest *)fetchRequestForMixesWithSelectionOptions:(BBMixesSelectionOptions *)options;
 - (NSManagedObjectContext *)currentThreadContext;
+- (NSManagedObjectContext *)rootContext;
 
 #pragma mark - State
 

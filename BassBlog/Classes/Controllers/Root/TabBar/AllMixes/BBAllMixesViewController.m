@@ -7,16 +7,17 @@
 //
 
 #import "BBAllMixesViewController.h"
+#import "BBTagsViewController.h"
 
 #import "BBMixesTableSectionHeaderView.h"
 #import "BBAllMixesTableViewCell.h"
 
-#import "BBMixesViewControllerModelLoadOperation.h"
-#import "BBTableModel.h"
 #import "BBMix.h"
 
 #import "NSObject+Nib.h"
 #import "BBUIUtils.h"
+#import "BBAppDelegate.h"
+#import "BBRootViewController.h"
 
 
 @implementation BBAllMixesViewController
@@ -37,7 +38,31 @@
     self.headerTextsDictionary = [NSMutableDictionary new];
 }
 
+
+- (void)showLeftBarButtonItem
+{
+    self.navigationItem.leftBarButtonItem =
+    [self barButtonItemWithImageName:@"tags"
+                            selector:@selector(tagsBarButtonItemPressed)];
+    
+    //self.navigationItem.leftBarButtonItem.enabled = NO;
+}
+
+- (void)updateTheme {
+    
+    [super updateTheme];
+    
+    [self showLeftBarButtonItem];
+}
+
 #pragma mark - View
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [[BBAppDelegate rootViewController] tagsViewController].delegate = self;
+}
 
 - (NSString *)cellNibNameAtIndexPath:(NSIndexPath *)indexPath
 {    

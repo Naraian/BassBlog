@@ -10,8 +10,6 @@
 
 #import "BBFavoritesTableViewCell.h"
 
-#import "BBMixesViewControllerModelLoadOperation.h"
-#import "BBTableModel.h"
 #import "BBMix.h"
 
 #import "NSObject+Notification.h"

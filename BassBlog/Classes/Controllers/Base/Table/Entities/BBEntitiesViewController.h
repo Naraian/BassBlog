@@ -28,8 +28,6 @@
 
 - (void)configureCell:(UITableViewCell *)cell withEntity:(id)entity;
 
-- (id)modelReloadOperation;
-
 @end
 
 #pragma mark -
@@ -47,6 +45,8 @@
 
 #warning TODO: move to mixes controller...
 
+- (void)performFetch;
+- (void)updateViewState;
 - (void)showStubView;
 - (void)hideStubView;
 - (UIView *)stubView;
@@ -70,6 +70,6 @@ enum { eBBDefaultTableModelSectionID = 0 };
 
 - (void)completeModelReload;
 
-- (void)reloadModel;
+- (void)reloadModel NS_DEPRECATED_IOS(3_0, 4_0);
 
 @end

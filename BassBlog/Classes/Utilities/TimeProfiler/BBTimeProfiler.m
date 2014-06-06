@@ -40,7 +40,7 @@
     
     [self markTime];
     
-    DBG(@"%@ = %f sec", description, _timeMark - prevTimeMark);
+    BB_DBG(@"%@ = %f sec", description, _timeMark - prevTimeMark);
 }
 
 @end

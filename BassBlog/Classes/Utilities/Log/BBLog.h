@@ -8,14 +8,14 @@
 
 #pragma mark Log channels
 
-#define INF(fmt, ...) NSLog((@"%s (INFO) " fmt), __func__, ##__VA_ARGS__)
-#define ERR(fmt, ...) NSLog((@"%s (ERROR) " fmt), __func__, ##__VA_ARGS__)
-#define WRN(fmt, ...) NSLog((@"%s (WARNING) " fmt), __func__, ##__VA_ARGS__)
+#define BB_INF(fmt, ...) NSLog((@"%s (INFO) " fmt), __func__, ##__VA_ARGS__)
+#define BB_ERR(fmt, ...) NSLog((@"%s (ERROR) " fmt), __func__, ##__VA_ARGS__)
+#define BB_WRN(fmt, ...) NSLog((@"%s (WARNING) " fmt), __func__, ##__VA_ARGS__)
 
-#ifdef EXT_LOG
-#define DBG(fmt, ...) NSLog((@"%s (DEBUG) " fmt), __func__, ##__VA_ARGS__)
+#ifdef BB_EXT_LOG
+#define BB_DBG(fmt, ...) NSLog((@"%s (DEBUG) " fmt), __func__, ##__VA_ARGS__)
 #else
-#define DBG(...)
+#define BB_DBG(...)
 #endif
 
 #pragma mark -

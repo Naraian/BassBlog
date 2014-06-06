@@ -47,7 +47,7 @@
 {
     [super didReceiveMemoryWarning];
 
-    WRN(@"");
+    BB_WRN(@"");
 }
 
 #pragma mark - View

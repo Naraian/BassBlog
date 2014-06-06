@@ -31,7 +31,7 @@
     
     if (!instance)
     {
-        ERR(@"Couldn't find instance of class (%@)", expectedClass);
+        BB_ERR(@"Couldn't find instance of class (%@)", expectedClass);
     }
     
     return instance;

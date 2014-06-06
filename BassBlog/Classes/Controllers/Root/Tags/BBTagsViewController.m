@@ -20,11 +20,8 @@
 #import "BBMixesSelectionOptions.h"
 
 #import "BBOperationManager.h"
-#import "BBTagsViewControllerModelLoadOperation.h"
 
 #import "BBModelManager.h"
-
-#import "BBTableModel.h"
 
 #import "BBTag.h"
 
@@ -95,40 +92,15 @@ const NSInteger kBBAllTagTableModelRow = 0;
         break;
     }
     
-    [self.tableView selectRowAtIndexPath:selectedIndexPath
-                                animated:NO
-                          scrollPosition:UITableViewScrollPositionNone];
+    if (selectedIndexPath)
+    {
+        [self.tableView selectRowAtIndexPath:selectedIndexPath
+                                    animated:NO
+                              scrollPosition:UITableViewScrollPositionNone];
+    }
 }
 
 #pragma mark - Model
-
-- (id)modelReloadOperation
-{
-    BBTagsViewControllerModelLoadOperation *operation = [BBTagsViewControllerModelLoadOperation new];
-    
-    operation.tableModel = [BBTableModel new];
-    operation.tagsDictionary = [NSMutableDictionary new];
-    operation.mixesCountNumbersDictionary = [NSMutableDictionary new];
-    operation.tagsSelectionOptions = [_tagsSelectionOptions mutableCopy];
-
-    BBMixesSelectionOptions *mixesSelectionOptions = [BBMixesSelectionOptions new];
-    mixesSelectionOptions.category = _tagsSelectionOptions.category;
-    
-    operation.handleEntity = ^(BBTagsViewControllerModelLoadOperation *anOperation, BBTag *tag)
-    {
-        NSString *key = tag.key;
-        
-        mixesSelectionOptions.tag = tag;
-        
-        NSNumber *mixesCountNumber = @([[BBModelManager defaultManager] mixesCountWithSelectionOptions:mixesSelectionOptions]);
-        
-        [anOperation.mixesCountNumbersDictionary setObject:mixesCountNumber forKey:key];
-        
-        [anOperation.tableModel addCellKey:key toSectionID:eBBDefaultTableModelSectionID];
-    };
-    
-    return operation;
-}
 
 - (void)completeModelReload
 {

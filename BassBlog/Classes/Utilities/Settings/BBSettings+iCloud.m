@@ -19,7 +19,7 @@
 {
 	if (!key.length)
 	{
-		ERR(@"Empty \"key\" (%@)", key);
+		BB_ERR(@"Empty \"key\" (%@)", key);
 		
         return;
 	}

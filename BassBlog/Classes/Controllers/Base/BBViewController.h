@@ -8,6 +8,8 @@
 
 // Base abstract class for view controller.
 
+#import <UIKit/UIKit.h>
+
 @interface BBViewController : UIViewController
 
 @end

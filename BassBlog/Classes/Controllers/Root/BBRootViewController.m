@@ -10,7 +10,6 @@
 
 #import "BBTagsViewController.h"
 #import "BBTabBarController.h"
-#import "BBNowPlayingViewController.h"
 
 #import "BBActivityView.h"
 
@@ -18,6 +17,7 @@
 
 #import "NSObject+Notification.h"
 
+@class BBNowPlayingViewControllerSwift;
 
 static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 
@@ -25,7 +25,7 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 {
     BBTabBarController *_tabBarController;
     BBTagsViewController *_tagsViewController;
-    BBNowPlayingViewController *_nowPlayingViewController;
+    BBNowPlayingViewControllerSwift *_nowPlayingViewController;
     
 #warning TODO: rename nowPlayingViewController
     
@@ -122,7 +122,7 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 {
     if (!_nowPlayingViewController)
     {
-        _nowPlayingViewController = (BBNowPlayingViewController*)[self.storyboard instantiateViewControllerWithIdentifier:@"nowPlaying"];
+        _nowPlayingViewController = (BBNowPlayingViewControllerSwift*)[self.storyboard instantiateViewControllerWithIdentifier:@"nowPlaying"];
     }
     
     [navigationController pushViewController:_nowPlayingViewController animated:YES];
@@ -181,7 +181,7 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
     return _tagsViewController;
 }
 
-- (BBNowPlayingViewController *)nowPlayingViewController
+- (BBNowPlayingViewControllerSwift *)nowPlayingViewController
 {
     return _nowPlayingViewController;
 }

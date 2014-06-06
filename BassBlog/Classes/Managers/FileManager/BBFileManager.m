@@ -59,7 +59,7 @@
                  : [fm removeItemAtPath:at error:&error];
     if (!removed)
     {
-        ERR(@"Couldn't remove item due (%@)", error);
+        BB_ERR(@"Couldn't remove item due (%@)", error);
     }
     
     return removed;

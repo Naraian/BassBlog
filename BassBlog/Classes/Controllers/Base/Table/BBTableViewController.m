@@ -12,7 +12,6 @@
 
 #import "BBAppDelegate.h"
 
-#import "BBTableModel.h"
 #import "BBModelManager.h"
 
 #import "NSObject+Nib.h"
@@ -22,38 +21,55 @@
 
 #pragma mark - View
 
-- (void)viewDidLoad
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidLoad];
+    [super viewWillAppear:animated];
+    
+    self.viewVisible = NO;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    self.viewVisible = YES;
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    self.viewVisible = NO;
 }
 
 - (void)updateTheme
 {
     [super updateTheme];
     
-    [self.tableView reloadData];
+    if (self.isViewVisible)
+    {
+        [self.tableView reloadData];
+    }
 }
 
 - (NSFetchedResultsController *)fetchedResultsController
 {
-    if (_fetchedResultsController != nil)
+    if (!_fetchedResultsController)
     {
-        return _fetchedResultsController;
+        NSFetchRequest *fetchRequest = [self fetchRequest];
+
+        NSString *sectionNameKeyPath = [self sectionNameKeyPath];
+        
+        NSFetchedResultsController *theFetchedResultsController =
+        [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                            managedObjectContext:[[BBModelManager defaultManager] rootContext]
+                                              sectionNameKeyPath:sectionNameKeyPath
+                                                       cacheName:nil]; //NSStringFromClass(self.class)];
+        #warning deal with cache name
+
+        _fetchedResultsController = theFetchedResultsController;
+        _fetchedResultsController.delegate = self;
     }
-    
-    NSFetchRequest *fetchRequest = [self fetchRequest];
-    
-    NSString *sectionNameKeyPath = [self sectionNameKeyPath];
-    
-    NSFetchedResultsController *theFetchedResultsController =
-    [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                        managedObjectContext:[[BBModelManager defaultManager] currentThreadContext]
-                                          sectionNameKeyPath:sectionNameKeyPath
-                                                   cacheName:nil]; //NSStringFromClass(self.class)];
-#warning deal with cache name
-    
-    _fetchedResultsController = theFetchedResultsController;
-    _fetchedResultsController.delegate = self;
     
     return _fetchedResultsController;
     

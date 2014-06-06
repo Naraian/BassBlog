@@ -26,10 +26,15 @@
 
 - (NSString *)description {
     
-    NSMutableString *string =
-    [NSMutableString stringWithString:[super description]];
+    NSMutableString *string = [[super description] mutableCopy];
     
-    if (self.sortKey) {
+    if (self.tag)
+    {
+        [string appendFormat:@", tag (%@)", self.tag];
+    }
+    
+    if (self.sortKey)
+    {
         [string appendFormat:@", sortKey(%@)", [self sortKeyString]];
     }
     

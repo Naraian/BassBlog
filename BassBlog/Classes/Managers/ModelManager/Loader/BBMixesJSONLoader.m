@@ -60,7 +60,7 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
         
         if (response.error) {
             
-            ERR(@"Couldn't load data due (%@)", response.error);
+            BB_ERR(@"Couldn't load data due (%@)", response.error);
         
             if (errorBlock) {
                 errorBlock(response.error);
@@ -74,11 +74,11 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
         TIME_PROFILER_LOG(@"Loading JSON")
         
         if (firstDump) {
-            DBG(@"\nStatus code: %d\nResponse headers: %@",
+            BB_DBG(@"\nStatus code: %d\nResponse headers: %@",
                 response.statusCode, response.allHeaderFields);
         }
         else {
-            DBG(@"Status code: %d", response.statusCode);
+            BB_DBG(@"Status code: %d", response.statusCode);
         }
         
         if (dataBlock) {

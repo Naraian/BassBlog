@@ -35,14 +35,14 @@
 {
     if (logFilesNumber < 1)
     {
-        ERR(@"\"logFilesNumber\" < 1");
+        BB_ERR(@"\"logFilesNumber\" < 1");
         
         return;
     }
     
     if ([logSuffix length] == 0)
     {
-        ERR(@"Empty \"logSuffix\" (%@)", logSuffix);
+        BB_ERR(@"Empty \"logSuffix\" (%@)", logSuffix);
         
         return;
     }
@@ -122,7 +122,7 @@
 {
     if (index >= logPathsArray.count)
     {
-        ERR(@"\"index\" is out of bounds [0, %d)", logPathsArray.count);
+        BB_ERR(@"\"index\" is out of bounds [0, %d)", logPathsArray.count);
         
         return nil;
     }

@@ -47,7 +47,7 @@
                                                 error:&error];
     if (plistXML == nil)
     {
-        ERR(@"%@", error);
+        BB_ERR(@"%@", error);
         
         return;
     }
@@ -59,7 +59,7 @@
                                                                             error:&error];
 	if (defaultSettingsDictionary == nil)
 	{        
-		ERR(@"%@, format: %u", error, format);
+		BB_ERR(@"%@, format: %u", error, format);
 	}
 }
 
@@ -199,7 +199,7 @@
         return [defaultSettingsDictionary objectForKey:key];
     }
     
-    ERR(@"Empty \"key\" (%@)", key);
+    BB_ERR(@"Empty \"key\" (%@)", key);
     
     return nil;
 }
@@ -210,7 +210,7 @@
 
     if (object && ![object isKindOfClass:theClass])
     {
-        ERR(@"%@ is %@, expected %@", key, [object class], theClass);
+        BB_ERR(@"%@ is %@, expected %@", key, [object class], theClass);
         
         object = nil;
     }

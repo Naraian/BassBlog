@@ -102,7 +102,7 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     NSURL *URL = [self.class URLForMix:self.mix];
     if (URL == nil) {
         
-        ERR(@"URL == nil");
+        BB_ERR(@"URL == nil");
         
         [self postDidStopNotificationWithReason:BBAudioManagerFailedToPlayToEnd];
 
@@ -271,7 +271,7 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
 
 - (void)playerItemFailedToPlayToEndTimeNotification:(NSNotification *)notification {
  
-    ERR(@"%@", notification.userInfo[AVPlayerItemFailedToPlayToEndTimeErrorKey]);
+    BB_ERR(@"%@", notification.userInfo[AVPlayerItemFailedToPlayToEndTimeErrorKey]);
     
     [self postDidStopNotificationWithReason:BBAudioManagerFailedToPlayToEnd];
 }
@@ -363,7 +363,7 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
         case AVPlayerStatusUnknown:
         case AVPlayerStatusFailed:
         {
-            ERR(@"%@", self.player.error);
+            BB_ERR(@"%@", self.player.error);
             
             [self postDidStopNotificationWithReason:BBAudioManagerFailedToPlayToEnd];
         }

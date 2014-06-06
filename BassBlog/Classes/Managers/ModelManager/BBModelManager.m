@@ -308,7 +308,7 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
         
         if (saved == NO) {
             
-            ERR(@"Couldn't auto save main context!");
+            BB_ERR(@"Couldn't auto save main context!");
         }
         
         TIME_PROFILER_LOG(@"Auto save")
@@ -403,7 +403,7 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
                            inContext:context];
     
     if (entities.count > 1)
-        ERR(@"Unexpected number of mixes (%d) with ID (%@)", entities.count, ID);
+        BB_ERR(@"Unexpected number of mixes (%d) with ID (%@)", entities.count, ID);
     
     return [entities lastObject];
 }
@@ -415,7 +415,7 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
                            inContext:context];
     
     if (entities.count > 1)
-        ERR(@"Unexpected number of tags (%d) with name (%@)", entities.count, name);
+        BB_ERR(@"Unexpected number of tags (%d) with name (%@)", entities.count, name);
     
     return [entities lastObject];
 }
@@ -614,7 +614,7 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
                 
                 [context deleteObject:mix];
                 
-                WRN(@"Deleted mix named (%@)", name);
+                BB_WRN(@"Deleted mix named (%@)", name);
             }
             
             return;
@@ -692,7 +692,7 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
             NSUInteger requestArgValue = [BBMixesJSONLoader requestArgValue];
             if (requestArgValue > newRequestArgValue)
             {
-                ERR(@"New request arg value (%d) < actual one (%d)",
+                BB_ERR(@"New request arg value (%d) < actual one (%d)",
                     newRequestArgValue, requestArgValue);
             }
 
@@ -820,7 +820,7 @@ static inline void setMixAttributes(BBMix *mix,
         [self.mainContext deleteObject:entity];
     }];
     
-    WRN(@"Deleted %d \"%@\"", entities.count, fetchRequest.entityName);
+    BB_WRN(@"Deleted %d \"%@\"", entities.count, fetchRequest.entityName);
 }
 
 #pragma mark - Core Data
@@ -939,7 +939,7 @@ withCompletionBlock:(void(^)(BOOL saved))completionBlock
     
     if (![context hasChanges])
     {
-        INF(@"No changes in %@ context", description);
+        BB_INF(@"No changes in %@ context", description);
         return;
     }
     
@@ -955,13 +955,13 @@ withCompletionBlock:(void(^)(BOOL saved))completionBlock
 	}
 	@catch (NSException *exception)
 	{
-        ERR(@"%@ context save exception (%@)", description, exception);
+        BB_ERR(@"%@ context save exception (%@)", description, exception);
 	}
 	@finally
     {
         if (saved)
         {
-            INF(@"%@ context saved", description);
+            BB_INF(@"%@ context saved", description);
         }
         else
         {
@@ -989,8 +989,7 @@ withCompletionBlock:(void(^)(BOOL saved))completionBlock
 {
     if (!_rootContext && self.coordinator)
     {
-        _rootContext = [[NSManagedObjectContext alloc]
-                        initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        _rootContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         
         [self setDescription:@"ROOT" forContext:_rootContext];
         
@@ -1029,12 +1028,12 @@ withCompletionBlock:(void(^)(BOOL saved))completionBlock
         
         NSThread *thread = [NSThread currentThread];
         NSMutableDictionary *threadDict = [thread threadDictionary];
-        NSManagedObjectContext *threadContext = [threadDict objectForKey:BBModelManagerThreadContextKey];
+        NSManagedObjectContext *threadContext = [threadDict objectForKey:[NSValue valueWithNonretainedObject:thread]];
         if (threadContext == nil) {
             
             threadContext = [self serviceContextWithTaskDescription:thread.name];
             
-            [threadDict setObject:threadContext forKey:BBModelManagerThreadContextKey];
+            [threadDict setObject:threadContext forKey:[NSValue valueWithNonretainedObject:thread]];
         }
     
         return threadContext;
@@ -1100,7 +1099,7 @@ withCompletionBlock:(void(^)(BOOL saved))completionBlock
         {
             if ([BBFileManager removeItemAtURL:url])
             {
-                WRN(@"Removed obsolete SQL database");
+                BB_WRN(@"Removed obsolete SQL database");
             }
             
             if ([self addSqliteStoreAtURL:url options:options error:&error])
@@ -1155,7 +1154,7 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     {
         if (![detailedError isKindOfClass:[NSArray class]])
         {
-            ERR(@"%@", detailedError);
+            BB_ERR(@"%@", detailedError);
             
             return;
         }
@@ -1165,16 +1164,16 @@ static NSString *const BBManagedObjectContextDescriptionKey =
         {
             if ([anError respondsToSelector:@selector(userInfo)])
             {
-                ERR(@"%@", [anError userInfo]);
+                BB_ERR(@"%@", [anError userInfo]);
             }
             else
             {
-                ERR(@"%@", anError);
+                BB_ERR(@"%@", anError);
             }
         }];
     }];
     
-    ERR(@"Info: \n%@", error);
+    BB_ERR(@"Info: \n%@", error);
     
     self.error = error;
 }
@@ -1214,7 +1213,7 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     
     if (dump.length)
     {
-        DBG(@"Changes in %@ context: %@",
+        BB_DBG(@"Changes in %@ context: %@",
             [self descriptionForContext:context], dump);
     }
 }
@@ -1351,7 +1350,7 @@ static NSString *const BBManagedObjectContextDescriptionKey =
                                                  inContext:context]];
     }];
     
-    DBG(@"\n%@", dump);
+    BB_DBG(@"\n%@", dump);
     
     firstDump = NO;
     
@@ -1359,7 +1358,7 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     
 //    fetchRequest = [BBTag fetchRequest];
 //    
-//    DBG(@"Total tags: %d", [self countOfFetchedEntitiesWithRequest:fetchRequest inContext:context]);
+//    BB_DBG(@"Total tags: %d", [self countOfFetchedEntitiesWithRequest:fetchRequest inContext:context]);
 }
 
 #endif // DEBUG

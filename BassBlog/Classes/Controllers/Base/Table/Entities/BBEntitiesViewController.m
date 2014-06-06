@@ -10,12 +10,10 @@
 
 #import "BBActivityView.h"
 
-#import "BBTableModel.h"
 #import "BBEntity.h"
 
 #import "BBModelManager.h"
 #import "BBOperationManager.h"
-#import "BBEntitiesViewControllerModelLoadOperation.h"
 
 #import "NSObject+Notification.h"
 #import "NSObject+Thread.h"
@@ -26,15 +24,14 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 
 
 @interface BBEntitiesViewController ()
-{
-    BBEntitiesViewControllerModelLoadOperation *_reloadOperation;
-}
 
 @property (nonatomic) BBActivityView *activityView;
 
 @property (nonatomic) BOOL reloadModelOnSaveFinish;
 @property (nonatomic) BOOL reloadDataOnViewWillAppear;
 @property (nonatomic) BOOL viewDidAppear;
+
+@property (nonatomic) dispatch_once_t loadToken;
 
 @end
 
@@ -44,24 +41,24 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 
 #pragma mark View
 
-- (void)viewDidLoad {
-    
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
-    if ([[BBModelManager defaultManager] isInitialized]) {
-        
-        [self reloadModel];
-    }
+    self.reloadDataOnViewWillAppear = YES;
+ 
+    [self performFetch];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     
-    if (self.reloadDataOnViewWillAppear) {
+    if (self.reloadDataOnViewWillAppear)
+    {
         self.reloadDataOnViewWillAppear = NO;
-        
-        [self.tableView reloadData];
+
+        [self updateViewState];
     }
     
     self.viewDidAppear = YES;
@@ -101,12 +98,12 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 
 - (void)modelManagerDidInitializeNotification {
     
-    [self reloadModel];
+    [self updateViewState];
 }
 
 - (void)modelManagerDidFinishRefreshNotification {
     
-    [self reloadModel];
+    [self updateViewState];
 }
 
 #pragma mark - UITableViewDataSource
@@ -180,7 +177,7 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 {
     if (self.reloadModelOnSaveFinish)
     {
-        [self reloadModel];
+        [self updateViewState];
     }
 }
 
@@ -231,12 +228,27 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 //    return [_entitiesDictionary objectForKey:entity.key] != nil;
 }
 
+- (void)performFetch
+{
+    NSError *error = nil;
+    
+    if ([self.fetchedResultsController performFetch:&error])
+    {
+        
+    }
+    else
+    {
+        BB_ERR(@"Couldn't complete model reload operation!");
+    }
+}
+
 - (void)reloadModel
 {
-    [_reloadOperation cancel];
-    _reloadOperation = nil;
+    self.fetchedResultsController = nil;
     
-    [self showDelayedBlockingActivityView];
+    [self performFetch];
+    
+    [self.tableView reloadData];
     
     self.reloadModelOnSaveFinish = NO;
     
@@ -246,49 +258,19 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
         return;
     }
     
-    self.fetchedResultsController = nil;
+    [self updateViewState];
+}
+
+- (void)updateViewState
+{
+    [self showDelayedBlockingActivityView];
     
-    _reloadOperation = [BBEntitiesViewControllerModelLoadOperation new];
-    
-    __weak BBEntitiesViewController *weakSelf = self;
-    __weak BBEntitiesViewControllerModelLoadOperation *reloadOperation = _reloadOperation;
-    
-    reloadOperation.finish = ^(BBEntitiesViewControllerModelLoadOperation *operation)
-    {    
-        if ([operation isCompleted])
-        {
-            NSError *error = nil;
-            
-            if (![self.fetchedResultsController performFetch:&error])
-            {
-                
-            }
-            
-            return;
-        }
-        
-        ERR(@"Couldn't complete model reload operation!");
-    };
-    
-    [reloadOperation setCompletionBlock:^
-    {
-        if ([reloadOperation isCancelled])
-        {
-            return;
-        }
-        
-        [self.class mainThreadAsyncBlock:^
-        {
-            [weakSelf completeModelReload];
-        }];
-    }];
-    
-    [[BBOperationManager defaultManager] addOperation:_reloadOperation];
+    [self completeModelReload];
 }
 
 - (void)completeModelReload
 {
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
     
     if ([self.tableView numberOfSections])
     {

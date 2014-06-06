@@ -15,12 +15,9 @@
 
 enum { eBBTableViewRowAnimation = UITableViewRowAnimationFade };
 
-@class BBTableModel;
-
 @interface BBTableViewController : BBViewController <UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate>
-{
 
-}
+@property (nonatomic, assign, getter=isViewVisible) BOOL viewVisible;
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 

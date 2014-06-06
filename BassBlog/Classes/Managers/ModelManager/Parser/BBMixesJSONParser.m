@@ -44,7 +44,7 @@ static const float BBProgressDelta = 0.05f; // 5%
 {
     if (!data.length)
     {
-        ERR(@"Empty \"data\" (%@)", data);
+        BB_ERR(@"Empty \"data\" (%@)", data);
         
         return nil;
     }
@@ -87,7 +87,7 @@ static const float BBProgressDelta = 0.05f; // 5%
                                                error:&error];
         if (error)
         {
-            ERR(@"Couldn't create regular expression due (%@)", error);
+            BB_ERR(@"Couldn't create regular expression due (%@)", error);
         }
     }
     
@@ -108,13 +108,13 @@ static const float BBProgressDelta = 0.05f; // 5%
                                                 error:&error];
     if (json == nil) {
         
-        ERR(@"Couldn't create JSON object due (%@)", error);
+        BB_ERR(@"Couldn't create JSON object due (%@)", error);
         return;
     }
     
     if ([json isKindOfClass:[NSArray class]] == NO) {
         
-        ERR(@"JSON object (%@) not an array!", [json class]);
+        BB_ERR(@"JSON object (%@) not an array!", [json class]);
         return;
     }
     
@@ -133,7 +133,7 @@ static const float BBProgressDelta = 0.05f; // 5%
         
         if (![mix isKindOfClass:[NSDictionary class]]) {
             
-            ERR(@"JSON item (%@) not a dictionary!", [mix class]);
+            BB_ERR(@"JSON item (%@) not a dictionary!", [mix class]);
             
             *mixStop = YES;
             return;

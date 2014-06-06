@@ -9,7 +9,7 @@
 #import "SWRevealViewController.h"
 
 @class BBTagsViewController;
-@class BBNowPlayingViewController;
+@class BBNowPlayingViewControllerSwift;
 
 @interface BBRootViewController : SWRevealViewController
 
@@ -18,6 +18,6 @@
 - (void)toggleNowPlayingVisibilityFromNavigationController:(UINavigationController *)navigationController;
 
 - (BBTagsViewController *)tagsViewController;
-- (BBNowPlayingViewController *)nowPlayingViewController;
+- (BBNowPlayingViewControllerSwift *)nowPlayingViewController;
 
 @end

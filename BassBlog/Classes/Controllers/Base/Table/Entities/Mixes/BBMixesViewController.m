@@ -17,14 +17,11 @@
 #import "BBMixesTableSectionHeaderView.h"
 
 #import "BBMixesSelectionOptions.h"
-#import "BBEntitiesViewControllerModelLoadOperation.h"
 
 #import "BBOperationManager.h"
 #import "BBAudioManager.h"
 #import "BBThemeManager.h"
 #import "BBModelManager.h"
-
-#import "BBTableModel.h"
 
 #import "BBMix.h"
 #import "BBTag.h"
@@ -73,20 +70,16 @@ BBAudioManagerDelegate
 
 #pragma mark - View
 
-- (void)viewDidAppear:(BOOL)animated {
-    
+- (void)viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
     
     [self updateNavigationBar];
-    
-    [[BBAppDelegate rootViewController] tagsViewController].delegate = self;
 }
 
 - (void)updateTheme {
     
     [super updateTheme];
-    
-    [self showLeftBarButtonItem];
     
     [self showNowPlayingBarButtonItem];
 }
@@ -165,15 +158,6 @@ BBAudioManagerDelegate
     return _tableFooterView;
 }
 
-- (void)showLeftBarButtonItem
-{
-    self.navigationItem.leftBarButtonItem =
-    [self barButtonItemWithImageName:@"tags"
-                            selector:@selector(tagsBarButtonItemPressed)];
-    
-    //self.navigationItem.leftBarButtonItem.enabled = NO;
-}
-
 - (void)showNowPlayingBarButtonItem
 {
     self.navigationItem.rightBarButtonItem =
@@ -211,13 +195,6 @@ BBAudioManagerDelegate
 - (void)modelManagerDidFinishSaveNotification {
     
     [super modelManagerDidFinishSaveNotification];
-}
-
-- (id)modelReloadOperation
-{    
-    BBEntitiesViewControllerModelLoadOperation *operation = [self modelLoadOperation];
-    
-    return operation;
 }
 
 - (void)completeModelReload
@@ -464,13 +441,6 @@ BBAudioManagerDelegate
 - (NSFetchRequest *)fetchRequest
 {
     return [[BBModelManager defaultManager] fetchRequestForMixesWithSelectionOptions:_mixesSelectionOptions];
-}
-
-- (BBEntitiesViewControllerModelLoadOperation *)modelLoadOperation
-{
-    BBEntitiesViewControllerModelLoadOperation *operation = [BBEntitiesViewControllerModelLoadOperation new];
-    
-    return operation;
 }
 
 - (NSString *)detailTextForMix:(BBMix *)mix {
