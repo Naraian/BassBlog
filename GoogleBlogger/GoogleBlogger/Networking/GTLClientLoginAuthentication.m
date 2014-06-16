@@ -20,11 +20,11 @@
 #define GTLCLIENTLOGINAUTHENTICATION_DEFINE_GLOBALS 1
 #import "GTLClientLoginAuthentication.h"
 
-#if GTL_BUILT_AS_FRAMEWORK
-#import "GTL/GTLUtilities.h"
-#else
+//#if GTL_BUILT_AS_FRAMEWORK
+//#import "GTL/GTLUtilities.h"
+//#else
 #import "GTLUtilities.h"
-#endif
+//#endif
 
 @class GTLClientLoginAuthorizationArgs;
 

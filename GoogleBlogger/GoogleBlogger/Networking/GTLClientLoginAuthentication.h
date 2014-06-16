@@ -33,13 +33,13 @@
 
 #import <Foundation/Foundation.h>
 
-#if GTL_BUILT_AS_FRAMEWORK
-#import "GTL/GTLDefines.h"
-#import "GTL/GTMHTTPFetcher.h"
-#else
+//#if GTL_BUILT_AS_FRAMEWORK
+//#import "GTL/GTLDefines.h"
+//#import "GTL/GTMHTTPFetcher.h"
+//#else
 #import "GTLDefines.h"
 #import "GTMHTTPFetcher.h"
-#endif
+//#endif
 
 #undef _EXTERN
 #undef _INITIALIZE_AS

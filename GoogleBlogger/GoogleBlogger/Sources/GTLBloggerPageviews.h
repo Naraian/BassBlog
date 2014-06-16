@@ -29,11 +29,11 @@
 //   GTLBloggerPageviews (0 custom class methods, 3 custom properties)
 //   GTLBloggerPageviewsCountsItem (0 custom class methods, 2 custom properties)
 
-#if GTL_BUILT_AS_FRAMEWORK
-  #import "GTL/GTLObject.h"
-#else
+//#if GTL_BUILT_AS_FRAMEWORK
+//  #import "GTL/GTLObject.h"
+//#else
   #import "GTLObject.h"
-#endif
+//#endif
 
 @class GTLBloggerPageviewsCountsItem;
 

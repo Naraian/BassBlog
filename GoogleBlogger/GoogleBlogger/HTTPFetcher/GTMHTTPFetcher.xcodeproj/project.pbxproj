@@ -25,7 +25,6 @@
 		4FC6EF351852B270007D0854 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FC6EF341852B270007D0854 /* XCTest.framework */; };
 		4FCC75E511EE6B1C0097924C /* GTMHTTPFetcherService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCC75E411EE6B1C0097924C /* GTMHTTPFetcherService.m */; };
 		4FCC75E611EE6B1C0097924C /* GTMHTTPFetcherService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCC75E411EE6B1C0097924C /* GTMHTTPFetcherService.m */; };
-		4FCC787A11EFA6030097924C /* GTMHTTPFetchHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCC787911EFA6030097924C /* GTMHTTPFetchHistory.m */; };
 		4FCC787B11EFA6030097924C /* GTMHTTPFetchHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCC787911EFA6030097924C /* GTMHTTPFetchHistory.m */; };
 		9AACCEA9194127AF00257408 /* GTMHTTPFetcherFetchingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F74DAF711E7C7C900F2D927 /* GTMHTTPFetcherFetchingTest.m */; };
 		9AACCEAA194127AF00257408 /* GTMHTTPFetcherServiceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F92DBC41379E9CB0071BAC1 /* GTMHTTPFetcherServiceTest.m */; };
@@ -279,7 +278,6 @@
 				4F74DA0411E6A19B00F2D927 /* GTMHTTPServer.m in Sources */,
 				4FCC75E511EE6B1C0097924C /* GTMHTTPFetcherService.m in Sources */,
 				9AACCEA9194127AF00257408 /* GTMHTTPFetcherFetchingTest.m in Sources */,
-				4FCC787A11EFA6030097924C /* GTMHTTPFetchHistory.m in Sources */,
 				4F8DB2BE13FC9AE30001DD6C /* GTMReadMonitorInputStream.m in Sources */,
 				9AACCEAD194127AF00257408 /* GTMGatherInputStreamTest.m in Sources */,
 				9AACCEAF194127AF00257408 /* GTMReadMonitorInputStreamTest.m in Sources */,

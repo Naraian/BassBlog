@@ -1,0 +1,6 @@
+framework module GoogleBlogger {
+  umbrella header "GoogleBlogger.h"
+
+  export *
+  module * { export * }
+}

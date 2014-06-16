@@ -24,13 +24,10 @@
 #import "BBTimeProfiler.h"
 #import "BBMacros.h"
 
-#import <CoreData/NSPersistentStoreCoordinator.h>
-#import <CoreData/NSManagedObjectContext.h>
-#import <CoreData/NSManagedObjectModel.h>
-#import <CoreData/NSManagedObjectID.h>
-#import <CoreData/NSFetchRequest.h>
-#import <CoreData/CoreDataErrors.h>
+#import <CoreData/CoreData.h>
 
+#import <GoogleBlogger/GoogleBlogger.h>
+#import <GoogleBlogger/GTMOAuth2Authentication.h>
 
 typedef NS_ENUM(NSUInteger, BBModelState) {
   
@@ -465,6 +462,23 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
     });
 }
 
+- (GTLServiceBlogger *)bloggerService {
+    static GTLServiceBlogger *service = nil;
+    
+    if (!service) {
+        service = [[GTLServiceBlogger alloc] init];
+        
+        // Have the service object set tickets to fetch consecutive pages
+        // of the feed so we do not need to manually fetch them.
+        service.shouldFetchNextPages = YES;
+        
+        // Have the service object set tickets to retry temporary error conditions
+        // automatically.
+        service.retryEnabled = YES;
+    }
+    return service;
+}
+
 - (void)loadMixes {
     
     void(^dataBlock)(NSData *) = ^(NSData *data) {
@@ -488,9 +502,28 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
         [self postNotificationForRefreshError:error];
     };
     
-    [[BBMixesJSONLoader new] loadWithDataBlock:dataBlock
-                                 progressBlock:progressBlock
-                                    errorBlock:errorBlock];
+    NSString *clientID = @"181428101607-lq94fbn93v8shiigrhs1r7l7hgl3ud1v.apps.googleusercontent.com";
+    NSString *clientSecret = @"bfQcW2itarMDI4_g2CJKw26J";
+    
+    NSURL *tokenURL = [NSURL URLWithString:@"https://api.example.com/oauth/token"];
+    
+    // We'll make up an arbitrary redirectURI.  The controller will watch for
+    // the server to redirect the web view to this URI, but this URI will not be
+    // loaded, so it need not be for any actual web page.
+    NSString *redirectURI = @"http://www.google.com/OAuthCallback";
+    
+    GTMOAuth2Authentication *auth;
+    auth = [GTMOAuth2Authentication authenticationWithServiceProvider:@"Custom Service"
+                                                             tokenURL:tokenURL
+                                                          redirectURI:redirectURI
+                                                             clientID:clientID
+                                                         clientSecret:clientSecret];
+    self.bloggerService.authorizer = auth;
+
+    
+//    [[BBMixesJSONLoader new] loadWithDataBlock:dataBlock
+//                                 progressBlock:progressBlock
+//                                    errorBlock:errorBlock];
 }
 
 - (void)refreshDatabaseWithMixesJSON:(NSData *)JSON {

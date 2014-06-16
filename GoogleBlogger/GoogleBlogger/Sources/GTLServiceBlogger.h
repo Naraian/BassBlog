@@ -28,11 +28,11 @@
 // Classes:
 //   GTLServiceBlogger (0 custom class methods, 0 custom properties)
 
-#if GTL_BUILT_AS_FRAMEWORK
-  #import "GTL/GTLService.h"
-#else
+//#if GTL_BUILT_AS_FRAMEWORK
+//  #import "GTL/GTLService.h"
+//#else
   #import "GTLService.h"
-#endif
+//#endif
 
 @interface GTLServiceBlogger : GTLService
 

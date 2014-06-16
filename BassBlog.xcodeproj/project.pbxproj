@@ -75,9 +75,9 @@
 		9A57211E18FF1F8300169E6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A57211D18FF1F8300169E6A /* Main.storyboard */; };
 		9A57212118FF29D500169E6A /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A57212018FF29D500169E6A /* SWRevealViewController.m */; };
 		9A61FF97190077EA004AE70E /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A61FF96190077EA004AE70E /* Reveal.framework */; };
+		9A63E45319426CEE0093907E /* libGoogleBlogger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A63E400194269920093907E /* libGoogleBlogger.a */; };
 		9AA6538719070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AA6538519070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf */; };
 		9AA6538819070CB1000BAA6E /* HelveticaLTStd-Cond.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AA6538619070CB1000BAA6E /* HelveticaLTStd-Cond.ttf */; };
-		9AACCEC3194128A000257408 /* GoogleBlogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AACCEBA1941289200257408 /* GoogleBlogger.framework */; };
 		9ABB6AA41901C54B00691B3F /* NSLayoutConstraint+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB6AA11901C54B00691B3F /* NSLayoutConstraint+Extensions.m */; };
 		9ABB6AA51901C54B00691B3F /* UIView+ConstraintsExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB6AA31901C54B00691B3F /* UIView+ConstraintsExtensions.m */; };
 		9ABB6AA91901C5EC00691B3F /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB6AA81901C5EC00691B3F /* DeviceUtils.m */; };
@@ -102,19 +102,75 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		9AACCEB91941289200257408 /* PBXContainerItemProxy */ = {
+		9A63E3FD194269920093907E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 9AACCEB21941289100257408 /* GoogleBlogger.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9AACCD8A194126D300257408;
-			remoteInfo = GoogleBlogger;
-		};
-		9AACCEBB1941289200257408 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9AACCEB21941289100257408 /* GoogleBlogger.xcodeproj */;
+			containerPortal = 9A63E3F5194269920093907E /* GoogleBlogger.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 9AACCD95194126D300257408;
 			remoteInfo = GoogleBloggerTests;
+		};
+		9A63E3FF194269920093907E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A63E3F5194269920093907E /* GoogleBlogger.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9A63E36319424FC30093907E;
+			remoteInfo = GoogleBlogger;
+		};
+		9A63E401194269920093907E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A63E3F5194269920093907E /* GoogleBlogger.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9A63E36D19424FC30093907E;
+			remoteInfo = GoogleBlogger1Tests;
+		};
+		9A63E410194269BA0093907E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A63E3F5194269920093907E /* GoogleBlogger.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9A63E36219424FC30093907E;
+			remoteInfo = GoogleBlogger;
+		};
+		9A63E43219426B0F0093907E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A63E42B19426B0F0093907E /* GTMHTTPFetcher.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteInfo = GTMHTTPFetcherLib;
+		};
+		9A63E43419426B0F0093907E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A63E42B19426B0F0093907E /* GTMHTTPFetcher.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4F74D92F11E68BD300F2D927;
+			remoteInfo = UnitTests;
+		};
+		9A63E43619426B220093907E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A63E42B19426B0F0093907E /* GTMHTTPFetcher.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = GTMHTTPFetcherLib;
+		};
+		9A63E44419426BC50093907E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A63E43D19426BC50093907E /* GTMOAuth2.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteInfo = OAuthTouchStaticLib;
+		};
+		9A63E44619426BC50093907E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A63E43D19426BC50093907E /* GTMOAuth2.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4FC754FA13E77E25006A0C26;
+			remoteInfo = OAuthTouchNonGoogleStaticLib;
+		};
+		9A63E44819426BEF0093907E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A63E43D19426BC50093907E /* GTMOAuth2.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = OAuthTouchStaticLib;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -245,9 +301,17 @@
 		9A57211F18FF29D500169E6A /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		9A57212018FF29D500169E6A /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		9A61FF96190077EA004AE70E /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reveal.framework; path = BassBlog/Libraries/Reveal.framework; sourceTree = "<group>"; };
+		9A63E349194247D10093907E /* GoogleBlogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleBlogger.framework; path = BassBlog/Libraries/GoogleBlogger.framework; sourceTree = "<group>"; };
+		9A63E3F5194269920093907E /* GoogleBlogger.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GoogleBlogger.xcodeproj; path = GoogleBlogger/GoogleBlogger.xcodeproj; sourceTree = "<group>"; };
+		9A63E40A194269AE0093907E /* libGTMHTTPFetcher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGTMHTTPFetcher.a; path = "GoogleBlogger/GoogleBlogger/HTTPFetcher/build/Debug-iphoneos/libGTMHTTPFetcher.a"; sourceTree = "<group>"; };
+		9A63E40B194269AE0093907E /* libOAuthTouch2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOAuthTouch2.a; path = "GoogleBlogger/GoogleBlogger/OAuth2/build/Debug-iphoneos/libOAuthTouch2.a"; sourceTree = "<group>"; };
+		9A63E40C194269AE0093907E /* libOAuthTouch2NG.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOAuthTouch2NG.a; path = "GoogleBlogger/GoogleBlogger/OAuth2/build/Debug-iphoneos/libOAuthTouch2NG.a"; sourceTree = "<group>"; };
+		9A63E42B19426B0F0093907E /* GTMHTTPFetcher.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GTMHTTPFetcher.xcodeproj; path = GoogleBlogger/GoogleBlogger/HTTPFetcher/GTMHTTPFetcher.xcodeproj; sourceTree = "<group>"; };
+		9A63E43919426B6D0093907E /* libOAuthTouch2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOAuthTouch2.a; path = "GoogleBlogger/GoogleBlogger/OAuth2/build/Debug-iphoneos/libOAuthTouch2.a"; sourceTree = "<group>"; };
+		9A63E43A19426B6D0093907E /* libOAuthTouch2NG.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOAuthTouch2NG.a; path = "GoogleBlogger/GoogleBlogger/OAuth2/build/Debug-iphoneos/libOAuthTouch2NG.a"; sourceTree = "<group>"; };
+		9A63E43D19426BC50093907E /* GTMOAuth2.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GTMOAuth2.xcodeproj; path = GoogleBlogger/GoogleBlogger/OAuth2/GTMOAuth2.xcodeproj; sourceTree = "<group>"; };
 		9AA6538519070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaLTStd-BoldCond.ttf"; sourceTree = "<group>"; };
 		9AA6538619070CB1000BAA6E /* HelveticaLTStd-Cond.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaLTStd-Cond.ttf"; sourceTree = "<group>"; };
-		9AACCEB21941289100257408 /* GoogleBlogger.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GoogleBlogger.xcodeproj; path = GoogleBlogger/GoogleBlogger.xcodeproj; sourceTree = "<group>"; };
 		9ABB6AA01901C54B00691B3F /* NSLayoutConstraint+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+Extensions.h"; sourceTree = "<group>"; };
 		9ABB6AA11901C54B00691B3F /* NSLayoutConstraint+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+Extensions.m"; sourceTree = "<group>"; };
 		9ABB6AA21901C54B00691B3F /* UIView+ConstraintsExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ConstraintsExtensions.h"; sourceTree = "<group>"; };
@@ -287,7 +351,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AACCEC3194128A000257408 /* GoogleBlogger.framework in Frameworks */,
+				9A63E45319426CEE0093907E /* libGoogleBlogger.a in Frameworks */,
 				9A61FF97190077EA004AE70E /* Reveal.framework in Frameworks */,
 				C12D9DF018BA21DB00F7693A /* MediaPlayer.framework in Frameworks */,
 				C1EBC3F418B9D30F00B77297 /* CoreMedia.framework in Frameworks */,
@@ -874,7 +938,9 @@
 		08FFCAFA1712A2C900F21D86 = {
 			isa = PBXGroup;
 			children = (
-				9AACCEB21941289100257408 /* GoogleBlogger.xcodeproj */,
+				9A63E43D19426BC50093907E /* GTMOAuth2.xcodeproj */,
+				9A63E42B19426B0F0093907E /* GTMHTTPFetcher.xcodeproj */,
+				9A63E3F5194269920093907E /* GoogleBlogger.xcodeproj */,
 				08FFCB0E1712A2C900F21D86 /* BassBlog */,
 				08FFCB051712A2C900F21D86 /* Frameworks */,
 				08FFCB041712A2C900F21D86 /* Products */,
@@ -892,6 +958,12 @@
 		08FFCB051712A2C900F21D86 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9A63E43919426B6D0093907E /* libOAuthTouch2.a */,
+				9A63E43A19426B6D0093907E /* libOAuthTouch2NG.a */,
+				9A63E40A194269AE0093907E /* libGTMHTTPFetcher.a */,
+				9A63E40B194269AE0093907E /* libOAuthTouch2.a */,
+				9A63E40C194269AE0093907E /* libOAuthTouch2NG.a */,
+				9A63E349194247D10093907E /* GoogleBlogger.framework */,
 				9A61FF96190077EA004AE70E /* Reveal.framework */,
 				C12D9DEF18BA21DB00F7693A /* MediaPlayer.framework */,
 				C1EBC3F318B9D30F00B77297 /* CoreMedia.framework */,
@@ -954,11 +1026,30 @@
 			path = AppDelegate;
 			sourceTree = "<group>";
 		};
-		9AACCEB31941289100257408 /* Products */ = {
+		9A63E3F6194269920093907E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9AACCEBA1941289200257408 /* GoogleBlogger.framework */,
-				9AACCEBC1941289200257408 /* GoogleBloggerTests.xctest */,
+				9A63E3FE194269920093907E /* GoogleBloggerTests.xctest */,
+				9A63E400194269920093907E /* libGoogleBlogger.a */,
+				9A63E402194269920093907E /* GoogleBlogger1Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9A63E42C19426B0F0093907E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9A63E43319426B0F0093907E /* libGTMHTTPFetcher.a */,
+				9A63E43519426B0F0093907E /* UnitTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9A63E43E19426BC50093907E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9A63E44519426BC50093907E /* libOAuthTouch2.a */,
+				9A63E44719426BC50093907E /* libOAuthTouch2NG.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1066,6 +1157,9 @@
 			buildRules = (
 			);
 			dependencies = (
+				9A63E44919426BEF0093907E /* PBXTargetDependency */,
+				9A63E43719426B220093907E /* PBXTargetDependency */,
+				9A63E411194269BA0093907E /* PBXTargetDependency */,
 			);
 			name = BassBlog;
 			productName = BassBlog;
@@ -1103,8 +1197,16 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 9AACCEB31941289100257408 /* Products */;
-					ProjectRef = 9AACCEB21941289100257408 /* GoogleBlogger.xcodeproj */;
+					ProductGroup = 9A63E3F6194269920093907E /* Products */;
+					ProjectRef = 9A63E3F5194269920093907E /* GoogleBlogger.xcodeproj */;
+				},
+				{
+					ProductGroup = 9A63E42C19426B0F0093907E /* Products */;
+					ProjectRef = 9A63E42B19426B0F0093907E /* GTMHTTPFetcher.xcodeproj */;
+				},
+				{
+					ProductGroup = 9A63E43E19426BC50093907E /* Products */;
+					ProjectRef = 9A63E43D19426BC50093907E /* GTMOAuth2.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1115,18 +1217,53 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		9AACCEBA1941289200257408 /* GoogleBlogger.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = GoogleBlogger.framework;
-			remoteRef = 9AACCEB91941289200257408 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9AACCEBC1941289200257408 /* GoogleBloggerTests.xctest */ = {
+		9A63E3FE194269920093907E /* GoogleBloggerTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = GoogleBloggerTests.xctest;
-			remoteRef = 9AACCEBB1941289200257408 /* PBXContainerItemProxy */;
+			remoteRef = 9A63E3FD194269920093907E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9A63E400194269920093907E /* libGoogleBlogger.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libGoogleBlogger.a;
+			remoteRef = 9A63E3FF194269920093907E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9A63E402194269920093907E /* GoogleBlogger1Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = GoogleBlogger1Tests.xctest;
+			remoteRef = 9A63E401194269920093907E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9A63E43319426B0F0093907E /* libGTMHTTPFetcher.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libGTMHTTPFetcher.a;
+			remoteRef = 9A63E43219426B0F0093907E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9A63E43519426B0F0093907E /* UnitTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = UnitTests.xctest;
+			remoteRef = 9A63E43419426B0F0093907E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9A63E44519426BC50093907E /* libOAuthTouch2.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libOAuthTouch2.a;
+			remoteRef = 9A63E44419426BC50093907E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9A63E44719426BC50093907E /* libOAuthTouch2NG.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libOAuthTouch2NG.a;
+			remoteRef = 9A63E44619426BC50093907E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1228,6 +1365,24 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		9A63E411194269BA0093907E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GoogleBlogger;
+			targetProxy = 9A63E410194269BA0093907E /* PBXContainerItemProxy */;
+		};
+		9A63E43719426B220093907E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GTMHTTPFetcherLib;
+			targetProxy = 9A63E43619426B220093907E /* PBXContainerItemProxy */;
+		};
+		9A63E44919426BEF0093907E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OAuthTouchStaticLib;
+			targetProxy = 9A63E44819426BEF0093907E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		08FFCB111712A2C900F21D86 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -1294,6 +1449,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/BassBlog/Libraries",
+					"$(PROJECT_DIR)/GoogleBlogger/**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BassBlog/BassBlog-Prefix.pch";
@@ -1306,6 +1462,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(PROJECT_DIR)/GoogleBlogger/GoogleBlogger\"/**",
 					"\"$(SRCROOT)/BassBlog/Libraries/Flurry\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1416,6 +1573,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/BassBlog/Libraries",
+					"$(PROJECT_DIR)/GoogleBlogger/**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BassBlog/BassBlog-Prefix.pch";
@@ -1428,6 +1586,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(PROJECT_DIR)/GoogleBlogger/GoogleBlogger\"/**",
 					"\"$(SRCROOT)/BassBlog/Libraries/Flurry\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1445,6 +1604,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/BassBlog/Libraries",
+					"$(PROJECT_DIR)/GoogleBlogger/**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BassBlog/BassBlog-Prefix.pch";
@@ -1457,6 +1617,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(PROJECT_DIR)/GoogleBlogger/GoogleBlogger\"/**",
 					"\"$(SRCROOT)/BassBlog/Libraries/Flurry\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -28,11 +28,11 @@
 // Classes:
 //   GTLQueryBlogger (31 custom class methods, 29 custom properties)
 
-#if GTL_BUILT_AS_FRAMEWORK
-  #import "GTL/GTLQuery.h"
-#else
+//#if GTL_BUILT_AS_FRAMEWORK
+//  #import "GTL/GTLQuery.h"
+//#else
   #import "GTLQuery.h"
-#endif
+//#endif
 
 @class GTLBloggerPage;
 @class GTLBloggerPost;

@@ -28,11 +28,11 @@
 
 #import <Foundation/Foundation.h>
 
-#if GTL_BUILT_AS_FRAMEWORK
-  #import "GTL/GTLDefines.h"
-#else
+//#if GTL_BUILT_AS_FRAMEWORK
+//  #import "GTL/GTLDefines.h"
+//#else
   #import "GTLDefines.h"
-#endif
+//#endif
 
 // Authorization scope
 // Manage your Blogger account
