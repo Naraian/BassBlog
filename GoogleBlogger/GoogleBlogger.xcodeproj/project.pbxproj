@@ -7,6 +7,65 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A0D18EE194FA22B00DE613F /* GTMGatherInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0D1896194FA22B00DE613F /* GTMGatherInputStream.m */; };
+		9A0D18EF194FA22B00DE613F /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0D1898194FA22B00DE613F /* GTMHTTPFetcher.m */; };
+		9A0D18F0194FA22B00DE613F /* GTMHTTPFetcherLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0D189D194FA22B00DE613F /* GTMHTTPFetcherLogging.m */; };
+		9A0D18F1194FA22B00DE613F /* GTMHTTPFetcherLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0D189F194FA22B00DE613F /* GTMHTTPFetcherLogViewController.m */; };
+		9A0D18F2194FA22B00DE613F /* GTMHTTPFetcherService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0D18A1194FA22B00DE613F /* GTMHTTPFetcherService.m */; };
+		9A0D18F3194FA22B00DE613F /* GTMHTTPFetchHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0D18A3194FA22B00DE613F /* GTMHTTPFetchHistory.m */; };
+		9A0D18F4194FA22B00DE613F /* GTMHTTPUploadFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0D18A5194FA22B00DE613F /* GTMHTTPUploadFetcher.m */; };
+		9A0D18F5194FA22B00DE613F /* GTMMIMEDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0D18A7194FA22B00DE613F /* GTMMIMEDocument.m */; };
+		9A0D18F6194FA22B00DE613F /* GTMReadMonitorInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0D18A9194FA22B00DE613F /* GTMReadMonitorInputStream.m */; };
+		9A0D18FD194FA22B00DE613F /* GTMHTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0D18B6194FA22B00DE613F /* GTMHTTPServer.m */; };
+		9A0D1908194FA64700DE613F /* GTMGatherInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A0D1895194FA22B00DE613F /* GTMGatherInputStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D190A194FA64700DE613F /* GTMHTTPFetcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A0D1897194FA22B00DE613F /* GTMHTTPFetcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D190C194FA64700DE613F /* GTMHTTPFetcherLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A0D189C194FA22B00DE613F /* GTMHTTPFetcherLogging.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D190E194FA64700DE613F /* GTMHTTPFetcherLogViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A0D189E194FA22B00DE613F /* GTMHTTPFetcherLogViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1910194FA64700DE613F /* GTMHTTPFetcherService.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A0D18A0194FA22B00DE613F /* GTMHTTPFetcherService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1912194FA64700DE613F /* GTMHTTPFetchHistory.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A0D18A2194FA22B00DE613F /* GTMHTTPFetchHistory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1914194FA64700DE613F /* GTMHTTPUploadFetcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A0D18A4194FA22B00DE613F /* GTMHTTPUploadFetcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1916194FA64700DE613F /* GTMMIMEDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A0D18A6194FA22B00DE613F /* GTMMIMEDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1918194FA64700DE613F /* GTMReadMonitorInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A0D18A8194FA22B00DE613F /* GTMReadMonitorInputStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1928194FA64800DE613F /* GTLDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCEB01941283F00257408 /* GTLDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1929194FA64800DE613F /* GTLClientLoginAuthentication.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDCE1941278D00257408 /* GTLClientLoginAuthentication.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D192B194FA64800DE613F /* GTMOAuth2Authentication.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDD41941278D00257408 /* GTMOAuth2Authentication.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D192D194FA64800DE613F /* GTMOAuth2SignIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDD61941278D00257408 /* GTMOAuth2SignIn.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1930194FA64800DE613F /* GTMOAuth2ViewControllerTouch.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDDF1941278D00257408 /* GTMOAuth2ViewControllerTouch.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1933194FA64800DE613F /* GTLBatchQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDE31941278D00257408 /* GTLBatchQuery.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1935194FA64900DE613F /* GTLBatchResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDE51941278D00257408 /* GTLBatchResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1937194FA64900DE613F /* GTLDateTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDE71941278D00257408 /* GTLDateTime.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1939194FA64900DE613F /* GTLErrorObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDE91941278D00257408 /* GTLErrorObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D193B194FA64900DE613F /* GTLObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDEB1941278D00257408 /* GTLObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D193D194FA64900DE613F /* GTLQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDED1941278D00257408 /* GTLQuery.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D193F194FA64900DE613F /* GTLRuntimeCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDEF1941278D00257408 /* GTLRuntimeCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1941194FA64900DE613F /* GTLService.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDF11941278D00257408 /* GTLService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1943194FA64A00DE613F /* GTLUploadParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDF31941278D00257408 /* GTLUploadParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1945194FA64A00DE613F /* GTLBlogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDF61941278D00257408 /* GTLBlogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1946194FA64A00DE613F /* GTLBloggerBlog.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDF71941278D00257408 /* GTLBloggerBlog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1948194FA64A00DE613F /* GTLBloggerBlogList.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDF91941278D00257408 /* GTLBloggerBlogList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D194A194FA64A00DE613F /* GTLBloggerBlogPerUserInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDFB1941278D00257408 /* GTLBloggerBlogPerUserInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D194C194FA64A00DE613F /* GTLBloggerBlogUserInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDFD1941278D00257408 /* GTLBloggerBlogUserInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D194E194FA64A00DE613F /* GTLBloggerComment.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCDFF1941278D00257408 /* GTLBloggerComment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1950194FA64B00DE613F /* GTLBloggerCommentList.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE011941278D00257408 /* GTLBloggerCommentList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1952194FA64B00DE613F /* GTLBloggerConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE031941278D00257408 /* GTLBloggerConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1954194FA64B00DE613F /* GTLBloggerPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE051941278D00257408 /* GTLBloggerPage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1956194FA64B00DE613F /* GTLBloggerPageList.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE071941278D00257408 /* GTLBloggerPageList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1958194FA64B00DE613F /* GTLBloggerPageviews.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE091941278D00257408 /* GTLBloggerPageviews.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D195A194FA64C00DE613F /* GTLBloggerPost.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE0B1941278D00257408 /* GTLBloggerPost.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D195C194FA64C00DE613F /* GTLBloggerPostList.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE0D1941278D00257408 /* GTLBloggerPostList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D195E194FA64C00DE613F /* GTLBloggerPostPerUserInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE0F1941278D00257408 /* GTLBloggerPostPerUserInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1960194FA64C00DE613F /* GTLBloggerPostUserInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE111941278D00257408 /* GTLBloggerPostUserInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1962194FA64C00DE613F /* GTLBloggerPostUserInfosList.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE131941278D00257408 /* GTLBloggerPostUserInfosList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1964194FA64D00DE613F /* GTLBloggerUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE151941278D00257408 /* GTLBloggerUser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1966194FA64D00DE613F /* GTLQueryBlogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE171941278D00257408 /* GTLQueryBlogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1968194FA64D00DE613F /* GTLServiceBlogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE191941278D00257408 /* GTLServiceBlogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D196A194FA64D00DE613F /* GTLBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE1C1941278D00257408 /* GTLBase64.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D196C194FA64E00DE613F /* GTLFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE1E1941278D00257408 /* GTLFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D196E194FA64E00DE613F /* GTLJSONParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE201941278D00257408 /* GTLJSONParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1970194FA64E00DE613F /* GTLTargetNamespace.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE221941278D00257408 /* GTLTargetNamespace.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1971194FA64E00DE613F /* GTLUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCE231941278D00257408 /* GTLUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1973194FA64F00DE613F /* GoogleBlogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AACCD8F194126D300257408 /* GoogleBlogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A0D1977194FA64F00DE613F /* GoogleBlogger1.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A63E36519424FC30093907E /* GoogleBlogger1.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A63E36619424FC30093907E /* GoogleBlogger1.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9A63E36519424FC30093907E /* GoogleBlogger1.h */; };
 		9A63E36E19424FC30093907E /* libGoogleBlogger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A63E36319424FC30093907E /* libGoogleBlogger.a */; };
 		9A63E37A194250360093907E /* GTLDefines.h in Sources */ = {isa = PBXBuildFile; fileRef = 9AACCEB01941283F00257408 /* GTLDefines.h */; };
@@ -16,9 +75,6 @@
 		9A63E39F194250360093907E /* GTMOAuth2Authentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AACCDD51941278D00257408 /* GTMOAuth2Authentication.m */; };
 		9A63E3A0194250360093907E /* GTMOAuth2SignIn.h in Sources */ = {isa = PBXBuildFile; fileRef = 9AACCDD61941278D00257408 /* GTMOAuth2SignIn.h */; };
 		9A63E3A1194250360093907E /* GTMOAuth2SignIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AACCDD71941278D00257408 /* GTMOAuth2SignIn.m */; };
-		9A63E3A2194250360093907E /* GTMOAuth2Framework-Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = 9AACCDD91941278D00257408 /* GTMOAuth2Framework-Info.plist */; };
-		9A63E3A4194250360093907E /* GTMOAuth2WindowController.h in Sources */ = {isa = PBXBuildFile; fileRef = 9AACCDDB1941278D00257408 /* GTMOAuth2WindowController.h */; };
-		9A63E3A5194250360093907E /* GTMOAuth2WindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AACCDDC1941278D00257408 /* GTMOAuth2WindowController.m */; };
 		9A63E3A6194250360093907E /* ReleaseNotes.txt in Sources */ = {isa = PBXBuildFile; fileRef = 9AACCDDD1941278D00257408 /* ReleaseNotes.txt */; };
 		9A63E3A7194250360093907E /* GTMOAuth2ViewControllerTouch.h in Sources */ = {isa = PBXBuildFile; fileRef = 9AACCDDF1941278D00257408 /* GTMOAuth2ViewControllerTouch.h */; };
 		9A63E3A8194250360093907E /* GTMOAuth2ViewControllerTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AACCDE01941278D00257408 /* GTMOAuth2ViewControllerTouch.m */; };
@@ -90,8 +146,6 @@
 		9A63E3EB194250370093907E /* Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = 9AACCD8E194126D300257408 /* Info.plist */; };
 		9A63E3ED194250370093907E /* Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = 9AACCD9B194126D300257408 /* Info.plist */; };
 		9A63E3F0194250370093907E /* Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = 9A63E37319424FC30093907E /* Info.plist */; };
-		9A63E41D19426A050093907E /* libOAuthTouch2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AACCE9F1941278E00257408 /* libOAuthTouch2.a */; };
-		9A63E41E19426A050093907E /* libOAuthTouch2NG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AACCEA11941278E00257408 /* libOAuthTouch2NG.a */; };
 		9AACCD9D194126D300257408 /* GoogleBloggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AACCD9C194126D300257408 /* GoogleBloggerTests.m */; };
 /* End PBXBuildFile section */
 
@@ -102,48 +156,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 9A63E36219424FC30093907E;
 			remoteInfo = GoogleBlogger1;
-		};
-		9A63E414194269DB0093907E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9AACCDD11941278D00257408 /* GTMOAuth2.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC07D0554694100DB518D;
-			remoteInfo = OAuthTouchStaticLib;
-		};
-		9A63E416194269DB0093907E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9AACCDD11941278D00257408 /* GTMOAuth2.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 4FC754EF13E77E25006A0C26;
-			remoteInfo = OAuthTouchNonGoogleStaticLib;
-		};
-		9A63E418194269DB0093907E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9AACCDD11941278D00257408 /* GTMOAuth2.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 4F724A7012248B19001A4AD0;
-			remoteInfo = GTMOAuth2.framework;
-		};
-		9A63E41A194269DB0093907E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9AACCDD11941278D00257408 /* GTMOAuth2.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 4FC754FB13E77E2B006A0C26;
-			remoteInfo = GTMOAuth2NonGoogle.framework;
-		};
-		9AACCE9E1941278E00257408 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9AACCDD11941278D00257408 /* GTMOAuth2.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D;
-			remoteInfo = OAuthTouchStaticLib;
-		};
-		9AACCEA01941278E00257408 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9AACCDD11941278D00257408 /* GTMOAuth2.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4FC754FA13E77E25006A0C26;
-			remoteInfo = OAuthTouchNonGoogleStaticLib;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -161,6 +173,38 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9A0D1895194FA22B00DE613F /* GTMGatherInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMGatherInputStream.h; sourceTree = "<group>"; };
+		9A0D1896194FA22B00DE613F /* GTMGatherInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMGatherInputStream.m; sourceTree = "<group>"; };
+		9A0D1897194FA22B00DE613F /* GTMHTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcher.h; sourceTree = "<group>"; };
+		9A0D1898194FA22B00DE613F /* GTMHTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcher.m; sourceTree = "<group>"; };
+		9A0D189C194FA22B00DE613F /* GTMHTTPFetcherLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcherLogging.h; sourceTree = "<group>"; };
+		9A0D189D194FA22B00DE613F /* GTMHTTPFetcherLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcherLogging.m; sourceTree = "<group>"; };
+		9A0D189E194FA22B00DE613F /* GTMHTTPFetcherLogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcherLogViewController.h; sourceTree = "<group>"; };
+		9A0D189F194FA22B00DE613F /* GTMHTTPFetcherLogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcherLogViewController.m; sourceTree = "<group>"; };
+		9A0D18A0194FA22B00DE613F /* GTMHTTPFetcherService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcherService.h; sourceTree = "<group>"; };
+		9A0D18A1194FA22B00DE613F /* GTMHTTPFetcherService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcherService.m; sourceTree = "<group>"; };
+		9A0D18A2194FA22B00DE613F /* GTMHTTPFetchHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetchHistory.h; sourceTree = "<group>"; };
+		9A0D18A3194FA22B00DE613F /* GTMHTTPFetchHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetchHistory.m; sourceTree = "<group>"; };
+		9A0D18A4194FA22B00DE613F /* GTMHTTPUploadFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPUploadFetcher.h; sourceTree = "<group>"; };
+		9A0D18A5194FA22B00DE613F /* GTMHTTPUploadFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPUploadFetcher.m; sourceTree = "<group>"; };
+		9A0D18A6194FA22B00DE613F /* GTMMIMEDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMMIMEDocument.h; sourceTree = "<group>"; };
+		9A0D18A7194FA22B00DE613F /* GTMMIMEDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMMIMEDocument.m; sourceTree = "<group>"; };
+		9A0D18A8194FA22B00DE613F /* GTMReadMonitorInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMReadMonitorInputStream.h; sourceTree = "<group>"; };
+		9A0D18A9194FA22B00DE613F /* GTMReadMonitorInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMReadMonitorInputStream.m; sourceTree = "<group>"; };
+		9A0D18AD194FA22B00DE613F /* gettysburgaddress.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gettysburgaddress.txt; sourceTree = "<group>"; };
+		9A0D18AE194FA22B00DE613F /* GTMGatherInputStreamTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMGatherInputStreamTest.m; sourceTree = "<group>"; };
+		9A0D18AF194FA22B00DE613F /* GTMHTTPFetcherCachingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcherCachingTest.m; sourceTree = "<group>"; };
+		9A0D18B0194FA22B00DE613F /* GTMHTTPFetcherFetchingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcherFetchingTest.m; sourceTree = "<group>"; };
+		9A0D18B1194FA22B00DE613F /* GTMHTTPFetcherServiceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcherServiceTest.m; sourceTree = "<group>"; };
+		9A0D18B2194FA22B00DE613F /* GTMHTTPFetcherTestServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcherTestServer.h; sourceTree = "<group>"; };
+		9A0D18B3194FA22B00DE613F /* GTMHTTPFetcherTestServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcherTestServer.m; sourceTree = "<group>"; };
+		9A0D18B4194FA22B00DE613F /* GTMHTTPFetcherUtilityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcherUtilityTest.m; sourceTree = "<group>"; };
+		9A0D18B5194FA22B00DE613F /* GTMHTTPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPServer.h; sourceTree = "<group>"; };
+		9A0D18B6194FA22B00DE613F /* GTMHTTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPServer.m; sourceTree = "<group>"; };
+		9A0D18B7194FA22B00DE613F /* GTMHTTPUploadFetcherTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPUploadFetcherTest.m; sourceTree = "<group>"; };
+		9A0D18B8194FA22B00DE613F /* GTMMIMEDocumentTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMMIMEDocumentTest.m; sourceTree = "<group>"; };
+		9A0D18B9194FA22B00DE613F /* GTMReadMonitorInputStreamTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMReadMonitorInputStreamTest.m; sourceTree = "<group>"; };
+		9A0D18BA194FA22B00DE613F /* UnitTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
 		9A63E36319424FC30093907E /* libGoogleBlogger.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGoogleBlogger.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A63E36519424FC30093907E /* GoogleBlogger1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleBlogger1.h; sourceTree = "<group>"; };
 		9A63E36719424FC30093907E /* GoogleBlogger1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleBlogger1.m; sourceTree = "<group>"; };
@@ -173,15 +217,10 @@
 		9AACCD9C194126D300257408 /* GoogleBloggerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleBloggerTests.m; sourceTree = "<group>"; };
 		9AACCDCE1941278D00257408 /* GTLClientLoginAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTLClientLoginAuthentication.h; sourceTree = "<group>"; };
 		9AACCDCF1941278D00257408 /* GTLClientLoginAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTLClientLoginAuthentication.m; sourceTree = "<group>"; };
-		9AACCDD11941278D00257408 /* GTMOAuth2.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = GTMOAuth2.xcodeproj; sourceTree = "<group>"; };
 		9AACCDD41941278D00257408 /* GTMOAuth2Authentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2Authentication.h; sourceTree = "<group>"; };
 		9AACCDD51941278D00257408 /* GTMOAuth2Authentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2Authentication.m; sourceTree = "<group>"; };
 		9AACCDD61941278D00257408 /* GTMOAuth2SignIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2SignIn.h; sourceTree = "<group>"; };
 		9AACCDD71941278D00257408 /* GTMOAuth2SignIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2SignIn.m; sourceTree = "<group>"; };
-		9AACCDD91941278D00257408 /* GTMOAuth2Framework-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GTMOAuth2Framework-Info.plist"; sourceTree = "<group>"; };
-		9AACCDDA1941278D00257408 /* GTMOAuth2Window.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GTMOAuth2Window.xib; sourceTree = "<group>"; };
-		9AACCDDB1941278D00257408 /* GTMOAuth2WindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2WindowController.h; sourceTree = "<group>"; };
-		9AACCDDC1941278D00257408 /* GTMOAuth2WindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2WindowController.m; sourceTree = "<group>"; };
 		9AACCDDD1941278D00257408 /* ReleaseNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReleaseNotes.txt; sourceTree = "<group>"; };
 		9AACCDDF1941278D00257408 /* GTMOAuth2ViewControllerTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2ViewControllerTouch.h; sourceTree = "<group>"; };
 		9AACCDE01941278D00257408 /* GTMOAuth2ViewControllerTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2ViewControllerTouch.m; sourceTree = "<group>"; };
@@ -258,8 +297,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A63E41D19426A050093907E /* libOAuthTouch2.a in Frameworks */,
-				9A63E41E19426A050093907E /* libOAuthTouch2NG.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +318,61 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A0D1819194FA22B00DE613F /* HTTPFetcher */ = {
+			isa = PBXGroup;
+			children = (
+				9A0D1895194FA22B00DE613F /* GTMGatherInputStream.h */,
+				9A0D1896194FA22B00DE613F /* GTMGatherInputStream.m */,
+				9A0D1897194FA22B00DE613F /* GTMHTTPFetcher.h */,
+				9A0D1898194FA22B00DE613F /* GTMHTTPFetcher.m */,
+				9A0D189C194FA22B00DE613F /* GTMHTTPFetcherLogging.h */,
+				9A0D189D194FA22B00DE613F /* GTMHTTPFetcherLogging.m */,
+				9A0D189E194FA22B00DE613F /* GTMHTTPFetcherLogViewController.h */,
+				9A0D189F194FA22B00DE613F /* GTMHTTPFetcherLogViewController.m */,
+				9A0D18A0194FA22B00DE613F /* GTMHTTPFetcherService.h */,
+				9A0D18A1194FA22B00DE613F /* GTMHTTPFetcherService.m */,
+				9A0D18A2194FA22B00DE613F /* GTMHTTPFetchHistory.h */,
+				9A0D18A3194FA22B00DE613F /* GTMHTTPFetchHistory.m */,
+				9A0D18A4194FA22B00DE613F /* GTMHTTPUploadFetcher.h */,
+				9A0D18A5194FA22B00DE613F /* GTMHTTPUploadFetcher.m */,
+				9A0D18A6194FA22B00DE613F /* GTMMIMEDocument.h */,
+				9A0D18A7194FA22B00DE613F /* GTMMIMEDocument.m */,
+				9A0D18A8194FA22B00DE613F /* GTMReadMonitorInputStream.h */,
+				9A0D18A9194FA22B00DE613F /* GTMReadMonitorInputStream.m */,
+				9A0D18AB194FA22B00DE613F /* Tests */,
+				9A0D18BA194FA22B00DE613F /* UnitTests-Info.plist */,
+			);
+			path = HTTPFetcher;
+			sourceTree = "<group>";
+		};
+		9A0D18AB194FA22B00DE613F /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				9A0D18AC194FA22B00DE613F /* Data */,
+				9A0D18AE194FA22B00DE613F /* GTMGatherInputStreamTest.m */,
+				9A0D18AF194FA22B00DE613F /* GTMHTTPFetcherCachingTest.m */,
+				9A0D18B0194FA22B00DE613F /* GTMHTTPFetcherFetchingTest.m */,
+				9A0D18B1194FA22B00DE613F /* GTMHTTPFetcherServiceTest.m */,
+				9A0D18B2194FA22B00DE613F /* GTMHTTPFetcherTestServer.h */,
+				9A0D18B3194FA22B00DE613F /* GTMHTTPFetcherTestServer.m */,
+				9A0D18B4194FA22B00DE613F /* GTMHTTPFetcherUtilityTest.m */,
+				9A0D18B5194FA22B00DE613F /* GTMHTTPServer.h */,
+				9A0D18B6194FA22B00DE613F /* GTMHTTPServer.m */,
+				9A0D18B7194FA22B00DE613F /* GTMHTTPUploadFetcherTest.m */,
+				9A0D18B8194FA22B00DE613F /* GTMMIMEDocumentTest.m */,
+				9A0D18B9194FA22B00DE613F /* GTMReadMonitorInputStreamTest.m */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		9A0D18AC194FA22B00DE613F /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				9A0D18AD194FA22B00DE613F /* gettysburgaddress.txt */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		9A63E36419424FC30093907E /* GoogleBlogger1 */ = {
 			isa = PBXGroup;
 			children = (
@@ -330,6 +422,7 @@
 		9AACCD8C194126D300257408 /* GoogleBlogger */ = {
 			isa = PBXGroup;
 			children = (
+				9A0D1819194FA22B00DE613F /* HTTPFetcher */,
 				9AACCEB01941283F00257408 /* GTLDefines.h */,
 				9AACCDCD1941278D00257408 /* Networking */,
 				9AACCDD01941278D00257408 /* OAuth2 */,
@@ -379,36 +472,14 @@
 		9AACCDD01941278D00257408 /* OAuth2 */ = {
 			isa = PBXGroup;
 			children = (
-				9AACCDD11941278D00257408 /* GTMOAuth2.xcodeproj */,
 				9AACCDD41941278D00257408 /* GTMOAuth2Authentication.h */,
 				9AACCDD51941278D00257408 /* GTMOAuth2Authentication.m */,
 				9AACCDD61941278D00257408 /* GTMOAuth2SignIn.h */,
 				9AACCDD71941278D00257408 /* GTMOAuth2SignIn.m */,
-				9AACCDD81941278D00257408 /* Mac */,
 				9AACCDDD1941278D00257408 /* ReleaseNotes.txt */,
 				9AACCDDE1941278D00257408 /* Touch */,
 			);
 			path = OAuth2;
-			sourceTree = "<group>";
-		};
-		9AACCDD21941278D00257408 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9AACCE9F1941278E00257408 /* libOAuthTouch2.a */,
-				9AACCEA11941278E00257408 /* libOAuthTouch2NG.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		9AACCDD81941278D00257408 /* Mac */ = {
-			isa = PBXGroup;
-			children = (
-				9AACCDD91941278D00257408 /* GTMOAuth2Framework-Info.plist */,
-				9AACCDDA1941278D00257408 /* GTMOAuth2Window.xib */,
-				9AACCDDB1941278D00257408 /* GTMOAuth2WindowController.h */,
-				9AACCDDC1941278D00257408 /* GTMOAuth2WindowController.m */,
-			);
-			path = Mac;
 			sourceTree = "<group>";
 		};
 		9AACCDDE1941278D00257408 /* Touch */ = {
@@ -508,6 +579,65 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		9A0D1907194FA63600DE613F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A0D1908194FA64700DE613F /* GTMGatherInputStream.h in Headers */,
+				9A0D190A194FA64700DE613F /* GTMHTTPFetcher.h in Headers */,
+				9A0D190C194FA64700DE613F /* GTMHTTPFetcherLogging.h in Headers */,
+				9A0D190E194FA64700DE613F /* GTMHTTPFetcherLogViewController.h in Headers */,
+				9A0D1910194FA64700DE613F /* GTMHTTPFetcherService.h in Headers */,
+				9A0D1912194FA64700DE613F /* GTMHTTPFetchHistory.h in Headers */,
+				9A0D1914194FA64700DE613F /* GTMHTTPUploadFetcher.h in Headers */,
+				9A0D1916194FA64700DE613F /* GTMMIMEDocument.h in Headers */,
+				9A0D1918194FA64700DE613F /* GTMReadMonitorInputStream.h in Headers */,
+				9A0D1928194FA64800DE613F /* GTLDefines.h in Headers */,
+				9A0D1929194FA64800DE613F /* GTLClientLoginAuthentication.h in Headers */,
+				9A0D192B194FA64800DE613F /* GTMOAuth2Authentication.h in Headers */,
+				9A0D192D194FA64800DE613F /* GTMOAuth2SignIn.h in Headers */,
+				9A0D1930194FA64800DE613F /* GTMOAuth2ViewControllerTouch.h in Headers */,
+				9A0D1933194FA64800DE613F /* GTLBatchQuery.h in Headers */,
+				9A0D1935194FA64900DE613F /* GTLBatchResult.h in Headers */,
+				9A0D1937194FA64900DE613F /* GTLDateTime.h in Headers */,
+				9A0D1939194FA64900DE613F /* GTLErrorObject.h in Headers */,
+				9A0D193B194FA64900DE613F /* GTLObject.h in Headers */,
+				9A0D193D194FA64900DE613F /* GTLQuery.h in Headers */,
+				9A0D193F194FA64900DE613F /* GTLRuntimeCommon.h in Headers */,
+				9A0D1941194FA64900DE613F /* GTLService.h in Headers */,
+				9A0D1943194FA64A00DE613F /* GTLUploadParameters.h in Headers */,
+				9A0D1945194FA64A00DE613F /* GTLBlogger.h in Headers */,
+				9A0D1946194FA64A00DE613F /* GTLBloggerBlog.h in Headers */,
+				9A0D1948194FA64A00DE613F /* GTLBloggerBlogList.h in Headers */,
+				9A0D194A194FA64A00DE613F /* GTLBloggerBlogPerUserInfo.h in Headers */,
+				9A0D194C194FA64A00DE613F /* GTLBloggerBlogUserInfo.h in Headers */,
+				9A0D194E194FA64A00DE613F /* GTLBloggerComment.h in Headers */,
+				9A0D1950194FA64B00DE613F /* GTLBloggerCommentList.h in Headers */,
+				9A0D1952194FA64B00DE613F /* GTLBloggerConstants.h in Headers */,
+				9A0D1954194FA64B00DE613F /* GTLBloggerPage.h in Headers */,
+				9A0D1956194FA64B00DE613F /* GTLBloggerPageList.h in Headers */,
+				9A0D1958194FA64B00DE613F /* GTLBloggerPageviews.h in Headers */,
+				9A0D195A194FA64C00DE613F /* GTLBloggerPost.h in Headers */,
+				9A0D195C194FA64C00DE613F /* GTLBloggerPostList.h in Headers */,
+				9A0D195E194FA64C00DE613F /* GTLBloggerPostPerUserInfo.h in Headers */,
+				9A0D1960194FA64C00DE613F /* GTLBloggerPostUserInfo.h in Headers */,
+				9A0D1962194FA64C00DE613F /* GTLBloggerPostUserInfosList.h in Headers */,
+				9A0D1964194FA64D00DE613F /* GTLBloggerUser.h in Headers */,
+				9A0D1966194FA64D00DE613F /* GTLQueryBlogger.h in Headers */,
+				9A0D1968194FA64D00DE613F /* GTLServiceBlogger.h in Headers */,
+				9A0D196A194FA64D00DE613F /* GTLBase64.h in Headers */,
+				9A0D196C194FA64E00DE613F /* GTLFramework.h in Headers */,
+				9A0D196E194FA64E00DE613F /* GTLJSONParser.h in Headers */,
+				9A0D1970194FA64E00DE613F /* GTLTargetNamespace.h in Headers */,
+				9A0D1971194FA64E00DE613F /* GTLUtilities.h in Headers */,
+				9A0D1973194FA64F00DE613F /* GoogleBlogger.h in Headers */,
+				9A0D1977194FA64F00DE613F /* GoogleBlogger1.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		9A63E36219424FC30093907E /* GoogleBlogger */ = {
 			isa = PBXNativeTarget;
@@ -516,14 +646,11 @@
 				9A63E35F19424FC30093907E /* Sources */,
 				9A63E36019424FC30093907E /* Frameworks */,
 				9A63E36119424FC30093907E /* CopyFiles */,
+				9A0D1907194FA63600DE613F /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				9A63E415194269DB0093907E /* PBXTargetDependency */,
-				9A63E417194269DB0093907E /* PBXTargetDependency */,
-				9A63E419194269DB0093907E /* PBXTargetDependency */,
-				9A63E41B194269DB0093907E /* PBXTargetDependency */,
 			);
 			name = GoogleBlogger;
 			productName = GoogleBlogger1;
@@ -597,12 +724,6 @@
 			mainGroup = 9AACCD80194126D300257408;
 			productRefGroup = 9AACCD8B194126D300257408 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 9AACCDD21941278D00257408 /* Products */;
-					ProjectRef = 9AACCDD11941278D00257408 /* GTMOAuth2.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				9AACCD94194126D300257408 /* GoogleBloggerTests */,
@@ -611,23 +732,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		9AACCE9F1941278E00257408 /* libOAuthTouch2.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libOAuthTouch2.a;
-			remoteRef = 9AACCE9E1941278E00257408 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9AACCEA11941278E00257408 /* libOAuthTouch2NG.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libOAuthTouch2NG.a;
-			remoteRef = 9AACCEA01941278E00257408 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9A63E36B19424FC30093907E /* Resources */ = {
@@ -654,13 +758,11 @@
 				9A63E37A194250360093907E /* GTLDefines.h in Sources */,
 				9A63E39C194250360093907E /* GTLClientLoginAuthentication.h in Sources */,
 				9A63E39D194250360093907E /* GTLClientLoginAuthentication.m in Sources */,
+				9A0D18FD194FA22B00DE613F /* GTMHTTPServer.m in Sources */,
 				9A63E39E194250360093907E /* GTMOAuth2Authentication.h in Sources */,
 				9A63E39F194250360093907E /* GTMOAuth2Authentication.m in Sources */,
 				9A63E3A0194250360093907E /* GTMOAuth2SignIn.h in Sources */,
 				9A63E3A1194250360093907E /* GTMOAuth2SignIn.m in Sources */,
-				9A63E3A2194250360093907E /* GTMOAuth2Framework-Info.plist in Sources */,
-				9A63E3A4194250360093907E /* GTMOAuth2WindowController.h in Sources */,
-				9A63E3A5194250360093907E /* GTMOAuth2WindowController.m in Sources */,
 				9A63E3A6194250360093907E /* ReleaseNotes.txt in Sources */,
 				9A63E3A7194250360093907E /* GTMOAuth2ViewControllerTouch.h in Sources */,
 				9A63E3A8194250360093907E /* GTMOAuth2ViewControllerTouch.m in Sources */,
@@ -681,11 +783,14 @@
 				9A63E3B8194250360093907E /* GTLService.h in Sources */,
 				9A63E3B9194250360093907E /* GTLService.m in Sources */,
 				9A63E3BA194250360093907E /* GTLUploadParameters.h in Sources */,
+				9A0D18F6194FA22B00DE613F /* GTMReadMonitorInputStream.m in Sources */,
 				9A63E3BB194250360093907E /* GTLUploadParameters.m in Sources */,
 				9A63E3BC194250360093907E /* GTLBlogger.h in Sources */,
 				9A63E3BD194250360093907E /* GTLBloggerBlog.h in Sources */,
 				9A63E3BE194250360093907E /* GTLBloggerBlog.m in Sources */,
 				9A63E3BF194250360093907E /* GTLBloggerBlogList.h in Sources */,
+				9A0D18F2194FA22B00DE613F /* GTMHTTPFetcherService.m in Sources */,
+				9A0D18F1194FA22B00DE613F /* GTMHTTPFetcherLogViewController.m in Sources */,
 				9A63E3C0194250360093907E /* GTLBloggerBlogList.m in Sources */,
 				9A63E3C1194250360093907E /* GTLBloggerBlogPerUserInfo.h in Sources */,
 				9A63E3C2194250360093907E /* GTLBloggerBlogPerUserInfo.m in Sources */,
@@ -701,20 +806,25 @@
 				9A63E3CC194250360093907E /* GTLBloggerPage.m in Sources */,
 				9A63E3CD194250360093907E /* GTLBloggerPageList.h in Sources */,
 				9A63E3CE194250360093907E /* GTLBloggerPageList.m in Sources */,
+				9A0D18EE194FA22B00DE613F /* GTMGatherInputStream.m in Sources */,
 				9A63E3CF194250360093907E /* GTLBloggerPageviews.h in Sources */,
 				9A63E3D0194250360093907E /* GTLBloggerPageviews.m in Sources */,
 				9A63E3D1194250360093907E /* GTLBloggerPost.h in Sources */,
 				9A63E3D2194250360093907E /* GTLBloggerPost.m in Sources */,
+				9A0D18F0194FA22B00DE613F /* GTMHTTPFetcherLogging.m in Sources */,
 				9A63E3D3194250360093907E /* GTLBloggerPostList.h in Sources */,
 				9A63E3D4194250360093907E /* GTLBloggerPostList.m in Sources */,
 				9A63E3D5194250370093907E /* GTLBloggerPostPerUserInfo.h in Sources */,
 				9A63E3D6194250370093907E /* GTLBloggerPostPerUserInfo.m in Sources */,
 				9A63E3D7194250370093907E /* GTLBloggerPostUserInfo.h in Sources */,
 				9A63E3D8194250370093907E /* GTLBloggerPostUserInfo.m in Sources */,
+				9A0D18EF194FA22B00DE613F /* GTMHTTPFetcher.m in Sources */,
 				9A63E3D9194250370093907E /* GTLBloggerPostUserInfosList.h in Sources */,
+				9A0D18F5194FA22B00DE613F /* GTMMIMEDocument.m in Sources */,
 				9A63E3DA194250370093907E /* GTLBloggerPostUserInfosList.m in Sources */,
 				9A63E3DB194250370093907E /* GTLBloggerUser.h in Sources */,
 				9A63E3DC194250370093907E /* GTLBloggerUser.m in Sources */,
+				9A0D18F4194FA22B00DE613F /* GTMHTTPUploadFetcher.m in Sources */,
 				9A63E3DD194250370093907E /* GTLQueryBlogger.h in Sources */,
 				9A63E3DE194250370093907E /* GTLQueryBlogger.m in Sources */,
 				9A63E3DF194250370093907E /* GTLServiceBlogger.h in Sources */,
@@ -726,6 +836,7 @@
 				9A63E3E5194250370093907E /* GTLJSONParser.h in Sources */,
 				9A63E3E6194250370093907E /* GTLJSONParser.m in Sources */,
 				9A63E3E7194250370093907E /* GTLTargetNamespace.h in Sources */,
+				9A0D18F3194FA22B00DE613F /* GTMHTTPFetchHistory.m in Sources */,
 				9A63E3E8194250370093907E /* GTLUtilities.h in Sources */,
 				9A63E3E9194250370093907E /* GTLUtilities.m in Sources */,
 				9A63E3EA194250370093907E /* GoogleBlogger.h in Sources */,
@@ -758,54 +869,48 @@
 			target = 9A63E36219424FC30093907E /* GoogleBlogger */;
 			targetProxy = 9A63E36F19424FC30093907E /* PBXContainerItemProxy */;
 		};
-		9A63E415194269DB0093907E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = OAuthTouchStaticLib;
-			targetProxy = 9A63E414194269DB0093907E /* PBXContainerItemProxy */;
-		};
-		9A63E417194269DB0093907E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = OAuthTouchNonGoogleStaticLib;
-			targetProxy = 9A63E416194269DB0093907E /* PBXContainerItemProxy */;
-		};
-		9A63E419194269DB0093907E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = GTMOAuth2.framework;
-			targetProxy = 9A63E418194269DB0093907E /* PBXContainerItemProxy */;
-		};
-		9A63E41B194269DB0093907E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = GTMOAuth2NonGoogle.framework;
-			targetProxy = 9A63E41A194269DB0093907E /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		9A63E37519424FC30093907E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/GoogleBlogger/HTTPFetcher/build/GTMHTTPFetcher.build/Release-iphonesimulator/GTMHTTPFetcherLib.build/Objects-normal/i386",
+					"$(PROJECT_DIR)/GoogleBlogger/HTTPFetcher/build/GTMHTTPFetcher.build/Release-iphonesimulator/GTMHTTPFetcherLib.build/Objects-normal/x86_64",
+					"$(PROJECT_DIR)/GoogleBlogger/HTTPFetcher/build/Release-iphonesimulator",
+				);
 				METAL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = ../;
 			};
 			name = Debug;
 		};
 		9A63E37619424FC30093907E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/GoogleBlogger/HTTPFetcher/build/GTMHTTPFetcher.build/Release-iphonesimulator/GTMHTTPFetcherLib.build/Objects-normal/i386",
+					"$(PROJECT_DIR)/GoogleBlogger/HTTPFetcher/build/GTMHTTPFetcher.build/Release-iphonesimulator/GTMHTTPFetcherLib.build/Objects-normal/x86_64",
+					"$(PROJECT_DIR)/GoogleBlogger/HTTPFetcher/build/Release-iphonesimulator",
+				);
 				METAL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = ../;
 			};
 			name = Release;
 		};

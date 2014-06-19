@@ -9,9 +9,6 @@
 #import "BBModelManager.h"
 #import "BBFileManager.h"
 
-#import "BBMixesJSONLoader.h"
-#import "BBMixesJSONParser.h"
-
 #import "BBTag+Service.h"
 #import "BBMix+Service.h"
 
@@ -23,6 +20,7 @@
 
 #import "BBTimeProfiler.h"
 #import "BBMacros.h"
+#import "BBSettings.h"
 
 #import <CoreData/CoreData.h>
 
@@ -80,6 +78,8 @@ static const NSUInteger kBBMaxNumberOfUpdatedObjectsForAutoSave = 10;
 
 @property (nonatomic, strong) NSError *error;
 
+@property (retain) GTLServiceTicket *blogListTicket;
+
 TIME_PROFILER_PROPERTY_DECLARATION
 
 @end
@@ -116,29 +116,43 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
 
 #pragma mark * State
 
-+ (BOOL)isModelEmpty {
-    
-#warning TODO: incorrect but fast test...
-    
-    return [BBMixesJSONLoader requestArgValue] == 0;
+DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
+
++ (NSInteger)requestArgValue
+{
+    return [BBSettings integerForKey:BBMixesJSONRequestArgSettingsKey];
 }
 
-- (BOOL)isInitialized {
++ (void)setRequestArgValue:(NSInteger)requestArgValue
+{
+    [BBSettings setInteger:requestArgValue
+                    forKey:BBMixesJSONRequestArgSettingsKey];
+    [BBSettings synchronize];
+}
+
++ (BOOL)isModelEmpty
+{
+#warning TODO: incorrect but fast test...
     
+    return [self requestArgValue] == 0;
+}
+
+- (BOOL)isInitialized
+{
     return self.modelState == BBModelIsPopulated;
 }
 
 #pragma mark * Entities
 
-+ (BBTag *)allTag {
-    
++ (BBTag *)allTag
+{
     return [[self defaultManager] allTag];
 }
 
-- (BBTag *)allTag {
-    
-    if (_allTag == nil) {
-        
+- (BBTag *)allTag
+{
+    if (_allTag == nil)
+    {
         _allTag = [BBTag createInContext:self.tempContext];
         _allTag.name = [BBTag allName];
     }
@@ -146,63 +160,60 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
     return _allTag;
 }
 
-- (NSArray *)tagsWithSelectionOptions:(BBTagsSelectionOptions *)options {
+- (NSArray *)tagsWithSelectionOptions:(BBTagsSelectionOptions *)options
+{
+    NSFetchRequest *fetchRequest = [self fetchRequestForTagsWithSelectionOptions:options];
     
-    NSFetchRequest *fetchRequest =
-    [self fetchRequestForTagsWithSelectionOptions:options];
+    NSArray *tags = [self entitiesFetchedWithRequest:fetchRequest
+                                           inContext:[self currentThreadContext]];
     
-    NSArray *tags =
-    [self entitiesFetchedWithRequest:fetchRequest
-                           inContext:[self currentThreadContext]];
-    
-    if (tags.count) {
+    if (tags.count)
+    {
         tags = [tags arrayByAddingObject:self.allTag];
     }
     
     return tags;
 }
 
-- (NSArray *)mixesWithSelectionOptions:(BBMixesSelectionOptions *)options {
+- (NSArray *)mixesWithSelectionOptions:(BBMixesSelectionOptions *)options
+{
+    NSFetchRequest *fetchRequest = [self fetchRequestForMixesWithSelectionOptions:options];
     
-    NSFetchRequest *fetchRequest =
-    [self fetchRequestForMixesWithSelectionOptions:options];
-    
-    NSArray *mixes =
-    [self entitiesFetchedWithRequest:fetchRequest
-                           inContext:[self currentThreadContext]];
+    NSArray *mixes = [self entitiesFetchedWithRequest:fetchRequest
+                                            inContext:[self currentThreadContext]];
     return mixes;
 }
 
 - (NSUInteger)mixesCountWithSelectionOptions:(BBMixesSelectionOptions *)options {
     
-    NSFetchRequest *fetchRequest =
-    [self fetchRequestForMixesWithSelectionOptions:options];
+    NSFetchRequest *fetchRequest = [self fetchRequestForMixesWithSelectionOptions:options];
     
-    NSUInteger count =
-    [self countOfFetchedEntitiesWithRequest:fetchRequest
-                                  inContext:[self currentThreadContext]];
+    NSUInteger count = [self countOfFetchedEntitiesWithRequest:fetchRequest
+                                                     inContext:[self currentThreadContext]];
     return count;
 }
 
 - (void)enumerateObjectIDs:(NSArray *)objectIDs
-                usingBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block {
-    
+                usingBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block
+{
     NSAssert(block, @"Block == nil");
     
     NSAssert([NSThread isMainThread], @"Retrieving objects not in main thread!");
     
     NSManagedObjectContext *context = [self currentThreadContext];
     
-    [objectIDs enumerateObjectsUsingBlock:^(NSManagedObjectID *objectID, NSUInteger idx, BOOL *stop) {
-        
+    [objectIDs enumerateObjectsUsingBlock:^(NSManagedObjectID *objectID, NSUInteger idx, BOOL *stop)
+    {
         NSError *__autoreleasing error = nil;
         NSManagedObject *entity = [context existingObjectWithID:objectID error:&error];
-        if (entity == nil) {
-            
-            if ([objectID isEqual:[self.allTag objectID]]) {
+        if (entity == nil)
+        {
+            if ([objectID isEqual:[self.allTag objectID]])
+            {
                 entity = self.allTag;
             }
-            else {
+            else
+            {
                 [self handleError:error];
             }
         }
@@ -213,8 +224,8 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
 
 #pragma mark - Sort descriptors
 
-- (NSArray *)sortDescriptorsForMixesSelectionOptions:(BBMixesSelectionOptions *)options {
-    
+- (NSArray *)sortDescriptorsForMixesSelectionOptions:(BBMixesSelectionOptions *)options
+{
     NSSortDescriptor *sortDescriptor = nil;
     
     switch (options.sortKey)
@@ -231,7 +242,8 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
             break;
     }
     
-    if (sortDescriptor) {
+    if (sortDescriptor)
+    {
         return @[sortDescriptor, [BBMix IDSortDescriptor]];
     }
 
@@ -240,17 +252,17 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
 
 #pragma mark - Auto Save
 
-- (BOOL)isSaveInProgress {
-    
-    if (self.refreshSaveInProgress) {
-        
+- (BOOL)isSaveInProgress
+{
+    if (self.refreshSaveInProgress)
+    {
         return YES;
     }
     
     // Consumer wants to perform fetch, lets force auto save if needed.
     
-    if (NO == self.autoSaveInProgress) {
-        
+    if (NO == self.autoSaveInProgress)
+    {
         [self cancelScheduledMainContextAutoSave];
         
         [self mainContextAutoSave];
@@ -259,41 +271,41 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
     return self.autoSaveInProgress;
 }
 
-- (void)scheduleOrPerformMainContextAutoSave {
-    
+- (void)scheduleOrPerformMainContextAutoSave
+{
     [self cancelScheduledMainContextAutoSave];
     
-    if (NO == self.autoSaveInProgress) {
-        
-        if ([self.mainContext updatedObjects].count > kBBMaxNumberOfUpdatedObjectsForAutoSave) {
-            
+    if (NO == self.autoSaveInProgress)
+    {
+        if ([self.mainContext updatedObjects].count > kBBMaxNumberOfUpdatedObjectsForAutoSave)
+        {
             [self mainContextAutoSave];
             return;
         }
     }
     
-    [self.class mainThreadBlock:^{
-        
+    [self.class mainThreadBlock:^
+    {
         [self performSelector:@selector(mainContextAutoSave)
                    withObject:nil
                    afterDelay:kBBMainContextAutoSaveDelay];
     }];
 }
 
-- (void)cancelScheduledMainContextAutoSave {
-    
-    [self.class mainThreadBlock:^{
-        
+- (void)cancelScheduledMainContextAutoSave
+{
+    [self.class mainThreadBlock:^
+    {
         [self.class cancelPreviousPerformRequestsWithTarget:self
                                                    selector:@selector(mainContextAutoSave)
                                                      object:nil];
     }];
 }
 
-- (void)mainContextAutoSave {
- 
-    if (NO == [self.mainContext hasChanges]) {
-        
+- (void)mainContextAutoSave
+{
+    if (NO == [self.mainContext hasChanges])
+    {
         return;
     }
     
@@ -301,10 +313,10 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
     
     self.autoSaveInProgress = YES;
     
-    [self deepSaveFromContext:self.mainContext withCompletionBlock:^(BOOL saved) {
-        
-        if (saved == NO) {
-            
+    [self deepSaveFromContext:self.mainContext withCompletionBlock:^(BOOL saved)
+    {
+        if (saved == NO)
+        {
             BB_ERR(@"Couldn't auto save main context!");
         }
         
@@ -321,42 +333,26 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
 - (void)startObserveNotifications
 {
     // Application.
-    
-    [self addSelector:@selector(applicationDidEnterBackgroundNotification:)
-    forNotificationWithName:UIApplicationDidEnterBackgroundNotification];
-    
-    [self addSelector:@selector(applicationWillEnterForegroundNotification:)
-    forNotificationWithName:UIApplicationWillEnterForegroundNotification];
-    
-    [self addSelector:@selector(applicationWillTerminateNotification:)
-    forNotificationWithName:UIApplicationWillTerminateNotification];
+    [self addSelector:@selector(applicationDidEnterBackgroundNotification:) forNotificationWithName:UIApplicationDidEnterBackgroundNotification];
+    [self addSelector:@selector(applicationWillEnterForegroundNotification:) forNotificationWithName:UIApplicationWillEnterForegroundNotification];
+    [self addSelector:@selector(applicationWillTerminateNotification:) forNotificationWithName:UIApplicationWillTerminateNotification];
     
     // Mix.
-    
-    [self addSelector:@selector(mixDidChangeLocalUrlNotification:)
-    forNotificationWithName:BBMixDidChangeLocalUrlNotification];
-    
-    [self addSelector:@selector(mixDidChangeFavoriteNotification:)
-    forNotificationWithName:BBMixDidChangeFavoriteNotification];
-
-    [self addSelector:@selector(mixDidChangePlaybackDateNotification:)
-    forNotificationWithName:BBMixDidChangePlaybackDateNotification];
-
+    [self addSelector:@selector(mixDidChangeLocalUrlNotification:) forNotificationWithName:BBMixDidChangeLocalUrlNotification];
+    [self addSelector:@selector(mixDidChangeFavoriteNotification:) forNotificationWithName:BBMixDidChangeFavoriteNotification];
+    [self addSelector:@selector(mixDidChangePlaybackDateNotification:) forNotificationWithName:BBMixDidChangePlaybackDateNotification];
 
 #ifdef DEBUG
     
     // Context.
-    
-    [self addSelector:@selector(managedObjectContextWillSaveNotification:)
-    forNotificationWithName:NSManagedObjectContextWillSaveNotification];
-    
+    [self addSelector:@selector(managedObjectContextWillSaveNotification:) forNotificationWithName:NSManagedObjectContextWillSaveNotification];
 #endif
 }
 
 #pragma mark * Application
 
-- (void)applicationDidEnterBackgroundNotification:(NSNotification *)notification {
-    
+- (void)applicationDidEnterBackgroundNotification:(NSNotification *)notification
+{
     [self cancelScheduledMainContextAutoSave];
     
     [self cancelScheduledMixesRequest];
@@ -376,18 +372,18 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
 
 #pragma mark * Mix
 
-- (void)mixDidChangeLocalUrlNotification:(NSNotification *)notification {
-    
+- (void)mixDidChangeLocalUrlNotification:(NSNotification *)notification
+{
     [self scheduleOrPerformMainContextAutoSave];
 }
 
-- (void)mixDidChangeFavoriteNotification:(NSNotification *)notification {
-    
+- (void)mixDidChangeFavoriteNotification:(NSNotification *)notification
+{
     [self scheduleOrPerformMainContextAutoSave];
 }
 
-- (void)mixDidChangePlaybackDateNotification:(NSNotification *)notification {
-    
+- (void)mixDidChangePlaybackDateNotification:(NSNotification *)notification
+{
     [self scheduleOrPerformMainContextAutoSave];
 }
 
@@ -395,42 +391,44 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
 
 - (BBMix *)mixWithID:(NSString *)ID inContext:(NSManagedObjectContext *)context
 {
-    NSArray *entities =
-    [self entitiesFetchedWithRequest:[BBMix fetchRequestWithID:ID]
-                           inContext:context];
+    NSArray *entities = [self entitiesFetchedWithRequest:[BBMix fetchRequestWithID:ID]
+                                               inContext:context];
     
     if (entities.count > 1)
+    {
         BB_ERR(@"Unexpected number of mixes (%d) with ID (%@)", entities.count, ID);
+    }
     
     return [entities lastObject];
 }
 
 - (BBTag *)tagWithName:(NSString *)name inContext:(NSManagedObjectContext *)context
 {
-    NSArray *entities =
-    [self entitiesFetchedWithRequest:[BBTag fetchRequestWithName:name]
-                           inContext:context];
+    NSArray *entities = [self entitiesFetchedWithRequest:[BBTag fetchRequestWithName:name]
+                                               inContext:context];
     
     if (entities.count > 1)
+    {
         BB_ERR(@"Unexpected number of tags (%d) with name (%@)", entities.count, name);
+    }
     
     return [entities lastObject];
 }
 
 #pragma mark - Refresh
 
-- (void)refresh {
-    
-    if (self.modelState != BBModelNotInitialzed) {
-        
+- (void)refresh
+{
+    if (self.modelState != BBModelNotInitialzed)
+    {
         [self loadMixes];
         return;
     }
     
-    [self modelStateDiscoverCompletionBlock:^{
-        
-        if (self.modelState == BBModelIsPopulated) {
-            
+    [self modelStateDiscoverCompletionBlock:^
+    {
+        if (self.modelState == BBModelIsPopulated)
+        {
             [self postNotificationWithName:BBModelManagerDidInitializeNotification];
         }
         
@@ -438,120 +436,120 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
     }];
 }
 
-- (void)modelStateDiscoverCompletionBlock:(void(^)())completionBlock {
-    
-    dispatch_async(self.dispatchQueue, ^{
-        
+- (void)modelStateDiscoverCompletionBlock:(void(^)())completionBlock
+{
+    dispatch_async(self.dispatchQueue, ^
+    {
         NSFetchRequest *fetchRequest = [BBTag fetchRequest];
         fetchRequest.fetchLimit = 1;
         
-        NSUInteger tagsCount =
-        [self countOfFetchedEntitiesWithRequest:fetchRequest
-                                      inContext:[self currentThreadContext]];
+        NSUInteger tagsCount = [self countOfFetchedEntitiesWithRequest:fetchRequest
+                                                             inContext:[self currentThreadContext]];
         
         self.modelState = tagsCount ? BBModelIsPopulated : BBModelIsEmpty;
         
-        if (self.modelState == BBModelIsEmpty) {
-            
-            [BBMixesJSONLoader setRequestArgValue:0];
+        if (self.modelState == BBModelIsEmpty)
+        {
+            [self.class setRequestArgValue:0];
         }
         
-        if (completionBlock) {
+        if (completionBlock)
+        {
             completionBlock();
         }        
     });
 }
 
-- (GTLServiceBlogger *)bloggerService {
+- (GTLServiceBlogger *)bloggerService
+{
     static GTLServiceBlogger *service = nil;
     
-    if (!service) {
+    if (!service)
+    {
         service = [[GTLServiceBlogger alloc] init];
         
-        // Have the service object set tickets to fetch consecutive pages
-        // of the feed so we do not need to manually fetch them.
-        service.shouldFetchNextPages = YES;
-        
-        // Have the service object set tickets to retry temporary error conditions
-        // automatically.
-        service.retryEnabled = YES;
+//        // Have the service object set tickets to fetch consecutive pages
+//        // of the feed so we do not need to manually fetch them.
+//        service.shouldFetchNextPages = NO;
+//        
+//        // Have the service object set tickets to retry temporary error conditions
+//        // automatically.
+//        service.retryEnabled = YES;
     }
     return service;
 }
 
-- (void)loadMixes {
-    
-    void(^dataBlock)(NSData *) = ^(NSData *data) {
-        
-        self.refreshStage = BBModelManagerParsingStage;
-        
-        [self refreshDatabaseWithMixesJSON:data];
-    };
-    
-    void(^progressBlock)(float) = ^(float progress) {
-        
+- (void)loadMixes
+{
+    void(^progressBlock)(float) = ^(float progress)
+    {
         self.refreshStage = BBModelManagerLoadingStage;
         
         [self postNotificationForRefreshProgress:progress];
     };
     
-    void(^errorBlock)(NSError *) = ^(NSError *error) {
-        
+    void(^errorBlock)(NSError *) = ^(NSError *error)
+    {
         self.refreshStage = BBModelManagerWaitingStage;
         
         [self postNotificationForRefreshError:error];
     };
     
-    NSString *clientID = @"181428101607-lq94fbn93v8shiigrhs1r7l7hgl3ud1v.apps.googleusercontent.com";
-    NSString *clientSecret = @"bfQcW2itarMDI4_g2CJKw26J";
-    
-    NSURL *tokenURL = [NSURL URLWithString:@"https://api.example.com/oauth/token"];
-    
-    // We'll make up an arbitrary redirectURI.  The controller will watch for
-    // the server to redirect the web view to this URI, but this URI will not be
-    // loaded, so it need not be for any actual web page.
-    NSString *redirectURI = @"http://www.google.com/OAuthCallback";
-    
-    GTMOAuth2Authentication *auth;
-    auth = [GTMOAuth2Authentication authenticationWithServiceProvider:@"Custom Service"
-                                                             tokenURL:tokenURL
-                                                          redirectURI:redirectURI
-                                                             clientID:clientID
-                                                         clientSecret:clientSecret];
-    self.bloggerService.authorizer = auth;
-
-    
-//    [[BBMixesJSONLoader new] loadWithDataBlock:dataBlock
-//                                 progressBlock:progressBlock
-//                                    errorBlock:errorBlock];
+    dispatch_async(dispatch_get_main_queue(), ^
+    {
+        self.bloggerService.APIKey = @"AIzaSyAgtNFIT3ZoYSEmR6oZ2vupakpyADkdhQI";
+        
+        GTLQueryBlogger *query = [GTLQueryBlogger queryForPostsListWithBlogId:@"4928216501086861761"];
+        query.maxPosts = 100;
+        query.view = kGTLBloggerViewReader;
+//        query.role = @[kGTLBloggerRoleAdmin];
+        query.fetchImages = YES;
+        query.fetchBodies = YES;
+        query.fetchBody = YES;
+        query.fetchUserInfo = YES;
+        query.orderBy = kGTLBloggerOrderByPublished;
+        query.endDate = [GTLDateTime dateTimeWithRFC3339String:@"2013-07-24T23:00:00Z"];
+        
+        self.blogListTicket =
+        [self.bloggerService executeQuery:query
+                            completionHandler:^(GTLServiceTicket *ticket, GTLBloggerPostList *postList, NSError *error)
+        {
+            for (GTLBloggerPost *post in postList.items)
+            {
+                NSLog(@"%@", post.images);
+            }
+            
+            self.refreshStage = BBModelManagerParsingStage;
+            
+            [self refreshDatabaseWithMixesPostList:postList];
+        }];
+    });
 }
 
-- (void)refreshDatabaseWithMixesJSON:(NSData *)JSON {
-    
-    dispatch_async(self.dispatchQueue, ^ {
-            
-        NSString *description = nil;
-        if (self.modelState == BBModelIsEmpty) {
-            description = @"database population";
-        }
-        else {
-            description = @"database update";
-        }
+- (void)refreshDatabaseWithMixesPostList:(GTLBloggerPostList *)postList
+{
+    dispatch_async(self.dispatchQueue, ^
+    {
+        NSString *description = (self.modelState == BBModelIsEmpty) ? @"database population" : @"database update";
         
-        NSManagedObjectContext *context =
-        [self serviceContextWithTaskDescription:description];
-        
-        BBMixesJSONParser *parser = [BBMixesJSONParser parserWithData:JSON];
+        NSManagedObjectContext *context = [self serviceContextWithTaskDescription:description];
         
         TIME_PROFILER_MARK_TIME
         
-        if (self.modelState == BBModelIsEmpty) {
-            [self populateDatabaseInContext:context fromParser:parser];
+        if (self.modelState == BBModelIsEmpty)
+        {
+            [self populateDatabaseInContext:context fromPostList:postList];
         }
-        else {
-            [self updateDatabaseInContext:context fromParser:parser];
+        else
+        {
+            [self updateDatabaseInContext:context fromPostList:postList];
         }
     });
+}
+
+- (void)finished:(id)sender
+{
+    
 }
 
 #warning TODO: create private context connected to persistent store directly...
@@ -559,28 +557,32 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
 // NOTE: we use two quite similar methods for performance reasons.
 
 - (void)populateDatabaseInContext:(NSManagedObjectContext *)context
-                       fromParser:(BBMixesJSONParser *)parser
+                     fromPostList:(GTLBloggerPostList *)postList
 {    
-    __block NSMutableDictionary *tagsDictionary =
-    [self tagsDictionaryInContext:context];
+    __block NSMutableDictionary *tagsDictionary = [self tagsDictionaryInContext:context];
     
-    __block NSMutableDictionary *urlsDictionary =
-    [NSMutableDictionary dictionaryWithCapacity:5200];
+    __block NSMutableDictionary *urlsDictionary = [NSMutableDictionary dictionaryWithCapacity:5200];
     
-    [parser parseWithMixBlock:^(NSString *parsedID,
-                                NSString *parsedUrl,
-                                NSString *parsedName,
-                                NSString *parsedTracklist,
-                                NSInteger parsedBitrate,
-                                NSArray *parsedTags,
-                                NSDate *parsedDate,
-                                BOOL deleted)
+    for (GTLBloggerPost *post in postList.items)
     {
+        NSString *parsedID = post.identifier;
+        NSString *parsedUrl = @"http://mixes.bassblog.pro/Everybodies_Daddy_-_Full_Circle-05_06_2013.mp3";
+        NSString *parsedImageUrl = nil;
+        NSString *parsedName = post.title;
+        NSString *parsedTracklist = nil;
+        NSInteger parsedBitrate = 320;
+        NSArray *parsedTags = post.labels;
+        NSDate *parsedDate = [NSDate date];
+        BOOL deleted = NO;
+        
+        GTLBloggerPostImagesItem *imagesItem = (GTLBloggerPostImagesItem*)[post.images lastObject];
+        parsedImageUrl = imagesItem.url;
+
         if (deleted)
         {
             return;
         }
-        
+
         BBMix *mix = [urlsDictionary objectForKey:parsedUrl];
         if (mix)
         {
@@ -591,12 +593,12 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
             mix = [BBMix createInContext:context];
             [urlsDictionary setObject:mix forKey:parsedUrl];
         }
-        
+
         mix.ID = parsedID;
-        
-        setMixAttributes(mix, parsedUrl, parsedName, parsedTracklist, parsedBitrate, parsedDate);
-        
-        [parsedTags enumerateObjectsUsingBlock: ^(NSString *aName, NSUInteger aNameIdx, BOOL *aNameStop)
+
+        setMixAttributes(mix, parsedUrl, parsedImageUrl, parsedName, parsedTracklist, parsedBitrate, parsedDate);
+
+        [parsedTags enumerateObjectsUsingBlock:^(NSString *aName, NSUInteger aNameIdx, BOOL *aNameStop)
         {
              BBTag *tag = [tagsDictionary objectForKey:aName];
              if (tag == nil)
@@ -610,35 +612,46 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
              [mix addTagsObject:tag];
          }];
     }
-    progressBlock:^(float progress)
-    {
-        [self postNotificationForRefreshProgress:progress];
-    }
-    completionBlock:^(NSInteger newRequestArgValue)
-    {
-        [self refreshCompletionInContext:context
-                  withNewRequestArgValue:newRequestArgValue];
-    }]; // parse
+    
+    NSInteger newRequestArgValue = 8888;
+    
+    [self refreshCompletionInContext:context withNewRequestArgValue:newRequestArgValue];
+
+//    }
+//    progressBlock:^(float progress)
+//    {
+//        [self postNotificationForRefreshProgress:progress];
+//    }
+//    completionBlock:^(NSInteger newRequestArgValue)
+//    {
+//        [self refreshCompletionInContext:context
+//                  withNewRequestArgValue:newRequestArgValue];
+//    }]; // parse
 }
 
 #warning TODO: divide model refresh on stage a) - mixes load, b) - entities insertion. Start b) on fetch operations count == 0
 
 - (void)updateDatabaseInContext:(NSManagedObjectContext *)context
-                     fromParser:(BBMixesJSONParser *)parser
+                   fromPostList:(GTLBloggerPostList *)postList
 {
-    __block NSMutableDictionary *tagsDictionary =
-    [self tagsDictionaryInContext:context];
+    __block NSMutableDictionary *tagsDictionary = [self tagsDictionaryInContext:context];
     
-    [parser parseWithMixBlock:^(NSString *ID,
-                                NSString *url,
-                                NSString *name,
-                                NSString *tracklist,
-                                NSInteger bitrate,
-                                NSArray *tags,
-                                NSDate *date,
-                                BOOL deleted)
+    for (GTLBloggerPost *post in postList.items)
     {
-        BBMix *mix = [self mixWithID:ID inContext:context];
+        NSString *parsedID = post.identifier;
+        NSString *parsedUrl = @"http://mixes.bassblog.pro/Everybodies_Daddy_-_Full_Circle-05_06_2013.mp3";
+        NSString *parsedImageUrl = nil;
+        NSString *parsedName = post.title;
+        NSString *parsedTracklist = nil;
+        NSInteger parsedBitrate = 320;
+        NSArray *parsedTags = post.labels;
+        NSDate *parsedDate = [NSDate date];
+        BOOL deleted = NO;
+        
+        GTLBloggerPostImagesItem *imagesItem = (GTLBloggerPostImagesItem*)[post.images lastObject];
+        parsedImageUrl = imagesItem.url;
+
+        BBMix *mix = [self mixWithID:parsedID inContext:context];
         if (deleted)
         {
             if (mix)
@@ -647,7 +660,7 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
                 
                 [context deleteObject:mix];
                 
-                BB_WRN(@"Deleted mix named (%@)", name);
+                BB_WRN(@"Deleted mix named (%@)", parsedName);
             }
             
             return;
@@ -656,13 +669,12 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
         if (!mix)
         {
             mix = [BBMix createInContext:context];
-            mix.ID = ID;
+            mix.ID = parsedID;
         }
         
-        setMixAttributes(mix, url, name, tracklist, bitrate, date);
+        setMixAttributes(mix, parsedUrl, parsedImageUrl, parsedName, parsedTracklist, parsedBitrate, parsedDate);
         
-        [tags enumerateObjectsUsingBlock:
-         ^(NSString *name, NSUInteger nameIdx, BOOL *nameStop)
+        [parsedTags enumerateObjectsUsingBlock:^(NSString *name, NSUInteger nameIdx, BOOL *nameStop)
         {
             // TODO: current logic doesn't delete old tags from mix if needed...
             
@@ -681,12 +693,17 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
             }
         }];
     }
-                       progressBlock:nil
-                     completionBlock:^(NSInteger newRequestArgValue)
-    {
-        [self refreshCompletionInContext:context
-                  withNewRequestArgValue:newRequestArgValue];
-    }]; // parse
+    
+    NSInteger newRequestArgValue = 8888;
+    
+    [self refreshCompletionInContext:context withNewRequestArgValue:newRequestArgValue];
+
+//                       progressBlock:nil
+//                     completionBlock:^(NSInteger newRequestArgValue)
+//    {
+//        [self refreshCompletionInContext:context
+//                  withNewRequestArgValue:newRequestArgValue];
+//    }]; // parse
 }
 
 - (void)refreshCompletionInContext:(NSManagedObjectContext *)context
@@ -697,8 +714,8 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
 #endif
     
     BOOL saveExpected = YES;
-    if ([context hasChanges]) {
-        
+    if ([context hasChanges])
+    {
         TIME_PROFILER_LOG([self descriptionForContext:context])
         
         self.refreshSaveInProgress = YES;
@@ -706,15 +723,15 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
         
         TIME_PROFILER_MARK_TIME
     }
-    else {
-        
+    else
+    {
         saveExpected = NO;
         
         self.refreshStage = BBModelManagerWaitingStage;
     }
     
-    [self deepSaveFromContext:context withCompletionBlock:^(BOOL saved) {
-        
+    [self deepSaveFromContext:context withCompletionBlock:^(BOOL saved)
+    {
         self.refreshSaveInProgress = NO;
         self.refreshStage = BBModelManagerWaitingStage;
         
@@ -722,14 +739,14 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
         {
             TIME_PROFILER_LOG(@"Database saving")
 
-            NSUInteger requestArgValue = [BBMixesJSONLoader requestArgValue];
+            NSUInteger requestArgValue = [self.class requestArgValue];
             if (requestArgValue > newRequestArgValue)
             {
                 BB_ERR(@"New request arg value (%d) < actual one (%d)",
                     newRequestArgValue, requestArgValue);
             }
 
-            [BBMixesJSONLoader setRequestArgValue:newRequestArgValue];
+            [self.class setRequestArgValue:newRequestArgValue];
             
             self.modelState = BBModelIsPopulated;
 
@@ -737,8 +754,8 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
 
             [self postAsyncNotificationWithName:BBModelManagerDidFinishRefreshNotification];
         }
-        else if (saveExpected) {
-            
+        else if (saveExpected)
+        {
             [self postNotificationForRefreshError:self.error];
         }
     }];
@@ -748,14 +765,12 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
 
 - (NSMutableDictionary *)tagsDictionaryInContext:(NSManagedObjectContext *)context
 {
-    NSMutableDictionary *tagsDictionary =
-    [NSMutableDictionary dictionaryWithCapacity:110];
+    NSMutableDictionary *tagsDictionary = [NSMutableDictionary dictionaryWithCapacity:110];
     
     NSFetchRequest *fetchRequest = [BBTag fetchRequest];
     
-    [[self entitiesFetchedWithRequest:fetchRequest inContext:context]
-     enumerateObjectsUsingBlock:^(BBTag *tag, NSUInteger tagIdx, BOOL *tagStop) {
-        
+    [[self entitiesFetchedWithRequest:fetchRequest inContext:context] enumerateObjectsUsingBlock:^(BBTag *tag, NSUInteger tagIdx, BOOL *tagStop)
+    {
         [tagsDictionary setObject:tag forKey:tag.name];
     }];
     
@@ -764,6 +779,7 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
 
 static inline void setMixAttributes(BBMix *mix,
                                     NSString *url,
+                                    NSString *imageUrl,
                                     NSString *name,
                                     NSString *tracklist,
                                     NSInteger bitrate,
@@ -774,14 +790,15 @@ static inline void setMixAttributes(BBMix *mix,
     mix.name = name;
     mix.date = date;
     mix.url = url;
+    mix.imageUrl = imageUrl;
 }
 
 - (void)scheduleMixesRequest
 {
     [self cancelScheduledMixesRequest];
     
-    [self.class mainThreadBlock:^{
-        
+    [self.class mainThreadBlock:^
+    {
         [self performSelector:@selector(refresh)
                    withObject:nil
                    afterDelay:kBBMixesRequestRepeatInterval];
@@ -790,17 +807,18 @@ static inline void setMixAttributes(BBMix *mix,
 
 - (void)cancelScheduledMixesRequest
 {
-    [self.class mainThreadBlock:^{
-        
+    [self.class mainThreadBlock:^
+    {
         [self.class cancelPreviousPerformRequestsWithTarget:self
                                                    selector:@selector(refresh)
                                                      object:nil];
     }];
 }
 
-- (void)setRefreshStage:(BBModelManagerRefreshStage)refreshStage {
-    
-    if (_refreshStage == refreshStage) {
+- (void)setRefreshStage:(BBModelManagerRefreshStage)refreshStage
+{
+    if (_refreshStage == refreshStage)
+    {
         return;
     }
     
@@ -809,9 +827,10 @@ static inline void setMixAttributes(BBMix *mix,
     [self postAsyncNotificationWithName:BBModelManagerDidChangeRefreshStageNotification];
 }
 
-- (void)postNotificationForRefreshProgress:(float)progress {
-    
-    if (progress < 0.f) {
+- (void)postNotificationForRefreshProgress:(float)progress
+{
+    if (progress < 0.f)
+    {
         return;
     }
     
@@ -819,9 +838,10 @@ static inline void setMixAttributes(BBMix *mix,
                           userInfo:@{BBModelManagerRefreshProgressNotificationKey: @(progress)}];
 }
 
-- (void)postNotificationForRefreshError:(NSError *)error {
-    
-    if (error == nil) {
+- (void)postNotificationForRefreshError:(NSError *)error
+{
+    if (error == nil)
+    {
         return;
     }
     
@@ -845,10 +865,11 @@ static inline void setMixAttributes(BBMix *mix,
     NSArray *entities = [self entitiesFetchedWithRequest:fetchRequest
                                                inContext:self.mainContext];
     if (!entities.count)
+    {
         return;
+    }
     
-    [entities enumerateObjectsUsingBlock:
-     ^(BBEntity *entity, NSUInteger entityIdx, BOOL *entityStop)
+    [entities enumerateObjectsUsingBlock:^(BBEntity *entity, NSUInteger entityIdx, BOOL *entityStop)
     {
         [self.mainContext deleteObject:entity];
     }];
@@ -862,11 +883,12 @@ static inline void setMixAttributes(BBMix *mix,
 
 - (NSFetchRequest *)fetchRequestForTagsWithSelectionOptions:(BBTagsSelectionOptions *)options
 {
-    NSFetchRequest *fetchRequest =
-    [BBTag fetchRequestWithMixesCategory:options.category];
+    NSFetchRequest *fetchRequest = [BBTag fetchRequestWithMixesCategory:options.category];
     
     if (options.sortKey == eTagNameSortKey)
+    {
         [fetchRequest setSortDescriptors:@[[BBTag nameSortDescriptor]]];
+    }
     
     fetchRequest.fetchOffset = options.offset;
     fetchRequest.fetchLimit = options.limit;
@@ -877,18 +899,17 @@ static inline void setMixAttributes(BBMix *mix,
 - (NSFetchRequest *)fetchRequestForMixesWithSelectionOptions:(BBMixesSelectionOptions *)options
 {
     BBTag *tag = options.tag;
-    if ([tag isEqualToEntity:[self allTag]]) {
+    
+    if ([tag isEqualToEntity:[self allTag]])
+    {
         tag = nil;
     }
     
-    NSFetchRequest *fetchRequest =
-    [BBMix fetchRequestWithCategory:options.category
-                    substringInName:options.substringInName
-                                tag:tag];
+    NSFetchRequest *fetchRequest = [BBMix fetchRequestWithCategory:options.category
+                                                   substringInName:options.substringInName
+                                                               tag:tag];
     
-    
-    [fetchRequest setSortDescriptors:
-     [self sortDescriptorsForMixesSelectionOptions:options]];
+    [fetchRequest setSortDescriptors:[self sortDescriptorsForMixesSelectionOptions:options]];
     
     fetchRequest.fetchOffset = options.offset;
     fetchRequest.fetchLimit = options.limit;
@@ -902,8 +923,8 @@ static inline void setMixAttributes(BBMix *mix,
     _error = nil;
     
     NSArray *__block result = nil;
-    [context performBlockAndWait:^{
-        
+    [context performBlockAndWait:^
+    {
         NSError *__autoreleasing error = nil;
         result = [context executeFetchRequest:fetchRequest error:&error];
         
@@ -919,8 +940,8 @@ static inline void setMixAttributes(BBMix *mix,
     _error = nil;
     
     NSUInteger __block count = 0;
-    [context performBlockAndWait:^{
-        
+    [context performBlockAndWait:^
+    {
         NSError *__autoreleasing error = nil;
         count = [context countForFetchRequest:fetchRequest error:&error];
     
@@ -944,8 +965,7 @@ static inline void setMixAttributes(BBMix *mix,
     {
         __block BOOL saved = NO;
         
-        [self saveContext:context
-      withCompletionBlock:^(BOOL contextSaved)
+        [self saveContext:context withCompletionBlock:^(BOOL contextSaved)
         {
             saved = contextSaved;
         }];
@@ -953,18 +973,18 @@ static inline void setMixAttributes(BBMix *mix,
         if (!saved || !context.parentContext)
         {
             if (completionBlock)
+            {
                 completionBlock(saved);
+            }
         
             return;
         }
         
-        [self deepSaveFromContext:context.parentContext
-              withCompletionBlock:completionBlock];
+        [self deepSaveFromContext:context.parentContext withCompletionBlock:completionBlock];
     }];
 }
 
-- (void)saveContext:(NSManagedObjectContext *)context
-withCompletionBlock:(void(^)(BOOL saved))completionBlock
+- (void)saveContext:(NSManagedObjectContext *)context withCompletionBlock:(void(^)(BOOL saved))completionBlock
 {
     _error = nil;
 
@@ -1002,16 +1022,18 @@ withCompletionBlock:(void(^)(BOOL saved))completionBlock
         }
         
         if (completionBlock)
+        {
             completionBlock(saved);
+        }
     }
 }
 
 #pragma mark * Stack
 
-- (NSManagedObjectContext *)tempContext {
-    
-    if (_tempContext == nil) {
-     
+- (NSManagedObjectContext *)tempContext
+{
+    if (_tempContext == nil)
+    {
         _tempContext = [self serviceContextWithTaskDescription:@"temp"];
     }
     
@@ -1053,17 +1075,18 @@ withCompletionBlock:(void(^)(BOOL saved))completionBlock
 
 - (NSManagedObjectContext *)currentThreadContext
 {
-	if ([NSThread isMainThread]) {
+	if ([NSThread isMainThread])
+    {
 		return self.mainContext;
 	}
     
-    @synchronized(self) {
-        
+    @synchronized(self)
+    {
         NSThread *thread = [NSThread currentThread];
         NSMutableDictionary *threadDict = [thread threadDictionary];
         NSManagedObjectContext *threadContext = [threadDict objectForKey:[NSValue valueWithNonretainedObject:thread]];
-        if (threadContext == nil) {
-            
+        if (threadContext == nil)
+        {
             threadContext = [self serviceContextWithTaskDescription:thread.name];
             
             [threadDict setObject:threadContext forKey:[NSValue valueWithNonretainedObject:thread]];
@@ -1075,13 +1098,10 @@ withCompletionBlock:(void(^)(BOOL saved))completionBlock
 
 - (NSManagedObjectContext *)serviceContextWithTaskDescription:(NSString *)taskDescription
 {
-    NSManagedObjectContext *context =
-    [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    
+    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [context setParentContext:self.mainContext];
     
-    NSString *description =
-    [NSString stringWithFormat:@"SERVICE \"%@\"", taskDescription];
+    NSString *description = [NSString stringWithFormat:@"SERVICE \"%@\"", taskDescription];
     
     [self setDescription:description forContext:context];
     
@@ -1092,11 +1112,9 @@ withCompletionBlock:(void(^)(BOOL saved))completionBlock
 {
     if (!_coordinator)
     {
-        NSManagedObjectModel *model =
-        [NSManagedObjectModel mergedModelFromBundles:nil];
+        NSManagedObjectModel *model = [NSManagedObjectModel mergedModelFromBundles:nil];
         
-        _coordinator = [[NSPersistentStoreCoordinator alloc]
-                        initWithManagedObjectModel:model];
+        _coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
     
         if (![self addAutoMigratingSqliteStore])
         {
@@ -1180,10 +1198,11 @@ static NSString *const BBManagedObjectContextDescriptionKey =
 - (void)handleError:(NSError *)error
 {
     if (!error)
+    {
         return;
+    }
     
-    [error.userInfo.allValues enumerateObjectsUsingBlock:
-     ^(id detailedError, NSUInteger detailedErrorIdx, BOOL *detailedErrorStop)
+    [error.userInfo.allValues enumerateObjectsUsingBlock:^(id detailedError, NSUInteger detailedErrorIdx, BOOL *detailedErrorStop)
     {
         if (![detailedError isKindOfClass:[NSArray class]])
         {
@@ -1192,8 +1211,7 @@ static NSString *const BBManagedObjectContextDescriptionKey =
             return;
         }
         
-        [detailedError enumerateObjectsUsingBlock:
-         ^(id anError, NSUInteger anErrorIdx, BOOL *anErrorStop)
+        [detailedError enumerateObjectsUsingBlock:^(id anError, NSUInteger anErrorIdx, BOOL *anErrorStop)
         {
             if ([anError respondsToSelector:@selector(userInfo)])
             {
@@ -1219,7 +1237,8 @@ static NSString *const BBManagedObjectContextDescriptionKey =
 {
     NSManagedObjectContext *context = notification.object;
     
-    if (context != _mainContext) {
+    if (context != _mainContext)
+    {
         return;
     }
     
@@ -1227,27 +1246,22 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     
     if (context.deletedObjects.count)
     {
-        [dump appendFormat:@"\n\nDeleted objects: %@",
-         [self descriptionOfEntities:context.deletedObjects]];
+        [dump appendFormat:@"\n\nDeleted objects: %@", [self descriptionOfEntities:context.deletedObjects]];
     }
     
     if (context.insertedObjects.count)
     {
-        [dump appendFormat:@"\n\nInserted objects: %@",
-         [self descriptionOfEntities:context.insertedObjects]];
+        [dump appendFormat:@"\n\nInserted objects: %@", [self descriptionOfEntities:context.insertedObjects]];
     }
     
     if (context.updatedObjects.count)
     {
-        [dump appendFormat:@"\n\nUpdated objects: %@",
-         [self descriptionOfEntities:context.updatedObjects
-                    includingChanges:YES]];
+        [dump appendFormat:@"\n\nUpdated objects: %@", [self descriptionOfEntities:context.updatedObjects includingChanges:YES]];
     }
     
     if (dump.length)
     {
-        BB_DBG(@"Changes in %@ context: %@",
-            [self descriptionForContext:context], dump);
+        BB_DBG(@"Changes in %@ context: %@", [self descriptionForContext:context], dump);
     }
 }
 
@@ -1271,21 +1285,27 @@ static NSString *const BBManagedObjectContextDescriptionKey =
             ++mixesCount;
          
             if (includingChanges)
-                [changesDescription appendFormat:@"\n\t\t[%@] : %@",
-                 entity.key, entity.changedValues];
+            {
+                [changesDescription appendFormat:@"\n\t\t[%@] : %@", entity.key, entity.changedValues];
+            }
         }
         else
+        {
             ++tagsCount;
+        }
     }];
     
-    NSMutableString *description =
-    [NSMutableString stringWithFormat:@"%d", entities.count];
+    NSMutableString *description = [NSMutableString stringWithFormat:@"%d", entities.count];
     
     if (mixesCount)
+    {
         [description appendFormat:@"\n\n\tMixes: %d %@", mixesCount, changesDescription];
+    }
     
     if (tagsCount)
+    {
         [description appendFormat:@"\n\n\tTags: %d", tagsCount];
+    }
 
     return description;
 }
@@ -1297,7 +1317,9 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     static BOOL firstDump = YES;
     
     if (!firstDump && ![context hasChanges])
+    {
         return;
+    }
     
     __block NSFetchRequest *fetchRequest = nil;
     

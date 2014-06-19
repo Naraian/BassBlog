@@ -31,9 +31,17 @@
 		4FC7550C13E77E2B006A0C26 /* GTMOAuth2WindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7249FB122485EE001A4AD0 /* GTMOAuth2WindowController.m */; };
 		4FC7550F13E77E2B006A0C26 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F724AB512248D6B001A4AD0 /* Security.framework */; };
 		4FC7551013E77E2B006A0C26 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F724AB712248D6B001A4AD0 /* SystemConfiguration.framework */; };
+		9A0D1816194FA0C100DE613F /* libGTMHTTPFetcher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A63E46119426EA50093907E /* libGTMHTTPFetcher.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		9A0D1817194FA0CA00DE613F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A63E45B19426EA40093907E /* GTMHTTPFetcher.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = GTMHTTPFetcherLib;
+		};
 		9A63E46019426EA50093907E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9A63E45B19426EA40093907E /* GTMHTTPFetcher.xcodeproj */;
@@ -76,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A0D1816194FA0C100DE613F /* libGTMHTTPFetcher.a in Frameworks */,
 				4F724AB812248D6B001A4AD0 /* Security.framework in Frameworks */,
 				4F724ABA12248D6B001A4AD0 /* SystemConfiguration.framework in Frameworks */,
 			);
@@ -219,6 +228,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				9A0D1818194FA0CA00DE613F /* PBXTargetDependency */,
 			);
 			name = GTMOAuth2.framework;
 			productName = OAuth.framework;
@@ -388,11 +398,19 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		9A0D1818194FA0CA00DE613F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GTMHTTPFetcherLib;
+			targetProxy = 9A0D1817194FA0CA00DE613F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		1DEB921F08733DC00010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"ARCHS[sdk=iphoneos*]" = (
 					armv6,
@@ -409,7 +427,7 @@
 		1DEB922008733DC00010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"ARCHS[sdk=iphoneos*]" = (
 					armv6,
@@ -448,6 +466,7 @@
 				OTHER_CFLAGS = "-DDEBUG=1";
 				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "\"../HTTPFetcher/\"/**";
 			};
 			name = Debug;
 		};
@@ -475,13 +494,14 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "\"../HTTPFetcher/\"/**";
 			};
 			name = Release;
 		};
 		4F724A7212248B19001A4AD0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -506,13 +526,14 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = GTMOAuth2;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "\"../HTTPFetcher/\"/**";
 			};
 			name = Debug;
 		};
 		4F724A7312248B19001A4AD0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -536,6 +557,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = GTMOAuth2;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "\"../HTTPFetcher/\"/**";
 				ZERO_LINK = NO;
 			};
 			name = Release;

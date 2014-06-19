@@ -59,6 +59,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
 
 @dynamic ID;
 @dynamic url;
+@dynamic imageUrl;
 @dynamic name;
 @dynamic date, primitiveDate;
 @dynamic tags;

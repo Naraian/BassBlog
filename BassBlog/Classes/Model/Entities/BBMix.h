@@ -23,6 +23,7 @@ extern NSString *const BBMixPlaybackMonthSectionIdentifierKey;
 
 @property (nonatomic, strong) NSString *ID;
 @property (nonatomic, strong) NSString *url;
+@property (nonatomic, strong) NSString *imageUrl;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *localUrl;
 @property (nonatomic, strong) NSString *tracklist;

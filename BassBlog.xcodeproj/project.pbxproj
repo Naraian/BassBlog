@@ -30,7 +30,6 @@
 		08C43764175E4A2600929669 /* BBHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C43750175E4A2600929669 /* BBHistoryViewController.m */; };
 		08C4376A175E4A2600929669 /* BBTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C43757175E4A2600929669 /* BBTagsViewController.m */; };
 		08C43770175E4A9700929669 /* BBRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C4376F175E4A9700929669 /* BBRootViewController.m */; };
-		08C5FDF81757CFDC007A9F04 /* BBMixesJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C5FDF71757CFDC007A9F04 /* BBMixesJSONParser.m */; };
 		08C85850175B3FF50024281E /* BBTimeProfiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C8584F175B3FF50024281E /* BBTimeProfiler.m */; };
 		08C85854175B43E60024281E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08C85852175B43CE0024281E /* QuartzCore.framework */; };
 		08C85858175B91770024281E /* NSObject+Thread.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C85857175B91770024281E /* NSObject+Thread.m */; };
@@ -44,7 +43,6 @@
 		08CC79AC17568C1500A64212 /* BBTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 08CC79AB17568C1500A64212 /* BBTag.m */; };
 		08D08ED917D2667600E462EC /* RDHTTP.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D08ED817D2667600E462EC /* RDHTTP.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		08D08EDD17D267FD00E462EC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D08EDB17D267F400E462EC /* MobileCoreServices.framework */; };
-		08D08EE117D269A700E462EC /* BBMixesJSONLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D08EE017D269A700E462EC /* BBMixesJSONLoader.m */; };
 		08D0D3E21761196C0052D7C7 /* BBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D0D3E11761196C0052D7C7 /* BBViewController.m */; };
 		08D35F5F17D69212006FC3E2 /* BBFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D35F5E17D69212006FC3E2 /* BBFont.m */; };
 		08D69800176F6B6900941621 /* BBMixesTableSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08D697FF176F6B6900941621 /* BBMixesTableSectionHeaderView.xib */; };
@@ -74,8 +72,9 @@
 		9A3BE228193FA1EB0048C9C0 /* BBCommonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3BE227193FA1EB0048C9C0 /* BBCommonUtils.m */; };
 		9A57211E18FF1F8300169E6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A57211D18FF1F8300169E6A /* Main.storyboard */; };
 		9A57212118FF29D500169E6A /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A57212018FF29D500169E6A /* SWRevealViewController.m */; };
+		9A60F617194FAE68009220DE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A60F616194FAE68009220DE /* main.m */; };
 		9A61FF97190077EA004AE70E /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A61FF96190077EA004AE70E /* Reveal.framework */; };
-		9A63E45319426CEE0093907E /* libGoogleBlogger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A63E400194269920093907E /* libGoogleBlogger.a */; };
+		9A790B20194FA91F002B8114 /* GoogleBlogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A790B1F194FA91F002B8114 /* GoogleBlogger.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		9AA6538719070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AA6538519070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf */; };
 		9AA6538819070CB1000BAA6E /* HelveticaLTStd-Cond.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AA6538619070CB1000BAA6E /* HelveticaLTStd-Cond.ttf */; };
 		9ABB6AA41901C54B00691B3F /* NSLayoutConstraint+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB6AA11901C54B00691B3F /* NSLayoutConstraint+Extensions.m */; };
@@ -100,79 +99,6 @@
 		C1EBC3F418B9D30F00B77297 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1EBC3F318B9D30F00B77297 /* CoreMedia.framework */; };
 		C1FEAF4F18C5390C009D755F /* BBNowPlayingInfoCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = C1FEAF4E18C5390C009D755F /* BBNowPlayingInfoCenter.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		9A63E3FD194269920093907E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9A63E3F5194269920093907E /* GoogleBlogger.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9AACCD95194126D300257408;
-			remoteInfo = GoogleBloggerTests;
-		};
-		9A63E3FF194269920093907E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9A63E3F5194269920093907E /* GoogleBlogger.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9A63E36319424FC30093907E;
-			remoteInfo = GoogleBlogger;
-		};
-		9A63E401194269920093907E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9A63E3F5194269920093907E /* GoogleBlogger.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9A63E36D19424FC30093907E;
-			remoteInfo = GoogleBlogger1Tests;
-		};
-		9A63E410194269BA0093907E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9A63E3F5194269920093907E /* GoogleBlogger.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 9A63E36219424FC30093907E;
-			remoteInfo = GoogleBlogger;
-		};
-		9A63E43219426B0F0093907E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9A63E42B19426B0F0093907E /* GTMHTTPFetcher.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D;
-			remoteInfo = GTMHTTPFetcherLib;
-		};
-		9A63E43419426B0F0093907E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9A63E42B19426B0F0093907E /* GTMHTTPFetcher.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4F74D92F11E68BD300F2D927;
-			remoteInfo = UnitTests;
-		};
-		9A63E43619426B220093907E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9A63E42B19426B0F0093907E /* GTMHTTPFetcher.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC07D0554694100DB518D;
-			remoteInfo = GTMHTTPFetcherLib;
-		};
-		9A63E44419426BC50093907E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9A63E43D19426BC50093907E /* GTMOAuth2.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D;
-			remoteInfo = OAuthTouchStaticLib;
-		};
-		9A63E44619426BC50093907E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9A63E43D19426BC50093907E /* GTMOAuth2.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4FC754FA13E77E25006A0C26;
-			remoteInfo = OAuthTouchNonGoogleStaticLib;
-		};
-		9A63E44819426BEF0093907E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9A63E43D19426BC50093907E /* GTMOAuth2.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC07D0554694100DB518D;
-			remoteInfo = OAuthTouchStaticLib;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		080463D117147E26009EBD9C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -220,8 +146,6 @@
 		08C43759175E4A2600929669 /* BBTagsViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBTagsViewControllerDelegate.h; sourceTree = "<group>"; };
 		08C4376E175E4A9700929669 /* BBRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBRootViewController.h; sourceTree = "<group>"; };
 		08C4376F175E4A9700929669 /* BBRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBRootViewController.m; sourceTree = "<group>"; };
-		08C5FDF61757CFDC007A9F04 /* BBMixesJSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMixesJSONParser.h; sourceTree = "<group>"; };
-		08C5FDF71757CFDC007A9F04 /* BBMixesJSONParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMixesJSONParser.m; sourceTree = "<group>"; };
 		08C8584E175B3FF50024281E /* BBTimeProfiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBTimeProfiler.h; sourceTree = "<group>"; };
 		08C8584F175B3FF50024281E /* BBTimeProfiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBTimeProfiler.m; sourceTree = "<group>"; };
 		08C85852175B43CE0024281E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -248,8 +172,6 @@
 		08D08ED717D2667600E462EC /* RDHTTP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDHTTP.h; sourceTree = "<group>"; };
 		08D08ED817D2667600E462EC /* RDHTTP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDHTTP.m; sourceTree = "<group>"; };
 		08D08EDB17D267F400E462EC /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		08D08EDF17D269A700E462EC /* BBMixesJSONLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMixesJSONLoader.h; sourceTree = "<group>"; };
-		08D08EE017D269A700E462EC /* BBMixesJSONLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMixesJSONLoader.m; sourceTree = "<group>"; };
 		08D0D3E01761196C0052D7C7 /* BBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBViewController.h; sourceTree = "<group>"; };
 		08D0D3E11761196C0052D7C7 /* BBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBViewController.m; sourceTree = "<group>"; };
 		08D35F5D17D69212006FC3E2 /* BBFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFont.h; sourceTree = "<group>"; };
@@ -300,16 +222,9 @@
 		9A57211D18FF1F8300169E6A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9A57211F18FF29D500169E6A /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		9A57212018FF29D500169E6A /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+		9A60F616194FAE68009220DE /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9A61FF96190077EA004AE70E /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reveal.framework; path = BassBlog/Libraries/Reveal.framework; sourceTree = "<group>"; };
-		9A63E349194247D10093907E /* GoogleBlogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleBlogger.framework; path = BassBlog/Libraries/GoogleBlogger.framework; sourceTree = "<group>"; };
-		9A63E3F5194269920093907E /* GoogleBlogger.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GoogleBlogger.xcodeproj; path = GoogleBlogger/GoogleBlogger.xcodeproj; sourceTree = "<group>"; };
-		9A63E40A194269AE0093907E /* libGTMHTTPFetcher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGTMHTTPFetcher.a; path = "GoogleBlogger/GoogleBlogger/HTTPFetcher/build/Debug-iphoneos/libGTMHTTPFetcher.a"; sourceTree = "<group>"; };
-		9A63E40B194269AE0093907E /* libOAuthTouch2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOAuthTouch2.a; path = "GoogleBlogger/GoogleBlogger/OAuth2/build/Debug-iphoneos/libOAuthTouch2.a"; sourceTree = "<group>"; };
-		9A63E40C194269AE0093907E /* libOAuthTouch2NG.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOAuthTouch2NG.a; path = "GoogleBlogger/GoogleBlogger/OAuth2/build/Debug-iphoneos/libOAuthTouch2NG.a"; sourceTree = "<group>"; };
-		9A63E42B19426B0F0093907E /* GTMHTTPFetcher.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GTMHTTPFetcher.xcodeproj; path = GoogleBlogger/GoogleBlogger/HTTPFetcher/GTMHTTPFetcher.xcodeproj; sourceTree = "<group>"; };
-		9A63E43919426B6D0093907E /* libOAuthTouch2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOAuthTouch2.a; path = "GoogleBlogger/GoogleBlogger/OAuth2/build/Debug-iphoneos/libOAuthTouch2.a"; sourceTree = "<group>"; };
-		9A63E43A19426B6D0093907E /* libOAuthTouch2NG.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOAuthTouch2NG.a; path = "GoogleBlogger/GoogleBlogger/OAuth2/build/Debug-iphoneos/libOAuthTouch2NG.a"; sourceTree = "<group>"; };
-		9A63E43D19426BC50093907E /* GTMOAuth2.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GTMOAuth2.xcodeproj; path = GoogleBlogger/GoogleBlogger/OAuth2/GTMOAuth2.xcodeproj; sourceTree = "<group>"; };
+		9A790B1F194FA91F002B8114 /* GoogleBlogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleBlogger.framework; path = BassBlog/Libraries/GoogleBlogger.framework; sourceTree = "<group>"; };
 		9AA6538519070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaLTStd-BoldCond.ttf"; sourceTree = "<group>"; };
 		9AA6538619070CB1000BAA6E /* HelveticaLTStd-Cond.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaLTStd-Cond.ttf"; sourceTree = "<group>"; };
 		9ABB6AA01901C54B00691B3F /* NSLayoutConstraint+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+Extensions.h"; sourceTree = "<group>"; };
@@ -351,7 +266,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A63E45319426CEE0093907E /* libGoogleBlogger.a in Frameworks */,
 				9A61FF97190077EA004AE70E /* Reveal.framework in Frameworks */,
 				C12D9DF018BA21DB00F7693A /* MediaPlayer.framework in Frameworks */,
 				C1EBC3F418B9D30F00B77297 /* CoreMedia.framework in Frameworks */,
@@ -360,6 +274,7 @@
 				08FFCB071712A2C900F21D86 /* UIKit.framework in Frameworks */,
 				08FFCB091712A2C900F21D86 /* Foundation.framework in Frameworks */,
 				08FFCB0B1712A2C900F21D86 /* CoreGraphics.framework in Frameworks */,
+				9A790B20194FA91F002B8114 /* GoogleBlogger.framework in Frameworks */,
 				08FFCB0D1712A2C900F21D86 /* CoreData.framework in Frameworks */,
 				08C85854175B43E60024281E /* QuartzCore.framework in Frameworks */,
 				08DC106A176C85F400F09024 /* SystemConfiguration.framework in Frameworks */,
@@ -585,8 +500,6 @@
 		08C5FDF51757CE11007A9F04 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
-				08C5FDF61757CFDC007A9F04 /* BBMixesJSONParser.h */,
-				08C5FDF71757CFDC007A9F04 /* BBMixesJSONParser.m */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -692,8 +605,6 @@
 		08D08EDE17D2698D00E462EC /* Loader */ = {
 			isa = PBXGroup;
 			children = (
-				08D08EDF17D269A700E462EC /* BBMixesJSONLoader.h */,
-				08D08EE017D269A700E462EC /* BBMixesJSONLoader.m */,
 			);
 			path = Loader;
 			sourceTree = "<group>";
@@ -938,9 +849,6 @@
 		08FFCAFA1712A2C900F21D86 = {
 			isa = PBXGroup;
 			children = (
-				9A63E43D19426BC50093907E /* GTMOAuth2.xcodeproj */,
-				9A63E42B19426B0F0093907E /* GTMHTTPFetcher.xcodeproj */,
-				9A63E3F5194269920093907E /* GoogleBlogger.xcodeproj */,
 				08FFCB0E1712A2C900F21D86 /* BassBlog */,
 				08FFCB051712A2C900F21D86 /* Frameworks */,
 				08FFCB041712A2C900F21D86 /* Products */,
@@ -958,12 +866,7 @@
 		08FFCB051712A2C900F21D86 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9A63E43919426B6D0093907E /* libOAuthTouch2.a */,
-				9A63E43A19426B6D0093907E /* libOAuthTouch2NG.a */,
-				9A63E40A194269AE0093907E /* libGTMHTTPFetcher.a */,
-				9A63E40B194269AE0093907E /* libOAuthTouch2.a */,
-				9A63E40C194269AE0093907E /* libOAuthTouch2NG.a */,
-				9A63E349194247D10093907E /* GoogleBlogger.framework */,
+				9A790B1F194FA91F002B8114 /* GoogleBlogger.framework */,
 				9A61FF96190077EA004AE70E /* Reveal.framework */,
 				C12D9DEF18BA21DB00F7693A /* MediaPlayer.framework */,
 				C1EBC3F318B9D30F00B77297 /* CoreMedia.framework */,
@@ -995,6 +898,7 @@
 		08FFCB0F1712A2C900F21D86 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9A60F616194FAE68009220DE /* main.m */,
 				08FFCB101712A2C900F21D86 /* BassBlog-Info.plist */,
 				08FFCB111712A2C900F21D86 /* InfoPlist.strings */,
 				08FFCB161712A2C900F21D86 /* BassBlog-Prefix.pch */,
@@ -1024,34 +928,6 @@
 				9AE77064193EAB25002E2684 /* BassBlog-Bridging-Header.h */,
 			);
 			path = AppDelegate;
-			sourceTree = "<group>";
-		};
-		9A63E3F6194269920093907E /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9A63E3FE194269920093907E /* GoogleBloggerTests.xctest */,
-				9A63E400194269920093907E /* libGoogleBlogger.a */,
-				9A63E402194269920093907E /* GoogleBlogger1Tests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		9A63E42C19426B0F0093907E /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9A63E43319426B0F0093907E /* libGTMHTTPFetcher.a */,
-				9A63E43519426B0F0093907E /* UnitTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		9A63E43E19426BC50093907E /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9A63E44519426BC50093907E /* libOAuthTouch2.a */,
-				9A63E44719426BC50093907E /* libOAuthTouch2NG.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		9ABB6AA61901C5EC00691B3F /* Device */ = {
@@ -1157,9 +1033,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				9A63E44919426BEF0093907E /* PBXTargetDependency */,
-				9A63E43719426B220093907E /* PBXTargetDependency */,
-				9A63E411194269BA0093907E /* PBXTargetDependency */,
 			);
 			name = BassBlog;
 			productName = BassBlog;
@@ -1195,78 +1068,12 @@
 			mainGroup = 08FFCAFA1712A2C900F21D86;
 			productRefGroup = 08FFCB041712A2C900F21D86 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 9A63E3F6194269920093907E /* Products */;
-					ProjectRef = 9A63E3F5194269920093907E /* GoogleBlogger.xcodeproj */;
-				},
-				{
-					ProductGroup = 9A63E42C19426B0F0093907E /* Products */;
-					ProjectRef = 9A63E42B19426B0F0093907E /* GTMHTTPFetcher.xcodeproj */;
-				},
-				{
-					ProductGroup = 9A63E43E19426BC50093907E /* Products */;
-					ProjectRef = 9A63E43D19426BC50093907E /* GTMOAuth2.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				08FFCB021712A2C900F21D86 /* BassBlog */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		9A63E3FE194269920093907E /* GoogleBloggerTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = GoogleBloggerTests.xctest;
-			remoteRef = 9A63E3FD194269920093907E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9A63E400194269920093907E /* libGoogleBlogger.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libGoogleBlogger.a;
-			remoteRef = 9A63E3FF194269920093907E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9A63E402194269920093907E /* GoogleBlogger1Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = GoogleBlogger1Tests.xctest;
-			remoteRef = 9A63E401194269920093907E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9A63E43319426B0F0093907E /* libGTMHTTPFetcher.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libGTMHTTPFetcher.a;
-			remoteRef = 9A63E43219426B0F0093907E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9A63E43519426B0F0093907E /* UnitTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = UnitTests.xctest;
-			remoteRef = 9A63E43419426B0F0093907E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9A63E44519426BC50093907E /* libOAuthTouch2.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libOAuthTouch2.a;
-			remoteRef = 9A63E44419426BC50093907E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9A63E44719426BC50093907E /* libOAuthTouch2NG.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libOAuthTouch2NG.a;
-			remoteRef = 9A63E44619426BC50093907E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		08FFCB011712A2C900F21D86 /* Resources */ = {
@@ -1311,11 +1118,11 @@
 				9AD60F9119169615000C49BD /* BBAboutTableViewCell.m in Sources */,
 				08C04E921715F0C700726742 /* BBTableViewController.m in Sources */,
 				08FC718D171949C6001B144B /* BBModelManager.m in Sources */,
+				9A60F617194FAE68009220DE /* main.m in Sources */,
 				08CC79A3175685A500A64212 /* BassBlog.xcdatamodeld in Sources */,
 				08CC79A817568B0E00A64212 /* BBMix.m in Sources */,
 				C14D4A9118BE94FA00ED7041 /* BBFavoritesTableViewCell.m in Sources */,
 				08CC79AC17568C1500A64212 /* BBTag.m in Sources */,
-				08C5FDF81757CFDC007A9F04 /* BBMixesJSONParser.m in Sources */,
 				08CBFDDF1759006300C19C22 /* BBSettings+iCloud.m in Sources */,
 				08CBFDE11759006300C19C22 /* BBSettings.m in Sources */,
 				C14D4A9418BE951100ED7041 /* BBAllMixesTableViewCell.m in Sources */,
@@ -1357,31 +1164,12 @@
 				08CA9B1817CFBF1B00084257 /* BBOperationManager.m in Sources */,
 				9ABB6AA41901C54B00691B3F /* NSLayoutConstraint+Extensions.m in Sources */,
 				08D08ED917D2667600E462EC /* RDHTTP.m in Sources */,
-				08D08EE117D269A700E462EC /* BBMixesJSONLoader.m in Sources */,
 				08D35F5F17D69212006FC3E2 /* BBFont.m in Sources */,
 				08F21D1617D8EB4700F182C6 /* BBAboutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		9A63E411194269BA0093907E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = GoogleBlogger;
-			targetProxy = 9A63E410194269BA0093907E /* PBXContainerItemProxy */;
-		};
-		9A63E43719426B220093907E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = GTMHTTPFetcherLib;
-			targetProxy = 9A63E43619426B220093907E /* PBXContainerItemProxy */;
-		};
-		9A63E44919426BEF0093907E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = OAuthTouchStaticLib;
-			targetProxy = 9A63E44819426BEF0093907E /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		08FFCB111712A2C900F21D86 /* InfoPlist.strings */ = {

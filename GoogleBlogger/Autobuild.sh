@@ -4,22 +4,28 @@ FMK_VERSION=1.0
 
 # Install dir will be the final output to the framework.
 # The following line create it in the root folder of the current project.
-INSTALL_DIR=${SRCROOT}/Products/${FMK_NAME}.framework
+INSTALL_DIR="Products/${FMK_NAME}.framework"
 
 # Working dir will be deleted after the framework creation.
 WRK_DIR=build
-DEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework
-SIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework
+DEVICE_DIR="${WRK_DIR}/Release-iphoneos"
+SIMULATOR_DIR="${WRK_DIR}/Release-iphonesimulator"
+
+lipo -create "${DEVICE_DIR}/lib${FMK_NAME}.a" "${SIMULATOR_DIR}/lib${FMK_NAME}.a" -output "${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}"
+
+exit
 
 # Building both architectures.
 xcodebuild -configuration "Release" -target "${FMK_NAME}" -sdk iphoneos
 xcodebuild -configuration "Release" -target "${FMK_NAME}" -sdk iphonesimulator
 
+#exit
+
 # Cleaning the oldest.
-if [ -d "${INSTALL_DIR}" ]
-then
-rm -rf "${INSTALL_DIR}"
-fi
+#if [ -d "${INSTALL_DIR}" ]
+#then
+#rm -rf "${INSTALL_DIR}"
+#fi
 
 # Creates and renews the final product folder.
 mkdir -p "${INSTALL_DIR}"
@@ -40,9 +46,9 @@ cp -R "${DEVICE_DIR}/Headers/" "${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers/"
 cp -R "${DEVICE_DIR}/" "${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources/"
 
 # Removes the binary and header from the resources folder.
-rm -r "${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources/Headers" "${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources/${FMK_NAME}"
+#rm -r "${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources/Headers" "${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources/${FMK_NAME}"
 
 # Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.
 lipo -create "${DEVICE_DIR}/${FMK_NAME}" "${SIMULATOR_DIR}/${FMK_NAME}" -output "${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}"
 
-rm -r "${WRK_DIR}"
+#rm -r "${WRK_DIR}"
