@@ -500,7 +500,8 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
         self.bloggerService.APIKey = @"AIzaSyAgtNFIT3ZoYSEmR6oZ2vupakpyADkdhQI";
         
         GTLQueryBlogger *query = [GTLQueryBlogger queryForPostsListWithBlogId:@"4928216501086861761"];
-        query.maxPosts = 100;
+        query.maxPosts = 200;
+        query.maxResults = 200;
         query.view = kGTLBloggerViewReader;
 //        query.role = @[kGTLBloggerRoleAdmin];
         query.fetchImages = YES;
@@ -508,7 +509,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
         query.fetchBody = YES;
         query.fetchUserInfo = YES;
         query.orderBy = kGTLBloggerOrderByPublished;
-        query.endDate = [GTLDateTime dateTimeWithRFC3339String:@"2013-07-24T23:00:00Z"];
+//        query.endDate = [GTLDateTime dateTimeWithRFC3339String:@"2013-07-24T23:00:00Z"];
         
         self.blogListTicket =
         [self.bloggerService executeQuery:query
@@ -559,28 +560,19 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
 - (void)populateDatabaseInContext:(NSManagedObjectContext *)context
                      fromPostList:(GTLBloggerPostList *)postList
 {    
-    __block NSMutableDictionary *tagsDictionary = [self tagsDictionaryInContext:context];
-    
-    __block NSMutableDictionary *urlsDictionary = [NSMutableDictionary dictionaryWithCapacity:5200];
+    NSMutableDictionary *tagsDictionary = [self tagsDictionaryInContext:context];
+    NSMutableDictionary *urlsDictionary = [NSMutableDictionary dictionaryWithCapacity:5200];
     
     for (GTLBloggerPost *post in postList.items)
     {
         NSString *parsedID = post.identifier;
-        NSString *parsedUrl = @"http://mixes.bassblog.pro/Everybodies_Daddy_-_Full_Circle-05_06_2013.mp3";
-        NSString *parsedImageUrl = nil;
-        NSString *parsedName = post.title;
-        NSString *parsedTracklist = nil;
-        NSInteger parsedBitrate = 320;
-        NSArray *parsedTags = post.labels;
-        NSDate *parsedDate = [NSDate date];
+        NSString *parsedUrl = [self.class urlStringFromPost:post];
         BOOL deleted = NO;
         
-        GTLBloggerPostImagesItem *imagesItem = (GTLBloggerPostImagesItem*)[post.images lastObject];
-        parsedImageUrl = imagesItem.url;
-
-        if (deleted)
+        if (deleted || !parsedUrl)
         {
-            return;
+            BB_ERR(@"Track is deleted or parsedUrl is empty (%@)", post.content);
+            continue;
         }
 
         BBMix *mix = [urlsDictionary objectForKey:parsedUrl];
@@ -591,26 +583,13 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
         else
         {
             mix = [BBMix createInContext:context];
+            mix.url = parsedUrl;
             [urlsDictionary setObject:mix forKey:parsedUrl];
         }
 
         mix.ID = parsedID;
-
-        setMixAttributes(mix, parsedUrl, parsedImageUrl, parsedName, parsedTracklist, parsedBitrate, parsedDate);
-
-        [parsedTags enumerateObjectsUsingBlock:^(NSString *aName, NSUInteger aNameIdx, BOOL *aNameStop)
-        {
-             BBTag *tag = [tagsDictionary objectForKey:aName];
-             if (tag == nil)
-             {
-                 tag = [BBTag createInContext:context];
-                 tag.name = aName;
-                 
-                 [tagsDictionary setObject:tag forKey:aName];
-             }
-             
-             [mix addTagsObject:tag];
-         }];
+        
+        [self.class setAttributesForMix:mix fromPost:post inContext:context tagsDictionary:tagsDictionary];
     }
     
     NSInteger newRequestArgValue = 8888;
@@ -634,23 +613,13 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
 - (void)updateDatabaseInContext:(NSManagedObjectContext *)context
                    fromPostList:(GTLBloggerPostList *)postList
 {
-    __block NSMutableDictionary *tagsDictionary = [self tagsDictionaryInContext:context];
+    NSMutableDictionary *tagsDictionary = [self tagsDictionaryInContext:context];
     
     for (GTLBloggerPost *post in postList.items)
     {
         NSString *parsedID = post.identifier;
-        NSString *parsedUrl = @"http://mixes.bassblog.pro/Everybodies_Daddy_-_Full_Circle-05_06_2013.mp3";
-        NSString *parsedImageUrl = nil;
-        NSString *parsedName = post.title;
-        NSString *parsedTracklist = nil;
-        NSInteger parsedBitrate = 320;
-        NSArray *parsedTags = post.labels;
-        NSDate *parsedDate = [NSDate date];
         BOOL deleted = NO;
         
-        GTLBloggerPostImagesItem *imagesItem = (GTLBloggerPostImagesItem*)[post.images lastObject];
-        parsedImageUrl = imagesItem.url;
-
         BBMix *mix = [self mixWithID:parsedID inContext:context];
         if (deleted)
         {
@@ -658,12 +627,12 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
             {
                 // TODO: think about it...
                 
-                [context deleteObject:mix];
+                BB_WRN(@"Deleted mix named (%@)", mix.name);
                 
-                BB_WRN(@"Deleted mix named (%@)", parsedName);
+                [context deleteObject:mix];
             }
             
-            return;
+            continue;
         }
         
         if (!mix)
@@ -672,26 +641,9 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
             mix.ID = parsedID;
         }
         
-        setMixAttributes(mix, parsedUrl, parsedImageUrl, parsedName, parsedTracklist, parsedBitrate, parsedDate);
+        mix.url = [self.class urlStringFromPost:post];
         
-        [parsedTags enumerateObjectsUsingBlock:^(NSString *name, NSUInteger nameIdx, BOOL *nameStop)
-        {
-            // TODO: current logic doesn't delete old tags from mix if needed...
-            
-            BBTag *tag = [tagsDictionary objectForKey:name];
-            if (!tag)
-            {
-                tag = [BBTag createInContext:context];
-                tag.name = name;
-                 
-                [tagsDictionary setObject:tag forKey:name];
-            }
-             
-            if (![mix.tags containsObject:tag])
-            {
-                [mix addTagsObject:tag];
-            }
-        }];
+        [self.class setAttributesForMix:mix fromPost:post inContext:context tagsDictionary:tagsDictionary];
     }
     
     NSInteger newRequestArgValue = 8888;
@@ -742,8 +694,8 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
             NSUInteger requestArgValue = [self.class requestArgValue];
             if (requestArgValue > newRequestArgValue)
             {
-                BB_ERR(@"New request arg value (%d) < actual one (%d)",
-                    newRequestArgValue, requestArgValue);
+                BB_ERR(@"New request arg value (%lu) < actual one (%lu)",
+                    (unsigned long)newRequestArgValue, (unsigned long)requestArgValue);
             }
 
             [self.class setRequestArgValue:newRequestArgValue];
@@ -777,8 +729,73 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
     return tagsDictionary;
 }
 
++ (NSString *)urlStringFromPost:(GTLBloggerPost *)post
+{
+//    let bitrateMask = ">\\[(.+?) kbps\\]</span>";
+//    let bitrateRegex = NSRegularExpression.regularExpressionWithPattern(bitrateMask, options: NSRegularExpressionOptions.CaseInsensitive, error: &error)
+//    let bitrateMatches = bitrateRegex.numberOfMatchesInString(htmlBody, options: NSMatchingOptions.ReportCompletion, range: NSMakeRange(0, htmlBody.length))
+//    let bitrateMatchRange = bitrateRegex.rangeOfFirstMatchInString(htmlBody, options: NSMatchingOptions.ReportCompletion, range: NSMakeRange(0, htmlBody.length))
+//    let bitrateMatch = htmlBody.substringWithRange(bitrateMatchRange)
+    
+    NSString *htmlBody = post.content;
+    
+    NSError *error = nil;
+    
+    NSString *mp3Mask = @" href=\"(.+?).mp3\"";
+    NSRegularExpression *mp3Regex = [NSRegularExpression regularExpressionWithPattern:mp3Mask
+                                                                              options:NSRegularExpressionCaseInsensitive
+                                                                                error:&error];
+    
+    NSUInteger mp3Matches = [mp3Regex numberOfMatchesInString:htmlBody
+                                                      options:0
+                                                        range:NSMakeRange(0, htmlBody.length)];
+    
+    NSString *mp3Match = nil;
+    
+    if (mp3Matches > 0)
+    {
+        NSRange mp3MatchRange = [mp3Regex rangeOfFirstMatchInString:htmlBody
+                                                            options:0
+                                                              range:NSMakeRange(0, htmlBody.length)];
+
+        mp3Match = [htmlBody substringWithRange:mp3MatchRange];
+    }
+    
+    return mp3Match;
+}
+
++ (void)setAttributesForMix:(BBMix *)mix
+                   fromPost:(GTLBloggerPost *)post
+                  inContext:(NSManagedObjectContext *)context
+             tagsDictionary:(NSMutableDictionary *)tagsDictionary
+{
+    NSString *parsedName = post.title;
+    NSString *parsedTracklist = nil;
+    NSInteger parsedBitrate = 320;
+    NSDate *parsedDate = post.published.date;
+    NSArray *parsedTags = post.labels;
+    
+    GTLBloggerPostImagesItem *imagesItem = (GTLBloggerPostImagesItem*)[post.images lastObject];
+    NSString *parsedImageUrl = imagesItem.url;
+
+    setMixAttributes(mix, parsedImageUrl, parsedName, parsedTracklist, parsedBitrate, parsedDate);
+    
+    [parsedTags enumerateObjectsUsingBlock:^(NSString *aName, NSUInteger aNameIdx, BOOL *aNameStop)
+    {
+        BBTag *tag = [tagsDictionary objectForKey:aName];
+        if (!tag)
+        {
+            tag = [BBTag createInContext:context];
+            tag.name = aName;
+             
+            [tagsDictionary setObject:tag forKey:aName];
+        }
+         
+        [mix addTagsObject:tag];
+    }];
+}
+
 static inline void setMixAttributes(BBMix *mix,
-                                    NSString *url,
                                     NSString *imageUrl,
                                     NSString *name,
                                     NSString *tracklist,
@@ -789,7 +806,6 @@ static inline void setMixAttributes(BBMix *mix,
     mix.bitrate = bitrate;
     mix.name = name;
     mix.date = date;
-    mix.url = url;
     mix.imageUrl = imageUrl;
 }
 

@@ -32,6 +32,8 @@
 
 #import "BBUIUtils.h"
 
+#import <UIImageView+AFNetworking.h>
+
 
 static const NSUInteger kBBMixesStartFetchRequestLimit = 30;
 
@@ -90,7 +92,7 @@ BBAudioManagerDelegate
     
     cell.label.text = mix.name;
     cell.detailLabel.text = [self detailTextForMix:mix];
-    [cell.button setImage:[BBUIUtils defaultImage] forState:UIControlStateNormal];
+    [cell.image setImageWithURL:[NSURL URLWithString:mix.imageUrl] placeholderImage:[BBUIUtils defaultImage]];
     
     cell.paused = mix == audioManager.mix ? audioManager.paused : YES;
     
@@ -169,7 +171,7 @@ BBAudioManagerDelegate
 {
     BOOL hasMixes = (self.fetchedResultsController.fetchedObjects.count > 0);
     
-    self.navigationItem.leftBarButtonItem.enabled = hasMixes;
+    self.navigationItem.leftBarButtonItem.enabled = YES; //hasMixes;
     
     if (hasMixes)
     {

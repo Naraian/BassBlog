@@ -201,8 +201,12 @@ class BBNowPlayingViewControllerSwift : BBViewController
         
         println(audioManager);
     
-        self.currentTimeLabel.text = self.dynamicType.timeStringFromTime(audioManager.currentTime());
-        self.remainingTimeLabel.text = self.dynamicType.timeStringFromTime(audioManager.currentTimeLeft());
+        self.currentTimeLabel.text = BBUIUtils.timeStringFromTime(audioManager.currentTime());
+        self.remainingTimeLabel.text = BBUIUtils.timeStringFromTime(audioManager.currentTimeLeft());
+        
+        let currentMix = audioManager.mix;
+        
+        self.artworkImageView.setImageWithURL(NSURL.URLWithString(currentMix.imageUrl), placeholderImage:BBUIUtils.defaultImage());
         
         println(audioManager!.progress);
     
@@ -210,22 +214,6 @@ class BBNowPlayingViewControllerSwift : BBViewController
         {
             self.slider.value = audioManager.progress;
         }
-    }
-    
-    class func timeStringFromTime(time : CMTime) -> NSString?
-    {
-        let dTotalSeconds = CMTimeGetSeconds(time);
-    
-        if (!BBCommonUtils.isCMTimeNumberic(time))
-        {
-            return nil;
-        }
-    
-        let dHours = Int(floor(dTotalSeconds / 3600));
-        let dMinutes = Int(floor(dTotalSeconds % 3600 / 60));
-        let dSeconds = Int(floor(dTotalSeconds % 3600 % 60));
-    
-        return "\(dHours):\(dMinutes):\(dSeconds)";
     }
     
     override func viewDidLoad()

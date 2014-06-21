@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8T6-Od-IOA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6154.17" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8T6-Od-IOA">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6153.11"/>
     </dependencies>
     <scenes>
         <!--Root View Controller-->
@@ -171,7 +171,7 @@
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BBTagsTableViewCellBlack" rowHeight="44" id="LKz-5o-Qe8" customClass="BBTagsTableViewCell">
+                                    <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="BBTagsTableViewCellBlack" rowHeight="44" id="LKz-5o-Qe8" customClass="BBTagsTableViewCell">
                                         <rect key="frame" x="0.0" y="1" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LKz-5o-Qe8" id="uSO-ts-xZf">
@@ -215,7 +215,7 @@
                                             <outlet property="leftColorView" destination="ERK-Vy-7w0" id="i6u-go-zK1"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BBTagsTableViewCellWinter" rowHeight="44" id="X5d-B0-p8P" customClass="BBTagsTableViewCell">
+                                    <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="BBTagsTableViewCellWinter" rowHeight="44" id="X5d-B0-p8P" customClass="BBTagsTableViewCell">
                                         <rect key="frame" x="0.0" y="45" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="X5d-B0-p8P" id="wZY-NB-Krh">
@@ -343,7 +343,7 @@
         <!--Now Playing View Controller Swift-->
         <scene sceneID="x6A-Re-Fz4">
             <objects>
-                <viewController storyboardIdentifier="nowPlaying" hidesBottomBarWhenPushed="YES" id="n0Q-Nl-f8U" customClass="BBNowPlayingViewControllerSwift" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="nowPlaying" hidesBottomBarWhenPushed="YES" id="n0Q-Nl-f8U" customClass="BBNowPlayingViewControllerSwift" customModule="BassBlog" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ya4-oB-rRk"/>
                         <viewControllerLayoutGuide type="bottom" id="NhB-Pd-ggk"/>
@@ -517,7 +517,7 @@
                                     <constraint firstAttribute="centerY" secondItem="CKX-4k-QmQ" secondAttribute="centerY" id="kGL-wq-nF3"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="GdW-RX-Ma3" userLabel="Artwork Image View">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="GdW-RX-Ma3" userLabel="Artwork Image View">
                                 <rect key="frame" x="0.0" y="328" width="320" height="176"/>
                                 <color key="backgroundColor" red="0.98431372549999996" green="0.98431372549999996" blue="0.98431372549999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>

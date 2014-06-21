@@ -14,3 +14,5 @@
 #import "BBCommonUtils.h"
 #import "UIColor+HEX.h"
 #import "BBFont.h"
+
+#import <UIImageView+AFNetworking.h>

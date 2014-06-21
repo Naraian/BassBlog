@@ -13,7 +13,7 @@
 
 @interface BBMixesTableViewCell : BBHighlightableTableViewCell
 
-@property (nonatomic, strong) IBOutlet UIButton *button;
+@property (nonatomic, strong) IBOutlet UIImageView *image;
 @property (nonatomic, strong) IBOutlet UILabel *label;
 @property (nonatomic, strong) IBOutlet UILabel *detailLabel;
 

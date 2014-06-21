@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
@@ -14,24 +14,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="61"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kVB-Ka-CqP">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_image.png" translatesAutoresizingMaskIntoConstraints="NO" id="HqE-91-A8C">
                         <rect key="frame" x="12" y="9" width="80" height="44"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="44" id="6Sk-4g-ye6"/>
-                            <constraint firstAttribute="width" constant="80" id="OWe-IZ-EKX"/>
+                            <constraint firstAttribute="height" constant="44" id="Qi2-n6-y8y"/>
+                            <constraint firstAttribute="width" constant="80" id="uKT-1U-35C"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                        <state key="normal" backgroundImage="default_image.png">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                        <state key="highlighted">
-                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                        <connections>
-                            <action selector="buttonPressed" destination="cob-Mr-xUJ" eventType="touchUpInside" id="E7S-cd-0ys"/>
-                        </connections>
-                    </button>
+                    </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Mix name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lTy-fX-IWm" userLabel="Label">
                         <rect key="frame" x="102" y="13" width="206" height="20"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -50,20 +40,20 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="centerY" secondItem="kVB-Ka-CqP" secondAttribute="centerY" id="DfR-15-K8f"/>
-                    <constraint firstItem="Y5N-G4-eGQ" firstAttribute="leading" secondItem="kVB-Ka-CqP" secondAttribute="trailing" constant="10" id="EMK-QN-z6O"/>
-                    <constraint firstItem="lTy-fX-IWm" firstAttribute="leading" secondItem="kVB-Ka-CqP" secondAttribute="trailing" constant="10" id="IJn-0F-1fL"/>
-                    <constraint firstItem="kVB-Ka-CqP" firstAttribute="leading" secondItem="d8i-Tl-M7H" secondAttribute="leading" constant="12" id="QaU-sS-aCH"/>
+                    <constraint firstAttribute="centerY" secondItem="HqE-91-A8C" secondAttribute="centerY" constant="-0.5" id="HXS-kC-O9f"/>
+                    <constraint firstItem="lTy-fX-IWm" firstAttribute="leading" secondItem="HqE-91-A8C" secondAttribute="trailing" constant="10" id="Ucq-D3-UJ9"/>
+                    <constraint firstItem="lTy-fX-IWm" firstAttribute="centerY" secondItem="HqE-91-A8C" secondAttribute="centerY" constant="-8" id="eu3-qI-dAU"/>
+                    <constraint firstItem="HqE-91-A8C" firstAttribute="leading" secondItem="d8i-Tl-M7H" secondAttribute="leading" constant="12" id="jKA-bt-izv"/>
                     <constraint firstItem="Y5N-G4-eGQ" firstAttribute="top" secondItem="lTy-fX-IWm" secondAttribute="bottom" id="n8g-mC-Qxo"/>
                     <constraint firstAttribute="trailing" secondItem="Y5N-G4-eGQ" secondAttribute="trailing" constant="12" id="oBG-kO-Sfu"/>
+                    <constraint firstItem="lTy-fX-IWm" firstAttribute="leading" secondItem="Y5N-G4-eGQ" secondAttribute="leading" id="oJJ-03-KaI"/>
                     <constraint firstAttribute="trailing" secondItem="lTy-fX-IWm" secondAttribute="trailing" constant="12" id="rvo-HN-Box"/>
-                    <constraint firstItem="kVB-Ka-CqP" firstAttribute="centerY" secondItem="lTy-fX-IWm" secondAttribute="centerY" constant="8.5" id="xoc-Qu-JMq"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="button" destination="kVB-Ka-CqP" id="WLS-zW-0Ul"/>
                 <outlet property="detailLabel" destination="Y5N-G4-eGQ" id="8y1-Ts-hBf"/>
+                <outlet property="image" destination="HqE-91-A8C" id="0Y5-4T-c6O"/>
                 <outlet property="label" destination="lTy-fX-IWm" id="OG7-OH-sMe"/>
             </connections>
         </tableViewCell>

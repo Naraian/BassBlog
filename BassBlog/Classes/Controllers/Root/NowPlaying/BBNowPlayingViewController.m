@@ -304,20 +304,4 @@
     return _dateFormatter;
 }
 
-+ (NSString *)timeStringFromTime:(CMTime)time
-{
-    NSUInteger dTotalSeconds = CMTimeGetSeconds(time);
-    
-    if (!CMTIME_IS_NUMERIC(time))
-    {
-        return nil;
-    }
-    
-    NSUInteger dHours = floor(dTotalSeconds / 3600);
-    NSUInteger dMinutes = floor(dTotalSeconds % 3600 / 60);
-    NSUInteger dSeconds = floor(dTotalSeconds % 3600 % 60);
-    
-    return [NSString stringWithFormat:@"%i:%02i:%02i",dHours, dMinutes, dSeconds];
-}
-
 @end

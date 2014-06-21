@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 BassBlog. All rights reserved.
 //
 
+#import <CoreMedia/CoreMedia.h>
+
 @class BBMix;
 
 @interface BBUIUtils : NSObject
@@ -17,5 +19,7 @@
 + (UIImage *)defaultImageWithSize:(CGSize)size;
 
 + (UIImage *)defaultImage;
+
++ (NSString *)timeStringFromTime:(CMTime)time;
 
 @end

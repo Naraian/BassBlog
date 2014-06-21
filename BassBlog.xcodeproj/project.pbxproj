@@ -68,6 +68,7 @@
 		08FFCB0D1712A2C900F21D86 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FFCB0C1712A2C900F21D86 /* CoreData.framework */; };
 		08FFCB131712A2C900F21D86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08FFCB111712A2C900F21D86 /* InfoPlist.strings */; };
 		08FFCB2E1712ADE300F21D86 /* BBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FFCB2D1712ADE300F21D86 /* BBAppDelegate.m */; };
+		96940F09422A42528654E1C6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16EF097EE4F24CABA9AEC4A0 /* libPods.a */; };
 		9A3BE221193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3BE220193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift */; };
 		9A3BE228193FA1EB0048C9C0 /* BBCommonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3BE227193FA1EB0048C9C0 /* BBCommonUtils.m */; };
 		9A57211E18FF1F8300169E6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A57211D18FF1F8300169E6A /* Main.storyboard */; };
@@ -216,6 +217,8 @@
 		08FFCB161712A2C900F21D86 /* BassBlog-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BassBlog-Prefix.pch"; sourceTree = "<group>"; };
 		08FFCB2C1712ADE300F21D86 /* BBAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAppDelegate.h; sourceTree = "<group>"; };
 		08FFCB2D1712ADE300F21D86 /* BBAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAppDelegate.m; sourceTree = "<group>"; };
+		16EF097EE4F24CABA9AEC4A0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		25777352625342BB9D0024F3 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		9A3BE220193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingViewControllerSwift.swift; sourceTree = "<group>"; };
 		9A3BE226193FA1EB0048C9C0 /* BBCommonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCommonUtils.h; sourceTree = "<group>"; };
 		9A3BE227193FA1EB0048C9C0 /* BBCommonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCommonUtils.m; sourceTree = "<group>"; };
@@ -270,9 +273,9 @@
 				C12D9DF018BA21DB00F7693A /* MediaPlayer.framework in Frameworks */,
 				C1EBC3F418B9D30F00B77297 /* CoreMedia.framework in Frameworks */,
 				08EC6917178016DF0074CEC9 /* AudioToolbox.framework in Frameworks */,
+				08FFCB091712A2C900F21D86 /* Foundation.framework in Frameworks */,
 				08EC6915178016D60074CEC9 /* CFNetwork.framework in Frameworks */,
 				08FFCB071712A2C900F21D86 /* UIKit.framework in Frameworks */,
-				08FFCB091712A2C900F21D86 /* Foundation.framework in Frameworks */,
 				08FFCB0B1712A2C900F21D86 /* CoreGraphics.framework in Frameworks */,
 				9A790B20194FA91F002B8114 /* GoogleBlogger.framework in Frameworks */,
 				08FFCB0D1712A2C900F21D86 /* CoreData.framework in Frameworks */,
@@ -281,6 +284,7 @@
 				08DC1075176C87E800F09024 /* libFlurry.a in Frameworks */,
 				08E767F117CD16A6006B2320 /* AVFoundation.framework in Frameworks */,
 				08D08EDD17D267FD00E462EC /* MobileCoreServices.framework in Frameworks */,
+				96940F09422A42528654E1C6 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -852,6 +856,7 @@
 				08FFCB0E1712A2C900F21D86 /* BassBlog */,
 				08FFCB051712A2C900F21D86 /* Frameworks */,
 				08FFCB041712A2C900F21D86 /* Products */,
+				25777352625342BB9D0024F3 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -880,6 +885,7 @@
 				08FFCB0C1712A2C900F21D86 /* CoreData.framework */,
 				08C85852175B43CE0024281E /* QuartzCore.framework */,
 				08DC1069176C85F300F09024 /* SystemConfiguration.framework */,
+				16EF097EE4F24CABA9AEC4A0 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1026,9 +1032,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 08FFCB251712A2C900F21D86 /* Build configuration list for PBXNativeTarget "BassBlog" */;
 			buildPhases = (
+				2EAABEBB17074C46BF7A280A /* Check Pods Manifest.lock */,
 				08FFCAFF1712A2C900F21D86 /* Sources */,
 				08FFCB001712A2C900F21D86 /* Frameworks */,
 				08FFCB011712A2C900F21D86 /* Resources */,
+				7F174341586D4FE8B1BCCB4F /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1102,6 +1110,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2EAABEBB17074C46BF7A280A /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7F174341586D4FE8B1BCCB4F /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		08FFCAFF1712A2C900F21D86 /* Sources */ = {
@@ -1232,6 +1273,7 @@
 		};
 		08D69803176F968F00941621 /* AdHoc */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 25777352625342BB9D0024F3 /* Pods.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1355,6 +1397,7 @@
 		};
 		08FFCB261712A2C900F21D86 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 25777352625342BB9D0024F3 /* Pods.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Oleg Kuroptev (YA4Z2LL8SK)";
@@ -1387,6 +1430,7 @@
 		};
 		08FFCB271712A2C900F21D86 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 25777352625342BB9D0024F3 /* Pods.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
