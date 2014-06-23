@@ -50,7 +50,7 @@ DEFINE_CONST_NSSTRING(BBModelManagerRefreshErrorNotificationKey);
 
 DEFINE_STATIC_CONST_NSSTRING(BBModelManagerThreadContextKey);
 
-static const NSTimeInterval kBBMixesRequestRepeatInterval = 60. * 5;
+static const NSTimeInterval kBBMixesRequestRepeatInterval = 6. * 5; //kBBMixesRequestRepeatInterval = 60. * 5;
 
 static const NSTimeInterval kBBMainContextAutoSaveDelay = 30.;
 
@@ -74,7 +74,7 @@ static const NSUInteger kBBMaxNumberOfUpdatedObjectsForAutoSave = 10;
 @property (nonatomic, strong) NSManagedObjectContext *mainContext;
 @property (nonatomic, strong) NSPersistentStoreCoordinator *coordinator;
 
-@property (nonatomic, strong) dispatch_queue_t dispatchQueue;
+@property (nonatomic, strong) NSOperationQueue *operationQueue;
 
 @property (nonatomic, strong) NSError *error;
 
@@ -97,16 +97,15 @@ TIME_PROFILER_PROPERTY_DECLARATION
     return self;
 }
 
-- (dispatch_queue_t)dispatchQueue {
-    
-    if (_dispatchQueue == NULL) {
-        
-        _dispatchQueue = dispatch_queue_create("pro.bassblog.ModelManagerDispatchQueue", NULL);
-    
-        // TODO: configure priority here if needed...
+- (NSOperationQueue *)operationQueue
+{
+    if (!_operationQueue)
+    {
+        _operationQueue = [NSOperationQueue new];
+        _operationQueue.maxConcurrentOperationCount = 1;
     }
     
-    return _dispatchQueue;
+    return _operationQueue;
 }
 
 
@@ -116,25 +115,56 @@ TIME_PROFILER_PROPERTY_IMPLEMENTATION
 
 #pragma mark * State
 
-DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
+DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNewestItemDate);
+DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageToken);
+DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
-+ (NSInteger)requestArgValue
++ (NSDate *)dateFromGTLDateTime:(GTLDateTime*)gtlDateTime
 {
-    return [BBSettings integerForKey:BBMixesJSONRequestArgSettingsKey];
+    NSDate *date = gtlDateTime.date;
+    NSTimeInterval timeInterval = [date timeIntervalSince1970];
+    
+    timeInterval += [gtlDateTime.timeZone secondsFromGMTForDate:date];
+    
+    return [NSDate dateWithTimeIntervalSince1970:timeInterval];
 }
 
-+ (void)setRequestArgValue:(NSInteger)requestArgValue
++ (NSDate *)newestItemDate
 {
-    [BBSettings setInteger:requestArgValue
-                    forKey:BBMixesJSONRequestArgSettingsKey];
+    return [BBSettings objectForKey:BBMixesJSONRequestNewestItemDate];
+}
+
++ (void)setNewestItemDate:(NSDate *)newestItemDate
+{
+    [BBSettings setObject:newestItemDate forKey:BBMixesJSONRequestNewestItemDate];
+    [BBSettings synchronize];
+}
+
++ (NSString *)nextPageToken
+{
+    return [BBSettings objectForKey:BBMixesJSONRequestNextPageToken];
+}
+
++ (void)setNextPageToken:(NSString *)nextPageToken
+{
+    [BBSettings setObject:nextPageToken forKey:BBMixesJSONRequestNextPageToken];
+    [BBSettings synchronize];
+}
+
++ (NSDate *)nextPageStartDate
+{
+    return [BBSettings objectForKey:BBMixesJSONRequestNextPageStartDate];
+}
+
++ (void)setNextPageStartDate:(NSDate *)nextPageStartDate
+{
+    [BBSettings setObject:nextPageStartDate forKey:BBMixesJSONRequestNextPageStartDate];
     [BBSettings synchronize];
 }
 
 + (BOOL)isModelEmpty
 {
-#warning TODO: incorrect but fast test...
-    
-    return [self requestArgValue] == 0;
+    return [self newestItemDate] == nil;
 }
 
 - (BOOL)isInitialized
@@ -438,7 +468,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
 
 - (void)modelStateDiscoverCompletionBlock:(void(^)())completionBlock
 {
-    dispatch_async(self.dispatchQueue, ^
+    [self.operationQueue addOperationWithBlock:^
     {
         NSFetchRequest *fetchRequest = [BBTag fetchRequest];
         fetchRequest.fetchLimit = 1;
@@ -450,14 +480,15 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
         
         if (self.modelState == BBModelIsEmpty)
         {
-            [self.class setRequestArgValue:0];
+            [self.class setNewestItemDate:nil];
+            [self.class setNextPageToken:nil];
         }
         
         if (completionBlock)
         {
             completionBlock();
         }        
-    });
+    }];
 }
 
 - (GTLServiceBlogger *)bloggerService
@@ -467,10 +498,11 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
     if (!service)
     {
         service = [[GTLServiceBlogger alloc] init];
+        service.parseQueue = self.operationQueue;
         
 //        // Have the service object set tickets to fetch consecutive pages
 //        // of the feed so we do not need to manually fetch them.
-//        service.shouldFetchNextPages = NO;
+        service.shouldFetchNextPages = NO;
 //        
 //        // Have the service object set tickets to retry temporary error conditions
 //        // automatically.
@@ -481,19 +513,12 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
 
 - (void)loadMixes
 {
-    void(^progressBlock)(float) = ^(float progress)
-    {
-        self.refreshStage = BBModelManagerLoadingStage;
-        
-        [self postNotificationForRefreshProgress:progress];
-    };
-    
-    void(^errorBlock)(NSError *) = ^(NSError *error)
-    {
-        self.refreshStage = BBModelManagerWaitingStage;
-        
-        [self postNotificationForRefreshError:error];
-    };
+//    void(^progressBlock)(float) = ^(float progress)
+//    {
+//        self.refreshStage = BBModelManagerLoadingStage;
+//        
+//        [self postNotificationForRefreshProgress:progress];
+//    };
     
     dispatch_async(dispatch_get_main_queue(), ^
     {
@@ -503,21 +528,41 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
         query.maxPosts = 200;
         query.maxResults = 200;
         query.view = kGTLBloggerViewReader;
-//        query.role = @[kGTLBloggerRoleAdmin];
         query.fetchImages = YES;
         query.fetchBodies = YES;
         query.fetchBody = YES;
         query.fetchUserInfo = YES;
         query.orderBy = kGTLBloggerOrderByPublished;
-//        query.endDate = [GTLDateTime dateTimeWithRFC3339String:@"2013-07-24T23:00:00Z"];
+        
+        NSString *nextPageToken = [self.class nextPageToken];
+        if (nextPageToken)
+        {
+            NSDate *nextPageStartDate = [self.class nextPageStartDate];
+            
+            query.pageToken = nextPageToken;
+            query.startDate = [GTLDateTime dateTimeWithDate:nextPageStartDate timeZone:nil];
+        }
+        else
+        {
+            NSDate *newestItemDate = [self.class newestItemDate];
+            
+            if (newestItemDate)
+            {
+                query.startDate = [GTLDateTime dateTimeWithDate:newestItemDate timeZone:nil];
+                [self.class setNextPageStartDate:newestItemDate];
+            }
+        }
         
         self.blogListTicket =
         [self.bloggerService executeQuery:query
                             completionHandler:^(GTLServiceTicket *ticket, GTLBloggerPostList *postList, NSError *error)
         {
-            for (GTLBloggerPost *post in postList.items)
+            if (error)
             {
-                NSLog(@"%@", post.images);
+                self.refreshStage = BBModelManagerWaitingStage;
+                
+                [self postNotificationForRefreshError:error];
+                return;
             }
             
             self.refreshStage = BBModelManagerParsingStage;
@@ -529,7 +574,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
 
 - (void)refreshDatabaseWithMixesPostList:(GTLBloggerPostList *)postList
 {
-    dispatch_async(self.dispatchQueue, ^
+    [self.operationQueue addOperationWithBlock:^
     {
         NSString *description = (self.modelState == BBModelIsEmpty) ? @"database population" : @"database update";
         
@@ -545,7 +590,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
         {
             [self updateDatabaseInContext:context fromPostList:postList];
         }
-    });
+    }];
 }
 
 - (void)finished:(id)sender
@@ -559,9 +604,11 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
 
 - (void)populateDatabaseInContext:(NSManagedObjectContext *)context
                      fromPostList:(GTLBloggerPostList *)postList
-{    
+{
     NSMutableDictionary *tagsDictionary = [self tagsDictionaryInContext:context];
     NSMutableDictionary *urlsDictionary = [NSMutableDictionary dictionaryWithCapacity:5200];
+    
+    NSDate *lastPostDate = [NSDate dateWithTimeIntervalSince1970:0.0];
     
     for (GTLBloggerPost *post in postList.items)
     {
@@ -569,7 +616,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
         NSString *parsedUrl = [self.class urlStringFromPost:post];
         BOOL deleted = NO;
         
-        if (deleted || !parsedUrl)
+        if (deleted || (parsedUrl.length == 0))
         {
             BB_ERR(@"Track is deleted or parsedUrl is empty (%@)", post.content);
             continue;
@@ -590,22 +637,14 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
         mix.ID = parsedID;
         
         [self.class setAttributesForMix:mix fromPost:post inContext:context tagsDictionary:tagsDictionary];
+        
+        if ([mix.date timeIntervalSinceDate:lastPostDate] > 0)
+        {
+            lastPostDate = mix.date;
+        }
     }
     
-    NSInteger newRequestArgValue = 8888;
-    
-    [self refreshCompletionInContext:context withNewRequestArgValue:newRequestArgValue];
-
-//    }
-//    progressBlock:^(float progress)
-//    {
-//        [self postNotificationForRefreshProgress:progress];
-//    }
-//    completionBlock:^(NSInteger newRequestArgValue)
-//    {
-//        [self refreshCompletionInContext:context
-//                  withNewRequestArgValue:newRequestArgValue];
-//    }]; // parse
+    [self refreshCompletionInContext:context withNewestPostDate:lastPostDate nextPageToken:postList.nextPageToken];
 }
 
 #warning TODO: divide model refresh on stage a) - mixes load, b) - entities insertion. Start b) on fetch operations count == 0
@@ -615,20 +654,20 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
 {
     NSMutableDictionary *tagsDictionary = [self tagsDictionaryInContext:context];
     
+    NSDate *lastPostDate = [NSDate dateWithTimeIntervalSince1970:0.0];
+    
     for (GTLBloggerPost *post in postList.items)
     {
         NSString *parsedID = post.identifier;
+        NSString *parsedUrl = [self.class urlStringFromPost:post];
         BOOL deleted = NO;
         
         BBMix *mix = [self mixWithID:parsedID inContext:context];
-        if (deleted)
+        if (deleted || (parsedUrl.length == 0))
         {
             if (mix)
             {
-                // TODO: think about it...
-                
-                BB_WRN(@"Deleted mix named (%@)", mix.name);
-                
+                BB_WRN(@"Track is deleted or parsedUrl is empty (%@)", post.content);
                 [context deleteObject:mix];
             }
             
@@ -644,22 +683,20 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
         mix.url = [self.class urlStringFromPost:post];
         
         [self.class setAttributesForMix:mix fromPost:post inContext:context tagsDictionary:tagsDictionary];
+        
+        if ([mix.date timeIntervalSinceDate:lastPostDate] > 0)
+        {
+            lastPostDate = mix.date;
+        }
     }
     
-    NSInteger newRequestArgValue = 8888;
-    
-    [self refreshCompletionInContext:context withNewRequestArgValue:newRequestArgValue];
-
-//                       progressBlock:nil
-//                     completionBlock:^(NSInteger newRequestArgValue)
-//    {
-//        [self refreshCompletionInContext:context
-//                  withNewRequestArgValue:newRequestArgValue];
-//    }]; // parse
+    [self refreshCompletionInContext:context withNewestPostDate:lastPostDate nextPageToken:postList.nextPageToken];
 }
 
 - (void)refreshCompletionInContext:(NSManagedObjectContext *)context
-            withNewRequestArgValue:(NSInteger)newRequestArgValue
+                withNewestPostDate:(NSDate *)lastPostDate
+                     nextPageToken:(NSString *)nextPageToken
+
 {
 #ifdef DEBUG
     [self dumpContext:context];
@@ -691,14 +728,8 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
         {
             TIME_PROFILER_LOG(@"Database saving")
 
-            NSUInteger requestArgValue = [self.class requestArgValue];
-            if (requestArgValue > newRequestArgValue)
-            {
-                BB_ERR(@"New request arg value (%lu) < actual one (%lu)",
-                    (unsigned long)newRequestArgValue, (unsigned long)requestArgValue);
-            }
-
-            [self.class setRequestArgValue:newRequestArgValue];
+            [self.class setNextPageToken:nextPageToken];
+            [self.class setNewestItemDate:lastPostDate];
             
             self.modelState = BBModelIsPopulated;
 
@@ -759,7 +790,14 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
                                                               range:NSMakeRange(0, htmlBody.length)];
 
         mp3Match = [htmlBody substringWithRange:mp3MatchRange];
+        
+        if (mp3Match.length > 1)
+        {
+            mp3Match = [mp3Match stringByReplacingCharactersInRange:NSMakeRange(mp3Match.length - 1, 1) withString:@""];
+        }
     }
+    
+    mp3Match = [mp3Match stringByReplacingOccurrencesOfString:@" href=\"" withString:@""];
     
     return mp3Match;
 }
@@ -772,8 +810,10 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestArgSettingsKey);
     NSString *parsedName = post.title;
     NSString *parsedTracklist = nil;
     NSInteger parsedBitrate = 320;
-    NSDate *parsedDate = post.published.date;
+    NSDate *parsedDate = [self dateFromGTLDateTime:post.published];
     NSArray *parsedTags = post.labels;
+    
+    NSLog(@"parsed tags: %@", parsedTags);
     
     GTLBloggerPostImagesItem *imagesItem = (GTLBloggerPostImagesItem*)[post.images lastObject];
     NSString *parsedImageUrl = imagesItem.url;

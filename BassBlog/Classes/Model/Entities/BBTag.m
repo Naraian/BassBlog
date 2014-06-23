@@ -29,7 +29,7 @@
 
 + (NSArray *)formalNames {
     
-    return @[@"dnb",
+    return @[@"drum and bass",
              @"320 kbps",
              @"deep",
              @"drumfunk",
@@ -42,16 +42,17 @@
              @"ragga-jungle"];
 }
 
-+ (NSSet *)formalNamesOfTags:(NSSet *)tags {
-    
++ (NSSet *)formalNamesOfTags:(NSSet *)tags
+{
     NSArray *formalNames = [self formalNames];
     NSMutableSet *names = [NSMutableSet setWithCapacity:formalNames.count];
     
-    for (BBTag *tag in tags) {
-        
+    for (BBTag *tag in tags)
+    {
         NSString *tagName = tag.name;
         
-        if ([formalNames containsObject:tagName]) {
+        if ([formalNames containsObject:tagName])
+        {
             [names addObject:tagName];
         }
     }

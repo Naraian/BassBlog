@@ -134,6 +134,11 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
 
 - (NSNumber *)sectionIDFromDate:(NSDate *)date components:(int32_t)components
 {
+    if (!date)
+    {
+        return @(0);
+    }
+    
     int32_t sectionID = 0;
     
     NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:components fromDate:date];
