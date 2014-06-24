@@ -247,6 +247,7 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
     [self performFetch];
     
     [self.tableView reloadData];
+    [self contentDidChange];
     
     self.reloadModelOnSaveFinish = NO;
     

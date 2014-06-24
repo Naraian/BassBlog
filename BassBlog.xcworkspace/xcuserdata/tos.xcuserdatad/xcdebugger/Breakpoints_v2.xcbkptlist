@@ -25,30 +25,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BassBlog/Classes/Model/Entities/BBMix.m"
-            timestampString = "425261658.24397"
+            filePath = "BassBlog/Classes/Managers/ModelManager/BBModelManager.m"
+            timestampString = "425296938.000368"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
-            landmarkName = "-sectionIDFromDate:components:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BassBlog/Classes/Controllers/Base/Table/Entities/BBEntitiesViewController.m"
-            timestampString = "425286809.75596"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
-            landmarkName = "-performFetch"
-            landmarkType = "5">
+            startingLineNumber = "758"
+            endingLineNumber = "758"
+            landmarkName = "setMixAttributes()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

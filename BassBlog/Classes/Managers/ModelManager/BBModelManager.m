@@ -486,8 +486,8 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         self.bloggerService.APIKey = @"AIzaSyAgtNFIT3ZoYSEmR6oZ2vupakpyADkdhQI";
         
         GTLQueryBlogger *query = [GTLQueryBlogger queryForPostsListWithBlogId:@"4928216501086861761"];
-        query.maxPosts = 10;//200;
-        query.maxResults = 10;//200;
+        query.maxPosts = 80;//200;
+        query.maxResults = 80;//200;
         query.view = kGTLBloggerViewReader;
         query.fetchImages = YES;
         query.fetchBodies = YES;
@@ -543,69 +543,13 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         
         TIME_PROFILER_MARK_TIME
         
-        if (self.modelState == BBModelIsEmpty)
-        {
-            [self populateDatabaseInContext:context fromPostList:postList];
-        }
-        else
-        {
-            [self updateDatabaseInContext:context fromPostList:postList];
-        }
+        [self updateDatabaseInContext:context fromPostList:postList];
     }];
 }
 
 - (void)finished:(id)sender
 {
     
-}
-
-#warning TODO: create private context connected to persistent store directly...
-
-// NOTE: we use two quite similar methods for performance reasons.
-
-- (void)populateDatabaseInContext:(NSManagedObjectContext *)context
-                     fromPostList:(GTLBloggerPostList *)postList
-{
-    NSMutableDictionary *tagsDictionary = [self tagsDictionaryInContext:context];
-    NSMutableDictionary *urlsDictionary = [NSMutableDictionary dictionaryWithCapacity:5200];
-    
-    NSDate *lastPostDate = [NSDate dateWithTimeIntervalSince1970:0.0];
-    
-    for (GTLBloggerPost *post in postList.items)
-    {
-        NSString *parsedID = post.identifier;
-        NSString *parsedUrl = [self.class urlStringFromPost:post];
-        BOOL deleted = NO;
-        
-        if (deleted || (parsedUrl.length == 0))
-        {
-            BB_ERR(@"Track is deleted or parsedUrl is empty (%@)", post.content);
-            continue;
-        }
-
-        BBMix *mix = [urlsDictionary objectForKey:parsedUrl];
-        if (mix)
-        {
-            [mix removeTags:mix.tags];
-        }
-        else
-        {
-            mix = [BBMix createInContext:context];
-            mix.url = parsedUrl;
-            [urlsDictionary setObject:mix forKey:parsedUrl];
-        }
-
-        mix.ID = parsedID;
-        
-        [self.class setAttributesForMix:mix fromPost:post inContext:context tagsDictionary:tagsDictionary];
-        
-        if ([mix.date timeIntervalSinceDate:lastPostDate] > 0)
-        {
-            lastPostDate = mix.date;
-        }
-    }
-    
-    [self refreshCompletionInContext:context withNewestPostDate:lastPostDate nextPageToken:postList.nextPageToken];
 }
 
 #warning TODO: divide model refresh on stage a) - mixes load, b) - entities insertion. Start b) on fetch operations count == 0
@@ -1083,9 +1027,15 @@ static inline void setMixAttributes(BBMix *mix,
             [_rootContext setPersistentStoreCoordinator:self.coordinator];
             [_rootContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
             
-#warning Do only if not present
-            BBTag *allTag = [BBTag createInContext:_rootContext];
-            allTag.name = @"";
+            NSFetchRequest *fetchRequest = [BBTag fetchRequest];
+            NSUInteger tagsCount = [[BBModelManager defaultManager] countOfFetchedEntitiesWithRequest:fetchRequest
+                                                                                            inContext:_rootContext];
+
+            if (tagsCount == 0)
+            {
+                BBTag *allTag = [BBTag createInContext:_rootContext];
+                allTag.name = @"";
+            }
         }];
     }
     

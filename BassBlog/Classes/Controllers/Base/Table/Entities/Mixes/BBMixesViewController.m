@@ -63,7 +63,7 @@ BBAudioManagerDelegate
     _mixesSelectionOptions = [BBMixesSelectionOptions new];
     _mixesSelectionOptions.category = eAllMixesCategory;
     _mixesSelectionOptions.sortKey = eMixDateSortKey;
-    _mixesSelectionOptions.limit = kBBMixesStartFetchRequestLimit;
+//    _mixesSelectionOptions.limit = kBBMixesStartFetchRequestLimit;
 //    _mixesSelectionOptions.tag = [BBModelManager allTag];
     
     _detailTextsDictionary = [NSMutableDictionary new];
@@ -175,7 +175,7 @@ BBAudioManagerDelegate
     
     if (hasMixes)
     {
-        self.title = _mixesSelectionOptions.tag.formattedName;
+        self.title = _mixesSelectionOptions.tag ? _mixesSelectionOptions.tag.formattedName : [[BBTag allName] uppercaseString];
     }
     else
     {
