@@ -57,9 +57,8 @@
     if (!_fetchedResultsController)
     {
         NSFetchRequest *fetchRequest = [self fetchRequest];
-
-        NSString *sectionNameKeyPath = [self sectionNameKeyPath];
         
+        NSString *sectionNameKeyPath = [self sectionNameKeyPath];        
         NSFetchedResultsController *theFetchedResultsController =
         [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                             managedObjectContext:[[BBModelManager defaultManager] rootContext]
@@ -112,6 +111,8 @@
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
+    [self contentWillChange];
+    
     // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
     [self.tableView beginUpdates];
 }
@@ -131,7 +132,7 @@
             break;
             
         case NSFetchedResultsChangeUpdate:
-            [tableView reloadRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
             
         case NSFetchedResultsChangeMove:
@@ -152,6 +153,14 @@
         case NSFetchedResultsChangeDelete:
             [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
+            
+        case NSFetchedResultsChangeUpdate:
+//            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            break;
+
     }
 }
 
@@ -160,6 +169,8 @@
 {
     // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
     [self.tableView endUpdates];
+    
+    [self contentDidChange];
 }
 
 @end

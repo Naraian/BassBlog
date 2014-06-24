@@ -57,8 +57,6 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
     if (self.reloadDataOnViewWillAppear)
     {
         self.reloadDataOnViewWillAppear = NO;
-
-        [self updateViewState];
     }
     
     self.viewDidAppear = YES;
@@ -98,12 +96,12 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 
 - (void)modelManagerDidInitializeNotification {
     
-    [self updateViewState];
+
 }
 
 - (void)modelManagerDidFinishRefreshNotification {
     
-    [self updateViewState];
+
 }
 
 #pragma mark - UITableViewDataSource
@@ -128,6 +126,8 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 
 - (void)showDelayedBlockingActivityView {
     
+    NSLog(@"self showDelayedBlockingActivityView: %@", self);
+    
     if (self.activityView.superview) {
         return;
     }
@@ -144,12 +144,14 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 
 - (void)showActivityView {
     
+    NSLog(@"self showActivityView: %@", self);
     [UIView animateWithDuration:BBActivityViewShowAnimationDuration
                      animations:^{ self.activityView.alpha = 1.f; }];
 }
 
 - (void)hideActivityView {
     
+    NSLog(@"self hideActivityView: %@", self);
     [NSObject cancelPreviousPerformRequestsWithTarget:self
                                              selector:@selector(showActivityView)
                                                object:nil];
@@ -177,7 +179,7 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 {
     if (self.reloadModelOnSaveFinish)
     {
-        [self updateViewState];
+
     }
 }
 
@@ -197,35 +199,31 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 
 - (NSIndexPath *)indexPathOfEntity:(BBEntity *)entity
 {
-#warning TODO
-    return nil;//[_tableModel indexPathOfCellKey:entity.key];
-}
-
-- (void)mergePendingEntities
-{
-}
-
-- (void)mergeWithEntity:(BBEntity *)entity
-{
-    if (self.reloadModelOnSaveFinish)
-    {
-        return;
-    }
-    
-    if (self.viewDidAppear)
-    {
-    }
-    else
-    {
-        self.reloadDataOnViewWillAppear = YES;
-    }
+    return [self.fetchedResultsController indexPathForObject:entity];
 }
 
 - (BOOL)hasEntity:(BBEntity *)entity
 {
-#warning TODO
-    return YES;
-//    return [_entitiesDictionary objectForKey:entity.key] != nil;
+    return ([self.fetchedResultsController indexPathForObject:entity] != nil);
+}
+
+- (void)contentWillChange
+{
+    [self showDelayedBlockingActivityView];
+}
+
+- (void)contentDidChange
+{
+    if ([self.tableView numberOfSections])
+    {
+        [self hideStubView];
+    }
+    else
+    {
+        [self showStubView];
+    }
+    
+    [self hideActivityView];
 }
 
 - (void)performFetch
@@ -238,7 +236,7 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
     }
     else
     {
-        BB_ERR(@"Couldn't complete model reload operation!");
+        BB_ERR(@"Couldn't complete model reload operation!, %@", error);
     }
 }
 
@@ -257,31 +255,6 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
         self.reloadModelOnSaveFinish = YES;
         return;
     }
-    
-    [self updateViewState];
-}
-
-- (void)updateViewState
-{
-    [self showDelayedBlockingActivityView];
-    
-    [self completeModelReload];
-}
-
-- (void)completeModelReload
-{
-//    [self.tableView reloadData];
-    
-    if ([self.tableView numberOfSections])
-    {
-        [self hideStubView];
-    }
-    else
-    {
-        [self showStubView];
-    }
-    
-    [self hideActivityView];
 }
 
 @end

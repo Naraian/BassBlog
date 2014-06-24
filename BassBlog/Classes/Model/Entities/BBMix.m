@@ -150,12 +150,12 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
     
     if (components & NSMonthCalendarUnit)
     {
-        sectionID |= dateComponents.month << 5; // 31 (11111)
+        sectionID |= dateComponents.month << 5; // *32
     }
     
     if (components & NSYearCalendarUnit)
     {
-        sectionID |= dateComponents.year << 9; // 12 (1100)
+        sectionID |= dateComponents.year << 9; // *512
     }
     
     return @(sectionID);
@@ -262,7 +262,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
             break;
     }
     
-    if (tag)
+    if (tag && !tag.isAllTag)
     {
         if (format.length)
             [format appendString:@" && "];

@@ -35,4 +35,7 @@ enum { eBBTableViewRowAnimation = UITableViewRowAnimationFade };
 
 - (NSString *)sectionNameKeyPath;
 
+- (void)contentWillChange;
+- (void)contentDidChange;
+
 @end

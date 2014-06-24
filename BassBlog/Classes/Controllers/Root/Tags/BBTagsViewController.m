@@ -23,7 +23,9 @@
 
 #import "BBModelManager.h"
 
+#import "BBEntity+Service.h"
 #import "BBTag.h"
+#import "BBMix.h"
 
 
 const NSInteger kBBAllTagTableModelRow = 0;
@@ -31,8 +33,6 @@ const NSInteger kBBAllTagTableModelRow = 0;
 @interface BBTagsViewController ()
 {
     BBTagsSelectionOptions *_tagsSelectionOptions;
-    
-    NSMutableDictionary *_mixesCountNumbersDictionary;
     
     BBTag *_tag;
 }
@@ -47,8 +47,6 @@ const NSInteger kBBAllTagTableModelRow = 0;
     
     _tagsSelectionOptions = [BBTagsSelectionOptions new];
     _tagsSelectionOptions.sortKey = eTagNameSortKey;
-    
-    _tag = [BBModelManager allTag];
 }
 
 #pragma mark - View
@@ -63,17 +61,60 @@ const NSInteger kBBAllTagTableModelRow = 0;
     return nil;
 }
 
+- (void)contentWillChange
+{
+    [super contentWillChange];
+    
+    if ([self.tableView numberOfRowsInSection:0] > 0)
+    {
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
+- (void)contentDidChange
+{
+    [super contentDidChange];
+    
+    NSIndexPath *indexPath = [self indexPathOfEntity:_tag];
+    
+    if (!indexPath)
+    {
+        if ([self.tableView numberOfRowsInSection:0] > 0)
+        {
+            indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        }
+    }
+    
+    if (indexPath)
+    {
+        [self.tableView selectRowAtIndexPath:indexPath
+                                    animated:NO
+                              scrollPosition:UITableViewScrollPositionNone];
+    }
+}
+
 - (NSString *)cellNibNameAtIndexPath:(NSIndexPath *)indexPath
 {
     return [BBTagsTableViewCell nibName];
 }
 
-- (void)configureCell:(BBTagsTableViewCell *)cell withEntity:(BBTag *)tag {
+- (void)configureCell:(BBTagsTableViewCell *)cell withEntity:(BBTag *)tag
+{
+    NSUInteger mixesCount = 0;
     
-    cell.label.text = [tag.name uppercaseString];
+    if (tag.isAllTag)
+    {
+        NSFetchRequest *fetchRequest = [BBMix fetchRequest];
+        mixesCount = [[BBModelManager defaultManager] countOfFetchedEntitiesWithRequest:fetchRequest
+                                                                              inContext:[[BBModelManager defaultManager] rootContext]];
+    }
+    else
+    {
+        mixesCount = tag.mixes.count;
+    }
     
-    cell.detailLabel.text = [NSString stringWithFormat:@"%d",
-                                 [_mixesCountNumbersDictionary[tag.key] unsignedIntegerValue]];
+    cell.label.text = tag.formattedName;
+    cell.detailLabel.text = [NSString stringWithFormat:@"%d", mixesCount];
 }
 
 - (void)updateTheme
@@ -101,15 +142,6 @@ const NSInteger kBBAllTagTableModelRow = 0;
 }
 
 #pragma mark - Model
-
-- (void)completeModelReload
-{
-    [super completeModelReload];
-    
-    [self.tableView selectRowAtIndexPath:[self indexPathOfEntity:_tag]
-                                animated:NO
-                          scrollPosition:UITableViewScrollPositionNone];
-}
 
 - (BOOL)needApplyDelegateSelectionOptions
 {

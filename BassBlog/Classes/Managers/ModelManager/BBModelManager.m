@@ -65,13 +65,10 @@ static const NSUInteger kBBMaxNumberOfUpdatedObjectsForAutoSave = 10;
 @property (atomic, assign) BOOL autoSaveInProgress;
 @property (atomic, assign) BOOL refreshSaveInProgress;
 
-@property (nonatomic, strong) BBTag *allTag;
-
 @property (nonatomic, assign) BBModelManagerRefreshStage refreshStage;
 
 @property (nonatomic, strong) NSManagedObjectContext *tempContext;
 @property (nonatomic, strong) NSManagedObjectContext *rootContext;
-@property (nonatomic, strong) NSManagedObjectContext *mainContext;
 @property (nonatomic, strong) NSPersistentStoreCoordinator *coordinator;
 
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
@@ -174,37 +171,6 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
 #pragma mark * Entities
 
-+ (BBTag *)allTag
-{
-    return [[self defaultManager] allTag];
-}
-
-- (BBTag *)allTag
-{
-    if (_allTag == nil)
-    {
-        _allTag = [BBTag createInContext:self.tempContext];
-        _allTag.name = [BBTag allName];
-    }
-    
-    return _allTag;
-}
-
-- (NSArray *)tagsWithSelectionOptions:(BBTagsSelectionOptions *)options
-{
-    NSFetchRequest *fetchRequest = [self fetchRequestForTagsWithSelectionOptions:options];
-    
-    NSArray *tags = [self entitiesFetchedWithRequest:fetchRequest
-                                           inContext:[self currentThreadContext]];
-    
-    if (tags.count)
-    {
-        tags = [tags arrayByAddingObject:self.allTag];
-    }
-    
-    return tags;
-}
-
 - (NSArray *)mixesWithSelectionOptions:(BBMixesSelectionOptions *)options
 {
     NSFetchRequest *fetchRequest = [self fetchRequestForMixesWithSelectionOptions:options];
@@ -238,14 +204,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         NSManagedObject *entity = [context existingObjectWithID:objectID error:&error];
         if (entity == nil)
         {
-            if ([objectID isEqual:[self.allTag objectID]])
-            {
-                entity = self.allTag;
-            }
-            else
-            {
-                [self handleError:error];
-            }
+            [self handleError:error];
         }
         
         block(entity, idx, stop);
@@ -307,7 +266,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     
     if (NO == self.autoSaveInProgress)
     {
-        if ([self.mainContext updatedObjects].count > kBBMaxNumberOfUpdatedObjectsForAutoSave)
+        if ([self.rootContext updatedObjects].count > kBBMaxNumberOfUpdatedObjectsForAutoSave)
         {
             [self mainContextAutoSave];
             return;
@@ -334,7 +293,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
 - (void)mainContextAutoSave
 {
-    if (NO == [self.mainContext hasChanges])
+    if (NO == [self.rootContext hasChanges])
     {
         return;
     }
@@ -343,7 +302,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     
     self.autoSaveInProgress = YES;
     
-    [self deepSaveFromContext:self.mainContext withCompletionBlock:^(BOOL saved)
+    [self deepSaveRootContextWithCompletionBlock:^(BOOL saved)
     {
         if (saved == NO)
         {
@@ -371,9 +330,11 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     [self addSelector:@selector(mixDidChangeLocalUrlNotification:) forNotificationWithName:BBMixDidChangeLocalUrlNotification];
     [self addSelector:@selector(mixDidChangeFavoriteNotification:) forNotificationWithName:BBMixDidChangeFavoriteNotification];
     [self addSelector:@selector(mixDidChangePlaybackDateNotification:) forNotificationWithName:BBMixDidChangePlaybackDateNotification];
+    
+    // Context.
+    [self addSelector:@selector(managedObjectContextDidSaveNotification:) forNotificationWithName:NSManagedObjectContextDidSaveNotification];
 
 #ifdef DEBUG
-    
     // Context.
     [self addSelector:@selector(managedObjectContextWillSaveNotification:) forNotificationWithName:NSManagedObjectContextWillSaveNotification];
 #endif
@@ -397,7 +358,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
 - (void)applicationWillTerminateNotification:(NSNotification *)notification
 {
-    [self deepSaveFromContext:self.mainContext];
+    [self deepSaveRootContext];
 }
 
 #pragma mark * Mix
@@ -476,7 +437,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         NSUInteger tagsCount = [self countOfFetchedEntitiesWithRequest:fetchRequest
                                                              inContext:[self currentThreadContext]];
         
-        self.modelState = tagsCount ? BBModelIsPopulated : BBModelIsEmpty;
+        self.modelState = (tagsCount > 1) ? BBModelIsPopulated : BBModelIsEmpty;
         
         if (self.modelState == BBModelIsEmpty)
         {
@@ -525,8 +486,8 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         self.bloggerService.APIKey = @"AIzaSyAgtNFIT3ZoYSEmR6oZ2vupakpyADkdhQI";
         
         GTLQueryBlogger *query = [GTLQueryBlogger queryForPostsListWithBlogId:@"4928216501086861761"];
-        query.maxPosts = 200;
-        query.maxResults = 200;
+        query.maxPosts = 10;//200;
+        query.maxResults = 10;//200;
         query.view = kGTLBloggerViewReader;
         query.fetchImages = YES;
         query.fetchBodies = YES;
@@ -719,7 +680,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         self.refreshStage = BBModelManagerWaitingStage;
     }
     
-    [self deepSaveFromContext:context withCompletionBlock:^(BOOL saved)
+    [self saveContext:context withCompletionBlock:^(BOOL saved)
     {
         self.refreshSaveInProgress = NO;
         self.refreshStage = BBModelManagerWaitingStage;
@@ -847,6 +808,11 @@ static inline void setMixAttributes(BBMix *mix,
     mix.name = name;
     mix.date = date;
     mix.imageUrl = imageUrl;
+    
+    if (!date)
+    {
+        NSLog(@"Date is nil for mix with name: %@", name);
+    }
 }
 
 - (void)scheduleMixesRequest
@@ -913,13 +879,13 @@ static inline void setMixAttributes(BBMix *mix,
     
     [self deleteEntitiesFetchedWithRequest:[BBMix withoutTagsFetchRequest]];
     
-    [self deepSaveFromContext:self.mainContext];
+    [self deepSaveRootContext];
 }
 
 - (void)deleteEntitiesFetchedWithRequest:(NSFetchRequest *)fetchRequest
 {
     NSArray *entities = [self entitiesFetchedWithRequest:fetchRequest
-                                               inContext:self.mainContext];
+                                               inContext:self.rootContext];
     if (!entities.count)
     {
         return;
@@ -927,7 +893,7 @@ static inline void setMixAttributes(BBMix *mix,
     
     [entities enumerateObjectsUsingBlock:^(BBEntity *entity, NSUInteger entityIdx, BOOL *entityStop)
     {
-        [self.mainContext deleteObject:entity];
+        [self.rootContext deleteObject:entity];
     }];
     
     BB_WRN(@"Deleted %d \"%@\"", entities.count, fetchRequest.entityName);
@@ -956,7 +922,7 @@ static inline void setMixAttributes(BBMix *mix,
 {
     BBTag *tag = options.tag;
     
-    if ([tag isEqualToEntity:[self allTag]])
+    if ([tag isAllTag])
     {
         tag = nil;
     }
@@ -1009,35 +975,43 @@ static inline void setMixAttributes(BBMix *mix,
 
 #pragma mark * Save
 
-- (void)deepSaveFromContext:(NSManagedObjectContext *)context
+- (void)deepSaveRootContext
 {
-    [self deepSaveFromContext:context withCompletionBlock:nil];
+    [self deepSaveRootContextWithCompletionBlock:nil];
 }
 
-- (void)deepSaveFromContext:(NSManagedObjectContext *)context
-        withCompletionBlock:(void(^)(BOOL saved))completionBlock
+- (void)deepSaveRootContextWithCompletionBlock:(void(^)(BOOL saved))completionBlock
 {
-    [context performBlock:^
+    dispatch_async(dispatch_get_main_queue(), ^
     {
-        __block BOOL saved = NO;
-        
-        [self saveContext:context withCompletionBlock:^(BOOL contextSaved)
+        [self.rootContext performBlock:^
         {
-            saved = contextSaved;
-        }];
-        
-        if (!saved || !context.parentContext)
-        {
+            __block BOOL saved = NO;
+            
+            [self saveContext:self.rootContext withCompletionBlock:^(BOOL contextSaved)
+            {
+                saved = contextSaved;
+            }];
+            
             if (completionBlock)
             {
                 completionBlock(saved);
             }
+        }];
+    });
+
+        #warning ???
+//        if (!saved || !context.parentContext)
+//        {
+//            if (completionBlock)
+//            {
+//                completionBlock(saved);
+//            }
+//        
+//            return;
+//        }
         
-            return;
-        }
-        
-        [self deepSaveFromContext:context.parentContext withCompletionBlock:completionBlock];
-    }];
+        //[self deepSaveFromContext:context.parentContext withCompletionBlock:completionBlock];
 }
 
 - (void)saveContext:(NSManagedObjectContext *)context withCompletionBlock:(void(^)(BOOL saved))completionBlock
@@ -1100,7 +1074,7 @@ static inline void setMixAttributes(BBMix *mix,
 {
     if (!_rootContext && self.coordinator)
     {
-        _rootContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        _rootContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         
         [self setDescription:@"ROOT" forContext:_rootContext];
         
@@ -1108,32 +1082,21 @@ static inline void setMixAttributes(BBMix *mix,
         {
             [_rootContext setPersistentStoreCoordinator:self.coordinator];
             [_rootContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
+            
+#warning Do only if not present
+            BBTag *allTag = [BBTag createInContext:_rootContext];
+            allTag.name = @"";
         }];
     }
     
     return _rootContext;
 }
 
-- (NSManagedObjectContext *)mainContext
-{
-    if (!_mainContext)
-    {
-        _mainContext = [[NSManagedObjectContext alloc]
-                           initWithConcurrencyType:NSMainQueueConcurrencyType];
-        
-        [_mainContext setParentContext:self.rootContext];
-        
-        [self setDescription:@"MAIN" forContext:_mainContext];
-    }
-    
-    return _mainContext;
-}
-
 - (NSManagedObjectContext *)currentThreadContext
 {
 	if ([NSThread isMainThread])
     {
-		return self.mainContext;
+		return self.rootContext;
 	}
     
     @synchronized(self)
@@ -1155,7 +1118,7 @@ static inline void setMixAttributes(BBMix *mix,
 - (NSManagedObjectContext *)serviceContextWithTaskDescription:(NSString *)taskDescription
 {
     NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    [context setParentContext:self.mainContext];
+    [context setParentContext:self.rootContext];
     
     NSString *description = [NSString stringWithFormat:@"SERVICE \"%@\"", taskDescription];
     
@@ -1293,10 +1256,10 @@ static NSString *const BBManagedObjectContextDescriptionKey =
 {
     NSManagedObjectContext *context = notification.object;
     
-    if (context != _mainContext)
-    {
-        return;
-    }
+//    if (context != _rootContext)
+//    {
+//        return;
+//    }
     
     NSMutableString *dump = [NSMutableString string];
     
@@ -1318,6 +1281,28 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     if (dump.length)
     {
         BB_DBG(@"Changes in %@ context: %@", [self descriptionForContext:context], dump);
+    }
+}
+
+- (void)managedObjectContextDidSaveNotification:(NSNotification *)notification
+{
+    NSManagedObjectContext *savedContext = [notification object];
+    
+    // ignore change notifications for the main MOC
+    if (savedContext != _rootContext)
+    {
+        if (_rootContext.persistentStoreCoordinator != savedContext.persistentStoreCoordinator)
+        {
+            return;
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
+            [_rootContext performBlockAndWait:^
+            {
+                [_rootContext mergeChangesFromContextDidSaveNotification:notification];
+            }];
+        });
     }
 }
 

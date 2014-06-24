@@ -663,11 +663,11 @@ static NSString * const SWSegueRightIdentifier = @"sw_right";
             NSLog(@"exception while performing segue:%@ [%@]", SWSegueFrontIdentifier,exception);
         }
         
-        @try
-        {
-            [self performSegueWithIdentifier:SWSegueRightIdentifier sender:nil];
-        }
-        @catch(NSException *exception) {}
+//        @try
+//        {
+//            [self performSegueWithIdentifier:SWSegueRightIdentifier sender:nil];
+//        }
+//        @catch(NSException *exception) {}
     }
 }
 

@@ -58,13 +58,14 @@ typedef NS_ENUM(NSUInteger, BBModelManagerRefreshStage) {
 
 #pragma mark - Entities
 
-+ (BBTag *)allTag; // Use 'allTag' or 'nil' for all mixes selection.
-
 - (NSArray *)tagsWithSelectionOptions:(BBTagsSelectionOptions *)options;
 
 - (NSArray *)mixesWithSelectionOptions:(BBMixesSelectionOptions *)options;
 
 - (NSUInteger)mixesCountWithSelectionOptions:(BBMixesSelectionOptions *)options;
+
+- (NSUInteger)countOfFetchedEntitiesWithRequest:(NSFetchRequest *)fetchRequest
+                                      inContext:(NSManagedObjectContext *)context;
 
 - (void)enumerateObjectIDs:(NSArray *)objectIDs
                 usingBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block;

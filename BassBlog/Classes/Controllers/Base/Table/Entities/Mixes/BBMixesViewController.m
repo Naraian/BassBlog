@@ -64,7 +64,7 @@ BBAudioManagerDelegate
     _mixesSelectionOptions.category = eAllMixesCategory;
     _mixesSelectionOptions.sortKey = eMixDateSortKey;
     _mixesSelectionOptions.limit = kBBMixesStartFetchRequestLimit;
-    _mixesSelectionOptions.tag = [BBModelManager allTag];
+//    _mixesSelectionOptions.tag = [BBModelManager allTag];
     
     _detailTextsDictionary = [NSMutableDictionary new];
     _headerTextsDictionary = [NSMutableDictionary new];
@@ -175,7 +175,7 @@ BBAudioManagerDelegate
     
     if (hasMixes)
     {
-        self.title = [_mixesSelectionOptions.tag.name uppercaseString];
+        self.title = _mixesSelectionOptions.tag.formattedName;
     }
     else
     {
@@ -197,13 +197,6 @@ BBAudioManagerDelegate
 - (void)modelManagerDidFinishSaveNotification {
     
     [super modelManagerDidFinishSaveNotification];
-}
-
-- (void)completeModelReload
-{
-    [super completeModelReload];
-    
-    [self updateNavigationBar];
 }
 
 - (void)pause:(BOOL)pause mix:(BBMix *)mix
@@ -302,6 +295,18 @@ BBAudioManagerDelegate
     NSNumber *sectionID = [mix valueForKey:keyPath];
     
     return [sectionID integerValue];
+}
+
+- (void)contentWillChange
+{
+    [super contentWillChange];
+}
+
+- (void)contentDidChange
+{
+    [super contentDidChange];
+    
+    [self updateNavigationBar];
 }
 
 #pragma mark - Actions
@@ -442,7 +447,21 @@ BBAudioManagerDelegate
 
 - (NSFetchRequest *)fetchRequest
 {
-    return [[BBModelManager defaultManager] fetchRequestForMixesWithSelectionOptions:_mixesSelectionOptions];
+    NSFetchRequest *fetchRequest = [[BBModelManager defaultManager] fetchRequestForMixesWithSelectionOptions:_mixesSelectionOptions];
+    
+//    NSString *sectionNameKeyPath = [self sectionNameKeyPath];
+//    
+//    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:sectionNameKeyPath ascending:YES];
+//    NSArray *descriptors = @[sortDescriptor];
+//    
+//    if (fetchRequest.sortDescriptors)
+//    {
+//        descriptors = [descriptors arrayByAddingObjectsFromArray:fetchRequest.sortDescriptors];
+//    }
+//    
+//    fetchRequest.sortDescriptors = descriptors;
+
+    return fetchRequest;
 }
 
 - (NSString *)detailTextForMix:(BBMix *)mix {

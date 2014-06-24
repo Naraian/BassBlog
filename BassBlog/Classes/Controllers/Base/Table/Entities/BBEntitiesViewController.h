@@ -46,7 +46,6 @@
 #warning TODO: move to mixes controller...
 
 - (void)performFetch;
-- (void)updateViewState;
 - (void)showStubView;
 - (void)hideStubView;
 - (UIView *)stubView;
@@ -62,14 +61,7 @@ enum { eBBDefaultTableModelSectionID = 0 };
 
 - (NSIndexPath *)indexPathOfEntity:(id)entity;
 
-- (void)mergePendingEntities;
-
-- (void)mergeWithEntity:(id)entity;
-
 - (BOOL)hasEntity:(id)entity;
-
-- (void)completeModelReload;
-
-- (void)reloadModel NS_DEPRECATED_IOS(3_0, 4_0);
+- (void)reloadModel;
 
 @end

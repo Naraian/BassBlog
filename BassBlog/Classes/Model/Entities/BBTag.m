@@ -17,47 +17,70 @@
 @dynamic name;
 @dynamic mixes;
 
-- (NSString *)key {
-    
+- (NSString *)key
+{
     return self.name;
 }
 
-+ (NSString *)allName {
-    
++ (NSString *)allName
+{
     return @"all mixes";
 }
 
-+ (NSArray *)formalNames {
++ (NSDictionary *)formalNames
+{
+    static NSDictionary *sFormalNames = nil;
     
-    return @[@"drum and bass",
-             @"320 kbps",
-             @"deep",
-             @"drumfunk",
-             @"dubstep",
-             @"hard",
-             @"light",
-             @"liquid",
-             @"neurofunk",
-             @"oldschool",
-             @"ragga-jungle"];
+    if (!sFormalNames)
+    {
+        sFormalNames  = @{@""               : @"",
+                          @"drum and bass"  : @"dnb",
+                          @"320 kbps"       : @"320 kbps",
+                          @"deep"           : @"deep",
+                          @"drumfunk"       : @"drumfunk",
+                          @"dubstep"        : @"dubstep",
+                          @"hard"           : @"hard",
+                          @"light"          : @"light",
+                          @"liquid"         : @"liquid",
+                          @"neurofunk"      : @"neurofunk",
+                          @"oldschool"      : @"oldschool",
+                          @"ragga-jungle"   : @"ragga-jungle"};
+    }
+    
+    return sFormalNames;
 }
 
 + (NSSet *)formalNamesOfTags:(NSSet *)tags
 {
-    NSArray *formalNames = [self formalNames];
+    NSDictionary *formalNames = [self formalNames];
     NSMutableSet *names = [NSMutableSet setWithCapacity:formalNames.count];
     
     for (BBTag *tag in tags)
     {
-        NSString *tagName = tag.name;
+        NSString *tagName = [formalNames objectForKey:tag.name];
         
-        if ([formalNames containsObject:tagName])
+        if (tagName)
         {
             [names addObject:tagName];
         }
     }
     
     return names;
+}
+
+- (BOOL)isAllTag
+{
+    return [self.name isEqualToString:@""];
+}
+
+- (NSString *)formattedName
+{
+    if (self.isAllTag)
+    {
+        return [[self.class allName] uppercaseString];
+    }
+    
+    return [self.name uppercaseString];
 }
 
 @end
@@ -76,7 +99,9 @@
     NSMutableString *format = [NSMutableString stringWithString:@"name in %@"];
     
     if (mixesCategory != eAllMixesCategory)
+    {
         [format appendString:@" && ANY mixes."];
+    }
     
     switch (mixesCategory)
     {
@@ -97,7 +122,7 @@
     }
     
     return [self fetchRequestWithPredicateFormat:format
-                                   argumentArray:@[[self formalNames]]];
+                                   argumentArray:@[[[self formalNames] allKeys]]];
 }
 
 + (NSFetchRequest *)fetchRequestWithName:(NSString *)name {
