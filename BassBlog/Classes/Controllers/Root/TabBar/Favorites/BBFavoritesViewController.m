@@ -57,8 +57,13 @@
 
 #pragma mark - View
 
-- (NSString *)cellNibNameAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (NSString *)sectionTitleForHeaderInSection:(NSInteger)section
+{
+    return nil;
+}
+
+- (NSString *)cellNibNameAtIndexPath:(NSIndexPath *)indexPath
+{
     return [BBFavoritesTableViewCell nibName];
 }
 

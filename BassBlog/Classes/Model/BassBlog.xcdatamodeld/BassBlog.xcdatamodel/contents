@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6172.15" systemVersion="14A238x" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="BBEntity" representedClassName="BBEntity" isAbstract="YES" syncable="YES"/>
     <entity name="BBMix" representedClassName="BBMix" parentEntity="BBEntity" syncable="YES">
         <attribute name="bitrate" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -14,17 +14,19 @@
         <attribute name="playbackDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="playbackDaySectionIdentifier" optional="YES" transient="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="playbackMonthSectionIdentifier" optional="YES" transient="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="postUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tracklist" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="url" attributeType="String" syncable="YES"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BBTag" inverseName="mixes" inverseEntity="BBTag" syncable="YES"/>
     </entity>
     <entity name="BBTag" representedClassName="BBTag" parentEntity="BBEntity" syncable="YES">
+        <attribute name="mainTag" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <relationship name="mixes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BBMix" inverseName="tags" inverseEntity="BBMix" syncable="YES"/>
     </entity>
     <elements>
         <element name="BBEntity" positionX="160" positionY="192" width="128" height="45"/>
-        <element name="BBMix" positionX="160" positionY="192" width="128" height="270"/>
-        <element name="BBTag" positionX="160" positionY="192" width="128" height="75"/>
+        <element name="BBMix" positionX="160" positionY="192" width="128" height="283"/>
+        <element name="BBTag" positionX="160" positionY="192" width="128" height="90"/>
     </elements>
 </model>

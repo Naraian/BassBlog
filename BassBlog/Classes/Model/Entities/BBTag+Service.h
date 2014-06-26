@@ -17,6 +17,7 @@
 
 @interface BBTag (Service)
 
++ (NSSortDescriptor *)mainTagSortDescriptor;
 + (NSSortDescriptor *)nameSortDescriptor;
 
 + (NSFetchRequest *)fetchRequestWithMixesCategory:(BBMixesCategory)mixesCategory;

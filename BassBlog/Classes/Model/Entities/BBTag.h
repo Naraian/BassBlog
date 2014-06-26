@@ -13,8 +13,8 @@
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSSet *mixes;
+@property (nonatomic, assign) BOOL mainTag;
 
-@property (nonatomic, readonly) BOOL isAllTag;
 @property (nonatomic, readonly) NSString *formattedName;
 
 + (NSSet *)formalNamesOfTags:(NSSet *)tags;

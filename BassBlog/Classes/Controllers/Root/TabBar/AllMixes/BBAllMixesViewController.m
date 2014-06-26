@@ -69,20 +69,9 @@
     return [BBAllMixesTableViewCell nibName];
 }
 
-#pragma mark - Model
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(BBMix *)mix atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+- (NSString *)composeDetailTextForMix:(BBMix *)mix
 {
-    [super controller:controller didChangeObject:mix atIndexPath:indexPath forChangeType:type newIndexPath:newIndexPath];
-    
-    NSInteger sectionID = [self sectionIDForMix:mix];
-    
-    self.detailTextsDictionary[mix.key] = [BBUIUtils tagsStringForMix:mix];
-    
-    if (self.headerTextsDictionary[@(sectionID)] == nil)
-    {
-        self.headerTextsDictionary[@(sectionID)] = [self composeHeaderTextForMix:mix];
-    }
+    return [BBUIUtils tagsStringForMix:mix];
 }
 
 @end

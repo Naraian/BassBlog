@@ -392,28 +392,44 @@ BBAudioManagerDelegate
     [[BBAppDelegate rootViewController] toggleNowPlayingVisibilityFromNavigationController:self.navigationController];
 }
 
+- (NSString *)sectionTitleForHeaderInSection:(NSInteger)section
+{
+    id<NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
+    
+    NSString *sectionIDString = [sectionInfo name];
+    NSNumber *sectionID = @([sectionIDString integerValue]);
+    NSString *sectionHeader = self.headerTextsDictionary[sectionID];
+    
+    if (!sectionHeader)
+    {
+        BBMix *mix = (BBMix *)sectionInfo.objects.lastObject;
+        sectionHeader = [self composeHeaderTextForMix:mix];
+        self.headerTextsDictionary[sectionID] = sectionHeader;
+    }
+    
+    return sectionHeader;
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{    
-    if (_headerTextsDictionary.count == 0)
+{
+    NSString *sectionTitle = [self sectionTitleForHeaderInSection:section];
+    
+    if (!sectionTitle)
     {
         return nil;
     }
     
     BBMixesTableSectionHeaderView *headerView = [self sectionHeaderView];
-
-    id<NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
-    
-    NSString *sectionIDString = [sectionInfo name];
-    NSNumber *sectionID = @([sectionIDString integerValue]);
-    
-    headerView.label.text = _headerTextsDictionary[sectionID];
+    headerView.label.text = sectionTitle;
     
     return headerView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (_headerTextsDictionary.count == 0)
+    NSString *sectionTitle = [self sectionTitleForHeaderInSection:section];
+    
+    if (!sectionTitle)
     {
         return 0.f;
     }
@@ -464,8 +480,17 @@ BBAudioManagerDelegate
     return fetchRequest;
 }
 
-- (NSString *)detailTextForMix:(BBMix *)mix {
-    return _detailTextsDictionary[mix.key];
+- (NSString *)detailTextForMix:(BBMix *)mix
+{
+    NSString *detailText = _detailTextsDictionary[mix.key];
+    
+    if (!detailText)
+    {
+        detailText = [self composeDetailTextForMix:mix];
+        self.detailTextsDictionary[mix.key] = detailText;
+    }
+    
+    return detailText;
 }
 
 - (NSString *)composeDetailTextForMix:(BBMix *)mix {

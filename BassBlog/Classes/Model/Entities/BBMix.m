@@ -59,6 +59,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
 
 @dynamic ID;
 @dynamic url;
+@dynamic postUrl;
 @dynamic imageUrl;
 @dynamic name;
 @dynamic date, primitiveDate;
@@ -262,7 +263,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
             break;
     }
     
-    if (tag && !tag.isAllTag)
+    if (tag)
     {
         if (format.length)
             [format appendString:@" && "];

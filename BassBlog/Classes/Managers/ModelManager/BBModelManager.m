@@ -437,7 +437,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         NSUInteger tagsCount = [self countOfFetchedEntitiesWithRequest:fetchRequest
                                                              inContext:[self currentThreadContext]];
         
-        self.modelState = (tagsCount > 1) ? BBModelIsPopulated : BBModelIsEmpty;
+        self.modelState = (tagsCount > 0) ? BBModelIsPopulated : BBModelIsEmpty;
         
         if (self.modelState == BBModelIsEmpty)
         {
@@ -551,8 +551,6 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 {
     
 }
-
-#warning TODO: divide model refresh on stage a) - mixes load, b) - entities insertion. Start b) on fetch operations count == 0
 
 - (void)updateDatabaseInContext:(NSManagedObjectContext *)context
                    fromPostList:(GTLBloggerPostList *)postList
@@ -712,16 +710,22 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
                   inContext:(NSManagedObjectContext *)context
              tagsDictionary:(NSMutableDictionary *)tagsDictionary
 {
-    NSString *parsedName = post.title;
-    NSString *parsedTracklist = nil;
-    NSInteger parsedBitrate = 320;
-    NSDate *parsedDate = [self dateFromGTLDateTime:post.published];
+    mix.postUrl = post.url;
+    mix.name = post.title;
+    mix.tracklist = nil;
+    
+#warning Parse bitrate
+    mix.bitrate = 320;
+    mix.date = [self dateFromGTLDateTime:post.published];
     NSArray *parsedTags = post.labels;
     
     GTLBloggerPostImagesItem *imagesItem = (GTLBloggerPostImagesItem*)[post.images lastObject];
-    NSString *parsedImageUrl = imagesItem.url;
-
-    setMixAttributes(mix, parsedImageUrl, parsedName, parsedTracklist, parsedBitrate, parsedDate);
+    mix.imageUrl = imagesItem.url;
+    
+    if (!mix.date)
+    {
+        BB_WRN(@"Date is nil for mix with name: %@", mix.name);
+    }
     
     [parsedTags enumerateObjectsUsingBlock:^(NSString *aName, NSUInteger aNameIdx, BOOL *aNameStop)
     {
@@ -730,31 +734,13 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         {
             tag = [BBTag createInContext:context];
             tag.name = aName;
+            tag.mainTag = [aName isEqualToString:[BBTag allName]];
              
             [tagsDictionary setObject:tag forKey:aName];
         }
          
         [mix addTagsObject:tag];
     }];
-}
-
-static inline void setMixAttributes(BBMix *mix,
-                                    NSString *imageUrl,
-                                    NSString *name,
-                                    NSString *tracklist,
-                                    NSInteger bitrate,
-                                    NSDate *date)
-{
-    mix.tracklist = tracklist;
-    mix.bitrate = bitrate;
-    mix.name = name;
-    mix.date = date;
-    mix.imageUrl = imageUrl;
-    
-    if (!date)
-    {
-        BB_WRN(@"Date is nil for mix with name: %@", name);
-    }
 }
 
 - (void)scheduleMixesRequest
@@ -851,7 +837,7 @@ static inline void setMixAttributes(BBMix *mix,
     
     if (options.sortKey == eTagNameSortKey)
     {
-        [fetchRequest setSortDescriptors:@[[BBTag nameSortDescriptor]]];
+        [fetchRequest setSortDescriptors:@[[BBTag mainTagSortDescriptor], [BBTag nameSortDescriptor]]];
     }
     
     fetchRequest.fetchOffset = options.offset;
@@ -862,16 +848,9 @@ static inline void setMixAttributes(BBMix *mix,
 
 - (NSFetchRequest *)fetchRequestForMixesWithSelectionOptions:(BBMixesSelectionOptions *)options
 {
-    BBTag *tag = options.tag;
-    
-    if ([tag isAllTag])
-    {
-        tag = nil;
-    }
-    
     NSFetchRequest *fetchRequest = [BBMix fetchRequestWithCategory:options.category
                                                    substringInName:options.substringInName
-                                                               tag:tag];
+                                                               tag:options.tag];
     
     [fetchRequest setSortDescriptors:[self sortDescriptorsForMixesSelectionOptions:options]];
     
@@ -1024,18 +1003,6 @@ static inline void setMixAttributes(BBMix *mix,
         {
             [_rootContext setPersistentStoreCoordinator:self.coordinator];
             [_rootContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
-            
-            NSFetchRequest *fetchRequest = [BBTag fetchRequest];
-            NSUInteger tagsCount = [[BBModelManager defaultManager] countOfFetchedEntitiesWithRequest:fetchRequest
-                                                                                            inContext:_rootContext];
-
-            if (tagsCount == 0)
-            {
-                BBTag *allTag = [BBTag createInContext:_rootContext];
-                allTag.name = @"";
-                
-                [self saveContext:_rootContext withCompletionBlock:nil];
-            }
         }];
     }
     

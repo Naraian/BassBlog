@@ -15,6 +15,7 @@
 @implementation BBTag
 
 @dynamic name;
+@dynamic mainTag;
 @dynamic mixes;
 
 - (NSString *)key
@@ -24,7 +25,7 @@
 
 + (NSString *)allName
 {
-    return @"all mixes";
+    return @"drum and bass";
 }
 
 + (NSDictionary *)formalNames
@@ -33,8 +34,7 @@
     
     if (!sFormalNames)
     {
-        sFormalNames  = @{@""               : @"",
-                          @"drum and bass"  : @"dnb",
+        sFormalNames  = @{@"drum and bass"  : @"dnb",
                           @"320 kbps"       : @"320 kbps",
                           @"deep"           : @"deep",
                           @"drumfunk"       : @"drumfunk",
@@ -68,18 +68,8 @@
     return names;
 }
 
-- (BOOL)isAllTag
-{
-    return [self.name isEqualToString:@""];
-}
-
 - (NSString *)formattedName
 {
-    if (self.isAllTag)
-    {
-        return [[self.class allName] uppercaseString];
-    }
-    
     return [self.name uppercaseString];
 }
 
@@ -89,8 +79,13 @@
 
 @implementation BBTag (Service)
 
-+ (NSSortDescriptor *)nameSortDescriptor {
-    
++ (NSSortDescriptor *)mainTagSortDescriptor
+{
+    return [NSSortDescriptor sortDescriptorWithKey:@"mainTag" ascending:NO];
+}
+
++ (NSSortDescriptor *)nameSortDescriptor
+{
     return [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
 }
 

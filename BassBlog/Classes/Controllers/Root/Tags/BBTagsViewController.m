@@ -100,19 +100,7 @@ const NSInteger kBBAllTagTableModelRow = 0;
 
 - (void)configureCell:(BBTagsTableViewCell *)cell withEntity:(BBTag *)tag
 {
-    NSUInteger mixesCount = 0;
-    
-    if (tag.isAllTag)
-    {
-        NSFetchRequest *fetchRequest = [BBMix fetchRequest];
-        mixesCount = [[BBModelManager defaultManager] countOfFetchedEntitiesWithRequest:fetchRequest
-                                                                              inContext:[[BBModelManager defaultManager] rootContext]];
-    }
-    else
-    {
-        mixesCount = tag.mixes.count;
-    }
-    
+    NSUInteger mixesCount = tag.mixes.count;
     cell.label.text = tag.formattedName;
     cell.detailLabel.text = [NSString stringWithFormat:@"%d", mixesCount];
 }
