@@ -79,18 +79,18 @@ BBAudioManagerDelegate
     [self updateNavigationBar];
 }
 
-- (void)updateTheme {
-    
+- (void)updateTheme
+{
     [super updateTheme];
     
     [self showNowPlayingBarButtonItem];
 }
 
-- (void)configureCell:(BBMixesTableViewCell *)cell withEntity:(BBMix *)mix {
-    
+- (void)configureCell:(BBMixesTableViewCell *)cell withEntity:(BBMix *)mix
+{
     BBAudioManager *audioManager = [BBAudioManager defaultManager];
     
-    cell.label.text = mix.name;
+    cell.label.text = [mix.name uppercaseString];
     cell.detailLabel.text = [self detailTextForMix:mix];
     [cell.image setImageWithURL:[NSURL URLWithString:mix.imageUrl] placeholderImage:[BBUIUtils defaultImage]];
     
@@ -99,8 +99,8 @@ BBAudioManagerDelegate
     cell.delegate = self;
 }
 
-- (void)updateNowPlayingCellAndSelectRow:(BOOL)selectRow {
-    
+- (void)updateNowPlayingCellAndSelectRow:(BOOL)selectRow
+{
     BBAudioManager *audioManager = [BBAudioManager defaultManager];
     
     BBMix *mix = audioManager.mix;

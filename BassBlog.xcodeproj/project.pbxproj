@@ -82,7 +82,6 @@
 		9ABB6AA51901C54B00691B3F /* UIView+ConstraintsExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB6AA31901C54B00691B3F /* UIView+ConstraintsExtensions.m */; };
 		9ABB6AA91901C5EC00691B3F /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB6AA81901C5EC00691B3F /* DeviceUtils.m */; };
 		9AD60F9119169615000C49BD /* BBAboutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD60F8F19169615000C49BD /* BBAboutTableViewCell.m */; };
-		9AD60F931916A289000C49BD /* BBAboutTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9AD60F9019169615000C49BD /* BBAboutTableViewCell.xib */; };
 		9AD60F961916A2D2000C49BD /* BlackTheme.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9AD60F941916A2D2000C49BD /* BlackTheme.bundle */; };
 		9AD60F971916A2D2000C49BD /* WinterTheme.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9AD60F951916A2D2000C49BD /* WinterTheme.bundle */; };
 		9AE77066193EAB25002E2684 /* BBAppDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE77065193EAB25002E2684 /* BBAppDelegateSwift.swift */; };
@@ -90,9 +89,6 @@
 		C14D4A9118BE94FA00ED7041 /* BBFavoritesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C14D4A9018BE94FA00ED7041 /* BBFavoritesTableViewCell.m */; };
 		C14D4A9418BE951100ED7041 /* BBAllMixesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C14D4A9318BE951100ED7041 /* BBAllMixesTableViewCell.m */; };
 		C14D4A9718BE953200ED7041 /* BBHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C14D4A9618BE953200ED7041 /* BBHistoryTableViewCell.m */; };
-		C14D4A9918BE958C00ED7041 /* BBAllMixesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C14D4A9818BE958C00ED7041 /* BBAllMixesTableViewCell.xib */; };
-		C19B4F8918C12ECB0021A100 /* BBFavoritesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C19B4F8818C12ECB0021A100 /* BBFavoritesTableViewCell.xib */; };
-		C19B4F8B18C1307F0021A100 /* BBHistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C19B4F8A18C1307F0021A100 /* BBHistoryTableViewCell.xib */; };
 		C19BAF1418BEAD2C00F3BAE8 /* default_image.png in Resources */ = {isa = PBXBuildFile; fileRef = C19BAF1318BEAD2C00F3BAE8 /* default_image.png */; };
 		C1E9960D18BDDFB400B7ABC7 /* BBUIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C1E9960C18BDDFB400B7ABC7 /* BBUIUtils.m */; };
 		C1EB985C18CE4654008A3303 /* BBMixesTableFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = C1EB985B18CE4654008A3303 /* BBMixesTableFooterView.m */; };
@@ -238,7 +234,6 @@
 		9ABB6AA81901C5EC00691B3F /* DeviceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceUtils.m; sourceTree = "<group>"; };
 		9AD60F8E19169615000C49BD /* BBAboutTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAboutTableViewCell.h; sourceTree = "<group>"; };
 		9AD60F8F19169615000C49BD /* BBAboutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAboutTableViewCell.m; sourceTree = "<group>"; };
-		9AD60F9019169615000C49BD /* BBAboutTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BBAboutTableViewCell.xib; sourceTree = "<group>"; };
 		9AD60F941916A2D2000C49BD /* BlackTheme.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = BlackTheme.bundle; sourceTree = "<group>"; };
 		9AD60F951916A2D2000C49BD /* WinterTheme.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WinterTheme.bundle; sourceTree = "<group>"; };
 		9AE77064193EAB25002E2684 /* BassBlog-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BassBlog-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -250,9 +245,6 @@
 		C14D4A9318BE951100ED7041 /* BBAllMixesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAllMixesTableViewCell.m; sourceTree = "<group>"; };
 		C14D4A9518BE953200ED7041 /* BBHistoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBHistoryTableViewCell.h; sourceTree = "<group>"; };
 		C14D4A9618BE953200ED7041 /* BBHistoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBHistoryTableViewCell.m; sourceTree = "<group>"; };
-		C14D4A9818BE958C00ED7041 /* BBAllMixesTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BBAllMixesTableViewCell.xib; sourceTree = "<group>"; };
-		C19B4F8818C12ECB0021A100 /* BBFavoritesTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BBFavoritesTableViewCell.xib; sourceTree = "<group>"; };
-		C19B4F8A18C1307F0021A100 /* BBHistoryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BBHistoryTableViewCell.xib; sourceTree = "<group>"; };
 		C19BAF1318BEAD2C00F3BAE8 /* default_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_image.png; sourceTree = "<group>"; };
 		C1E9960B18BDDFB400B7ABC7 /* BBUIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBUIUtils.h; sourceTree = "<group>"; };
 		C1E9960C18BDDFB400B7ABC7 /* BBUIUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBUIUtils.m; sourceTree = "<group>"; };
@@ -950,7 +942,6 @@
 			children = (
 				9AD60F8E19169615000C49BD /* BBAboutTableViewCell.h */,
 				9AD60F8F19169615000C49BD /* BBAboutTableViewCell.m */,
-				9AD60F9019169615000C49BD /* BBAboutTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -960,7 +951,6 @@
 			children = (
 				C14D4A9218BE951100ED7041 /* BBAllMixesTableViewCell.h */,
 				C14D4A9318BE951100ED7041 /* BBAllMixesTableViewCell.m */,
-				C14D4A9818BE958C00ED7041 /* BBAllMixesTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -970,7 +960,6 @@
 			children = (
 				C14D4A8F18BE94FA00ED7041 /* BBFavoritesTableViewCell.h */,
 				C14D4A9018BE94FA00ED7041 /* BBFavoritesTableViewCell.m */,
-				C19B4F8818C12ECB0021A100 /* BBFavoritesTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -980,7 +969,6 @@
 			children = (
 				C14D4A9518BE953200ED7041 /* BBHistoryTableViewCell.h */,
 				C14D4A9618BE953200ED7041 /* BBHistoryTableViewCell.m */,
-				C19B4F8A18C1307F0021A100 /* BBHistoryTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1088,11 +1076,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AD60F931916A289000C49BD /* BBAboutTableViewCell.xib in Resources */,
 				08FFCB131712A2C900F21D86 /* InfoPlist.strings in Resources */,
 				080463D417147E26009EBD9C /* Default-568h@2x.png in Resources */,
 				C19BAF1418BEAD2C00F3BAE8 /* default_image.png in Resources */,
-				C14D4A9918BE958C00ED7041 /* BBAllMixesTableViewCell.xib in Resources */,
 				080463D517147E26009EBD9C /* Default.png in Resources */,
 				080463D617147E26009EBD9C /* Default@2x.png in Resources */,
 				08C1D1A41763510C00513530 /* BBMixesViewController.xib in Resources */,
@@ -1100,11 +1086,9 @@
 				9A57211E18FF1F8300169E6A /* Main.storyboard in Resources */,
 				9AA6538719070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf in Resources */,
 				083641B317C54238001B07E5 /* BBActivityView.xib in Resources */,
-				C19B4F8B18C1307F0021A100 /* BBHistoryTableViewCell.xib in Resources */,
 				9AA6538819070CB1000BAA6E /* HelveticaLTStd-Cond.ttf in Resources */,
 				9AD60F971916A2D2000C49BD /* WinterTheme.bundle in Resources */,
 				C1EB985E18CE4669008A3303 /* BBMixesTableFooterView.xib in Resources */,
-				C19B4F8918C12ECB0021A100 /* BBFavoritesTableViewCell.xib in Resources */,
 				9AD60F961916A2D2000C49BD /* BlackTheme.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -155,16 +155,18 @@
     self.view.backgroundColor = color;
     
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.translucent = NO;
+    
+    UIColor *barColor = [UIColor colorWithHEX:0x2B2B2BFF];
     
     if (RUNNING_ON_IOS7)
     {
-        self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
-        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+        self.navigationController.navigationBar.barTintColor = barColor;
+        self.navigationController.navigationBar.tintColor = [UIColor colorWithHEX:0xECECECFF];
     }
     else
     {
-        self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+        self.navigationController.navigationBar.tintColor = barColor;
     }
 
     NSDictionary *attributes = @{NSForegroundColorAttributeName:[UIColor whiteColor],

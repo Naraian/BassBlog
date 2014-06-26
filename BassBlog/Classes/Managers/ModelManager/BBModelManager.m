@@ -718,8 +718,6 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     NSDate *parsedDate = [self dateFromGTLDateTime:post.published];
     NSArray *parsedTags = post.labels;
     
-    NSLog(@"parsed tags: %@", parsedTags);
-    
     GTLBloggerPostImagesItem *imagesItem = (GTLBloggerPostImagesItem*)[post.images lastObject];
     NSString *parsedImageUrl = imagesItem.url;
 
@@ -755,7 +753,7 @@ static inline void setMixAttributes(BBMix *mix,
     
     if (!date)
     {
-        NSLog(@"Date is nil for mix with name: %@", name);
+        BB_WRN(@"Date is nil for mix with name: %@", name);
     }
 }
 
@@ -1035,6 +1033,8 @@ static inline void setMixAttributes(BBMix *mix,
             {
                 BBTag *allTag = [BBTag createInContext:_rootContext];
                 allTag.name = @"";
+                
+                [self saveContext:_rootContext withCompletionBlock:nil];
             }
         }];
     }

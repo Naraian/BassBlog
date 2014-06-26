@@ -331,18 +331,12 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     
     NSString *urlString = mix.localUrl ? mix.localUrl : mix.url;
     
-    if (urlString.length == 0) {
-        
-        NSAssert(NO, @"%s empty URL!", __FUNCTION__);
+    if (urlString.length == 0)
+    {
         return nil;
     }
     
-#warning TODO: remove when fix will be on server
-    
-    urlString = [urlString stringByReplacingOccurrencesOfString:@"\" target=\"_blank"
-                                                     withString:@""];
-    
-    return [NSURL URLWithString:[urlString urlEncodedString]];
+    return [NSURL URLWithString:urlString];
 }
 
 #pragma mark - NSKeyValueObserving

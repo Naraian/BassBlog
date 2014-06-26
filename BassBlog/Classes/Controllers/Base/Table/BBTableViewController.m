@@ -97,11 +97,7 @@
     
     if (cell == nil)
     {
-#warning TODO remove this fallback, all cells must be created from storyboard prototypes 
-        UINib *nib = [UINib nibWithNibName:cellNibName bundle:nil];
-        [tableView registerNib:nib forCellReuseIdentifier:cellNibThemeName];
-        
-        cell = [tableView dequeueReusableCellWithIdentifier:cellNibThemeName];
+        BB_WRN(@"Cell with ID (%@) not found in (%@)", cellNibThemeName, NSStringFromClass(self.class));
     }
     
     return cell;
