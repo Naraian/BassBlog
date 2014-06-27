@@ -25,6 +25,7 @@
 
 @interface BBNowPlayingViewController ()
 
+@property (nonatomic, strong) NSMutableArray *spectrumViewsArray;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 @property (nonatomic, strong) NSTimer *refreshTimer;
@@ -51,6 +52,8 @@
     
     [self addSelector:@selector(audioManagerDidStopNotification:)
     forNotificationWithName:BBAudioManagerDidStopNotification];
+    
+    [self addSelector:@selector(audioManagerDidChangeSpectrumData:) forNotificationWithName:BBAudioManagerDidChangeSpectrumData];
 }
 
 - (void)audioManagerDidStartPlayNotification {
@@ -64,6 +67,46 @@
 //    [notification.userInfo[BBAudioManagerStopReasonKey] integerValue];
 //    
 //    [self updateNowPlayingCellAndSelectRow:reason != BBAudioManagerWillChangeMix];
+}
+
+
+- (void)audioManagerDidChangeSpectrumData:(NSNotification *)notification
+{
+    NSArray *spectrumData = [BBAudioManager defaultManager].spectrumData;
+    int count = MIN(20.f, spectrumData.count);
+    
+    if (!self.spectrumViewsArray)
+    {
+        self.spectrumViewsArray = [NSMutableArray new];
+        
+        CGFloat x = 0;
+        CGFloat width = 320.f / count;
+        
+        for (int i = 0; i < 20; i++)
+        {
+            CGRect rect = CGRectMake(x, 0.f, width, 0.f);
+            
+            UIView *view = [[UIView alloc] initWithFrame:rect];
+            view.backgroundColor = [UIColor redColor];
+            [self.artworkImageView addSubview:view];
+            [self.spectrumViewsArray addObject:view];
+            
+            x += width;
+        }
+    }
+    
+    for (int i = 0; i < count; i++)
+    {
+        UIView *view = self.spectrumViewsArray[i];
+        CGRect frame = view.frame;
+        
+        NSNumber *value = spectrumData[i];
+        CGFloat floatValue = fabs(value.floatValue);
+        
+        frame.size.height = 1000000.f * floatValue;
+        
+        view.frame = frame;
+    }
 }
 
 #pragma mark - View
@@ -187,8 +230,8 @@
 {
     BBAudioManager *audioManager = [BBAudioManager defaultManager];
     
-    self.currentTimeLabel.text = [self.class timeStringFromTime:audioManager.currentTime];
-    self.remainingTimeLabel.text = [self.class timeStringFromTime:audioManager.currentTimeLeft];
+//    self.currentTimeLabel.text = [self.class timeStringFromTime:audioManager.currentTime];
+//    self.remainingTimeLabel.text = [self.class timeStringFromTime:audioManager.currentTimeLeft];
     
     self.slider.value = audioManager.progress;
 }

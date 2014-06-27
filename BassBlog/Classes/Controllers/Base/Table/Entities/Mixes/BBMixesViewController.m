@@ -41,7 +41,7 @@ static const NSUInteger kBBMixesStartFetchRequestLimit = 30;
 <
 BBAudioManagerDelegate
 >
-{    
+{
     NSMutableArray *_mixesArray;
     
     UINib *_sectionHeaderNib;

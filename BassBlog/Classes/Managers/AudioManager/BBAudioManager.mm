@@ -18,15 +18,16 @@
 
 #import "BBNowPlayingInfoCenter.h"
 
-#import <AVFoundation/AVAsset.h>
-#import <AVFoundation/AVPlayer.h>
-#import <AVFoundation/AVPlayerItem.h>
-#import <AVFoundation/AVAudioSession.h>
+#import <MediaToolbox/MediaToolbox.h>
+#import <Accelerate/Accelerate.h>
+
+#import "FFTHelper.h"
 
 
 DEFINE_CONST_NSSTRING(BBAudioManagerDidStartPlayNotification);
 DEFINE_CONST_NSSTRING(BBAudioManagerDidChangeProgressNotification);
 DEFINE_CONST_NSSTRING(BBAudioManagerDidStopNotification);
+DEFINE_CONST_NSSTRING(BBAudioManagerDidChangeSpectrumData);
 
 DEFINE_CONST_NSSTRING(BBAudioManagerStopReasonKey);
 
@@ -113,7 +114,45 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     
     self.nowPlayingInfoCenter.mix = self.mix;
     
-    self.player = [AVPlayer playerWithURL:URL];
+    self.playerItem = [AVPlayerItem playerItemWithURL:URL];
+    self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
+}
+
+- (void)beginRecordingAudioFromTrack:(AVAssetTrack *)audioTrack
+{
+    // Configure an MTAudioProcessingTap to handle things.
+    MTAudioProcessingTapRef tap;
+    MTAudioProcessingTapCallbacks callbacks;
+    callbacks.version = kMTAudioProcessingTapCallbacksVersion_0;
+    callbacks.clientInfo = (__bridge void *)(self);
+    callbacks.init = init;
+    callbacks.prepare = prepare;
+    callbacks.process = process;
+    callbacks.unprepare = unprepare;
+    callbacks.finalize = finalize;
+    
+    OSStatus err = MTAudioProcessingTapCreate(
+                                              kCFAllocatorDefault,
+                                              &callbacks,
+                                              kMTAudioProcessingTapCreationFlag_PostEffects,
+                                              &tap
+                                              );
+    
+    if(err) {
+        NSLog(@"Unable to create the Audio Processing Tap %ld", err);
+//        _onError([NSError errorWithDomain:NSOSStatusErrorDomain code:err userInfo:nil]);
+        return;
+    }
+    
+    // Create an AudioMix and assign it to our currently playing "item", which
+    // is just the stream itself.
+    AVMutableAudioMix *audioMix = [AVMutableAudioMix audioMix];
+    AVMutableAudioMixInputParameters *inputParams = [AVMutableAudioMixInputParameters
+                                                     audioMixInputParametersWithTrack:audioTrack];
+    
+    inputParams.audioTapProcessor = tap;
+    audioMix.inputParameters = @[inputParams];
+    self.player.currentItem.audioMix = audioMix;
 }
 
 - (void)setPlayer:(AVPlayer *)player {
@@ -203,6 +242,16 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
             [self.player seekToTime:timeToSeek];
         }
     }
+}
+
+- (void)updateSpectrumDataWithData:(NSArray *)data
+{
+    self.spectrumData = data;
+    
+    dispatch_async(dispatch_get_main_queue(), ^
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationWithName:BBAudioManagerDidChangeSpectrumData];
+    });
 }
 
 - (float)progress {
@@ -348,12 +397,15 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
 {
     NSAssert(object == self.player, @"%s object != self.player", __FUNCTION__);
     
-    if ([keyPath isEqualToString:AVPlayerStatusKeyPath] == NO) {
+    if (![keyPath isEqualToString:AVPlayerStatusKeyPath])
+    {
         return;
     }
     
-    switch (self.player.status) {
-            
+    
+    
+    switch (self.player.status)
+    {
         case AVPlayerStatusUnknown:
         case AVPlayerStatusFailed:
         {
@@ -369,15 +421,90 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
             
 #warning TODO: start play on correct manualy estimated buffering stage...
             
-            if (self.paused == NO) {
-                
+            AVURLAsset *asset = (AVURLAsset *)self.playerItem.asset;
+            AVAssetTrack *audioTrack = [asset tracksWithMediaType:AVMediaTypeAudio][0];
+            [self beginRecordingAudioFromTrack:audioTrack];
+            
+            if (self.paused == NO)
+            {
                 [self.player play];
                 
                 [self postNotificationWithName:BBAudioManagerDidStartPlayNotification];
             }
+            
         }
             break;
     }
+}
+
+#define LAKE_LEFT_CHANNEL (0)
+#define LAKE_RIGHT_CHANNEL (1)
+
+void init(MTAudioProcessingTapRef tap, void *clientInfo, void **tapStorageOut)
+{
+    NSLog(@"Initialising the Audio Tap Processor");
+    *tapStorageOut = clientInfo;
+}
+
+void finalize(MTAudioProcessingTapRef tap)
+{
+    NSLog(@"Finalizing the Audio Tap Processor");
+}
+
+void prepare(MTAudioProcessingTapRef tap, CMItemCount maxFrames, const AudioStreamBasicDescription *processingFormat)
+{
+    NSLog(@"Preparing the Audio Tap Processor");
+}
+
+void unprepare(MTAudioProcessingTapRef tap)
+{
+    NSLog(@"Unpreparing the Audio Tap Processor");
+}
+
+static FFTHelperRef *fftConverter = nil;
+
+void process(MTAudioProcessingTapRef tap, CMItemCount numberFrames,
+             MTAudioProcessingTapFlags flags, AudioBufferList *bufferListInOut,
+             CMItemCount *numberFramesOut, MTAudioProcessingTapFlags *flagsOut)
+{
+    OSStatus err = MTAudioProcessingTapGetSourceAudio(tap, numberFrames, bufferListInOut,
+                                                      flagsOut, NULL, numberFramesOut);
+    if (err) NSLog(@"Error from GetSourceAudio: %ld", err);
+    
+    AudioBuffer audioBuffer = bufferListInOut->mBuffers[0];
+    
+    if (!fftConverter)
+    {
+        fftConverter = FFTHelperCreate(4096);
+    }
+    
+    UInt32 numSamples = audioBuffer.mDataByteSize/sizeof(Float32);
+    vDSP_Length log2n = log2f(numSamples);
+    Float32 mFFTNormFactor = 1.0/(2*numSamples);
+    
+    Float32 *windowBuffer = (Float32*) malloc(sizeof(Float32)*numSamples);
+    Float32 *dataBuffer = (Float32*) malloc(sizeof(Float32)*numSamples);
+    vDSP_blkman_window(windowBuffer, numSamples, 0);
+    vDSP_vmul((Float32*)audioBuffer.mData, 1, windowBuffer, 1, dataBuffer, 1, numSamples);
+    
+    Float32 *fftData = computeFFT(fftConverter, dataBuffer, numSamples);
+    
+    NSMutableString *string = [NSMutableString new];
+    
+    NSMutableArray *spectrumData = [NSMutableArray new];
+    
+    for (UInt32 i = 0; i < log2n; i++)
+    {
+        Float32 f = fftData[i];
+        
+        [spectrumData addObject:@(f)];
+        
+        [string appendFormat:@"%8.4f ", f];
+    }
+    
+    [[BBAudioManager defaultManager] updateSpectrumDataWithData:spectrumData];
+    
+    NSLog(@"%@", string);
 }
 
 @end

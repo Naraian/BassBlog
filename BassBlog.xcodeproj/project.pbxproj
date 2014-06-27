@@ -59,7 +59,7 @@
 		08E767F117CD16A6006B2320 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E767EF17CD1695006B2320 /* AVFoundation.framework */; };
 		08EC6915178016D60074CEC9 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EC6914178016D60074CEC9 /* CFNetwork.framework */; };
 		08EC6917178016DF0074CEC9 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EC6916178016DF0074CEC9 /* AudioToolbox.framework */; };
-		08EEF4DE176DC80E00D003DA /* BBAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EEF4DD176DC80E00D003DA /* BBAudioManager.m */; };
+		08EEF4DE176DC80E00D003DA /* BBAudioManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 08EEF4DD176DC80E00D003DA /* BBAudioManager.mm */; };
 		08F21D1617D8EB4700F182C6 /* BBAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F21D1417D8EB4700F182C6 /* BBAboutViewController.m */; };
 		08FC718D171949C6001B144B /* BBModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FC718C171949C6001B144B /* BBModelManager.m */; };
 		08FFCB071712A2C900F21D86 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FFCB061712A2C900F21D86 /* UIKit.framework */; };
@@ -69,6 +69,9 @@
 		08FFCB131712A2C900F21D86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08FFCB111712A2C900F21D86 /* InfoPlist.strings */; };
 		08FFCB2E1712ADE300F21D86 /* BBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FFCB2D1712ADE300F21D86 /* BBAppDelegate.m */; };
 		96940F09422A42528654E1C6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16EF097EE4F24CABA9AEC4A0 /* libPods.a */; };
+		9A2CCCCF195DC6C60032632A /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2CCCCE195DC6C60032632A /* MediaToolbox.framework */; };
+		9A2CCCD2195DC9420032632A /* FFTHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9A2CCCD1195DC9420032632A /* FFTHelper.mm */; };
+		9A2CCCD4195DCB670032632A /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2CCCD3195DCB670032632A /* Accelerate.framework */; };
 		9A3BE221193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3BE220193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift */; };
 		9A3BE228193FA1EB0048C9C0 /* BBCommonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3BE227193FA1EB0048C9C0 /* BBCommonUtils.m */; };
 		9A57211E18FF1F8300169E6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A57211D18FF1F8300169E6A /* Main.storyboard */; };
@@ -198,7 +201,7 @@
 		08EC6914178016D60074CEC9 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		08EC6916178016DF0074CEC9 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		08EEF4DC176DC80E00D003DA /* BBAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAudioManager.h; sourceTree = "<group>"; };
-		08EEF4DD176DC80E00D003DA /* BBAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAudioManager.m; sourceTree = "<group>"; };
+		08EEF4DD176DC80E00D003DA /* BBAudioManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BBAudioManager.mm; sourceTree = "<group>"; };
 		08F21D1317D8EB4700F182C6 /* BBAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAboutViewController.h; sourceTree = "<group>"; };
 		08F21D1417D8EB4700F182C6 /* BBAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAboutViewController.m; sourceTree = "<group>"; };
 		08FC718B171949C6001B144B /* BBModelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBModelManager.h; sourceTree = "<group>"; };
@@ -215,6 +218,10 @@
 		08FFCB2D1712ADE300F21D86 /* BBAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAppDelegate.m; sourceTree = "<group>"; };
 		16EF097EE4F24CABA9AEC4A0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		25777352625342BB9D0024F3 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		9A2CCCCE195DC6C60032632A /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
+		9A2CCCD0195DC9420032632A /* FFTHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTHelper.h; sourceTree = "<group>"; };
+		9A2CCCD1195DC9420032632A /* FFTHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FFTHelper.mm; sourceTree = "<group>"; };
+		9A2CCCD3195DCB670032632A /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		9A3BE220193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingViewControllerSwift.swift; sourceTree = "<group>"; };
 		9A3BE226193FA1EB0048C9C0 /* BBCommonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCommonUtils.h; sourceTree = "<group>"; };
 		9A3BE227193FA1EB0048C9C0 /* BBCommonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCommonUtils.m; sourceTree = "<group>"; };
@@ -261,6 +268,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A2CCCD4195DCB670032632A /* Accelerate.framework in Frameworks */,
+				9A2CCCCF195DC6C60032632A /* MediaToolbox.framework in Frameworks */,
 				9A61FF97190077EA004AE70E /* Reveal.framework in Frameworks */,
 				C12D9DF018BA21DB00F7693A /* MediaPlayer.framework in Frameworks */,
 				C1EBC3F418B9D30F00B77297 /* CoreMedia.framework in Frameworks */,
@@ -658,8 +667,10 @@
 		08DBE72F17134A3D00FFCC3F /* AudioManager */ = {
 			isa = PBXGroup;
 			children = (
+				9A2CCCD0195DC9420032632A /* FFTHelper.h */,
+				9A2CCCD1195DC9420032632A /* FFTHelper.mm */,
 				08EEF4DC176DC80E00D003DA /* BBAudioManager.h */,
-				08EEF4DD176DC80E00D003DA /* BBAudioManager.m */,
+				08EEF4DD176DC80E00D003DA /* BBAudioManager.mm */,
 				C1FEAF4C18C5390C009D755F /* NowPlayingInfoCenter */,
 			);
 			path = AudioManager;
@@ -863,6 +874,8 @@
 		08FFCB051712A2C900F21D86 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9A2CCCD3195DCB670032632A /* Accelerate.framework */,
+				9A2CCCCE195DC6C60032632A /* MediaToolbox.framework */,
 				9A790B1F194FA91F002B8114 /* GoogleBlogger.framework */,
 				9A61FF96190077EA004AE70E /* Reveal.framework */,
 				C12D9DEF18BA21DB00F7693A /* MediaPlayer.framework */,
@@ -1046,6 +1059,7 @@
 				ORGANIZATIONNAME = BassBlog;
 				TargetAttributes = {
 					08FFCB021712A2C900F21D86 = {
+						DevelopmentTeam = B8W6H8V2S6;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1154,6 +1168,7 @@
 				08CBFDF217592BE900C19C22 /* NSString+HTML.m in Sources */,
 				080FB78F175A0C4E0047B395 /* BBEntity.m in Sources */,
 				9A57212118FF29D500169E6A /* SWRevealViewController.m in Sources */,
+				9A2CCCD2195DC9420032632A /* FFTHelper.mm in Sources */,
 				080FB79D175A29060047B395 /* BBEntitiesSelectionOptions.m in Sources */,
 				080FB7A1175A2BB70047B395 /* BBMixesSelectionOptions.m in Sources */,
 				08C85850175B3FF50024281E /* BBTimeProfiler.m in Sources */,
@@ -1179,7 +1194,7 @@
 				9ABB6AA91901C5EC00691B3F /* DeviceUtils.m in Sources */,
 				08DC1067176C67EC00F09024 /* BBTagsSelectionOptions.m in Sources */,
 				08DC106F176C879900F09024 /* BBAnalytics.m in Sources */,
-				08EEF4DE176DC80E00D003DA /* BBAudioManager.m in Sources */,
+				08EEF4DE176DC80E00D003DA /* BBAudioManager.mm in Sources */,
 				C1E9960D18BDDFB400B7ABC7 /* BBUIUtils.m in Sources */,
 				08BB8E71176E4BEB00FAAA7D /* BBMixesTableViewCell.m in Sources */,
 				08BB8E79176E4C3B00FAAA7D /* BBMixesTableSectionHeaderView.m in Sources */,
@@ -1260,6 +1275,8 @@
 			baseConfigurationReference = 25777352625342BB9D0024F3 /* Pods.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/BassBlog/Libraries",
@@ -1280,6 +1297,7 @@
 					"\"$(SRCROOT)/BassBlog/Libraries/Flurry\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BassBlog/Classes/AppDelegate/BassBlog-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -1384,7 +1402,8 @@
 			baseConfigurationReference = 25777352625342BB9D0024F3 /* Pods.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Oleg Kuroptev (YA4Z2LL8SK)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/BassBlog/Libraries",
@@ -1405,6 +1424,7 @@
 					"\"$(SRCROOT)/BassBlog/Libraries/Flurry\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BassBlog/Classes/AppDelegate/BassBlog-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1417,6 +1437,8 @@
 			baseConfigurationReference = 25777352625342BB9D0024F3 /* Pods.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/BassBlog/Libraries",
@@ -1437,6 +1459,7 @@
 					"\"$(SRCROOT)/BassBlog/Libraries/Flurry\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BassBlog/Classes/AppDelegate/BassBlog-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
