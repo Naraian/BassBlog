@@ -79,19 +79,20 @@
     {
         self.spectrumViewsArray = [NSMutableArray new];
         
-        CGFloat x = 0;
-        CGFloat width = 320.f / count;
+        CGFloat offset = 1.f;
+        CGFloat x = offset;
+        CGFloat width = (320.f - (count + 1) * offset)/ count;
         
         for (int i = 0; i < 20; i++)
         {
-            CGRect rect = CGRectMake(x, 0.f, width, 0.f);
+            CGRect rect = CGRectMake(x, 150.f, width, 0.f);
             
             UIView *view = [[UIView alloc] initWithFrame:rect];
             view.backgroundColor = [UIColor redColor];
             [self.artworkImageView addSubview:view];
             [self.spectrumViewsArray addObject:view];
             
-            x += width;
+            x += width + offset;
         }
     }
     
@@ -101,11 +102,36 @@
         CGRect frame = view.frame;
         
         NSNumber *value = spectrumData[i];
-        CGFloat floatValue = fabs(value.floatValue);
+        CGFloat floatValue = value.floatValue;
         
-        frame.size.height = 1000000.f * floatValue;
-        
-        view.frame = frame;
+        if (!isnan(floatValue))
+        {
+            CGFloat height = 0.f;
+            
+            const CGFloat kDefaultMinDbFS = -110.f;
+            const CGFloat kActiveHeight = 100.f;
+            const CGFloat kDBLogFactor = 1.3f;
+            
+            if (floatValue <= kDefaultMinDbFS)
+            {
+                height = kActiveHeight - 0.5f;
+            }
+            else if (floatValue >= 0)
+            {
+                height = 0.5f;
+            }
+            else
+            {
+                double normalizedValue = floatValue / (double) kDefaultMinDbFS;
+                normalizedValue = pow(normalizedValue, 1.0/kDBLogFactor);
+            
+                height = floor(normalizedValue * kActiveHeight) + 0.5f;
+            }
+            
+            frame.origin.y = 150.f - height;
+            frame.size.height = height;
+            view.frame = frame;
+        }
     }
 }
 

@@ -23,6 +23,8 @@
 
 #import "FFTHelper.h"
 
+#include <vector>
+
 
 DEFINE_CONST_NSSTRING(BBAudioManagerDidStartPlayNotification);
 DEFINE_CONST_NSSTRING(BBAudioManagerDidChangeProgressNotification);
@@ -422,8 +424,12 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
 #warning TODO: start play on correct manualy estimated buffering stage...
             
             AVURLAsset *asset = (AVURLAsset *)self.playerItem.asset;
-            AVAssetTrack *audioTrack = [asset tracksWithMediaType:AVMediaTypeAudio][0];
-            [self beginRecordingAudioFromTrack:audioTrack];
+            
+            if (asset.tracks.count > 0)
+            {
+                AVAssetTrack *audioTrack = [asset tracksWithMediaType:AVMediaTypeAudio][0];
+                [self beginRecordingAudioFromTrack:audioTrack];
+            }
             
             if (self.paused == NO)
             {
@@ -462,6 +468,8 @@ void unprepare(MTAudioProcessingTapRef tap)
 }
 
 static FFTHelperRef *fftConverter = nil;
+static Float32* windowBuffer = nil;
+static Float32* channelInputs[2];
 
 void process(MTAudioProcessingTapRef tap, CMItemCount numberFrames,
              MTAudioProcessingTapFlags flags, AudioBufferList *bufferListInOut,
@@ -471,25 +479,39 @@ void process(MTAudioProcessingTapRef tap, CMItemCount numberFrames,
                                                       flagsOut, NULL, numberFramesOut);
     if (err) NSLog(@"Error from GetSourceAudio: %ld", err);
     
-    AudioBuffer audioBuffer = bufferListInOut->mBuffers[0];
+    AudioBuffer audioBuffer0 = bufferListInOut->mBuffers[0];
     
     if (!fftConverter)
     {
-        fftConverter = FFTHelperCreate(4096);
+        fftConverter = FFTHelperCreate(32768);
+        
+        windowBuffer = (Float32*)malloc(sizeof(Float32)*32768);
+        
+        for (int i = 0; i < 2; i++)
+        {
+            channelInputs[i] = (Float32*)malloc(sizeof(Float32)*32768);
+        }
     }
     
-    UInt32 numSamples = audioBuffer.mDataByteSize/sizeof(Float32);
-    vDSP_Length log2n = log2f(numSamples);
+    UInt32 numSamples = MIN(audioBuffer0.mDataByteSize/sizeof(Float32), 32768);
+    vDSP_Length log2n = Log2Ceil(numSamples);
     Float32 mFFTNormFactor = 1.0/(2*numSamples);
     
-    Float32 *windowBuffer = (Float32*) malloc(sizeof(Float32)*numSamples);
-    Float32 *dataBuffer = (Float32*) malloc(sizeof(Float32)*numSamples);
-    vDSP_blkman_window(windowBuffer, numSamples, 0);
-    vDSP_vmul((Float32*)audioBuffer.mData, 1, windowBuffer, 1, dataBuffer, 1, numSamples);
+    memset(windowBuffer, 0, sizeof(sizeof(Float32)*32768));
+    vDSP_hann_window(windowBuffer, numSamples, vDSP_HANN_NORM);
     
-    Float32 *fftData = computeFFT(fftConverter, dataBuffer, numSamples);
+//    Float32 *dataBuffer = (Float32*)malloc(sizeof(Float32)*numSamples);
     
-    NSMutableString *string = [NSMutableString new];
+    int maxChannels = MIN(1, bufferListInOut->mNumberBuffers);
+    for (UInt32 i = 0; i < maxChannels; i++)
+    {
+        AudioBuffer audioBuffer = bufferListInOut->mBuffers[i];
+        vDSP_vmul((Float32 *)audioBuffer.mData, 1, windowBuffer, 1, channelInputs[i], 1, numSamples);
+    }
+    
+    Float32 *fftData = computeFFT(fftConverter, channelInputs, numSamples, maxChannels);
+    
+//    NSMutableString *string = [NSMutableString new];
     
     NSMutableArray *spectrumData = [NSMutableArray new];
     
@@ -499,12 +521,12 @@ void process(MTAudioProcessingTapRef tap, CMItemCount numberFrames,
         
         [spectrumData addObject:@(f)];
         
-        [string appendFormat:@"%8.4f ", f];
+//        [string appendFormat:@"%8.4f ", f];
     }
     
     [[BBAudioManager defaultManager] updateSpectrumDataWithData:spectrumData];
     
-    NSLog(@"%@", string);
+//    NSLog(@"%@", string);
 }
 
 @end
