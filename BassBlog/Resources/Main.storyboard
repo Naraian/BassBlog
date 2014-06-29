@@ -567,10 +567,10 @@
             </objects>
             <point key="canvasLocation" x="765" y="-246"/>
         </scene>
-        <!--Now Playing View Controller-->
+        <!--Now Playing View Controller Swift-->
         <scene sceneID="x6A-Re-Fz4">
             <objects>
-                <viewController storyboardIdentifier="nowPlaying" hidesBottomBarWhenPushed="YES" id="n0Q-Nl-f8U" customClass="BBNowPlayingViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="nowPlaying" hidesBottomBarWhenPushed="YES" id="n0Q-Nl-f8U" customClass="BBNowPlayingViewControllerSwift" customModule="BassBlog" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ya4-oB-rRk"/>
                         <viewControllerLayoutGuide type="bottom" id="NhB-Pd-ggk"/>

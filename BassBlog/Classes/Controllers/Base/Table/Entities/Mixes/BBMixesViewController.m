@@ -33,6 +33,7 @@
 #import "BBUIUtils.h"
 
 #import <UIImageView+AFNetworking.h>
+#import "BBSpectrumAnalyzerView.h"
 
 
 static const NSUInteger kBBMixesStartFetchRequestLimit = 30;
@@ -162,9 +163,19 @@ BBAudioManagerDelegate
 
 - (void)showNowPlayingBarButtonItem
 {
-    self.navigationItem.rightBarButtonItem =
-    [self barButtonItemWithImageName:@"now_playing"
-                            selector:@selector(nowPlayingBarButtonItemPressed)];
+    BBSpectrumAnalyzerView *spectrumAnalyzerView = [[BBSpectrumAnalyzerView alloc] initWithFrame:CGRectMake(0.f, 0.f, 32.f, 32.f)];
+    spectrumAnalyzerView.backgroundColor = [UIColor clearColor];
+    spectrumAnalyzerView.barBackgroundColor = [UIColor colorWithWhite:1.f alpha:0.2f];
+    spectrumAnalyzerView.barFillColor = [UIColor redColor];
+    
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nowPlayingBarButtonItemPressed)];
+    [spectrumAnalyzerView addGestureRecognizer:tapGestureRecognizer];
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:spectrumAnalyzerView];
+    item.width = 44.f;
+    self.navigationItem.rightBarButtonItem = item;
+    
+//    [self barButtonItemWithImageName:@"now_playing" selector:@selector(nowPlayingBarButtonItemPressed)];
 }
 
 - (void)updateNavigationBar

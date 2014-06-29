@@ -22,10 +22,10 @@
 
 #import "UIColor+HEX.h"
 #import "NSObject+Notification.h"
+#import "BBSpectrumAnalyzerView.h"
 
 @interface BBNowPlayingViewController ()
 
-@property (nonatomic, strong) NSMutableArray *spectrumViewsArray;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 @property (nonatomic, strong) NSTimer *refreshTimer;
@@ -52,8 +52,6 @@
     
     [self addSelector:@selector(audioManagerDidStopNotification:)
     forNotificationWithName:BBAudioManagerDidStopNotification];
-    
-    [self addSelector:@selector(audioManagerDidChangeSpectrumData:) forNotificationWithName:BBAudioManagerDidChangeSpectrumData];
 }
 
 - (void)audioManagerDidStartPlayNotification {
@@ -67,72 +65,6 @@
 //    [notification.userInfo[BBAudioManagerStopReasonKey] integerValue];
 //    
 //    [self updateNowPlayingCellAndSelectRow:reason != BBAudioManagerWillChangeMix];
-}
-
-
-- (void)audioManagerDidChangeSpectrumData:(NSNotification *)notification
-{
-    NSArray *spectrumData = [BBAudioManager defaultManager].spectrumData;
-    int count = MIN(20.f, spectrumData.count);
-    
-    if (!self.spectrumViewsArray)
-    {
-        self.spectrumViewsArray = [NSMutableArray new];
-        
-        CGFloat offset = 1.f;
-        CGFloat x = offset;
-        CGFloat width = (320.f - (count + 1) * offset)/ count;
-        
-        for (int i = 0; i < 20; i++)
-        {
-            CGRect rect = CGRectMake(x, 150.f, width, 0.f);
-            
-            UIView *view = [[UIView alloc] initWithFrame:rect];
-            view.backgroundColor = [UIColor redColor];
-            [self.artworkImageView addSubview:view];
-            [self.spectrumViewsArray addObject:view];
-            
-            x += width + offset;
-        }
-    }
-    
-    for (int i = 0; i < count; i++)
-    {
-        UIView *view = self.spectrumViewsArray[i];
-        CGRect frame = view.frame;
-        
-        NSNumber *value = spectrumData[i];
-        CGFloat floatValue = value.floatValue;
-        
-        if (!isnan(floatValue))
-        {
-            CGFloat height = 0.f;
-            
-            const CGFloat kDefaultMinDbFS = -110.f;
-            const CGFloat kActiveHeight = 100.f;
-            const CGFloat kDBLogFactor = 1.3f;
-            
-            if (floatValue <= kDefaultMinDbFS)
-            {
-                height = kActiveHeight - 0.5f;
-            }
-            else if (floatValue >= 0)
-            {
-                height = 0.5f;
-            }
-            else
-            {
-                double normalizedValue = floatValue / (double) kDefaultMinDbFS;
-                normalizedValue = pow(normalizedValue, 1.0/kDBLogFactor);
-            
-                height = floor(normalizedValue * kActiveHeight) + 0.5f;
-            }
-            
-            frame.origin.y = 150.f - height;
-            frame.size.height = height;
-            view.frame = frame;
-        }
-    }
 }
 
 #pragma mark - View
@@ -265,7 +197,7 @@
 -(void) viewDidLoad
 {
     [super viewDidLoad];
-    
+        
     [self customizeSlider];
     [self customizeButtons];
     
