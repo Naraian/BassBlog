@@ -161,7 +161,7 @@ BBAudioManagerDelegate
     BBSpectrumAnalyzerView *spectrumAnalyzerView = [[BBSpectrumAnalyzerView alloc] initWithFrame:CGRectMake(0.f, 0.f, 32.f, 32.f)];
     spectrumAnalyzerView.backgroundColor = [UIColor clearColor];
     spectrumAnalyzerView.barBackgroundColor = [UIColor colorWithWhite:1.f alpha:0.2f];
-    spectrumAnalyzerView.barFillColor = [UIColor redColor];
+    spectrumAnalyzerView.barFillColor = BBThemeManagerWinterOragneColor;
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nowPlayingBarButtonItemPressed)];
     [spectrumAnalyzerView addGestureRecognizer:tapGestureRecognizer];
@@ -233,12 +233,21 @@ BBAudioManagerDelegate
     return _detailTextDateFormatter;
 }
 
-- (NSDateFormatter *)headerDateFormatter {
-    
-    if (_headerDateFormatter == nil) {
-        
+- (NSDateFormatter *)headerDateFormatter
+{
+    if (_headerDateFormatter == nil)
+    {
         _headerDateFormatter = [NSDateFormatter new];
-        _headerDateFormatter.dateFormat = @"dd.MM.yyyy";
+        
+        if (_tableModelSectionRule == BBMixesTableModelSectionRuleEachMonth)
+        {
+            _headerDateFormatter.dateFormat = @"MMMM yyyy";
+        }
+        else
+        {
+            _headerDateFormatter.dateFormat = @"dd.MM.yyyy";
+        }
+        
 //        [_headerDateFormatter setTimeStyle:NSDateFormatterNoStyle];
 //        [_headerDateFormatter setDateStyle:NSDateFormatterShortStyle];
     }
@@ -363,8 +372,8 @@ BBAudioManagerDelegate
 
 #pragma mark - UITableViewDelegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     BBMix *mix = [self entityAtIndexPath:indexPath inTableView:tableView];
   
     [self pause:NO mix:mix];
@@ -465,13 +474,13 @@ BBAudioManagerDelegate
     return detailText;
 }
 
-- (NSString *)composeDetailTextForMix:(BBMix *)mix {
-    
+- (NSString *)composeDetailTextForMix:(BBMix *)mix
+{
     return [self.detailTextDateFormatter stringFromDate:[self dateOfMix:mix]];
 }
 
-- (NSString *)composeHeaderTextForMix:(BBMix *)mix {
-    
+- (NSString *)composeHeaderTextForMix:(BBMix *)mix
+{
     return [self.headerDateFormatter stringFromDate:[self dateOfMix:mix]];
 }
 

@@ -44,18 +44,15 @@
 
 #pragma mark - View
 
-- (void)updateTheme {
-    
+- (void)updateTheme
+{
     BBThemeManager *tm = [BBThemeManager defaultManager];
-
-#warning REMOVE
-//    [self.tabBar setSelectionIndicatorImage:[tm imageNamed:@"tab_bar/item/selection_indicator"]];
-//    [self.tabBar setBackgroundImage:[tm imageNamed:@"tab_bar/background"]];
     
     self.tabBar.barStyle = UIBarStyleDefault;
-    self.tabBar.translucent = YES;
-    self.tabBar.tintColor = [UIColor redColor];
-    self.tabBar.selectedImageTintColor = [UIColor redColor];
+    self.tabBar.translucent = NO;
+    self.tabBar.tintColor = BBThemeManagerWinterOragneColor;
+    self.tabBar.barTintColor = [UIColor colorWithHEX:0xF7F7F7FF];
+    self.tabBar.selectedImageTintColor = BBThemeManagerWinterOragneColor;
 }
 
 - (void)setUserInteractionEnabled:(BOOL)enabled

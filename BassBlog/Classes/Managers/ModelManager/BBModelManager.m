@@ -50,7 +50,8 @@ DEFINE_CONST_NSSTRING(BBModelManagerRefreshErrorNotificationKey);
 
 DEFINE_STATIC_CONST_NSSTRING(BBModelManagerThreadContextKey);
 
-static const NSTimeInterval kBBMixesRequestRepeatInterval = 6. * 5; //kBBMixesRequestRepeatInterval = 60. * 5;
+static const NSUInteger kBBMixesRequestMaxItemsCount = 100;
+static const NSTimeInterval kBBMixesRequestRepeatInterval = 60. * 5;
 
 static const NSTimeInterval kBBMainContextAutoSaveDelay = 30.;
 
@@ -331,7 +332,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
 - (void)applicationWillEnterForegroundNotification:(NSNotification *)notification
 {
-    [self refresh];
+//    [self refresh];
 }
 
 - (void)applicationWillTerminateNotification:(NSNotification *)notification
@@ -405,6 +406,26 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     }];
 }
 
+- (BOOL)fetchDatabaseIfNecessary
+{
+    if (self.modelState == BBModelNotInitialzed)
+    {
+        [self loadMixes];
+        return YES;
+    }
+
+    NSString *nextPageToken = [self.class nextPageToken];
+    NSDate *newestItemDate = [self.class newestItemDate];
+
+    if (nextPageToken || newestItemDate)
+    {
+        [self loadMixes];
+        return YES;
+    }
+    
+    return NO;
+}
+
 - (void)modelStateDiscoverCompletionBlock:(void(^)())completionBlock
 {
     [self.operationQueue addOperationWithBlock:^
@@ -457,8 +478,8 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         self.bloggerService.APIKey = @"AIzaSyAgtNFIT3ZoYSEmR6oZ2vupakpyADkdhQI";
         
         GTLQueryBlogger *query = [GTLQueryBlogger queryForPostsListWithBlogId:@"4928216501086861761"];
-        query.maxPosts = 80;//200;
-        query.maxResults = 80;//200;
+        query.maxPosts = kBBMixesRequestMaxItemsCount;
+        query.maxResults = kBBMixesRequestMaxItemsCount;
         query.view = kGTLBloggerViewReader;
         query.fetchImages = YES;
         query.fetchBodies = YES;
@@ -528,7 +549,19 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 {
     NSMutableDictionary *tagsDictionary = [self tagsDictionaryInContext:context];
     
-    NSDate *lastPostDate = [NSDate dateWithTimeIntervalSince1970:0.0];
+    NSDate *lastPostDate = [self.class newestItemDate];
+    if (!lastPostDate)
+    {
+        lastPostDate = [NSDate dateWithTimeIntervalSince1970:0.0];
+    }
+    
+    if (postList.nextPageToken)
+    {
+        [self.class mainThreadBlock:^
+        {
+             [self refresh];
+        }];
+    }
     
     for (GTLBloggerPost *post in postList.items)
     {
@@ -564,11 +597,12 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         }
     }
     
-    [self refreshCompletionInContext:context withNewestPostDate:lastPostDate nextPageToken:postList.nextPageToken];
+    [self.class setNewestItemDate:lastPostDate];
+    
+    [self refreshCompletionInContext:context nextPageToken:postList.nextPageToken];
 }
 
 - (void)refreshCompletionInContext:(NSManagedObjectContext *)context
-                withNewestPostDate:(NSDate *)lastPostDate
                      nextPageToken:(NSString *)nextPageToken
 
 {
@@ -603,7 +637,6 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
             TIME_PROFILER_LOG(@"Database saving")
 
             [self.class setNextPageToken:nextPageToken];
-            [self.class setNewestItemDate:lastPostDate];
             
             self.modelState = BBModelIsPopulated;
 
@@ -616,11 +649,6 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         {
             [self postNotificationForRefreshError:error];
         }
-    }];
-    
-    [self.class mainThreadBlock:^
-    {
-        [self refresh];
     }];
 }
 
@@ -650,7 +678,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     
     NSError *error = nil;
     
-    NSString *mp3Mask = @" href=\"(.+?).mp3\"";
+    NSString *mp3Mask = @" href=\"(.+?)mixes.bassblog.pro(.+?).mp3\"";
     NSRegularExpression *mp3Regex = [NSRegularExpression regularExpressionWithPattern:mp3Mask
                                                                               options:NSRegularExpressionCaseInsensitive
                                                                                 error:&error];
@@ -888,6 +916,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     if (![context hasChanges])
     {
         BB_INF(@"No changes in %@ context", description);
+        completionBlock(nil);
         return;
     }
     
@@ -927,16 +956,24 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
 - (NSManagedObjectContext *)tempContext
 {
+    NSLog(@"asking temp context");
     if (_tempContext == nil)
     {
         _tempContext = [self serviceContextWithTaskDescription:@"temp"];
     }
     
+    NSLog(@"returned temp context");
     return _tempContext;
 }
 
+static int si = 0;
+
 - (NSManagedObjectContext *)rootContext
 {
+    int i = si;
+    si++;
+    
+    NSLog(@"asking root context %i", i);
     if (!_rootContext && self.coordinator)
     {
         _rootContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
@@ -950,6 +987,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         }];
     }
     
+    NSLog(@"returned root context %i", i);
     return _rootContext;
 }
 
@@ -1011,15 +1049,13 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
 - (BOOL)addAutoMigratingSqliteStore
 {
-    NSDictionary *sqliteOptions = @{@"journal_mode" : @"WAL"};
-    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-                             @YES, NSMigratePersistentStoresAutomaticallyOption,
-                             @YES, NSInferMappingModelAutomaticallyOption,
-                             sqliteOptions, NSSQLitePragmasOption, nil];
+    NSDictionary *sqliteOptions = @{@"journal_mode" : @"DELETE"};
+    NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption : @YES,
+                              NSInferMappingModelAutomaticallyOption: @YES,
+                              NSSQLitePragmasOption : sqliteOptions};
     
     NSError *error = nil;
-    NSURL *url = [[BBFileManager documentDirectoryURL]
-                  URLByAppendingPathComponent:@"BassBlog.sqlite"];
+    NSURL *url = [[BBFileManager documentDirectoryURL] URLByAppendingPathComponent:@"BassBlog.sqlite"];
     
     if (![self addSqliteStoreAtURL:url options:options error:&error])
     {

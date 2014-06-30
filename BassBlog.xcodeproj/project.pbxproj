@@ -86,7 +86,6 @@
 		9ABB6AA51901C54B00691B3F /* UIView+ConstraintsExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB6AA31901C54B00691B3F /* UIView+ConstraintsExtensions.m */; };
 		9ABB6AA91901C5EC00691B3F /* DeviceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB6AA81901C5EC00691B3F /* DeviceUtils.m */; };
 		9AC0BE4B195F5D420073D31E /* BBSpectrumAnalyzerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC0BE4A195F5D420073D31E /* BBSpectrumAnalyzerView.m */; };
-		9AC0BE4D195F5D5F0073D31E /* BBSpectrumAnalyzerView in Resources */ = {isa = PBXBuildFile; fileRef = 9AC0BE4C195F5D5F0073D31E /* BBSpectrumAnalyzerView */; };
 		9AD60F9119169615000C49BD /* BBAboutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD60F8F19169615000C49BD /* BBAboutTableViewCell.m */; };
 		9AD60F961916A2D2000C49BD /* BlackTheme.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9AD60F941916A2D2000C49BD /* BlackTheme.bundle */; };
 		9AD60F971916A2D2000C49BD /* WinterTheme.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9AD60F951916A2D2000C49BD /* WinterTheme.bundle */; };
@@ -247,7 +246,6 @@
 		9ABB6AA81901C5EC00691B3F /* DeviceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceUtils.m; sourceTree = "<group>"; };
 		9AC0BE49195F5D420073D31E /* BBSpectrumAnalyzerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSpectrumAnalyzerView.h; sourceTree = "<group>"; };
 		9AC0BE4A195F5D420073D31E /* BBSpectrumAnalyzerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSpectrumAnalyzerView.m; sourceTree = "<group>"; };
-		9AC0BE4C195F5D5F0073D31E /* BBSpectrumAnalyzerView */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BBSpectrumAnalyzerView; sourceTree = "<group>"; };
 		9AD60F8E19169615000C49BD /* BBAboutTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAboutTableViewCell.h; sourceTree = "<group>"; };
 		9AD60F8F19169615000C49BD /* BBAboutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAboutTableViewCell.m; sourceTree = "<group>"; };
 		9AD60F941916A2D2000C49BD /* BlackTheme.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = BlackTheme.bundle; sourceTree = "<group>"; };
@@ -449,7 +447,6 @@
 				9A3BE220193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift */,
 				9AC0BE49195F5D420073D31E /* BBSpectrumAnalyzerView.h */,
 				9AC0BE4A195F5D420073D31E /* BBSpectrumAnalyzerView.m */,
-				9AC0BE4C195F5D5F0073D31E /* BBSpectrumAnalyzerView */,
 			);
 			path = NowPlaying;
 			sourceTree = "<group>";
@@ -1126,7 +1123,6 @@
 				9ADC7BF71960BAED0028576B /* iTunesArtwork in Resources */,
 				9A57211E18FF1F8300169E6A /* Main.storyboard in Resources */,
 				9AA6538719070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf in Resources */,
-				9AC0BE4D195F5D5F0073D31E /* BBSpectrumAnalyzerView in Resources */,
 				083641B317C54238001B07E5 /* BBActivityView.xib in Resources */,
 				9AA6538819070CB1000BAA6E /* HelveticaLTStd-Cond.ttf in Resources */,
 				9A4DE9ED1961749900DF9EB9 /* BebasNeueCyrillic.ttf in Resources */,

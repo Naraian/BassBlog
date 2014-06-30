@@ -11,6 +11,7 @@
 
 #import "NSObject+Notification.h"
 
+const CGFloat kDefaultMinDbLevel = -40.f;
 const CGFloat kDefaultMinDbFS = -110.f;
 const CGFloat kDBLogFactor = 4.0f;
 const NSUInteger kMaxQueuedDataBlocks = 4;
@@ -127,7 +128,7 @@ const NSUInteger kMaxQueuedDataBlocks = 4;
         {
             CGFloat height = 0.f;
 
-            if (floatValue <= kDefaultMinDbFS)
+            if (floatValue <= kDefaultMinDbLevel)
             {
                 height = 0.5f;
             }
@@ -137,7 +138,7 @@ const NSUInteger kMaxQueuedDataBlocks = 4;
             }
             else
             {
-                double normalizedValue = 1.0 - floatValue / (double) kDefaultMinDbFS;
+                float normalizedValue = (kDefaultMinDbLevel - floatValue)/kDefaultMinDbLevel;
 //                normalizedValue = pow(normalizedValue, 1.0/kDBLogFactor);
                 height = floor(normalizedValue * maxHeight) + 0.5f;
                 

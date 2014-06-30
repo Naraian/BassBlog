@@ -18,11 +18,13 @@
 #import "NSObject+Nib.h"
 #import "BBUIUtils.h"
 #import "BBAppDelegate.h"
+#import "BBModelManager.h"
 #import "BBRootViewController.h"
 
 @interface BBAllMixesViewController()
 
 @property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -38,10 +40,25 @@
                   imageNamed:@"mixes_tab"
                          tag:eAllMixesCategory];
         
-    _tableModelSectionRule = BBMixesTableModelSectionRuleEachDay;
+    _tableModelSectionRule = BBMixesTableModelSectionRuleEachMonth;
     
     self.detailTextsDictionary = [NSMutableDictionary new];
     self.headerTextsDictionary = [NSMutableDictionary new];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"PULL TO REFRESH", nil)];
+    [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
+    
+    // Create a UITableViewController so we can use a UIRefreshControl.
+    UITableViewController *tvc = [[UITableViewController alloc] initWithStyle:self.tableView.style];
+    tvc.tableView = self.tableView;
+    tvc.refreshControl = self.refreshControl;
+    [self addChildViewController:tvc];
 }
 
 - (void)showLeftBarButtonItem
@@ -83,6 +100,27 @@
     {
         self.title = self.tabBarItem.title;
     }
+}
+
+- (void)refreshTable
+{
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"LOADING"];
+
+    [[BBModelManager defaultManager] refresh];
+}
+
+- (void)modelManagerDidFinishRefreshNotification
+{
+    [super modelManagerDidFinishRefreshNotification];
+    
+    [self.refreshControl endRefreshing];
+}
+
+- (void)modelManagerRefreshErrorNotification
+{
+    [super modelManagerRefreshErrorNotification];
+    
+    [self.refreshControl endRefreshing];
 }
 
 #pragma mark - View

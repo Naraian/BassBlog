@@ -84,14 +84,10 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
     
     [super startObserveNotifications];
     
-    [self addSelector:@selector(modelManagerDidInitializeNotification)
-    forNotificationWithName:BBModelManagerDidInitializeNotification];
-    
+    [self addSelector:@selector(modelManagerDidInitializeNotification) forNotificationWithName:BBModelManagerDidInitializeNotification];
     [self addSelector:@selector(modelManagerDidFinishRefreshNotification) forNotificationWithName:BBModelManagerDidFinishRefreshNotification];
     [self addSelector:@selector(modelManagerRefreshErrorNotification) forNotificationWithName:BBModelManagerRefreshErrorNotification];
-
-    [self addSelector:@selector(modelManagerDidFinishSaveNotification)
-    forNotificationWithName:BBModelManagerDidFinishSaveNotification];
+    [self addSelector:@selector(modelManagerDidFinishSaveNotification) forNotificationWithName:BBModelManagerDidFinishSaveNotification];
 }
 
 - (void)modelManagerDidInitializeNotification
@@ -101,7 +97,6 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 
 - (void)modelManagerDidFinishRefreshNotification
 {
-
 }
 
 - (void)modelManagerRefreshErrorNotification
@@ -129,11 +124,13 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 
 #pragma mark View
 
-- (void)showDelayedBlockingActivityView {
-    
+- (void)showDelayedBlockingActivityView
+{
+#warning DEAL
     NSLog(@"self showDelayedBlockingActivityView: %@", self);
     
-    if (self.activityView.superview) {
+    if (self.activityView.superview)
+    {
         return;
     }
     
@@ -147,8 +144,8 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
                afterDelay:BBActivityViewShowDelay];
 }
 
-- (void)showActivityView {
-    
+- (void)showActivityView
+{
     NSLog(@"self showActivityView: %@", self);
     [UIView animateWithDuration:BBActivityViewShowAnimationDuration
                      animations:^{ self.activityView.alpha = 1.f; }];

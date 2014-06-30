@@ -16,67 +16,64 @@
 #import "BBModelManager.h"
 
 #import "NSObject+Notification.h"
+#import "BBFont.h"
+
+#import "BassBlog-Swift.h"
 
 @class BBNowPlayingViewControllerSwift;
 
 static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 
-@interface BBRootViewController () <UIGestureRecognizerDelegate>
+@interface BBRootViewController () <UIGestureRecognizerDelegate, SWRevealViewControllerDelegate>
 {
     BBTabBarController *_tabBarController;
     BBTagsViewController *_tagsViewController;
     BBNowPlayingViewControllerSwift *_nowPlayingViewController;
-    
-#warning TODO: rename nowPlayingViewController
     
     BOOL _nowPlayingViewIsVisible;
     BOOL _tagsViewIsVisible;
 }
 
 @property (nonatomic, strong) BBActivityView *modelRefreshActivityView;
+@property (nonatomic, strong) UIView *dismissOverlayView;
 
 @end
 
 @implementation BBRootViewController
 
-- (void)dealloc {
-    
+- (void)dealloc
+{
     [self removeNotificationSelectors];
 }
 
 #pragma mark - View
 
-- (void)viewDidLoad {
-    
+- (void)viewDidLoad
+{
     [super viewDidLoad];
+    
+    self.rearViewRevealWidth = 200.f;
+    self.delegate = self;
     
     _tagsViewController = (BBTagsViewController *)self.rearViewController;
     _tabBarController = (BBTabBarController *)self.frontViewController;
     
-//    [self.navigationController.navigationBar addGestureRecognizer: self.panGestureRecognizer];
-    
-    if ([BBModelManager isModelEmpty]) {
-        
+    if ([[BBModelManager defaultManager] fetchDatabaseIfNecessary])
+    {
         [self startObserveModelRefreshNotifications];
-        
         [self showModelRefreshActivityView];
     }
-    else {
-        
-        [self activate];
-    }
-    
-    [[BBModelManager defaultManager] refresh];
 }
 
 - (void)showModelRefreshActivityView
 {
-    if (self.modelRefreshActivityView.superview) {
+    if (self.modelRefreshActivityView.superview)
+    {
         return;
     }
     
     self.modelRefreshActivityView.frame = self.view.bounds;
-    
+    self.modelRefreshActivityView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.modelRefreshActivityView];
 }
 
@@ -86,10 +83,13 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
     self.modelRefreshActivityView = nil;
 }
 
-- (BBActivityView *)modelRefreshActivityView {
-    
-    if (_modelRefreshActivityView == nil) {
+- (BBActivityView *)modelRefreshActivityView
+{
+    if (_modelRefreshActivityView == nil)
+    {
         _modelRefreshActivityView = [BBActivityView new];
+        _modelRefreshActivityView.descriptionLabel.text = NSLocalizedString(@"Loading Database", nil);
+        _modelRefreshActivityView.descriptionLabel.font = [BBFont boldFontOfSize:16.f];
     }
     
     return _modelRefreshActivityView;
@@ -190,68 +190,51 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 
 - (void)startObserveModelRefreshNotifications
 {
-    [self addSelector:@selector(modelManagerDidChangeRefreshStageNotification:) forNotificationWithName:BBModelManagerDidChangeRefreshStageNotification];
-    [self addSelector:@selector(modelManagerRefreshProgressNotification:) forNotificationWithName:BBModelManagerRefreshProgressNotification];
-    [self addSelector:@selector(modelManagerDidFinishRefreshNotification:) forNotificationWithName:BBModelManagerDidFinishRefreshNotification];
+    [self addSelector:@selector(modelManagerDidFinishRefreshNotification) forNotificationWithName:BBModelManagerDidFinishRefreshNotification];
+    [self addSelector:@selector(modelManagerRefreshErrorNotification) forNotificationWithName:BBModelManagerRefreshErrorNotification];
 }
 
-- (void)modelManagerDidChangeRefreshStageNotification:(NSNotification *)notification {
-    
-    [self updateModelRefreshActivityDescriptionWithProgress:-1.f];    
+- (void)modelManagerRefreshErrorNotification
+{
+    [self modelManagerDidFinishRefreshNotification];
 }
 
-- (void)modelManagerRefreshProgressNotification:(NSNotification *)notification {
-    
-    float progress = [[notification.userInfo objectForKey:BBModelManagerRefreshProgressNotificationKey] floatValue];
-
-    [self updateModelRefreshActivityDescriptionWithProgress:progress];
-}
-
-- (void)updateModelRefreshActivityDescriptionWithProgress:(float)progress {
-    
-    NSString *description = nil;
-    
-    switch ([[BBModelManager defaultManager] refreshStage]) {
-            
-        case BBModelManagerLoadingStage:
-            [self showModelRefreshActivityView];
-            description = NSLocalizedString(@"Database loading", @"");
-            break;
-            
-        case BBModelManagerParsingStage:
-            description = NSLocalizedString(@"Database parsing", @"");
-            break;
-            
-        case BBModelManagerSavingStage:
-            description = NSLocalizedString(@"Database saving", @"");
-            break;
-            
-        case BBModelManagerWaitingStage:
-            [self hideModelRefreshActivityView];
-            break;
-    }
-    
-    if (description) {
-        
-        if (progress >= 0.f) {
-            NSInteger precentage = ceilf(progress * 100);
-            description = [description stringByAppendingFormat:@" (%d%%)", precentage];
-        }
-        else {
-            description = [description stringByAppendingString:@"..."];
-        }
-    }
-    
-    self.modelRefreshActivityView.descriptionLabel.text = description;
-}
-
-- (void)modelManagerDidFinishRefreshNotification:(NSNotification *)notification {
-    
+- (void)modelManagerDidFinishRefreshNotification
+{
     [self removeNotificationSelectors];
     
     [self hideModelRefreshActivityView];
     
     [self activate];
+}
+
+#pragma mark - 
+#pragma mark SWRevealViewControllerDelegate
+
+- (void)revealController:(SWRevealViewController *)revealController willMoveToPosition:(FrontViewPosition)position
+{
+    if (position == FrontViewPositionRight)
+    {
+        if (!self.dismissOverlayView)
+        {
+            self.dismissOverlayView = [UIView new];
+            self.dismissOverlayView.backgroundColor = [UIColor clearColor];
+            
+            UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(revealToggle:)];
+            [self.dismissOverlayView addGestureRecognizer:tapGestureRecognizer];
+        }
+        
+        self.dismissOverlayView.frame = self.frontViewController.view.bounds;
+        [self.frontViewController.view addSubview:self.dismissOverlayView];
+    }
+}
+
+- (void)revealController:(SWRevealViewController *)revealController didMoveToPosition:(FrontViewPosition)position
+{
+    if (position == FrontViewPositionLeft)
+    {
+        [self.dismissOverlayView removeFromSuperview];
+    }
 }
 
 @end

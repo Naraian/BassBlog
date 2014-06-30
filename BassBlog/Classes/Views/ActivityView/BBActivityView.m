@@ -13,19 +13,9 @@
 
 @implementation BBActivityView
 
-+ (id)new {
-    
++ (id)new
+{    
     return [self instanceFromNib:nil];
-}
-
-- (void)layoutSubviews {
-    
-    [super layoutSubviews];
-    
-    CGRect activityIndicatorFrame = self.activityIndicator.frame;
-    activityIndicatorFrame.origin.x = (CGRectGetWidth(self.bounds) - CGRectGetWidth(activityIndicatorFrame)) / 2.f;
-    activityIndicatorFrame.origin.y = (CGRectGetHeight(self.bounds) - CGRectGetHeight(activityIndicatorFrame)) / 2.f;
-    self.activityIndicator.frame = activityIndicatorFrame;
 }
 
 @end

@@ -34,6 +34,9 @@
 
 @interface BBEntitiesViewController (Protected)
 
+- (void)modelManagerDidFinishRefreshNotification;
+- (void)modelManagerRefreshErrorNotification;
+
 #pragma mark View
 
 - (void)updateCellForEntity:(id)entity; // "eBBTableViewRowAnimation"

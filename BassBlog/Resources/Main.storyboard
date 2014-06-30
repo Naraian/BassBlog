@@ -25,7 +25,6 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="DeT-Fu-L7w">
                         <rect key="frame" x="129" y="330" width="163" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
                         <segue destination="bpa-cO-hNG" kind="relationship" relationship="viewControllers" id="paJ-9t-o0g"/>
@@ -80,8 +79,8 @@
                                                         <constraint firstAttribute="width" constant="80" id="mrP-rH-FIP"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Mix name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g2T-nK-Iie" userLabel="Label">
-                                                    <rect key="frame" x="102" y="15" width="206" height="20"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Mix name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g2T-nK-Iie" userLabel="Label">
+                                                    <rect key="frame" x="102" y="14" width="206" height="20"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -127,8 +126,8 @@
                                                         <constraint firstAttribute="width" constant="80" id="vtR-CU-TAn"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Mix name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l0e-Sh-xeu" userLabel="Label">
-                                                    <rect key="frame" x="102" y="15" width="206" height="20"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Mix name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l0e-Sh-xeu" userLabel="Label">
+                                                    <rect key="frame" x="102" y="14" width="206" height="20"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -175,6 +174,7 @@
                             <constraint firstItem="wmy-2b-9zh" firstAttribute="leading" secondItem="Tuw-m8-3GS" secondAttribute="leading" id="ybF-KH-cIo"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="jcB-dq-Ham"/>
                     <connections>
                         <outlet property="searchBar" destination="BKe-Yy-P8z" id="Kng-Bt-mcY"/>

@@ -14,6 +14,8 @@ typedef NS_ENUM(NSInteger, BBTheme)
     BBNumberOfThemes
 };
 
+#define BBThemeManagerWinterOragneColor [UIColor colorWithHEX:0xF45D5DFF]
+
 extern NSString *const BBThemeManagerDidToggleThemeNotification;
 
 @interface BBThemeManager : NSObject

@@ -55,12 +55,11 @@ typedef NS_ENUM(NSUInteger, BBModelManagerRefreshStage) {
 - (BOOL)isSaveInProgress;
 
 - (void)refresh;
+- (BOOL)fetchDatabaseIfNecessary;
 
 - (BBModelManagerRefreshStage)refreshStage;
 
 #pragma mark - Entities
-
-- (NSArray *)tagsWithSelectionOptions:(BBTagsSelectionOptions *)options;
 
 - (NSUInteger)countOfFetchedEntitiesWithRequest:(NSFetchRequest *)fetchRequest
                                       inContext:(NSManagedObjectContext *)context;
