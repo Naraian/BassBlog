@@ -31,6 +31,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>HelveticaLTStd-Cond.ttf</string>
+		<string>BebasNeueCyrillic.ttf</string>
 		<string>HelveticaLTStd-BoldCond.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
@@ -48,6 +49,6 @@
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
+	<true/>
 </dict>
 </plist>

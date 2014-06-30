@@ -74,6 +74,7 @@
 		9A2CCCD4195DCB670032632A /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2CCCD3195DCB670032632A /* Accelerate.framework */; };
 		9A3BE221193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3BE220193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift */; };
 		9A3BE228193FA1EB0048C9C0 /* BBCommonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3BE227193FA1EB0048C9C0 /* BBCommonUtils.m */; };
+		9A4DE9ED1961749900DF9EB9 /* BebasNeueCyrillic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A4DE9EC1961749900DF9EB9 /* BebasNeueCyrillic.ttf */; };
 		9A57211E18FF1F8300169E6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A57211D18FF1F8300169E6A /* Main.storyboard */; };
 		9A57212118FF29D500169E6A /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A57212018FF29D500169E6A /* SWRevealViewController.m */; };
 		9A60F617194FAE68009220DE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A60F616194FAE68009220DE /* main.m */; };
@@ -229,6 +230,7 @@
 		9A3BE220193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingViewControllerSwift.swift; sourceTree = "<group>"; };
 		9A3BE226193FA1EB0048C9C0 /* BBCommonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCommonUtils.h; sourceTree = "<group>"; };
 		9A3BE227193FA1EB0048C9C0 /* BBCommonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCommonUtils.m; sourceTree = "<group>"; };
+		9A4DE9EC1961749900DF9EB9 /* BebasNeueCyrillic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BebasNeueCyrillic.ttf; sourceTree = "<group>"; };
 		9A57211D18FF1F8300169E6A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9A57211F18FF29D500169E6A /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		9A57212018FF29D500169E6A /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
@@ -630,6 +632,7 @@
 		08D35F5517D68FA5006FC3E2 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				9A4DE9EC1961749900DF9EB9 /* BebasNeueCyrillic.ttf */,
 				9AA6538519070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf */,
 				9AA6538619070CB1000BAA6E /* HelveticaLTStd-Cond.ttf */,
 			);
@@ -1126,6 +1129,7 @@
 				9AC0BE4D195F5D5F0073D31E /* BBSpectrumAnalyzerView in Resources */,
 				083641B317C54238001B07E5 /* BBActivityView.xib in Resources */,
 				9AA6538819070CB1000BAA6E /* HelveticaLTStd-Cond.ttf in Resources */,
+				9A4DE9ED1961749900DF9EB9 /* BebasNeueCyrillic.ttf in Resources */,
 				9AD60F971916A2D2000C49BD /* WinterTheme.bundle in Resources */,
 				C1EB985E18CE4669008A3303 /* BBMixesTableFooterView.xib in Resources */,
 				9AD60F961916A2D2000C49BD /* BlackTheme.bundle in Resources */,

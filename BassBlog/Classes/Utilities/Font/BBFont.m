@@ -23,7 +23,7 @@
 
 + (UIFont *)boldFontOfSize:(CGFloat)fontSize {
     
-    return [UIFont fontWithName:@"HelveticaLTStd-BoldCond" size:fontSize];
+    return [UIFont fontWithName:@"BebasNeueCyrillic" size:fontSize];
 }
 
 + (UIFont *)boldFontLikeFont:(UIFont *)font {

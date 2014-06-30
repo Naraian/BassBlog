@@ -20,6 +20,11 @@
 #import "BBAppDelegate.h"
 #import "BBRootViewController.h"
 
+@interface BBAllMixesViewController()
+
+@property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
+
+@end
 
 @implementation BBAllMixesViewController
 
@@ -50,6 +55,18 @@
     [super updateTheme];
     
     [self showLeftBarButtonItem];
+    
+    self.searchBar.backgroundImage = [UIImage new];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    if (self.searchDisplayController.isActive)
+    {
+        return UIStatusBarStyleDefault;
+    }
+    
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)updateNavigationBar
@@ -106,6 +123,16 @@
     self.mixesSelectionOptions.substringInName = searchText;
     
     [super filterContentForSearchText:searchText];
+}
+
+- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller
+{
+    [self setNeedsStatusBarAppearanceUpdate];
+}
+
+- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
+{
+    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 @end
