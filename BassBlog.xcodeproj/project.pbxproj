@@ -79,7 +79,7 @@
 		9A57212118FF29D500169E6A /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A57212018FF29D500169E6A /* SWRevealViewController.m */; };
 		9A60F617194FAE68009220DE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A60F616194FAE68009220DE /* main.m */; };
 		9A61FF97190077EA004AE70E /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A61FF96190077EA004AE70E /* Reveal.framework */; };
-		9A790B20194FA91F002B8114 /* GoogleBlogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A790B1F194FA91F002B8114 /* GoogleBlogger.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		9A790B20194FA91F002B8114 /* GoogleBlogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A790B1F194FA91F002B8114 /* GoogleBlogger.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		9AA6538719070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AA6538519070CB1000BAA6E /* HelveticaLTStd-BoldCond.ttf */; };
 		9AA6538819070CB1000BAA6E /* HelveticaLTStd-Cond.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AA6538619070CB1000BAA6E /* HelveticaLTStd-Cond.ttf */; };
 		9ABB6AA41901C54B00691B3F /* NSLayoutConstraint+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB6AA11901C54B00691B3F /* NSLayoutConstraint+Extensions.m */; };
@@ -1328,6 +1328,18 @@
 					"\"$(PROJECT_DIR)/GoogleBlogger/GoogleBlogger\"/**",
 					"\"$(SRCROOT)/BassBlog/Libraries/Flurry\"",
 				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					MobileCoreServices,
+					"-framework",
+					Security,
+					"-framework",
+					SystemConfiguration,
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BassBlog/Classes/AppDelegate/BassBlog-Bridging-Header.h";
@@ -1457,6 +1469,18 @@
 					"\"$(PROJECT_DIR)/GoogleBlogger/GoogleBlogger\"/**",
 					"\"$(SRCROOT)/BassBlog/Libraries/Flurry\"",
 				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					MobileCoreServices,
+					"-framework",
+					Security,
+					"-framework",
+					SystemConfiguration,
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BassBlog/Classes/AppDelegate/BassBlog-Bridging-Header.h";
@@ -1493,6 +1517,18 @@
 					"$(inherited)",
 					"\"$(PROJECT_DIR)/GoogleBlogger/GoogleBlogger\"/**",
 					"\"$(SRCROOT)/BassBlog/Libraries/Flurry\"",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					MobileCoreServices,
+					"-framework",
+					Security,
+					"-framework",
+					SystemConfiguration,
+					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

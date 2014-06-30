@@ -600,7 +600,7 @@
         <!--Now Playing View Controller Swift-->
         <scene sceneID="x6A-Re-Fz4">
             <objects>
-                <viewController storyboardIdentifier="nowPlaying" hidesBottomBarWhenPushed="YES" id="n0Q-Nl-f8U" customClass="BBNowPlayingViewControllerSwift" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="nowPlaying" hidesBottomBarWhenPushed="YES" id="n0Q-Nl-f8U" customClass="BBNowPlayingViewControllerSwift" customModule="BassBlog" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ya4-oB-rRk"/>
                         <viewControllerLayoutGuide type="bottom" id="NhB-Pd-ggk"/>
