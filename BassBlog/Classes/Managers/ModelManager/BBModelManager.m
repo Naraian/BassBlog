@@ -326,8 +326,6 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 {
     [self cancelScheduledMainContextAutoSave];
     
-    [self cancelScheduledMixesRequest];
-    
     [self cleanup];
 }
 
@@ -454,13 +452,6 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
 - (void)loadMixes
 {
-//    void(^progressBlock)(float) = ^(float progress)
-//    {
-//        self.refreshStage = BBModelManagerLoadingStage;
-//        
-//        [self postNotificationForRefreshProgress:progress];
-//    };
-    
     dispatch_async(dispatch_get_main_queue(), ^
     {
         self.bloggerService.APIKey = @"AIzaSyAgtNFIT3ZoYSEmR6oZ2vupakpyADkdhQI";
@@ -496,7 +487,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         
         self.blogListTicket =
         [self.bloggerService executeQuery:query
-                            completionHandler:^(GTLServiceTicket *ticket, GTLBloggerPostList *postList, NSError *error)
+                        completionHandler:^(GTLServiceTicket *ticket, GTLBloggerPostList *postList, NSError *error)
         {
             if (error)
             {
@@ -616,9 +607,10 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
             
             self.modelState = BBModelIsPopulated;
 
-            // NOTE: async because we want to finish possible current UI activity.
-
-            [self postAsyncNotificationWithName:BBModelManagerDidFinishRefreshNotification];
+            if (!nextPageToken.length)
+            {
+                [self postAsyncNotificationWithName:BBModelManagerDidFinishRefreshNotification];
+            }
         }
         else if (saveExpected)
         {
@@ -626,7 +618,10 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         }
     }];
     
-    [self scheduleMixesRequest];
+    [self.class mainThreadBlock:^
+    {
+        [self refresh];
+    }];
 }
 
 - (NSMutableDictionary *)tagsDictionaryInContext:(NSManagedObjectContext *)context
@@ -720,28 +715,6 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         }
          
         [mix addTagsObject:tag];
-    }];
-}
-
-- (void)scheduleMixesRequest
-{
-    [self cancelScheduledMixesRequest];
-    
-    [self.class mainThreadBlock:^
-    {
-        [self performSelector:@selector(refresh)
-                   withObject:nil
-                   afterDelay:kBBMixesRequestRepeatInterval];
-    }];
-}
-
-- (void)cancelScheduledMixesRequest
-{
-    [self.class mainThreadBlock:^
-    {
-        [self.class cancelPreviousPerformRequestsWithTarget:self
-                                                   selector:@selector(refresh)
-                                                     object:nil];
     }];
 }
 

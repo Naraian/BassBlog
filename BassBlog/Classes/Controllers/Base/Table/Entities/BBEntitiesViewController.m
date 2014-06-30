@@ -87,21 +87,26 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
     [self addSelector:@selector(modelManagerDidInitializeNotification)
     forNotificationWithName:BBModelManagerDidInitializeNotification];
     
-    [self addSelector:@selector(modelManagerDidFinishRefreshNotification)
-    forNotificationWithName:BBModelManagerDidFinishRefreshNotification];
+    [self addSelector:@selector(modelManagerDidFinishRefreshNotification) forNotificationWithName:BBModelManagerDidFinishRefreshNotification];
+    [self addSelector:@selector(modelManagerRefreshErrorNotification) forNotificationWithName:BBModelManagerRefreshErrorNotification];
 
     [self addSelector:@selector(modelManagerDidFinishSaveNotification)
     forNotificationWithName:BBModelManagerDidFinishSaveNotification];
 }
 
-- (void)modelManagerDidInitializeNotification {
-    
+- (void)modelManagerDidInitializeNotification
+{
 
 }
 
-- (void)modelManagerDidFinishRefreshNotification {
-    
+- (void)modelManagerDidFinishRefreshNotification
+{
 
+}
+
+- (void)modelManagerRefreshErrorNotification
+{
+    
 }
 
 #pragma mark - UITableViewDataSource

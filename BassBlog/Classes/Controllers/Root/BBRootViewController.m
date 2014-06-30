@@ -188,16 +188,11 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 
 #pragma mark - Notifications
 
-- (void)startObserveModelRefreshNotifications {
-    
-    [self addSelector:@selector(modelManagerDidChangeRefreshStageNotification:)
-    forNotificationWithName:BBModelManagerDidChangeRefreshStageNotification];
-    
-    [self addSelector:@selector(modelManagerRefreshProgressNotification:)
-    forNotificationWithName:BBModelManagerRefreshProgressNotification];
-    
-    [self addSelector:@selector(modelManagerDidFinishRefreshNotification:)
-    forNotificationWithName:BBModelManagerDidFinishRefreshNotification];
+- (void)startObserveModelRefreshNotifications
+{
+    [self addSelector:@selector(modelManagerDidChangeRefreshStageNotification:) forNotificationWithName:BBModelManagerDidChangeRefreshStageNotification];
+    [self addSelector:@selector(modelManagerRefreshProgressNotification:) forNotificationWithName:BBModelManagerRefreshProgressNotification];
+    [self addSelector:@selector(modelManagerDidFinishRefreshNotification:) forNotificationWithName:BBModelManagerDidFinishRefreshNotification];
 }
 
 - (void)modelManagerDidChangeRefreshStageNotification:(NSNotification *)notification {
