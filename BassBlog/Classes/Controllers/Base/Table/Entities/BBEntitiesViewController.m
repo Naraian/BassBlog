@@ -46,8 +46,6 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
     [super viewDidLoad];
     
     self.reloadDataOnViewWillAppear = YES;
- 
-    [self performFetch];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -58,6 +56,8 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
     {
         self.reloadDataOnViewWillAppear = NO;
     }
+    
+    [self performFetch];
     
     self.viewDidAppear = YES;
 }
@@ -111,7 +111,7 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 {
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
-    [self configureCell:cell withEntity:[self entityAtIndexPath:indexPath]];
+    [self configureCell:cell withEntity:[self entityAtIndexPath:indexPath inTableView:tableView]];
     
     return cell;
 }
@@ -183,28 +183,28 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
     }
 }
 
-- (id)entityAtIndexPath:(NSIndexPath *)indexPath
+- (id)entityAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView
 {
-    id object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    id object = [[self fetchedResultsControllerForTableView:tableView] objectAtIndexPath:indexPath];
     
     return object;
 }
 
-- (id)entityForCell:(UITableViewCell *)cell
+- (id)entityForCell:(UITableViewCell *)cell inTableView:(UITableView *)tableView
 {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSIndexPath *indexPath = [tableView indexPathForCell:cell];
     
-    return [self entityAtIndexPath:indexPath];
+    return [self entityAtIndexPath:indexPath inTableView:tableView];
 }
 
-- (NSIndexPath *)indexPathOfEntity:(BBEntity *)entity
+- (NSIndexPath *)indexPathOfEntity:(BBEntity *)entity inTableView:(UITableView *)tableView
 {
-    return [self.fetchedResultsController indexPathForObject:entity];
+    return [[self fetchedResultsControllerForTableView:tableView] indexPathForObject:entity];
 }
 
-- (BOOL)hasEntity:(BBEntity *)entity
+- (BOOL)hasEntity:(BBEntity *)entity inTableView:(UITableView *)tableView
 {
-    return ([self.fetchedResultsController indexPathForObject:entity] != nil);
+    return ([[self fetchedResultsControllerForTableView:tableView] indexPathForObject:entity] != nil);
 }
 
 - (void)contentWillChange
@@ -214,6 +214,8 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 
 - (void)contentDidChange
 {
+    [super contentDidChange];
+    
     if ([self.tableView numberOfSections])
     {
         [self hideStubView];
@@ -226,11 +228,24 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
     [self hideActivityView];
 }
 
+- (void)filterContentForSearchText:(NSString*)searchText
+{
+    [super filterContentForSearchText:searchText];
+
+    [self performFetch:self.searchFetchedResultsController];
+    [self.searchDisplayController.searchResultsTableView reloadData];
+}
+
 - (void)performFetch
+{
+    [self performFetch:self.fetchedResultsController];
+}
+
+- (void)performFetch:(NSFetchedResultsController *)fetchedResultsController
 {
     NSError *error = nil;
     
-    if ([self.fetchedResultsController performFetch:&error])
+    if ([fetchedResultsController performFetch:&error])
     {
         
     }
@@ -242,6 +257,7 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 
 - (void)reloadModel
 {
+    self.fetchedResultsController.delegate = nil;
     self.fetchedResultsController = nil;
     
     [self performFetch];

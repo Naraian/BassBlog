@@ -36,6 +36,8 @@ class BBAppDelegateSwift: UIResponder, UIApplicationDelegate
     
     func application(application: UIApplication!, didFinishLaunchingWithOptions launchOptions: NSDictionary!) -> Bool
     {
+        BBModelManager.defaultManager().rootContext();
+        
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds);
         self.window.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() as UIViewController;
         

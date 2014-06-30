@@ -51,7 +51,7 @@ const NSInteger kBBAllTagTableModelRow = 0;
 
 #pragma mark - View
 
-- (NSFetchRequest *)fetchRequest
+- (NSFetchRequest *)fetchRequestForSearch:(BOOL)search
 {
     return [[BBModelManager defaultManager] fetchRequestForTagsWithSelectionOptions:_tagsSelectionOptions];
 }
@@ -61,21 +61,11 @@ const NSInteger kBBAllTagTableModelRow = 0;
     return nil;
 }
 
-- (void)contentWillChange
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super contentWillChange];
+    [super viewDidAppear:animated];
     
-    if ([self.tableView numberOfRowsInSection:0] > 0)
-    {
-        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-}
-
-- (void)contentDidChange
-{
-    [super contentDidChange];
-    
-    NSIndexPath *indexPath = [self indexPathOfEntity:_tag];
+    NSIndexPath *indexPath = [self indexPathOfEntity:_tag inTableView:self.tableView];
     
     if (!indexPath)
     {
@@ -178,7 +168,7 @@ const NSInteger kBBAllTagTableModelRow = 0;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BBTag *tag = (BBTag *)[self entityAtIndexPath:indexPath];
+    BBTag *tag = (BBTag *)[self entityAtIndexPath:indexPath inTableView:tableView];
     
     if (_tag != tag)
     {

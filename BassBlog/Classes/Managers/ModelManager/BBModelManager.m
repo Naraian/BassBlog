@@ -73,8 +73,6 @@ static const NSUInteger kBBMaxNumberOfUpdatedObjectsForAutoSave = 10;
 
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 
-@property (nonatomic, strong) NSError *error;
-
 @property (retain) GTLServiceTicket *blogListTicket;
 
 TIME_PROFILER_PROPERTY_DECLARATION
@@ -171,24 +169,6 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
 #pragma mark * Entities
 
-- (NSArray *)mixesWithSelectionOptions:(BBMixesSelectionOptions *)options
-{
-    NSFetchRequest *fetchRequest = [self fetchRequestForMixesWithSelectionOptions:options];
-    
-    NSArray *mixes = [self entitiesFetchedWithRequest:fetchRequest
-                                            inContext:[self currentThreadContext]];
-    return mixes;
-}
-
-- (NSUInteger)mixesCountWithSelectionOptions:(BBMixesSelectionOptions *)options {
-    
-    NSFetchRequest *fetchRequest = [self fetchRequestForMixesWithSelectionOptions:options];
-    
-    NSUInteger count = [self countOfFetchedEntitiesWithRequest:fetchRequest
-                                                     inContext:[self currentThreadContext]];
-    return count;
-}
-
 - (void)enumerateObjectIDs:(NSArray *)objectIDs
                 usingBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block
 {
@@ -200,11 +180,11 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     
     [objectIDs enumerateObjectsUsingBlock:^(NSManagedObjectID *objectID, NSUInteger idx, BOOL *stop)
     {
-        NSError *__autoreleasing error = nil;
+        NSError *error = nil;
         NSManagedObject *entity = [context existingObjectWithID:objectID error:&error];
         if (entity == nil)
         {
-            [self handleError:error];
+            [self.class handleError:error];
         }
         
         block(entity, idx, stop);
@@ -608,7 +588,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     BOOL saveExpected = YES;
     if ([context hasChanges])
     {
-        TIME_PROFILER_LOG([self descriptionForContext:context])
+        TIME_PROFILER_LOG([self.class descriptionForContext:context])
         
         self.refreshSaveInProgress = YES;
         self.refreshStage = BBModelManagerSavingStage;
@@ -622,12 +602,12 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         self.refreshStage = BBModelManagerWaitingStage;
     }
     
-    [self saveContext:context withCompletionBlock:^(BOOL saved)
+    [self.class saveContext:context withCompletionBlock:^(NSError *error)
     {
         self.refreshSaveInProgress = NO;
         self.refreshStage = BBModelManagerWaitingStage;
         
-        if (saved)
+        if (!error)
         {
             TIME_PROFILER_LOG(@"Database saving")
 
@@ -642,7 +622,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         }
         else if (saveExpected)
         {
-            [self postNotificationForRefreshError:self.error];
+            [self postNotificationForRefreshError:error];
         }
     }];
     
@@ -846,10 +826,10 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     return fetchRequest;
 }
 
-- (NSFetchRequest *)fetchRequestForMixesWithSelectionOptions:(BBMixesSelectionOptions *)options
+- (NSFetchRequest *)fetchRequestForMixesWithSelectionOptions:(BBMixesSelectionOptions *)options forSearch:(BOOL)search
 {
     NSFetchRequest *fetchRequest = [BBMix fetchRequestWithCategory:options.category
-                                                   substringInName:options.substringInName
+                                                   substringInName:search ? options.substringInName : nil
                                                                tag:options.tag];
     
     [fetchRequest setSortDescriptors:[self sortDescriptorsForMixesSelectionOptions:options]];
@@ -863,15 +843,13 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 - (NSArray *)entitiesFetchedWithRequest:(NSFetchRequest *)fetchRequest
                               inContext:(NSManagedObjectContext *)context
 {
-    _error = nil;
-    
     NSArray *__block result = nil;
     [context performBlockAndWait:^
     {
-        NSError *__autoreleasing error = nil;
+        NSError *error = nil;
         result = [context executeFetchRequest:fetchRequest error:&error];
         
-        [self handleError:error];
+        [self.class handleError:error];
     }];
     
     return result;
@@ -880,15 +858,13 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 - (NSUInteger)countOfFetchedEntitiesWithRequest:(NSFetchRequest *)fetchRequest
                                       inContext:(NSManagedObjectContext *)context
 {
-    _error = nil;
-    
     NSUInteger __block count = 0;
     [context performBlockAndWait:^
     {
-        NSError *__autoreleasing error = nil;
+        NSError *error = nil;
         count = [context countForFetchRequest:fetchRequest error:&error];
     
-        [self handleError:error];
+        [self.class handleError:error];
     }];
     
     return count;
@@ -907,17 +883,14 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     {
         [self.rootContext performBlock:^
         {
-            __block BOOL saved = NO;
-            
-            [self saveContext:self.rootContext withCompletionBlock:^(BOOL contextSaved)
+            [self.class saveContext:self.rootContext withCompletionBlock:^(NSError *error)
             {
-                saved = contextSaved;
+                if (completionBlock)
+                {
+                    completionBlock(error == nil);
+                }
+
             }];
-            
-            if (completionBlock)
-            {
-                completionBlock(saved);
-            }
         }];
     });
 
@@ -935,10 +908,8 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         //[self deepSaveFromContext:context.parentContext withCompletionBlock:completionBlock];
 }
 
-- (void)saveContext:(NSManagedObjectContext *)context withCompletionBlock:(void(^)(BOOL saved))completionBlock
++ (void)saveContext:(NSManagedObjectContext *)context withCompletionBlock:(void(^)(NSError *error))completionBlock
 {
-    _error = nil;
-
     NSString *description = [self descriptionForContext:context];
     
     if (![context hasChanges])
@@ -974,7 +945,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         
         if (completionBlock)
         {
-            completionBlock(saved);
+            completionBlock(error);
         }
     }
 }
@@ -997,7 +968,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     {
         _rootContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         
-        [self setDescription:@"ROOT" forContext:_rootContext];
+        [self.class setDescription:@"ROOT" forContext:_rootContext];
         
         [_rootContext performBlockAndWait:^
         {
@@ -1039,7 +1010,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     
     NSString *description = [NSString stringWithFormat:@"SERVICE \"%@\"", taskDescription];
     
-    [self setDescription:description forContext:context];
+    [self.class setDescription:description forContext:context];
     
     return context;
 }
@@ -1073,11 +1044,9 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
                              @YES, NSInferMappingModelAutomaticallyOption,
                              sqliteOptions, NSSQLitePragmasOption, nil];
     
-    NSError __autoreleasing *error = nil;
+    NSError *error = nil;
     NSURL *url = [[BBFileManager documentDirectoryURL]
                   URLByAppendingPathComponent:@"BassBlog.sqlite"];
-    
-    _error = nil;
     
     if (![self addSqliteStoreAtURL:url options:options error:&error])
     {
@@ -1095,7 +1064,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
             }
         }
     
-        [self handleError:error];
+        [self.class handleError:error];
     }
     
     return _coordinator.persistentStores.count;
@@ -1117,21 +1086,21 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 static NSString *const BBManagedObjectContextDescriptionKey =
 @"pro.bassblog.ManagedObjectContextDescription";
 
-- (void)setDescription:(NSString *)description
++ (void)setDescription:(NSString *)description
             forContext:(NSManagedObjectContext *)context
 {
     [context.userInfo setObject:description
                          forKey:BBManagedObjectContextDescriptionKey];
 }
 
-- (NSString *)descriptionForContext:(NSManagedObjectContext *)context
++ (NSString *)descriptionForContext:(NSManagedObjectContext *)context
 {
     return [context.userInfo objectForKey:BBManagedObjectContextDescriptionKey];
 }
 
 #pragma mark * Error Handling
 
-- (void)handleError:(NSError *)error
++ (void)handleError:(NSError *)error
 {
     if (!error)
     {
@@ -1147,11 +1116,11 @@ static NSString *const BBManagedObjectContextDescriptionKey =
             return;
         }
         
-        [detailedError enumerateObjectsUsingBlock:^(id anError, NSUInteger anErrorIdx, BOOL *anErrorStop)
+        [(NSArray*)detailedError enumerateObjectsUsingBlock:^(id anError, NSUInteger anErrorIdx, BOOL *anErrorStop)
         {
             if ([anError respondsToSelector:@selector(userInfo)])
             {
-                BB_ERR(@"%@", [anError userInfo]);
+                BB_ERR(@"%@", [(NSError *)anError userInfo]);
             }
             else
             {
@@ -1161,8 +1130,6 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     }];
     
     BB_ERR(@"Info: \n%@", error);
-    
-    self.error = error;
 }
 
 #ifdef DEBUG
@@ -1298,7 +1265,7 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     // All mixes ---------------------------------------------------------------
     
     fetchRequest =
-    [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions];
+    [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions forSearch:NO];
     
     [dump appendFormat:@"\n\n\tAll mixes: %d",
      [self countOfFetchedEntitiesWithRequest:fetchRequest
@@ -1308,7 +1275,7 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     
     mixesSelectionOptions.category = eFavoriteMixesCategory;
     fetchRequest =
-    [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions];
+    [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions forSearch:NO];
     
     [dump appendFormat:@"\n\t\tFavorite mixes: %d",
      [self countOfFetchedEntitiesWithRequest:fetchRequest
@@ -1318,7 +1285,7 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     
     mixesSelectionOptions.category = eListenedMixesCategory;
     fetchRequest =
-    [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions];
+    [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions forSearch:NO];
     
     [dump appendFormat:@"\n\t\tListened mixes: %d",
      [self countOfFetchedEntitiesWithRequest:fetchRequest
@@ -1328,7 +1295,7 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     
     mixesSelectionOptions.category = eDownloadedMixesCategory;
     fetchRequest =
-    [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions];
+    [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions forSearch:NO];
     
     [dump appendFormat:@"\n\t\tDownloaded mixes: %d",
      [self countOfFetchedEntitiesWithRequest:fetchRequest
@@ -1356,7 +1323,7 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     {
         mixesSelectionOptions.tag = tag;
         fetchRequest =
-        [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions];
+        [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions forSearch:NO];
         
         [dump appendFormat:@"\n\t\t%@ : %d mixes",
          tag.name, [self countOfFetchedEntitiesWithRequest:fetchRequest

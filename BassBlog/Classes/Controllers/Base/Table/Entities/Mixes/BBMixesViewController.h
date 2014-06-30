@@ -14,8 +14,8 @@
 #import "BBMixesSelectionOptions.h"
 
 
-typedef NS_ENUM(NSInteger, BBMixesTableModelSectionRule) {
-    
+typedef NS_ENUM(NSInteger, BBMixesTableModelSectionRule)
+{    
     BBMixesTableModelSectionRuleEachDay,
     BBMixesTableModelSectionRuleEachMonth
 };

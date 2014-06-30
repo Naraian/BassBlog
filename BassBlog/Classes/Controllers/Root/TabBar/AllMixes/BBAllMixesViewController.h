@@ -8,7 +8,6 @@
 
 #import "BBMixesViewController.h"
 
-
 @interface BBAllMixesViewController : BBMixesViewController
 
 @end

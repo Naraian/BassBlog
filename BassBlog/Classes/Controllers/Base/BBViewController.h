@@ -27,6 +27,9 @@
 - (UIBarButtonItem *)barButtonItemWithImageName:(NSString *)imageName
                                        selector:(SEL)selector;
 
+- (UIBarButtonItem *)barButtonItemWithTitle:(NSString *)title
+                                   selector:(SEL)selector;
+
 - (void)updateTheme;
 
 - (void)setTabBarItemTitle:(NSString *)title

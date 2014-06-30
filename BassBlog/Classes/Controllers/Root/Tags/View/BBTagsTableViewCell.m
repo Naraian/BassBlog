@@ -26,15 +26,12 @@
     {
         default:
         {
-            self.bottomSeparatorColor = [UIColor colorWithHEX:0x1E1E1EFF];
-            self.selectedBottomSeparatorColor = [UIColor colorWithHEX:0x1E1E1EFF];
-            
             self.backgroundColor = [UIColor colorWithHEX:0x252525FF];
             self.selectedBackgroundColor = [UIColor colorWithHEX:0x333333FF];
             self.highlightedBackgroundColor = [UIColor colorWithHEX:0x333333FF];
             
             self.leftColorView.layer.borderWidth = 1.f;
-            self.leftColorView.layer.borderColor = self.bottomSeparatorColor.CGColor;
+            self.leftColorView.layer.borderColor = [UIColor colorWithHEX:0x1E1E1EFF].CGColor;
         }
         break;
     }
@@ -44,7 +41,7 @@
 {
     [super setSelected:selected animated:animated];
     
-    self.leftColorView.backgroundColor = selected ? [UIColor colorWithHEX:0xD46464FF] : self.bottomSeparatorColor;
+    self.leftColorView.backgroundColor = selected ? [UIColor colorWithHEX:0xD46464FF] : [UIColor colorWithHEX:0x1E1E1EFF];
 }
 
 @end

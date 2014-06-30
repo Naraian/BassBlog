@@ -266,7 +266,9 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
     if (tag)
     {
         if (format.length)
+        {
             [format appendString:@" && "];
+        }
         
         [format appendString:@"ANY tags == %@"];
         [arguments addObject:tag];
@@ -275,9 +277,11 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
     if (substringInName.length)
     {
         if (format.length)
+        {
             [format appendString:@" && "];
+        }
         
-        [format appendString:@"name CONTAINS[c] %@"];
+        [format appendString:@"name CONTAINS[cd] %@"];
         [arguments addObject:substringInName];
     }
     

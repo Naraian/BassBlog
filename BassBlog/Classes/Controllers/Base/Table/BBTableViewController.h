@@ -15,13 +15,17 @@
 
 enum { eBBTableViewRowAnimation = UITableViewRowAnimationFade };
 
-@interface BBTableViewController : BBViewController <UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate>
+@interface BBTableViewController : BBViewController <UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, UISearchControllerDelegate>
 
 @property (nonatomic, assign, getter=isViewVisible) BOOL viewVisible;
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong) NSFetchedResultsController *searchFetchedResultsController;
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
+
+- (NSFetchedResultsController *)fetchedResultsControllerForTableView:(UITableView *)tableView;
+- (UITableView *)tableViewForFetchedResultsController:(NSFetchedResultsController *)fetchedResultsController;
 
 @end
 
@@ -31,7 +35,9 @@ enum { eBBTableViewRowAnimation = UITableViewRowAnimationFade };
 
 - (NSString *)cellNibNameAtIndexPath:(NSIndexPath *)indexPath;
 
-- (NSFetchRequest *)fetchRequest;
+- (NSFetchRequest *)fetchRequestForSearch:(BOOL)search;
+
+- (void)filterContentForSearchText:(NSString*)searchText;
 
 - (NSString *)sectionNameKeyPath;
 

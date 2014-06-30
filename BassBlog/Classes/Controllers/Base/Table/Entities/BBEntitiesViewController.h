@@ -56,12 +56,12 @@ enum { eBBDefaultTableModelSectionID = 0 };
 
 - (void)modelManagerDidFinishSaveNotification;
 
-- (id)entityAtIndexPath:(NSIndexPath *)indexPath;
-- (id)entityForCell:(UITableViewCell *)cell;
+- (id)entityAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView;
+- (id)entityForCell:(UITableViewCell *)cell inTableView:(UITableView *)tableView;
 
-- (NSIndexPath *)indexPathOfEntity:(id)entity;
+- (NSIndexPath *)indexPathOfEntity:(id)entity inTableView:(UITableView *)tableView;
 
-- (BOOL)hasEntity:(id)entity;
+- (BOOL)hasEntity:(id)entity inTableView:(UITableView *)tableView;
 - (void)reloadModel;
 
 @end

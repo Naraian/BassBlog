@@ -73,13 +73,6 @@ BBAudioManagerDelegate
 
 #pragma mark - View
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    [self updateNavigationBar];
-}
-
 - (void)updateTheme
 {
     [super updateTheme];
@@ -106,28 +99,30 @@ BBAudioManagerDelegate
     
     BBMix *mix = audioManager.mix;
     
-    if ([self hasEntity:mix] == NO) {
+#warning deal with this
+    if ([self hasEntity:mix inTableView:self.tableView] == NO)
+    {
         return;
     }
 
-    NSIndexPath *indexPath = [self indexPathOfEntity:mix];
-    BBMixesTableViewCell *cell =
-    (BBMixesTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    NSIndexPath *indexPath = [self indexPathOfEntity:mix inTableView:self.tableView];
+    BBMixesTableViewCell *cell = (BBMixesTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
 
-    if (cell == nil) {
+    if (cell == nil)
+    {
         return;
     }
     
     cell.paused = audioManager.paused;
     
-    if (selectRow) {
-        
+    if (selectRow)
+    {
         [self.tableView selectRowAtIndexPath:indexPath
                                     animated:YES
                               scrollPosition:UITableViewScrollPositionNone];
     }
-    else {
-        
+    else
+    {
         [self.tableView deselectRowAtIndexPath:indexPath
                                       animated:YES];
     }
@@ -176,22 +171,6 @@ BBAudioManagerDelegate
     self.navigationItem.rightBarButtonItem = item;
     
 //    [self barButtonItemWithImageName:@"now_playing" selector:@selector(nowPlayingBarButtonItemPressed)];
-}
-
-- (void)updateNavigationBar
-{
-    BOOL hasMixes = (self.fetchedResultsController.fetchedObjects.count > 0);
-    
-    self.navigationItem.leftBarButtonItem.enabled = YES; //hasMixes;
-    
-    if (hasMixes)
-    {
-        self.title = _mixesSelectionOptions.tag ? _mixesSelectionOptions.tag.formattedName : [[BBTag allName] uppercaseString];
-    }
-    else
-    {
-        self.title = self.tabBarItem.title;
-    }
 }
 
 - (void)setTitle:(NSString *)title {
@@ -259,8 +238,9 @@ BBAudioManagerDelegate
     if (_headerDateFormatter == nil) {
         
         _headerDateFormatter = [NSDateFormatter new];
-        [_headerDateFormatter setTimeStyle:NSDateFormatterNoStyle];
-        [_headerDateFormatter setDateStyle:NSDateFormatterShortStyle];
+        _headerDateFormatter.dateFormat = @"dd.MM.yyyy";
+//        [_headerDateFormatter setTimeStyle:NSDateFormatterNoStyle];
+//        [_headerDateFormatter setDateStyle:NSDateFormatterShortStyle];
     }
     
     return _headerDateFormatter;
@@ -308,18 +288,6 @@ BBAudioManagerDelegate
     return [sectionID integerValue];
 }
 
-- (void)contentWillChange
-{
-    [super contentWillChange];
-}
-
-- (void)contentDidChange
-{
-    [super contentDidChange];
-    
-    [self updateNavigationBar];
-}
-
 #pragma mark - Actions
 
 - (void)tagsBarButtonItemPressed
@@ -361,7 +329,8 @@ BBAudioManagerDelegate
 
 - (void)mixesTableViewCell:(BBMixesTableViewCell *)cell paused:(BOOL)paused
 {
-    BBMix *mix = [self entityForCell:cell];
+#warning DEAL WITH THIS
+    BBMix *mix = [self entityForCell:cell inTableView:self.tableView];
     
     [self pause:paused mix:mix];
 }
@@ -396,18 +365,23 @@ BBAudioManagerDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    BBMix *mix = [self entityAtIndexPath:indexPath];
+    BBMix *mix = [self entityAtIndexPath:indexPath inTableView:tableView];
   
     [self pause:NO mix:mix];
     
     [[BBAppDelegate rootViewController] toggleNowPlayingVisibilityFromNavigationController:self.navigationController];
 }
 
-- (NSString *)sectionTitleForHeaderInSection:(NSInteger)section
+- (NSString *)sectionTitleForHeaderInSection:(NSInteger)section inTableView:(UITableView *)tableView
 {
-    id<NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
-    
+    id<NSFetchedResultsSectionInfo> sectionInfo = [[[self fetchedResultsControllerForTableView:tableView] sections] objectAtIndex:section];
     NSString *sectionIDString = [sectionInfo name];
+    
+    if (!sectionIDString)
+    {
+        return nil;
+    }
+
     NSNumber *sectionID = @([sectionIDString integerValue]);
     NSString *sectionHeader = self.headerTextsDictionary[sectionID];
     
@@ -423,7 +397,7 @@ BBAudioManagerDelegate
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    NSString *sectionTitle = [self sectionTitleForHeaderInSection:section];
+    NSString *sectionTitle = [self sectionTitleForHeaderInSection:section inTableView:tableView];
     
     if (!sectionTitle)
     {
@@ -438,7 +412,7 @@ BBAudioManagerDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    NSString *sectionTitle = [self sectionTitleForHeaderInSection:section];
+    NSString *sectionTitle = [self sectionTitleForHeaderInSection:section inTableView:tableView];
     
     if (!sectionTitle)
     {
@@ -472,22 +446,9 @@ BBAudioManagerDelegate
 
 @implementation BBMixesViewController (Protected)
 
-- (NSFetchRequest *)fetchRequest
+- (NSFetchRequest *)fetchRequestForSearch:(BOOL)search
 {
-    NSFetchRequest *fetchRequest = [[BBModelManager defaultManager] fetchRequestForMixesWithSelectionOptions:_mixesSelectionOptions];
-    
-//    NSString *sectionNameKeyPath = [self sectionNameKeyPath];
-//    
-//    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:sectionNameKeyPath ascending:YES];
-//    NSArray *descriptors = @[sortDescriptor];
-//    
-//    if (fetchRequest.sortDescriptors)
-//    {
-//        descriptors = [descriptors arrayByAddingObjectsFromArray:fetchRequest.sortDescriptors];
-//    }
-//    
-//    fetchRequest.sortDescriptors = descriptors;
-
+    NSFetchRequest *fetchRequest = [[BBModelManager defaultManager] fetchRequestForMixesWithSelectionOptions:_mixesSelectionOptions forSearch:search];
     return fetchRequest;
 }
 

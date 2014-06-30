@@ -40,9 +40,11 @@ typedef NS_ENUM(NSUInteger, BBModelManagerRefreshStage) {
 + (BBModelManager *)defaultManager;
 
 - (NSFetchRequest *)fetchRequestForTagsWithSelectionOptions:(BBTagsSelectionOptions *)options;
-- (NSFetchRequest *)fetchRequestForMixesWithSelectionOptions:(BBMixesSelectionOptions *)options;
+- (NSFetchRequest *)fetchRequestForMixesWithSelectionOptions:(BBMixesSelectionOptions *)options forSearch:(BOOL)search;
 - (NSManagedObjectContext *)currentThreadContext;
 - (NSManagedObjectContext *)rootContext;
+
++ (void)saveContext:(NSManagedObjectContext *)context withCompletionBlock:(void(^)(NSError *error))completionBlock;
 
 #pragma mark - State
 
@@ -59,10 +61,6 @@ typedef NS_ENUM(NSUInteger, BBModelManagerRefreshStage) {
 #pragma mark - Entities
 
 - (NSArray *)tagsWithSelectionOptions:(BBTagsSelectionOptions *)options;
-
-- (NSArray *)mixesWithSelectionOptions:(BBMixesSelectionOptions *)options;
-
-- (NSUInteger)mixesCountWithSelectionOptions:(BBMixesSelectionOptions *)options;
 
 - (NSUInteger)countOfFetchedEntitiesWithRequest:(NSFetchRequest *)fetchRequest
                                       inContext:(NSManagedObjectContext *)context;

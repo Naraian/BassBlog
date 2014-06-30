@@ -21,6 +21,13 @@
 
 #pragma mark - View
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.tableView.tableFooterView = [UIView new];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -52,18 +59,27 @@
     }
 }
 
+- (NSFetchedResultsController *)fetchedResultsControllerForTableView:(UITableView *)tableView
+{
+    return (tableView == self.tableView) ? _fetchedResultsController : _searchFetchedResultsController;
+}
+
+- (UITableView *)tableViewForFetchedResultsController:(NSFetchedResultsController *)fetchedResultsController
+{
+    return (fetchedResultsController == _fetchedResultsController) ? self.tableView : self.searchDisplayController.searchResultsTableView;
+}
+
 - (NSFetchedResultsController *)fetchedResultsController
 {
     if (!_fetchedResultsController)
     {
-        NSFetchRequest *fetchRequest = [self fetchRequest];
+        NSFetchRequest *fetchRequest = [self fetchRequestForSearch:NO];
         
         NSString *sectionNameKeyPath = [self sectionNameKeyPath];        
-        NSFetchedResultsController *theFetchedResultsController =
-        [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                            managedObjectContext:[[BBModelManager defaultManager] rootContext]
-                                              sectionNameKeyPath:sectionNameKeyPath
-                                                       cacheName:nil]; //NSStringFromClass(self.class)];
+        NSFetchedResultsController *theFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                                                      managedObjectContext:[[BBModelManager defaultManager] rootContext]
+                                                                                                        sectionNameKeyPath:sectionNameKeyPath
+                                                                                                                 cacheName:nil]; //NSStringFromClass(self.class)];
         #warning deal with cache name
 
         _fetchedResultsController = theFetchedResultsController;
@@ -71,20 +87,42 @@
     }
     
     return _fetchedResultsController;
+}
+
+- (NSFetchedResultsController *)searchFetchedResultsController
+{
+    if (!_searchFetchedResultsController)
+    {
+        NSFetchRequest *fetchRequest = [self fetchRequestForSearch:YES];
+        
+        NSFetchedResultsController *theFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                                                      managedObjectContext:[[BBModelManager defaultManager] rootContext]
+                                                                                                        sectionNameKeyPath:nil
+                                                                                                                 cacheName:nil]; //NSStringFromClass(self.class)];
+        _searchFetchedResultsController = theFetchedResultsController;
+        _searchFetchedResultsController.delegate = self;
+    }
     
+    return _searchFetchedResultsController;
+}
+
+- (void)filterContentForSearchText:(NSString*)searchText
+{
+    _searchFetchedResultsController.delegate = nil;
+    _searchFetchedResultsController = nil;
 }
 
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    id<NSFetchedResultsSectionInfo> sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
+    id<NSFetchedResultsSectionInfo> sectionInfo = [[[self fetchedResultsControllerForTableView:tableView] sections] objectAtIndex:section];
     return [sectionInfo numberOfObjects];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [[_fetchedResultsController sections] count];
+    return [[[self fetchedResultsControllerForTableView:tableView] sections] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -93,7 +131,7 @@
     NSString *suffix = [BBThemeManager defaultManager].themeName;
     NSString *cellNibThemeName = [cellNibName stringByAppendingString:suffix];
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellNibThemeName];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellNibThemeName];
     
     if (cell == nil)
     {
@@ -110,25 +148,35 @@
     [self contentWillChange];
     
     // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
-    [self.tableView beginUpdates];
+    [[self tableViewForFetchedResultsController:controller] beginUpdates];
+}
+
+- (void)contentWillChange
+{
+    
+}
+
+- (void)contentDidChange
+{
+    
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
-    UITableView *tableView = self.tableView;
+    UITableView *tableView = [self tableViewForFetchedResultsController:controller];
     
     switch(type)
     {
         case NSFetchedResultsChangeInsert:
-            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
             
         case NSFetchedResultsChangeDelete:
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
             
         case NSFetchedResultsChangeUpdate:
-            [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
             
         case NSFetchedResultsChangeMove:
@@ -137,20 +185,22 @@
     }
 }
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id )sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id )sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    UITableView *tableView = [self tableViewForFetchedResultsController:controller];
     
     switch(type)
     {
         case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
             
         case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
             
         case NSFetchedResultsChangeUpdate:
-//            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+//            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
             
         case NSFetchedResultsChangeMove:
@@ -159,13 +209,35 @@
     }
 }
 
-
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
-    [self.tableView endUpdates];
+    [[self tableViewForFetchedResultsController:controller] endUpdates];
     
     [self contentDidChange];
+}
+
+#pragma mark -
+#pragma mark Search Bar
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView
+{
+    tableView.tableFooterView = [UIView new];
+}
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller willUnloadSearchResultsTableView:(UITableView *)tableView;
+{
+    // search is done so get rid of the search FRC and reclaim memory
+    self.searchFetchedResultsController.delegate = nil;
+    self.searchFetchedResultsController = nil;
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:searchString];
+    
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
 }
 
 @end

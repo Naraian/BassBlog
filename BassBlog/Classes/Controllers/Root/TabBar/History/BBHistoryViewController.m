@@ -11,6 +11,7 @@
 #import "BBHistoryTableViewCell.h"
 
 #import "BBMix.h"
+#import "BBModelManager.h"
 #import "BBAudioManager.h"
 
 #import "NSObject+Notification.h"
@@ -32,6 +33,26 @@
     
     _mixesSelectionOptions.category = eListenedMixesCategory;
     _mixesSelectionOptions.sortKey = eMixPlaybackDateSortKey;
+    
+    [self showLeftBarButtonItem];
+}
+
+- (void)showLeftBarButtonItem
+{
+    self.navigationItem.leftBarButtonItem = [self barButtonItemWithTitle:@"CLEAR" selector:@selector(clearHistory)];
+}
+
+- (void)clearHistory
+{
+    if (self.fetchedResultsController.fetchedObjects.count > 0)
+    {
+        for (BBMix *mix in self.fetchedResultsController.fetchedObjects)
+        {
+            mix.playbackDate = nil;
+        }
+        
+        [BBModelManager saveContext:self.fetchedResultsController.managedObjectContext withCompletionBlock:nil];
+    }
 }
 
 #pragma mark - View

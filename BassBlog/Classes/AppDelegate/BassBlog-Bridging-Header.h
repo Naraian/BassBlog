@@ -9,6 +9,7 @@
 #import "NSObject+Notification.h"
 #import "BBAudioManager.h"
 #import "BBThemeManager.h"
+#import "BBModelManager.h"
 #import "BBMix.h"
 #import "BBUIUtils.h"
 #import "BBCommonUtils.h"

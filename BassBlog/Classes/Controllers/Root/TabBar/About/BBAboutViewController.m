@@ -154,23 +154,7 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(BBAboutTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    cell.backgroundColor = [UIColor whiteColor];
-    
-    BOOL hideSeparator = YES;
-    
-    if (indexPath.section == BBAboutTableModelSectionSocial)
-    {
-        if (indexPath.row < BBAboutTableModelSocialSectionRowCount - 1)
-        {
-            hideSeparator = NO;
-        }
-    }
-    
-    if (hideSeparator)
-    {
-        cell.bottomSeparatorColor = nil;
-        cell.selectedBottomSeparatorColor = nil;
-    }
+    cell.backgroundColor = [UIColor whiteColor];    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

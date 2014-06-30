@@ -50,12 +50,10 @@ static NSString *const AVPlayerStatusKeyPath = @"status";
 
 SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
 
-- (id)init {
-    
-    self = [super init];
-    
-    if (self) {
-        
+- (id)init
+{
+    if (self = [super init])
+    {
         // Setup audio session to support background audio playback.
         
         AVAudioSession *audioSession = [AVAudioSession sharedInstance];
@@ -68,28 +66,29 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     return self;
 }
 
-- (void)dealloc {
-    
+- (void)dealloc
+{
     self.player = nil;
 }
 
 #pragma mark - Playback
 
-- (void)setMix:(BBMix *)mix paused:(BOOL)paused {
-    
+- (void)setMix:(BBMix *)mix paused:(BOOL)paused
+{
     self.mix = mix;
     
     self.paused = paused;
 }
 
-- (void)setMix:(BBMix *)mix {
-    
-    if (_mix == mix) {
+- (void)setMix:(BBMix *)mix
+{
+    if (_mix == mix)
+    {
         return;
     }
     
-    if (_mix) {
-        
+    if (_mix)
+    {
         [self postDidStopNotificationWithReason:BBAudioManagerWillChangeMix];
     }
     
@@ -98,8 +97,8 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     [self preloadMix];
 }
 
-- (void)preloadMix {
-    
+- (void)preloadMix
+{
     self.player = nil;
     
     NSURL *URL = [self.class URLForMix:self.mix];

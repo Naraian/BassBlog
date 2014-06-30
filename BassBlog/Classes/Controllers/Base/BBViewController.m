@@ -189,6 +189,35 @@
                                            action:selector];
 }
 
+- (UIBarButtonItem *)editButtonItem
+{
+    UIBarButtonItem *editButtonItem = [super editButtonItem];
+    [self.class applyDefaultAttributesToBarButtonItem:editButtonItem];
+    
+    return editButtonItem;
+}
+
+- (UIBarButtonItem *)barButtonItemWithTitle:(NSString *)title
+                                   selector:(SEL)selector
+{
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(title, nil)
+                                                              style:UIBarButtonItemStylePlain
+                                                             target:self
+                                                            action:selector];
+    
+    [self.class applyDefaultAttributesToBarButtonItem:item];
+    
+    return item;
+}
+
++ (void)applyDefaultAttributesToBarButtonItem:(UIBarButtonItem *)item
+{
+    NSDictionary *attributes = @{NSForegroundColorAttributeName :[UIColor whiteColor],
+                                 NSFontAttributeName            :[BBFont boldFontOfSize:14]};
+    
+    [item setTitleTextAttributes:attributes forState:UIControlStateNormal];
+}
+
 - (void)setTabBarItemTitle:(NSString *)title
                 imageNamed:(NSString *)imageName
                        tag:(NSInteger)tag

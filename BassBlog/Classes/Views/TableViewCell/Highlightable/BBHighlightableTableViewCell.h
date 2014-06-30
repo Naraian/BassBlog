@@ -15,8 +15,4 @@
 @property (strong, nonatomic) UIColor *selectedBackgroundColor;
 @property (strong, nonatomic) UIColor *highlightedBackgroundColor;
 
-@property (assign, nonatomic) UIEdgeInsets bottomSeparatorInset;
-@property (strong, nonatomic) UIColor *bottomSeparatorColor;
-@property (strong, nonatomic) UIColor *selectedBottomSeparatorColor;
-
 @end
