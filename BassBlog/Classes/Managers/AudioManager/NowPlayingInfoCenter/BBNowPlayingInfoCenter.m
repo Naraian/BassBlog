@@ -10,6 +10,7 @@
 
 #import <MediaPlayer/MPMediaItem.h>
 #import <MediaPlayer/MPNowPlayingInfoCenter.h>
+#import <UIImageView+AFNetworking.h>
 
 #import "BBMix.h"
 
@@ -24,49 +25,49 @@
 
 @implementation BBNowPlayingInfoCenter
 
-- (void)setMix:(BBMix *)mix {
-    
-    if (_mix == mix) {
+- (void)setMix:(BBMix *)mix
+{
+    if (_mix == mix)
+    {
         return;
     }
     
     _mix = mix;
     
-    _artwork = nil;
-    if (self.mix) {
-        
-#warning TODO: start artwork load here...
+    if (self.mix)
+    {
+        [self setImageWithURL:[NSURL URLWithString:self.mix.imageUrl] placeholderImage:[BBUIUtils defaultImage]];
     }
-    
-    [self setArtworkImage:[BBUIUtils defaultImage]];
 }
 
-- (void)setArtworkImage:(UIImage *)artworkImage {
-    
-    if (_artwork) {
-        return;
-    }
-    
+- (void)setImage:(UIImage *)image
+{
+    [self setArtworkImage:image];
+}
+
+- (void)setArtworkImage:(UIImage *)artworkImage
+{
     _artwork = [[MPMediaItemArtwork alloc] initWithImage:artworkImage];
     
     [self updateInfo];
 }
 
-- (NSDictionary *)nowPlayingInfo {
-    
+- (NSDictionary *)nowPlayingInfo
+{
     NSMutableDictionary *info = [NSMutableDictionary dictionary];
     
     info[MPMediaItemPropertyTitle] = self.mix.name;
     
-    if (self.artwork) {
+    if (self.artwork)
+    {
         info[MPMediaItemPropertyArtwork] = self.artwork;
     }
     
     return info;
 }
 
-- (void)updateInfo {
-    
+- (void)updateInfo
+{
     [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = [self nowPlayingInfo];
 }
 

@@ -12,7 +12,9 @@
 extern NSString *const BBAudioManagerDidStartPlayNotification;
 extern NSString *const BBAudioManagerDidChangeProgressNotification;
 extern NSString *const BBAudioManagerDidStopNotification;
+
 extern NSString *const BBAudioManagerDidChangeSpectrumData;
+extern NSString *const BBAudioManagerSpectrumDataKey;
 
 extern NSString *const BBAudioManagerStopReasonKey;
 
@@ -36,8 +38,6 @@ typedef NS_ENUM(NSInteger, BBAudioManagerStopReason) {
 @property (nonatomic, strong) BBMix *mix;
 @property (nonatomic, assign) float progress;
 @property (nonatomic, assign) BOOL paused;
-
-@property (atomic, strong) NSArray *spectrumData;
 
 - (void)updateSpectrumDataWithData:(NSArray *)data;
 

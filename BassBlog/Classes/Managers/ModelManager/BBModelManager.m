@@ -784,10 +784,6 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
 - (void)cleanup
 {
-    [self deleteEntitiesFetchedWithRequest:[BBTag withoutMixesFetchRequest]];
-    
-    [self deleteEntitiesFetchedWithRequest:[BBMix withoutTagsFetchRequest]];
-    
     [self deepSaveRootContext];
 }
 
@@ -956,24 +952,16 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
 - (NSManagedObjectContext *)tempContext
 {
-    NSLog(@"asking temp context");
     if (_tempContext == nil)
     {
         _tempContext = [self serviceContextWithTaskDescription:@"temp"];
     }
     
-    NSLog(@"returned temp context");
     return _tempContext;
 }
 
-static int si = 0;
-
 - (NSManagedObjectContext *)rootContext
 {
-    int i = si;
-    si++;
-    
-    NSLog(@"asking root context %i", i);
     if (!_rootContext && self.coordinator)
     {
         _rootContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
@@ -987,7 +975,6 @@ static int si = 0;
         }];
     }
     
-    NSLog(@"returned root context %i", i);
     return _rootContext;
 }
 

@@ -14,7 +14,7 @@
 const CGFloat kDefaultMinDbLevel = -40.f;
 const CGFloat kDefaultMinDbFS = -110.f;
 const CGFloat kDBLogFactor = 4.0f;
-const NSUInteger kMaxQueuedDataBlocks = 4;
+const NSUInteger kMaxQueuedDataBlocks = 2;
 
 @interface BBSpectrumAnalyzerView()
 
@@ -55,6 +55,7 @@ const NSUInteger kMaxQueuedDataBlocks = 4;
 - (void)commonInit
 {
     self.clearsContextBeforeDrawing = YES;
+    self.opaque = NO;
     
     self.spectrumData = [NSMutableArray arrayWithCapacity:kMaxQueuedDataBlocks];
     
@@ -69,19 +70,19 @@ const NSUInteger kMaxQueuedDataBlocks = 4;
 {
     @synchronized(self)
     {
+//        NSLog(@"%i", self.spectrumData.count);
+        
         if (self.spectrumData.count > kMaxQueuedDataBlocks)
         {
             [self.spectrumData removeObjectAtIndex:0];
         }
         
-        NSArray *spectrumData = [BBAudioManager defaultManager].spectrumData;
+        NSArray *spectrumData = [notification.userInfo objectForKey:BBAudioManagerSpectrumDataKey];
         if (spectrumData)
         {
             [self.spectrumData addObject:spectrumData];
         }
     }
-    
-    [self setNeedsDisplay];
 }
 
 - (void)drawRect:(CGRect)rect
@@ -99,6 +100,11 @@ const NSUInteger kMaxQueuedDataBlocks = 4;
         {
             currentSpectrumData = [[self.spectrumData objectAtIndex:0] copy];
         }
+        
+        if (self.spectrumData.count > 1)
+        {
+            [self.spectrumData removeObjectAtIndex:0];
+        }
     }
     
     int count = currentSpectrumData.count;
@@ -111,6 +117,25 @@ const NSUInteger kMaxQueuedDataBlocks = 4;
     
     CGFloat restSpace = maxWidth - (count * width + (count - 1) * offset);
     CGFloat x = restSpace/2.f;
+    
+    int blocksCount = maxHeight/width;
+    
+    if (blocksCount > 0)
+    {
+        CGFloat y = 0.f;
+        
+        CGFloat lineWidth = 1.f/UI_SCREEN_SCALE;
+        UIBezierPath *clipBezierPath = [UIBezierPath bezierPath];
+
+        for (int i = 1; i < blocksCount; i++)
+        {
+            [clipBezierPath appendPath:[UIBezierPath bezierPathWithRect:CGRectMake(0.f, y, maxWidth, width)]];
+            
+            y += width + lineWidth;
+        }
+     
+        [clipBezierPath addClip];
+    }
     
     UIBezierPath *barBackgroundPath = [UIBezierPath bezierPath];
     UIBezierPath *barFillPath = [UIBezierPath bezierPath];

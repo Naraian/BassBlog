@@ -6,7 +6,8 @@
 
 const int FFTHelperChannelsCount = 2;
 static const UInt32 FFTHelperInputBufferSize = 16384;
-static const UInt32 FFTHelperMaxInputSize = 1024;
+static const UInt32 FFTHelperMaxInputSize = 256; //8 frequencies
+static const UInt32 FFTHelperMaxBlocksBeforSkipping = 4;
 
 UInt32 NextPowerOfTwo(UInt32 x);
 
@@ -95,8 +96,6 @@ UInt32 NextPowerOfTwo(UInt32 x);
     UInt32 numSamples = MIN(audioBuffer0.mDataByteSize/sizeof(Float32), _numberOfSamples);
     numSamples = NextPowerOfTwo(numSamples);
     
-//    NSLog(@"numSamples: %i", numSamples);
-    
     if (!completion || !numSamples)
     {
         return;
@@ -128,9 +127,9 @@ UInt32 NextPowerOfTwo(UInt32 x);
             memcpy(channelInputs[i], audioBuffer.mData, sizeof(Float32) * numSamples);
         }
         
-        UInt32 steps = numSamples/FFTHelperMaxInputSize;
+        UInt32 dataBlocksCount = MIN(numSamples/FFTHelperMaxInputSize, FFTHelperMaxBlocksBeforSkipping);
         
-        for (int i = 0; i < steps; i++)
+        for (int i = 0; i < dataBlocksCount; i++)
         {
             UInt32 log2FFTSize = Log2Ceil(FFTHelperMaxInputSize);
 
@@ -145,38 +144,38 @@ UInt32 NextPowerOfTwo(UInt32 x);
             
             Float32* currentChannelInputs[maxChannels];
             
-            for (int i = 0; i < maxChannels; i++)
+            for (int channel = 0; channel < maxChannels; channel++)
             {
-                currentChannelInputs[i] = channelInputs[i] + dataOffset;
+                currentChannelInputs[channel] = channelInputs[channel] + dataOffset;
                 
-                vDSP_vmul(currentChannelInputs[i], 1, _windowBuffer, 1, currentChannelInputs[i], 1, FFTHelperMaxInputSize);
+                vDSP_vmul(currentChannelInputs[channel], 1, _windowBuffer, 1, currentChannelInputs[channel], 1, FFTHelperMaxInputSize);
                 
                 //Convert float array of reals samples to COMPLEX_SPLIT array A
-                vDSP_ctoz((COMPLEX*)currentChannelInputs[i], 2, &(_complexA[i]), 1, bins);
+                vDSP_ctoz((COMPLEX*)currentChannelInputs[channel], 2, &(_complexA[channel]), 1, bins);
 
                 //Perform FFT using fftSetup and A
                 //Results are returned in A
-                vDSP_fft_zrip(_fftSetup, &(_complexA[i]), 1, log2FFTSize, FFT_FORWARD);
+                vDSP_fft_zrip(_fftSetup, &(_complexA[channel]), 1, log2FFTSize, FFT_FORWARD);
 
                 // compute Z magnitude
-                vDSP_zvabs(&(_complexA[i]), 1, _tmpFFTData0[i], 1, bins);
-                vDSP_vsdiv(_tmpFFTData0[i], 1, &fBins, _tmpFFTData0[i], 1, bins);
+                vDSP_zvabs(&(_complexA[channel]), 1, _tmpFFTData0[channel], 1, bins);
+                vDSP_vsdiv(_tmpFFTData0[channel], 1, &fBins, _tmpFFTData0[channel], 1, bins);
 
-                //        vDSP_zvmags(&(fftHelperRef->complexA[i]), 1, fftHelperRef->tmpFFTData0[i], 1, bins);
+                //        vDSP_zvmags(&(fftHelperRef->complexA[channel]), 1, fftHelperRef->tmpFFTData0[channel], 1, bins);
 
                 // convert to Db
-                vDSP_vdbcon(_tmpFFTData0[i], 1, &one, _tmpFFTData0[i], 1, bins, 1);
+                vDSP_vdbcon(_tmpFFTData0[channel], 1, &one, _tmpFFTData0[channel], 1, bins, 1);
 
                 // db correction considering window
-    //            vDSP_vsadd(_tmpFFTData0[i], 1, &fGainOffset, _tmpFFTData0[i], 1, bins);
+                vDSP_vsadd(_tmpFFTData0[channel], 1, &fGainOffset, _tmpFFTData0[channel], 1, bins);
             }
 
             memcpy(_outFFTData, _tmpFFTData0[0], sizeof(Float32) * bins);
 
             // stereo analysis ; for this demo, we only support up to 2 channels
-            for (int i = 1; i < maxChannels; i++)
+            for (int channel = 1; channel < maxChannels; channel++)
             {
-                vDSP_vadd(_outFFTData, 1, _tmpFFTData0[i], 1, _tmpFFTData0[0], 1, bins);
+                vDSP_vadd(_outFFTData, 1, _tmpFFTData0[channel], 1, _tmpFFTData0[0], 1, bins);
             }
             
             Float32 div = maxChannels;
@@ -186,9 +185,9 @@ UInt32 NextPowerOfTwo(UInt32 x);
             
             NSMutableArray *spectrumData = [NSMutableArray new];
             
-            for (UInt32 i = 0; i < log2FFTSize; i++)
+            for (UInt32 spectrum = 0; spectrum < log2FFTSize; spectrum++)
             {
-                Float32 f = _outFFTData[i];
+                Float32 f = _outFFTData[spectrum];
                 
                 [spectrumData addObject:@(f)];
                 
@@ -200,9 +199,9 @@ UInt32 NextPowerOfTwo(UInt32 x);
             completion(spectrumData);
         }
         
-        for (int i = 0; i < maxChannels; i++)
+        for (int channel = 0; channel < maxChannels; channel++)
         {
-            free(channelInputs[i]);
+            free(channelInputs[channel]);
         }
         
         free(channelInputs);

@@ -29,7 +29,9 @@
 DEFINE_CONST_NSSTRING(BBAudioManagerDidStartPlayNotification);
 DEFINE_CONST_NSSTRING(BBAudioManagerDidChangeProgressNotification);
 DEFINE_CONST_NSSTRING(BBAudioManagerDidStopNotification);
+
 DEFINE_CONST_NSSTRING(BBAudioManagerDidChangeSpectrumData);
+DEFINE_CONST_NSSTRING(BBAudioManagerSpectrumDataKey);
 
 DEFINE_CONST_NSSTRING(BBAudioManagerStopReasonKey);
 
@@ -137,9 +139,9 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
                                               kMTAudioProcessingTapCreationFlag_PostEffects,
                                               &tap);
     
-    if(err) {
-        NSLog(@"Unable to create the Audio Processing Tap %ld", err);
-//        _onError([NSError errorWithDomain:NSOSStatusErrorDomain code:err userInfo:nil]);
+    if(err)
+    {
+        BB_ERR(@"Unable to create the Audio Processing Tap %d", err);
         return;
     }
     
@@ -152,14 +154,15 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     self.player.currentItem.audioMix = audioMix;
 }
 
-- (void)setPlayer:(AVPlayer *)player {
-    
-    if (_player == player) {
+- (void)setPlayer:(AVPlayer *)player
+{
+    if (_player == player)
+    {
         return;
     }
     
-    if (_player) {
-        
+    if (_player)
+    {
         [_player pause];
         [_player removeObserver:self forKeyPath:AVPlayerStatusKeyPath];
         [_player removeTimeObserver:self.playerTimeObserver];
@@ -169,7 +172,8 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     
     self.playerIsReady = NO;
     
-    if (self.player == nil) {
+    if (self.player == nil)
+    {
         return;
     }
     
@@ -191,47 +195,48 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     self.player.actionAtItemEnd = AVPlayerActionAtItemEndPause;
 }
 
-- (void)togglePlayPause {
- 
+- (void)togglePlayPause
+{
     self.paused = (self.paused == NO);
 }
 
-- (void)playNext {
-    
+- (void)playNext
+{
     [self setMix:[self.delegate nextMix] paused:NO];
 }
 
-- (void)playPrev {
-    
+- (void)playPrev
+{
     [self setMix:[self.delegate prevMix] paused:NO];
 }
 
-- (void)setPaused:(BOOL)paused {
-    
+- (void)setPaused:(BOOL)paused
+{
     _paused = paused;
     
-    if (self.playerIsReady == NO) {
+    if (self.playerIsReady == NO)
+    {
         return;
     }
     
-    if (_paused) {
-        
+    if (_paused)
+    {
         [self.player pause];
         
         [self postDidStopNotificationWithReason:BBAudioManagerPaused];
     }
-    else {
-        
+    else
+    {
         [self.player play];
         
         [self postNotificationWithName:BBAudioManagerDidStartPlayNotification];
     }
 }
 
-- (void)setProgress:(float)progress {
-    
-    if (self.playerIsReady) {
-    
+- (void)setProgress:(float)progress
+{
+    if (self.playerIsReady)
+    {
         CMTime timeToSeek = [self timeForProgress:progress];
         
         if (!CMTIME_IS_INDEFINITE(timeToSeek))
@@ -243,29 +248,33 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
 
 - (void)updateSpectrumDataWithData:(NSArray *)data
 {
-    self.spectrumData = data;
-    
     dispatch_async(dispatch_get_main_queue(), ^
     {
-        [[NSNotificationCenter defaultCenter] postNotificationWithName:BBAudioManagerDidChangeSpectrumData];
+        NSDictionary *userInfo = nil;
+        if (data)
+        {
+            userInfo = @{BBAudioManagerSpectrumDataKey : data};
+        }
+        
+        [[NSNotificationCenter defaultCenter] postNotificationWithName:BBAudioManagerDidChangeSpectrumData userInfo:userInfo];
     });
 }
 
-- (float)progress {
-    
-    if (self.playerIsReady == NO) {
-        
+- (float)progress
+{
+    if (self.playerIsReady == NO)
+    {
         return 0.f;
     }
     
     CMTime duration = [self duration];
     
-    if (CMTIME_IS_NUMERIC(duration)) {
-        
+    if (CMTIME_IS_NUMERIC(duration))
+    {
         CMTime currentTime = [self currentTime];
         
-        if (!CMTIME_IS_NUMERIC(currentTime)) {
-            
+        if (!CMTIME_IS_NUMERIC(currentTime))
+        {
             return [self.class adjustedProgress:currentTime.value / duration.value];
         }
     }
@@ -273,9 +282,10 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     return 0.f;
 }
 
-- (BBNowPlayingInfoCenter *)nowPlayingInfoCenter {
-    
-    if (_nowPlayingInfoCenter == nil) {
+- (BBNowPlayingInfoCenter *)nowPlayingInfoCenter
+{
+    if (_nowPlayingInfoCenter == nil)
+    {
         _nowPlayingInfoCenter = [BBNowPlayingInfoCenter new];
     }
     
@@ -284,46 +294,44 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
 
 #pragma mark - Time
 
-- (CMTime)duration {
-    
+- (CMTime)duration
+{
     return self.player.currentItem.duration;
 }
 
-- (CMTime)currentTime {
-    
+- (CMTime)currentTime
+{
     return self.player.currentItem.currentTime;
 }
 
-- (CMTime)currentTimeLeft {
-    
+- (CMTime)currentTimeLeft
+{
     return CMTimeSubtract(self.duration, self.currentTime);
 }
 
 #pragma mark - Notifications
 
-- (void)startObserveNotifications {
-    
-    [self addSelector:@selector(playerItemDidPlayToEndTimeNotification:)
-    forNotificationWithName:AVPlayerItemDidPlayToEndTimeNotification];
-    
-    [self addSelector:@selector(playerItemFailedToPlayToEndTimeNotification:)
-    forNotificationWithName:AVPlayerItemFailedToPlayToEndTimeNotification];
+- (void)startObserveNotifications
+{
+    [self addSelector:@selector(playerItemDidPlayToEndTimeNotification:) forNotificationWithName:AVPlayerItemDidPlayToEndTimeNotification];
+    [self addSelector:@selector(playerItemFailedToPlayToEndTimeNotification:) forNotificationWithName:AVPlayerItemFailedToPlayToEndTimeNotification];
 }
 
-- (void)playerItemDidPlayToEndTimeNotification:(NSNotification *)notification {
+- (void)playerItemDidPlayToEndTimeNotification:(NSNotification *)notification
+{
     
     [self postDidStopNotificationWithReason:BBAudioManagerDidPlayToEnd];
 }
 
-- (void)playerItemFailedToPlayToEndTimeNotification:(NSNotification *)notification {
- 
+- (void)playerItemFailedToPlayToEndTimeNotification:(NSNotification *)notification
+{
     BB_ERR(@"%@", notification.userInfo[AVPlayerItemFailedToPlayToEndTimeErrorKey]);
     
     [self postDidStopNotificationWithReason:BBAudioManagerFailedToPlayToEnd];
 }
 
-- (void)postDidStopNotificationWithReason:(BBAudioManagerStopReason)reason {
-    
+- (void)postDidStopNotificationWithReason:(BBAudioManagerStopReason)reason
+{
     _paused = YES;
     
     [self postNotificationWithName:BBAudioManagerDidStopNotification
@@ -332,14 +340,14 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
 
 #pragma mark - Utils
 
-- (CMTime)timeForProgress:(float)progress {
-    
-    if (self.player.currentItem) {
-        
+- (CMTime)timeForProgress:(float)progress
+{
+    if (self.player.currentItem)
+    {
         CMTime time = self.player.currentItem.duration;
         
-        if (CMTIME_IS_NUMERIC(time)) {
-            
+        if (CMTIME_IS_NUMERIC(time))
+        {
             return CMTimeMultiplyByFloat64(time, [self.class adjustedProgress:progress]);
         }
     }
@@ -348,33 +356,23 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
 }
 
 
-+ (float)adjustedProgress:(float)progress {
-    
-    if (progress < 0.f) {
-        
-        return 0.f;
-    }
-    
-    if (progress > 1.f) {
-        
-        return 1.f;
-    }
-    
-    return progress;
++ (float)adjustedProgress:(float)progress
+{
+    return MIN(MAX(0.f, progress), 1.f);
 }
 
-+ (NSDate *)dateFromTime:(CMTime)time {
-    
-    if (CMTIME_IS_NUMERIC(time)) {
-        
++ (NSDate *)dateFromTime:(CMTime)time
+{
+    if (CMTIME_IS_NUMERIC(time))
+    {
         return [NSDate dateWithTimeIntervalSince1970:CMTimeGetSeconds(time)];
     }
     
     return nil;
 }
 
-+ (NSURL *)URLForMix:(BBMix *)mix {
-    
++ (NSURL *)URLForMix:(BBMix *)mix
+{
     NSString *urlString = mix.localUrl ? mix.localUrl : mix.url;
     
     if (urlString.length == 0)
@@ -400,7 +398,6 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     }
     
     
-    
     switch (self.player.status)
     {
         case AVPlayerStatusUnknown:
@@ -409,8 +406,8 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
             BB_ERR(@"%@", self.player.error);
             
             [self postDidStopNotificationWithReason:BBAudioManagerFailedToPlayToEnd];
-        }
             break;
+        }
             
         case AVPlayerStatusReadyToPlay:
         {
@@ -433,7 +430,10 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
                 [self postNotificationWithName:BBAudioManagerDidStartPlayNotification];
             }
             
+            break;
         }
+            
+        default:
             break;
     }
 }
@@ -443,23 +443,23 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
 
 void init(MTAudioProcessingTapRef tap, void *clientInfo, void **tapStorageOut)
 {
-    NSLog(@"Initialising the Audio Tap Processor");
+    BB_INF(@"Initialising the Audio Tap Processor");
     *tapStorageOut = clientInfo;
 }
 
 void finalize(MTAudioProcessingTapRef tap)
 {
-    NSLog(@"Finalizing the Audio Tap Processor");
+    BB_INF(@"Finalizing the Audio Tap Processor");
 }
 
 void prepare(MTAudioProcessingTapRef tap, CMItemCount maxFrames, const AudioStreamBasicDescription *processingFormat)
 {
-    NSLog(@"Preparing the Audio Tap Processor");
+    BB_INF(@"Preparing the Audio Tap Processor");
 }
 
 void unprepare(MTAudioProcessingTapRef tap)
 {
-    NSLog(@"Unpreparing the Audio Tap Processor");
+    BB_INF(@"Unpreparing the Audio Tap Processor");
 }
 
 static FFTHelper *fftHelper = nil;
@@ -470,7 +470,10 @@ void process(MTAudioProcessingTapRef tap, CMItemCount numberFrames,
 {
     OSStatus err = MTAudioProcessingTapGetSourceAudio(tap, numberFrames, bufferListInOut,
                                                       flagsOut, NULL, numberFramesOut);
-    if (err) NSLog(@"Error from GetSourceAudio: %ld", err);
+    if (err)
+    {
+        BB_ERR(@"Error from GetSourceAudio: %d", err);
+    }
     
     
     if (!fftHelper)

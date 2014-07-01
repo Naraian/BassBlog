@@ -40,22 +40,6 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BassBlog/Classes/Managers/ModelManager/BBModelManager.m"
-            timestampString = "425862081.903839"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "787"
-            endingLineNumber = "787"
-            landmarkName = "-cleanup"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BassBlog/Classes/Managers/ModelManager/BBModelManager.m"
             timestampString = "425862086.829518"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
