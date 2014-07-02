@@ -89,6 +89,16 @@ UInt32 NextPowerOfTwo(UInt32 x);
     free(_outFFTData);
 }
 
+- (void)cleanupChannelInputs:(Float32 **)channelInputs ofSize:(UInt32)size
+{
+    for (int channel = 0; channel < size; channel++)
+    {
+        free(channelInputs[channel]);
+    }
+    
+    free(channelInputs);
+}
+
 - (void)performComputation:(AudioBufferList *)bufferListInOut completionHandler:(FFTHelperCompletionBlock)completion
 {
     AudioBuffer audioBuffer0 = bufferListInOut->mBuffers[0];
@@ -112,8 +122,18 @@ UInt32 NextPowerOfTwo(UInt32 x);
     for (int i = 0; i < maxChannels; i++)
     {
         channelInputs[i] = (Float32*)malloc(sizeof(Float32)*numSamples);
-        
+    }
+    
+    for (int i = 0; i < maxChannels; i++)
+    {
         AudioBuffer audioBuffer = bufferListInOut->mBuffers[i];
+        
+        if (!audioBuffer.mData)
+        {
+            [self cleanupChannelInputs:channelInputs ofSize:maxChannels];
+            return;
+        }
+        
         vDSP_vmul((Float32 *)audioBuffer.mData, 1, _windowBuffer, 1, channelInputs[i], 1, numSamples);
     }
     
@@ -124,6 +144,13 @@ UInt32 NextPowerOfTwo(UInt32 x);
             channelInputs[i] = (Float32*)malloc(sizeof(Float32)*numSamples);
             
             AudioBuffer audioBuffer = bufferListInOut->mBuffers[i];
+            
+            if (!audioBuffer.mData)
+            {
+                [self cleanupChannelInputs:channelInputs ofSize:maxChannels];
+                return;
+            }
+            
             memcpy(channelInputs[i], audioBuffer.mData, sizeof(Float32) * numSamples);
         }
         
@@ -199,12 +226,7 @@ UInt32 NextPowerOfTwo(UInt32 x);
             completion(spectrumData);
         }
         
-        for (int channel = 0; channel < maxChannels; channel++)
-        {
-            free(channelInputs[channel]);
-        }
-        
-        free(channelInputs);
+        [self cleanupChannelInputs:channelInputs ofSize:maxChannels];
     }];
 }
 @end

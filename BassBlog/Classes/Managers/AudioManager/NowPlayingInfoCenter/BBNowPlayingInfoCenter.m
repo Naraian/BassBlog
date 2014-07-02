@@ -40,6 +40,20 @@
     }
 }
 
+- (void)setPlaybackDuration:(NSTimeInterval)playbackDuration
+{
+    _playbackDuration = playbackDuration;
+    
+    [self updateInfo];
+}
+
+- (void)setElapsedTime:(NSTimeInterval)elapsedTime
+{
+    _elapsedTime = elapsedTime;
+    
+    [self updateInfo];
+}
+
 - (void)setImage:(UIImage *)image
 {
     [self setArtworkImage:image];
@@ -61,6 +75,9 @@
     if (self.artwork)
     {
         info[MPMediaItemPropertyArtwork] = self.artwork;
+        info[MPMediaItemPropertyPlaybackDuration] = @(self.playbackDuration);
+        info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = @(self.elapsedTime);
+        info[MPNowPlayingInfoPropertyPlaybackRate] = @(1.0);
     }
     
     return info;

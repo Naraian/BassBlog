@@ -13,3 +13,12 @@
 + (BOOL)isCMTimeNumberic:(CMTime)time;
 
 @end
+
+@interface BBRange : NSObject
+
++ (instancetype)rangeWithLocation:(NSTimeInterval)location length:(NSTimeInterval)length;
+
+@property (nonatomic) NSTimeInterval location;
+@property (nonatomic) NSTimeInterval length;
+
+@end

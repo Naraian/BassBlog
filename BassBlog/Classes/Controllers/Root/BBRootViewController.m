@@ -18,8 +18,6 @@
 #import "NSObject+Notification.h"
 #import "BBFont.h"
 
-#import "BassBlog-Swift.h"
-
 @class BBNowPlayingViewControllerSwift;
 
 static const NSTimeInterval kBBSlideAnimationInterval = 0.35;

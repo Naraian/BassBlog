@@ -20,6 +20,7 @@
 
 + (UIImage *)defaultImage;
 
-+ (NSString *)timeStringFromTime:(CMTime)time;
++ (NSString *)timeStringFromCMTime:(CMTime)time;
++ (NSString *)timeStringFromTime:(NSTimeInterval)time;
 
 @end

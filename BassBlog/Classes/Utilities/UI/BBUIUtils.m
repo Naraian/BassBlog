@@ -35,15 +35,25 @@
     return [UIImage imageNamed:@"default_image"];
 }
 
-+ (NSString *)timeStringFromTime:(CMTime)time
++ (NSString *)timeStringFromCMTime:(CMTime)time
 {
     NSUInteger dTotalSeconds = CMTimeGetSeconds(time);
     
-    if (!CMTIME_IS_NUMERIC(time))
+    if (!CMTIME_IS_VALID(time))
     {
         return nil;
     }
     
+    NSUInteger dHours = floor(dTotalSeconds / 3600);
+    NSUInteger dMinutes = floor(dTotalSeconds % 3600 / 60);
+    NSUInteger dSeconds = floor(dTotalSeconds % 3600 % 60);
+    
+    return [NSString stringWithFormat:@"%i:%02i:%02i",dHours, dMinutes, dSeconds];
+}
+
++ (NSString *)timeStringFromTime:(NSTimeInterval)time
+{
+    NSUInteger dTotalSeconds = time;    
     NSUInteger dHours = floor(dTotalSeconds / 3600);
     NSUInteger dMinutes = floor(dTotalSeconds % 3600 / 60);
     NSUInteger dSeconds = floor(dTotalSeconds % 3600 % 60);

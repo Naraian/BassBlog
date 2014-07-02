@@ -82,18 +82,28 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
             {
                 imageName = @"facebook";
             }
-            else if (indexPath.row == BBAboutTableModelSocialSectionRowFacebook)
+            else if (indexPath.row == BBAboutTableModelSocialSectionRowTwitter)
             {
                 imageName = @"twitter";
             }
-            else
+            else if (indexPath.row == BBAboutTableModelSocialSectionRowVkontakte)
             {
                 imageName = @"vk";
             }
             break;
+            
         case BBAboutTableModelSectionBassblog:
             imageName = @"website";
             break;
+            
+        case BBAboutTableModelSectionTellAFriend:
+            imageName = @"tell_a_friend";
+            break;
+            
+        case BBAboutTableModelSectionFeedback:
+            imageName = @"feedback";
+            break;
+            
         default:
             imageName = @"about";
             break;
@@ -146,7 +156,7 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BBAboutTableViewCell *cell = (BBAboutTableViewCell*)[super tableView:tableView cellForRowAtIndexPath:indexPath];
-    [cell.button setImage:[self.class imageForCellAtIndexPath:indexPath] forState:UIControlStateNormal];
+    cell.iconImageView.image = [self.class imageForCellAtIndexPath:indexPath];
     cell.label.text = [[self.class titleForCellAtIndexPath:indexPath] uppercaseString];
     
     return cell;
@@ -157,19 +167,43 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
     cell.backgroundColor = [UIColor whiteColor];    
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return [UIView new];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    return [UIView new];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     switch (section)
     {
         case BBAboutTableModelSectionSocial:
+            return RUNNING_ON_3_5_INCH ? 24.f : 36.f;
         case BBAboutTableModelSectionBassblog:
-            return 36.f;
+            return RUNNING_ON_3_5_INCH ? 18.f : 36.f;
             
         default:
             break;
     }
     
     return 18.f;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    switch (section)
+    {
+        case BBAboutTableModelSectionFeedback:
+            return 18.f;
+            
+        default:
+            break;
+    }
+    
+    return 0.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

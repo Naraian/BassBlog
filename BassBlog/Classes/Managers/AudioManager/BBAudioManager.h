@@ -12,6 +12,7 @@
 extern NSString *const BBAudioManagerDidStartPlayNotification;
 extern NSString *const BBAudioManagerDidChangeProgressNotification;
 extern NSString *const BBAudioManagerDidStopNotification;
+extern NSString *const BBAudioManagerDidChangeMixNotification;
 
 extern NSString *const BBAudioManagerDidChangeSpectrumData;
 extern NSString *const BBAudioManagerSpectrumDataKey;
@@ -49,9 +50,9 @@ typedef NS_ENUM(NSInteger, BBAudioManagerStopReason) {
 - (void)playNext;
 - (void)playPrev;
 
-- (CMTime)duration;
-- (CMTime)currentTime;
-- (CMTime)currentTimeLeft;
+- (NSTimeInterval)duration;
+- (NSTimeInterval)currentTime;
+- (NSTimeInterval)currentTimeLeft;
 
 - (CMTime)timeForProgress:(float)progress;
 

@@ -13,6 +13,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
     @IBOutlet var titleLabel : UILabel;
     @IBOutlet var tagsLabel : UILabel;
     
+    @IBOutlet var progressView : BBProgressView;
     @IBOutlet var slider : UISlider;
     @IBOutlet var currentTimeLabel : UILabel;
     @IBOutlet var remainingTimeLabel : UILabel;
@@ -52,101 +53,69 @@ class BBNowPlayingViewControllerSwift : BBViewController
     {
         self.addSelector("audioManagerDidStartPlayNotification", forNotificationWithName: BBAudioManagerDidStartPlayNotification);
         self.addSelector("audioManagerDidStopNotification:", forNotificationWithName: BBAudioManagerDidStopNotification);
+        self.addSelector("audioManagerDidChangeMixNotification", forNotificationWithName: BBAudioManagerDidChangeMixNotification);
     }
     
     func audioManagerDidStartPlayNotification()
     {
-//warning TOOD 15/05/2014
-    //    [self updateNowPlayingCellAndSelectRow:YES];
     }
     
     func audioManagerDidStopNotification(notification : NSNotification)
     {
-//warning TOOD 15/05/2014
-    //    BBAudioManagerStopReason reason =
-    //    [notification.userInfo[BBAudioManagerStopReasonKey] integerValue];
-    //
-    //    [self updateNowPlayingCellAndSelectRow:reason != BBAudioManagerWillChangeMix];
     }
     
-    func setImage(imageName : NSString, toImageView imageView : UIImageView)
+    func audioManagerDidChangeMixNotification()
     {
-        let tm = BBThemeManager.defaultManager();
-    
-        let imageName1 = "controls/" + imageName;
-    
-        imageView.image  = tm.imageNamed(imageName1);
-    //  [self.slider setMinimumTrackImage:[tm imageNamed:imageName] forState:UIControlStateNormal];
-    }
-    
-    func setImage(imageName : NSString, toButton button : UIButton)
-    {
-        let tm = BBThemeManager.defaultManager();
-        
-        let imageNameNormal = "controls/" + imageName;
-        let normalImage = tm.imageNamed(imageNameNormal);
-        
-        let imageNameHighlighted = imageNameNormal + "_pressed";
-        var highlightedImage = tm.imageNamed(imageNameHighlighted);
-        
-        if (imageName == "player_play")
-        {
-            let imageName2Normal = "controls/player_pause";
-            button.setImage(tm.imageNamed(imageName2Normal), forState: UIControlState.Selected);
-        
-            let imageName2Highlighted = imageName2Normal + "_pressed";
-            button.setImage(tm.imageNamed(imageName2Highlighted), forState: UIControlState.Selected | UIControlState.Highlighted);
-        }
-        else if (imageName == "add_to_favorites")
-        {
-            let selectedAddition = "_selected";
-            let imageName2 = imageName + selectedAddition;
-            
-            let selectedImage = tm.imageNamed(imageName2);
-            button.setImage(selectedImage, forState: UIControlState.Selected);
-            highlightedImage = selectedImage;
-        }
-        
-        button.setImage(normalImage, forState: UIControlState.Normal);
-        button.setImage(highlightedImage, forState: UIControlState.Highlighted);        
+        updateTrackInfo(true);
     }
     
     func customizeSlider()
     {
+        switch (BBThemeManager.defaultManager().theme)
+        {
+            default:
+                self.slider.minimumTrackTintColor = UIColor(HEX: 0xF45D5DFF);
+                self.slider.maximumTrackTintColor = UIColor(HEX: 0x666666FF);
+        }
+
         let tm = BBThemeManager.defaultManager();
         
-        let imageName1 = "other/slider_line_selected";
-        let imageName2 = "other/slider_line_not_selected";
-        let imageName3 = "other/slider_big_circle";
+        let thumbImageNormalName = "controls/slider";
+        let thumbImagePressedName = "controls/slider_pressed";
 
-        if let image1 = tm.imageNamed(imageName1)
+        if let image = tm.imageNamed(thumbImageNormalName)
         {
-            self.slider.setMinimumTrackImage(image1, forState: UIControlState.Normal);
+            self.slider.setThumbImage(image, forState: UIControlState.Normal);
         }
-        
-        if let image2 = tm.imageNamed(imageName2)
+
+        if let image = tm.imageNamed(thumbImagePressedName)
         {
-            self.slider.setMaximumTrackImage(image2, forState: UIControlState.Normal);
-        }
-        
-        if let image3 = tm.imageNamed(imageName3)
-        {
-            self.slider.setThumbImage(image3, forState: UIControlState.Normal);
+            self.slider.setThumbImage(image, forState: UIControlState.Highlighted);
         }
     }
     
     func customizeButtons()
     {
-        self.setImage("player_next_mix", toButton: self.nextButton);
-        self.setImage("player_previous_mix", toButton: self.prevButton);
-        self.setImage("player_play", toButton: self.playButton);
-        self.setImage("add_to_favorites", toButton: self.favoritesButton);
+        let tm = BBThemeManager.defaultManager();
+        
+        self.prevButton.setImage(tm.imageNamed("controls/player_previous_mix"), forState: UIControlState.Normal);
+        self.prevButton.setImage(tm.imageNamed("controls/player_previous_mix_pressed"), forState: UIControlState.Highlighted);
+        
+        self.nextButton.setImage(tm.imageNamed("controls/player_next_mix"), forState: UIControlState.Normal);
+        self.nextButton.setImage(tm.imageNamed("controls/player_next_mix_pressed"), forState: UIControlState.Highlighted);
+        
+        self.playButton.setImage(tm.imageNamed("controls/player_play"), forState: UIControlState.Normal);
+        self.playButton.setImage(tm.imageNamed("controls/player_play_pressed"), forState: UIControlState.Highlighted);
+        self.playButton.setImage(tm.imageNamed("controls/player_pause"), forState: UIControlState.Selected);
+        self.playButton.setImage(tm.imageNamed("controls/player_pause_pressed"), forState: UIControlState.Highlighted | UIControlState.Selected);
+        
+        self.favoritesButton.setImage(tm.imageNamed("controls/add_to_favorites"), forState: UIControlState.Normal);
+        self.favoritesButton.setImage(tm.imageNamed("controls/add_to_favorites_selected"), forState: UIControlState.Selected);
     }
 
     func playClick(sender : AnyObject)
     {
-    //  if ([BBAudioManager defaultManager].paused)
-        BBAudioManager.defaultManager().togglePlayPause();
+        BBAudioManager.defaultManager().paused = false;
     }
     
     func prevClick(sender : AnyObject)
@@ -161,59 +130,76 @@ class BBNowPlayingViewControllerSwift : BBViewController
     
     func favoritesClick(sender : AnyObject)
     {
-        let wasFavorited = BBAudioManager.defaultManager().mix.favorite;
+        let shouldFavorite = !BBAudioManager.defaultManager().mix.favorite;
 
-        self.favoritesButton.selected = wasFavorited;
+        self.favoritesButton.selected = shouldFavorite;
     
-        BBAudioManager.defaultManager().mix.favorite = !wasFavorited;
-    }
-    
-    func customizeTrackInfo()
-    {
-        let mix = BBAudioManager.defaultManager().mix;
-    
-        self.titleLabel.text = mix.name.uppercaseString;
-        self.tagsLabel.text = BBUIUtils.tagsStringForMix(mix);
-    
-        setArtworkImage(nil);
-    
-        updateTrackInfo();
-    }
-    
-    func setArtworkImage(var artworkImage : UIImage!)
-    {
-        if (!artworkImage)
-        {
-            artworkImage = BBUIUtils.defaultImage();
-        }
-    
-        self.artworkImageView.image = artworkImage;
+        BBAudioManager.defaultManager().mix.favorite = shouldFavorite;
     }
     
     func refreshTimerFired(aTimer : NSTimer)
     {
-        updateTrackInfo();
+        refreshTimeInfo();
     }
-    
-    func updateTrackInfo()
+
+    func refreshTimeInfo()
     {
         let audioManager = BBAudioManager.defaultManager();
-        
-        println(audioManager);
-    
+        let currentMix = audioManager.mix;
+
         self.currentTimeLabel.text = BBUIUtils.timeStringFromTime(audioManager.currentTime());
         self.remainingTimeLabel.text = BBUIUtils.timeStringFromTime(audioManager.currentTimeLeft());
         
-        let currentMix = audioManager.mix;
-        
-        self.artworkImageView.setImageWithURL(NSURL.URLWithString(currentMix.imageUrl), placeholderImage:BBUIUtils.defaultImage());
-        
-        println(audioManager!.progress);
-    
         if (self.slider)
         {
             self.slider.value = audioManager.progress;
         }
+
+        let trackDuration = audioManager.duration() as NSTimeInterval;
+        let timeRanges = audioManager.playerItem.loadedTimeRanges as NSValue[];
+        var scaledTimeRanges : Array = [];
+
+        for timeRangeValue in timeRanges
+        {
+            let timeRange = timeRangeValue.CMTimeRangeValue();
+
+            let startSeconds = CMTimeGetSeconds(timeRange.start) as NSTimeInterval;
+            let durationSeconds = CMTimeGetSeconds(timeRange.duration) as NSTimeInterval;
+
+            let start = startSeconds/trackDuration;
+            let duration = durationSeconds/trackDuration;
+
+            let bbRange = BBRange(location: start, length: duration);
+
+            scaledTimeRanges += bbRange;
+        }
+
+        self.progressView.progressRanges = scaledTimeRanges;
+    }
+    
+    func updateTrackInfo(animated : Bool)
+    {
+        UIView.transitionWithView(self.view, duration: animated ? 0.25 : 0.0, options: UIViewAnimationOptions.TransitionCrossDissolve, animations:
+        {
+            [weak self] in
+            
+            let audioManager = BBAudioManager.defaultManager();
+            let currentMix = audioManager.mix;
+        
+            self!.titleLabel.text = currentMix.name.uppercaseString;
+            self!.tagsLabel.text = BBUIUtils.tagsStringForMix(currentMix);
+            
+            self!.favoritesButton.selected = currentMix.favorite;
+        
+            self!.artworkImageView.setImageWithURL(NSURL.URLWithString(currentMix.imageUrl), placeholderImage:BBUIUtils.defaultImage());
+
+            self!.refreshTimeInfo();
+        },
+        completion:
+        {
+            (finished: Bool) in
+                
+        });
     }
     
     override func viewDidLoad()
@@ -241,7 +227,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
     {
         super.viewWillAppear(animated);
     
-        self.customizeTrackInfo();
+        self.updateTrackInfo(false);
     
         self.refreshTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "refreshTimerFired:", userInfo: nil, repeats: true);
     }
@@ -256,7 +242,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
     
     func showBackBarButtonItem()
     {
-        self.navigationItem.leftBarButtonItem =  self.barButtonItemWithImageName("back", selector: "backBarButtonItemPressed");
+        self.navigationItem.leftBarButtonItem = self.barButtonItemWithImageName("back", selector: "backBarButtonItemPressed");
     }
     
     func sliderTouchDown(sender : AnyObject)
@@ -294,7 +280,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
     {
         BBAudioManager.defaultManager().progress = slider.value;
     
-        self.updateTrackInfo();
+        self.refreshTimeInfo();
     }
     
     func backBarButtonItemPressed()

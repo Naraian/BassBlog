@@ -12,4 +12,7 @@
 
 @property (nonatomic, strong) BBMix *mix;
 
+@property (nonatomic, assign) NSTimeInterval playbackDuration;
+@property (nonatomic, assign) NSTimeInterval elapsedTime;
+
 @end

@@ -29,6 +29,7 @@
 DEFINE_CONST_NSSTRING(BBAudioManagerDidStartPlayNotification);
 DEFINE_CONST_NSSTRING(BBAudioManagerDidChangeProgressNotification);
 DEFINE_CONST_NSSTRING(BBAudioManagerDidStopNotification);
+DEFINE_CONST_NSSTRING(BBAudioManagerDidChangeMixNotification);
 
 DEFINE_CONST_NSSTRING(BBAudioManagerDidChangeSpectrumData);
 DEFINE_CONST_NSSTRING(BBAudioManagerSpectrumDataKey);
@@ -49,6 +50,8 @@ static NSString *const AVPlayerStatusKeyPath = @"status";
 @end
 
 @implementation BBAudioManager
+
+@dynamic progress;
 
 SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
 
@@ -96,6 +99,8 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     
     _mix = mix;
     
+    [self postNotificationWithName:BBAudioManagerDidChangeMixNotification];
+    
     [self preloadMix];
 }
 
@@ -141,7 +146,7 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     
     if(err)
     {
-        BB_ERR(@"Unable to create the Audio Processing Tap %d", err);
+        BB_ERR(@"Unable to create the Audio Processing Tap %d", (int)err);
         return;
     }
     
@@ -184,6 +189,7 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
                                               queue:NULL
                                          usingBlock:^(CMTime time)
     {
+        [weakSelf updateProgress];
         [weakSelf postNotificationWithName:BBAudioManagerDidChangeProgressNotification];
     }];
     
@@ -233,6 +239,11 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     }
 }
 
+- (void)updateProgress
+{
+    self.nowPlayingInfoCenter.elapsedTime = self.currentTime;
+}
+
 - (void)setProgress:(float)progress
 {
     if (self.playerIsReady)
@@ -267,15 +278,15 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
         return 0.f;
     }
     
-    CMTime duration = [self duration];
+    NSTimeInterval duration = self.duration;
     
-    if (CMTIME_IS_NUMERIC(duration))
+    if (duration > 0.0)
     {
-        CMTime currentTime = [self currentTime];
+        NSTimeInterval currentTime = self.currentTime;
         
-        if (!CMTIME_IS_NUMERIC(currentTime))
+        if (currentTime > 0.0)
         {
-            return [self.class adjustedProgress:currentTime.value / duration.value];
+            return [self.class adjustedProgress:currentTime/duration];
         }
     }
     
@@ -294,19 +305,31 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
 
 #pragma mark - Time
 
-- (CMTime)duration
+- (NSTimeInterval)duration
 {
-    return self.player.currentItem.duration;
+    CMTime duration = self.player.currentItem.duration;
+    if (CMTIME_IS_VALID(duration))
+    {
+        return CMTimeGetSeconds(duration);
+    }
+    
+    return 0.0;
 }
 
-- (CMTime)currentTime
+- (NSTimeInterval)currentTime
 {
-    return self.player.currentItem.currentTime;
+    CMTime currentTime = self.player.currentItem.currentTime;
+    if (CMTIME_IS_VALID(currentTime))
+    {
+        return CMTimeGetSeconds(currentTime);
+    }
+
+    return 0.f;
 }
 
-- (CMTime)currentTimeLeft
+- (NSTimeInterval)currentTimeLeft
 {
-    return CMTimeSubtract(self.duration, self.currentTime);
+    return MAX(0.0, self.duration - self.currentTime);
 }
 
 #pragma mark - Notifications
@@ -397,7 +420,6 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
         return;
     }
     
-    
     switch (self.player.status)
     {
         case AVPlayerStatusUnknown:
@@ -422,6 +444,8 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
                 AVAssetTrack *audioTrack = [asset tracksWithMediaType:AVMediaTypeAudio][0];
                 [self beginRecordingAudioFromTrack:audioTrack];
             }
+            
+            self.nowPlayingInfoCenter.playbackDuration = self.duration;
             
             if (self.paused == NO)
             {
@@ -472,9 +496,8 @@ void process(MTAudioProcessingTapRef tap, CMItemCount numberFrames,
                                                       flagsOut, NULL, numberFramesOut);
     if (err)
     {
-        BB_ERR(@"Error from GetSourceAudio: %d", err);
+        BB_ERR(@"Error from GetSourceAudio: %i", (int)err);
     }
-    
     
     if (!fftHelper)
     {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MediaPlayer
 
 @UIApplicationMain
 class BBAppDelegateSwift: UIResponder, UIApplicationDelegate
@@ -45,6 +46,36 @@ class BBAppDelegateSwift: UIResponder, UIApplicationDelegate
         
         BBAnalytics.startSession();
         
-        return true
+        application.beginReceivingRemoteControlEvents();
+        
+        return true;
+    }
+    
+    override func remoteControlReceivedWithEvent(event: UIEvent!)
+    {
+        super.remoteControlReceivedWithEvent(event);
+        
+        switch(event.subtype)
+        {
+            case .RemoteControlPlay:
+                BBAudioManager.defaultManager().paused = false;
+            
+            case .RemoteControlPause, .RemoteControlStop:
+                BBAudioManager.defaultManager().paused = true;
+            
+            case .RemoteControlTogglePlayPause:
+                BBAudioManager.defaultManager().togglePlayPause();
+            
+            case .RemoteControlNextTrack:
+                BBAudioManager.defaultManager().playNext();
+            
+            case .RemoteControlPreviousTrack:
+                BBAudioManager.defaultManager().playPrev();
+            
+            case .RemoteControlEndSeekingBackward, .RemoteControlEndSeekingForward: ()
+//                println(MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo);
+            
+            default: ()
+        }
     }
 }

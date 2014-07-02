@@ -16,3 +16,23 @@
 }
 
 @end
+
+@implementation BBRange
+
++ (instancetype)rangeWithLocation:(float)location length:(float)length
+{
+    BBRange *range = [self new];
+    range.location = location;
+    range.length = length;
+    
+    return range;
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"%@ {loc: %8.4f, length: %8.4f}", [super description], self.location, self.length];
+}
+
+@end
+
+

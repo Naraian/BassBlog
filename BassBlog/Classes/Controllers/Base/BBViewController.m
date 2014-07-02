@@ -61,70 +61,9 @@
     [self startObserveNotifications];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    
-    [super viewDidAppear:animated];
-    
-    [self startReceivingRemoteControlEvents];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    
-    [self endReceivingRemoteControlEvents];
-    
-    [super viewWillDisappear:animated];
-}
-
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
-}
-
-#pragma mark - Handling Remote Events
-
-- (BOOL)canBecomeFirstResponder {
-    
-    return YES;
-}
-
-- (void)startReceivingRemoteControlEvents {
-    
-    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-    
-    [self becomeFirstResponder];
-}
-
-- (void)endReceivingRemoteControlEvents {
-    
-    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
-    
-    [self resignFirstResponder];
-}
-
-- (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
-    
-    BBAudioManager *audioManager = [BBAudioManager defaultManager];
-    
-    if (receivedEvent.type == UIEventTypeRemoteControl) {
-        
-        switch (receivedEvent.subtype) {
-                
-            case UIEventSubtypeRemoteControlTogglePlayPause:
-                [audioManager togglePlayPause];
-                break;
-                
-            case UIEventSubtypeRemoteControlNextTrack:
-                [audioManager playNext];
-                break;
-                
-            case UIEventSubtypeRemoteControlPreviousTrack:
-                [audioManager playPrev];
-                break;
-                
-            default:
-                break;
-        }
-    }
 }
 
 #pragma mark - Notifications

@@ -37,8 +37,8 @@
     self.label.font = [BBFont boldFontLikeFont:self.label.font];
 }
 
-- (UILabel *)textLabel {
-    
+- (UILabel *)textLabel
+{    
     return self.label;
 }
 

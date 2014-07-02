@@ -43,8 +43,6 @@ static const NSUInteger kBBMixesStartFetchRequestLimit = 30;
 BBAudioManagerDelegate
 >
 {
-    NSMutableArray *_mixesArray;
-    
     UINib *_sectionHeaderNib;
 }
 
@@ -200,25 +198,21 @@ BBAudioManagerDelegate
 - (BBMix *)mixWithCurrentIndexOffset:(NSInteger)indexOffset
 {
     BBMix *currentMix = [BBAudioManager defaultManager].mix;
+
+    NSFetchedResultsController *fetchedResultsController = self.searchDisplayController.isActive ? self.searchFetchedResultsController : self.fetchedResultsController;
+
+    NSInteger currentMixIndex = [fetchedResultsController.fetchedObjects indexOfObject:currentMix];
     
-    NSInteger currentMixIndex = [_mixesArray indexOfObject:currentMix];
-    
-    if (currentMixIndex == NSNotFound) {
-        
+    if (currentMixIndex == NSNotFound)
+    {
         // Suppose user did change tag, when audio manager still playing mix from previous mixes fetch.
         
         currentMixIndex = 0;
     }
     
-    NSInteger mixIndex = currentMixIndex + indexOffset;
-    if (mixIndex < 0) {
-        mixIndex = 0;
-    }
-    else if (mixIndex >= _mixesArray.count) {
-        mixIndex = _mixesArray.count;
-    }
+    NSInteger newMixIndex = MAX(MIN(fetchedResultsController.fetchedObjects.count - 1, currentMixIndex + indexOffset), 0);
     
-    return [_mixesArray objectAtIndex:mixIndex];
+    return [fetchedResultsController.fetchedObjects objectAtIndex:newMixIndex];
 }
 
 - (NSDateFormatter *)detailTextDateFormatter {

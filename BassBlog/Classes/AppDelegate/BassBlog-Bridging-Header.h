@@ -10,6 +10,7 @@
 #import "BBAudioManager.h"
 #import "BBThemeManager.h"
 #import "BBModelManager.h"
+#import "BBProgressView.h"
 #import "BBMix.h"
 #import "BBUIUtils.h"
 #import "BBCommonUtils.h"

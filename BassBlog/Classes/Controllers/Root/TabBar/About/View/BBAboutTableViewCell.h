@@ -10,7 +10,7 @@
 
 @interface BBAboutTableViewCell : BBHighlightableTableViewCell
 
-@property (nonatomic, strong) IBOutlet UIButton *button;
+@property (nonatomic, strong) IBOutlet UIImageView *iconImageView;
 @property (nonatomic, strong) IBOutlet UILabel *label;
 
 @end

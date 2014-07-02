@@ -36,14 +36,13 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
 #pragma mark -
 
 @interface BBMix ()
-{
-    BOOL _favorite;
-}
 
 @property (nonatomic, strong) NSString *primitiveLocalUrl;
 
 @property (nonatomic, strong) NSDate *primitiveDate;
 @property (nonatomic, strong) NSDate *primitivePlaybackDate;
+
+@property (nonatomic, strong) NSNumber *primitiveFavorite;
 
 @property (nonatomic, strong) NSNumber *primitiveDaySectionIdentifier;
 @property (nonatomic, strong) NSNumber *primitiveMonthSectionIdentifier;
@@ -65,12 +64,10 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
 @dynamic date, primitiveDate;
 @dynamic tags;
 @dynamic bitrate;
-@dynamic localUrl;
-@dynamic favorite;
+@dynamic localUrl, primitiveLocalUrl;
+@dynamic favorite, primitiveFavorite;
 @dynamic tracklist;
 @dynamic playbackDate, primitivePlaybackDate;
-
-@dynamic primitiveLocalUrl;
 
 @dynamic daySectionIdentifier, primitiveDaySectionIdentifier;
 @dynamic monthSectionIdentifier, primitiveMonthSectionIdentifier;
@@ -100,7 +97,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
     
     [self willChangeValueForKey:BBMixFavoriteKey];
     
-    _favorite = favorite;
+    [self setPrimitiveFavorite:@(favorite)];
     
     [self didChangeValueForKey:BBMixFavoriteKey];
     
