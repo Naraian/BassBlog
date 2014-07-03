@@ -13,4 +13,8 @@
 @property (nonatomic, strong) UIColor *barBackgroundColor;
 @property (nonatomic, strong) UIColor *barFillColor;
 
+@property (nonatomic, assign) CGFloat columnMargin;
+@property (nonatomic, assign) CGFloat columnWidth;
+@property (nonatomic, assign) BOOL showsBlocks;
+
 @end

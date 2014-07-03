@@ -6,7 +6,7 @@
 
 const int FFTHelperChannelsCount = 2;
 static const UInt32 FFTHelperInputBufferSize = 16384;
-static const UInt32 FFTHelperMaxInputSize = 256; //8 frequencies
+static const UInt32 FFTHelperMaxInputSize = 128; //8 frequencies
 static const UInt32 FFTHelperMaxBlocksBeforSkipping = 4;
 
 UInt32 NextPowerOfTwo(UInt32 x);

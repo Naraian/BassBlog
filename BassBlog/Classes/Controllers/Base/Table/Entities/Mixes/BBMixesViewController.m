@@ -126,9 +126,10 @@ BBAudioManagerDelegate
     }
 }
 
-- (BBMixesTableSectionHeaderView *)sectionHeaderView {
-    
-    if (_sectionHeaderNib == nil) {
+- (BBMixesTableSectionHeaderView *)sectionHeaderView
+{
+    if (!_sectionHeaderNib)
+    {
         _sectionHeaderNib = [BBMixesTableSectionHeaderView nib];
     }
 
@@ -156,16 +157,16 @@ BBAudioManagerDelegate
 
 - (void)showNowPlayingBarButtonItem
 {
-    BBSpectrumAnalyzerView *spectrumAnalyzerView = [[BBSpectrumAnalyzerView alloc] initWithFrame:CGRectMake(0.f, 0.f, 32.f, 32.f)];
+    BBSpectrumAnalyzerView *spectrumAnalyzerView = [[BBSpectrumAnalyzerView alloc] initWithFrame:CGRectMake(0.f, 0.f, 40.f, 24.f)];
     spectrumAnalyzerView.backgroundColor = [UIColor clearColor];
-    spectrumAnalyzerView.barBackgroundColor = [UIColor colorWithWhite:1.f alpha:0.2f];
-    spectrumAnalyzerView.barFillColor = BBThemeManagerWinterOragneColor;
+    spectrumAnalyzerView.barBackgroundColor = [UIColor clearColor];
+    spectrumAnalyzerView.barFillColor = [UIColor colorWithHEX:0xD6D6D6FF];
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nowPlayingBarButtonItemPressed)];
     [spectrumAnalyzerView addGestureRecognizer:tapGestureRecognizer];
     
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:spectrumAnalyzerView];
-    item.width = 44.f;
+    item.width = 40.f;
     self.navigationItem.rightBarButtonItem = item;
     
 //    [self barButtonItemWithImageName:@"now_playing" selector:@selector(nowPlayingBarButtonItemPressed)];

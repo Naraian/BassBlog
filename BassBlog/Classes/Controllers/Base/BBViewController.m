@@ -114,7 +114,7 @@
     }
 
     NSDictionary *attributes = @{NSForegroundColorAttributeName:[UIColor whiteColor],
-                                 NSFontAttributeName:[BBFont boldFontOfSize:18]};
+                                 NSFontAttributeName:[BBFont boldFontOfSize:23]};
     
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
 }

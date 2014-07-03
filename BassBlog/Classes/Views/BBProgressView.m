@@ -25,14 +25,13 @@
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(context, kBBProgressViewLineWith);
-    CGFloat centerY = self.bounds.size.height/2.f;
+    CGFloat centerY = self.bounds.size.height/2.f + 0.5f;
     
     [BBThemeManagerSliderLineColor setStroke];
     CGContextBeginPath(context);
     CGContextMoveToPoint(context, 0.f, centerY);
     CGContextAddLineToPoint(context, self.bounds.size.width, centerY);
-    CGContextStrokePath(context);
-    CGContextClosePath(context);
+    CGContextStrokePath(context); //Stroking resets CGContextBeginPath
     
     [BBThemeManagerWinterOragneColor setStroke];
     CGContextBeginPath(context);
@@ -44,8 +43,7 @@
         CGContextAddLineToPoint(context, x, centerY);
     }
     
-    CGContextStrokePath(context);
-    CGContextClosePath(context);
+    CGContextStrokePath(context);  //Stroking resets CGContextBeginPath
 }
 
 @end

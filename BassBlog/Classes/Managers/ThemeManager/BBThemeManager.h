@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, BBTheme)
 };
 
 #define BBThemeManagerWinterOragneColor [UIColor colorWithHEX:0xF45D5DFF]
-#define BBThemeManagerSliderLineColor   [UIColor colorWithHEX:0x666666FF]
+#define BBThemeManagerSliderLineColor   [UIColor colorWithHEX:0xDFDFDFFF]
 
 extern NSString *const BBThemeManagerDidToggleThemeNotification;
 

@@ -54,6 +54,10 @@ const NSUInteger kMaxQueuedDataBlocks = 2;
 
 - (void)commonInit
 {
+    self.columnMargin = 1.f;
+    self.columnWidth = 4.f;
+    self.showsBlocks = NO;
+    
     self.clearsContextBeforeDrawing = YES;
     self.opaque = NO;
     
@@ -111,30 +115,39 @@ const NSUInteger kMaxQueuedDataBlocks = 2;
     CGFloat maxWidth = self.bounds.size.width;
     CGFloat maxHeight = self.bounds.size.height;
     
-    CGFloat offset = 1.f;
-    CGFloat width = (maxWidth - (count - 1) * offset) / count;
-    width = floorf(width);
+    CGFloat offset = self.columnMargin;
+    CGFloat width = self.columnWidth;
+    
+    if (width <= 0.f)
+    {
+        width = (maxWidth - (count - 1) * offset) / count;
+        width = floorf(width);
+    }
+    
     
     CGFloat restSpace = maxWidth - (count * width + (count - 1) * offset);
     CGFloat x = restSpace/2.f;
     
-    int blocksCount = maxHeight/width;
-    
-    if (blocksCount > 0)
+    if (self.showsBlocks)
     {
-        CGFloat y = 0.f;
+        int blocksCount = maxHeight/width;
         
-        CGFloat lineWidth = 1.f/UI_SCREEN_SCALE;
-        UIBezierPath *clipBezierPath = [UIBezierPath bezierPath];
-
-        for (int i = 1; i < blocksCount; i++)
+        if (blocksCount > 0)
         {
-            [clipBezierPath appendPath:[UIBezierPath bezierPathWithRect:CGRectMake(0.f, y, maxWidth, width)]];
+            CGFloat y = 0.f;
             
-            y += width + lineWidth;
+            CGFloat lineWidth = 1.f/UI_SCREEN_SCALE;
+            UIBezierPath *clipBezierPath = [UIBezierPath bezierPath];
+
+            for (int i = 1; i < blocksCount; i++)
+            {
+                [clipBezierPath appendPath:[UIBezierPath bezierPathWithRect:CGRectMake(0.f, y, maxWidth, width)]];
+                
+                y += width + lineWidth;
+            }
+         
+            [clipBezierPath addClip];
         }
-     
-        [clipBezierPath addClip];
     }
     
     UIBezierPath *barBackgroundPath = [UIBezierPath bezierPath];
