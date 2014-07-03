@@ -169,7 +169,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
                 {
                     selfVar.favoriteNotificationTopConstraint.constant = -selfVar.favoriteNotificationView.bounds.size.height;
                     
-                    UIView.animateWithDuration(0.25, delay: 1.0, options: UIViewAnimationOptions.LayoutSubviews, animations:
+                    UIView.animateWithDuration(0.25, delay: 2.0, options: UIViewAnimationOptions.LayoutSubviews, animations:
                     {
                         selfVar.view.layoutIfNeeded();
                     }, completion:nil);
