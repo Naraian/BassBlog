@@ -62,11 +62,6 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     if (self = [super init])
     {
         // Setup audio session to support background audio playback.
-        
-        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-        [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
-        [audioSession setActive:YES error:nil];
-                
         [self startObserveNotifications];
     }
     
@@ -76,6 +71,26 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
 - (void)dealloc
 {
     self.player = nil;
+}
+
+- (void)setupAudioSession
+{
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    
+    NSError *error = nil;
+    [audioSession setCategory:AVAudioSessionCategoryPlayback error:&error];
+    
+    if (error)
+    {
+        BB_ERR(@"error setting audioSession category: %@-%@", [error localizedDescription], [error localizedFailureReason]);
+    }
+    
+    [audioSession setActive:YES error:&error];
+    
+    if (error)
+    {
+        BB_ERR(@"error setting audioSession active: %@-%@", [error localizedDescription], [error localizedFailureReason]);
+    }
 }
 
 #pragma mark - Playback
@@ -126,6 +141,8 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     
     self.playerItem = [AVPlayerItem playerItemWithURL:URL];
     self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
+    
+    [self setupAudioSession];
 }
 
 - (void)beginRecordingAudioFromTrack:(AVAssetTrack *)audioTrack

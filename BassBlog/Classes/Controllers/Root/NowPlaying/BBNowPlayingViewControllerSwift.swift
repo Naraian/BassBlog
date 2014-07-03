@@ -18,6 +18,10 @@ class BBNowPlayingViewControllerSwift : BBViewController
     @IBOutlet var currentTimeLabel : UILabel;
     @IBOutlet var remainingTimeLabel : UILabel;
     
+    @IBOutlet var favoriteNotificationTopConstraint : NSLayoutConstraint;
+    @IBOutlet var favoriteNotificationView : UIView;
+    @IBOutlet var favoriteNotificationLabel : UILabel;
+    
     @IBOutlet var prevButton : UIButton;
     @IBOutlet var nextButton : UIButton;
     @IBOutlet var playButton : UIButton;
@@ -146,6 +150,32 @@ class BBNowPlayingViewControllerSwift : BBViewController
         self.favoritesButton.selected = shouldFavorite;
     
         BBAudioManager.defaultManager().mix.favorite = shouldFavorite;
+        
+        let selfVar = self;
+        
+        if (shouldFavorite)
+        {
+            selfVar.favoriteNotificationTopConstraint.constant = 0.0;
+            
+            UIView.animateWithDuration(0.25, animations:
+            {
+                selfVar.view.layoutIfNeeded();
+            },
+            completion:
+            {
+                (finished: Bool) in
+                
+                if (finished)
+                {
+                    selfVar.favoriteNotificationTopConstraint.constant = -selfVar.favoriteNotificationView.bounds.size.height;
+                    
+                    UIView.animateWithDuration(0.25, delay: 1.0, options: UIViewAnimationOptions.LayoutSubviews, animations:
+                    {
+                        selfVar.view.layoutIfNeeded();
+                    }, completion:nil);
+                }
+            });
+        }
     }
     
     func refreshTimerFired(aTimer : NSTimer)
@@ -182,10 +212,10 @@ class BBNowPlayingViewControllerSwift : BBViewController
         if (trackDuration > 0.0)
         {
             let timeRanges = audioManager.playerItem.loadedTimeRanges as NSValue[];
-            println("ranges \(timeRanges)");
+//            println("ranges \(timeRanges)");
             
-            let seekableTimeRanges = audioManager.playerItem.seekableTimeRanges as NSValue[];
-            println("seekableTimeRanges \(seekableTimeRanges)");
+//            let seekableTimeRanges = audioManager.playerItem.seekableTimeRanges as NSValue[];
+//            println("seekableTimeRanges \(seekableTimeRanges)");
             
             var scaledTimeRanges : BBRange[] = [];
 
@@ -229,7 +259,6 @@ class BBNowPlayingViewControllerSwift : BBViewController
         completion:
         {
             (finished: Bool) in
-                
         });
     }
     
@@ -248,10 +277,16 @@ class BBNowPlayingViewControllerSwift : BBViewController
                 
                 self.currentTimeLabel.textColor = UIColor.blackColor();
                 self.remainingTimeLabel.textColor = UIColor.blackColor();
+            
+                self.favoriteNotificationLabel.textColor = UIColor.whiteColor();
+                self.favoriteNotificationView.backgroundColor = UIColor(HEX: 0xF45D5DFF);
         }
     
         self.titleLabel.font = BBFont.boldFontLikeFont(self.titleLabel.font);
         self.tagsLabel.font = BBFont.fontLikeFont(self.tagsLabel.font);
+        
+        self.favoriteNotificationLabel.font = BBFont.boldFontLikeFont(self.favoriteNotificationLabel.font);
+        self.favoriteNotificationLabel.text = NSLocalizedString("Mix Added to Favorites", comment: "").uppercaseString;
     }
     
     override func viewWillAppear(animated : Bool)
