@@ -49,9 +49,6 @@
 #warning TODO: move to mixes controller...
 
 - (void)performFetch;
-- (void)showStubView;
-- (void)hideStubView;
-- (UIView *)stubView;
 
 #pragma mark - Model
 

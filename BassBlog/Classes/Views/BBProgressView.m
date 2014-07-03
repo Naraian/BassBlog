@@ -33,14 +33,15 @@
     CGContextAddLineToPoint(context, self.bounds.size.width, centerY);
     CGContextStrokePath(context); //Stroking resets CGContextBeginPath
     
-    [BBThemeManagerWinterOragneColor setStroke];
+    [BBThemeManagerWinterOrangeColor setStroke];
     CGContextBeginPath(context);
     for (BBRange *range in self.progressRanges)
     {
-        CGFloat x = (range.location + range.length) * self.bounds.size.width;
+        CGFloat x = range.location * self.bounds.size.width;
+        CGFloat width = range.length * self.bounds.size.width;
         
-        CGContextMoveToPoint(context, 0.f, centerY);
-        CGContextAddLineToPoint(context, x, centerY);
+        CGContextMoveToPoint(context, x, centerY);
+        CGContextAddLineToPoint(context, width, centerY);
     }
     
     CGContextStrokePath(context);  //Stroking resets CGContextBeginPath

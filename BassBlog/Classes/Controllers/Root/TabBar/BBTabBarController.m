@@ -50,9 +50,9 @@
     
     self.tabBar.barStyle = UIBarStyleDefault;
     self.tabBar.translucent = NO;
-    self.tabBar.tintColor = BBThemeManagerWinterOragneColor;
+    self.tabBar.tintColor = BBThemeManagerWinterOrangeColor;
     self.tabBar.barTintColor = [UIColor colorWithHEX:0xF7F7F7FF];
-    self.tabBar.selectedImageTintColor = BBThemeManagerWinterOragneColor;
+    self.tabBar.selectedImageTintColor = BBThemeManagerWinterOrangeColor;
 }
 
 - (void)setUserInteractionEnabled:(BOOL)enabled

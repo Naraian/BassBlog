@@ -17,6 +17,7 @@
 #import "BBMixesTableSectionHeaderView.h"
 
 #import "BBMixesSelectionOptions.h"
+#import "BBFont.h"
 
 #import "BBOperationManager.h"
 #import "BBAudioManager.h"
@@ -33,8 +34,6 @@
 #import "BBUIUtils.h"
 
 #import <UIImageView+AFNetworking.h>
-#import "BBSpectrumAnalyzerView.h"
-
 
 static const NSUInteger kBBMixesStartFetchRequestLimit = 30;
 
@@ -50,6 +49,10 @@ BBAudioManagerDelegate
 @property (nonatomic) NSDateFormatter *headerDateFormatter;
 
 @property (nonatomic) BBMixesTableFooterView *tableFooterView;
+
+@property (nonatomic, weak) IBOutlet UIView *emptyStateView;
+@property (nonatomic, weak) IBOutlet UILabel *emptyStateLabel;
+@property (nonatomic, weak) IBOutlet UIImageView *emptyStateImageView;
 
 @end
 
@@ -71,11 +74,48 @@ BBAudioManagerDelegate
 
 #pragma mark - View
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self updateEmptyStateVisibility];
+}
+
+- (void)contentDidChange
+{
+    [super contentDidChange];
+    
+    [self updateEmptyStateVisibility];
+}
+
 - (void)updateTheme
 {
     [super updateTheme];
     
     [self showNowPlayingBarButtonItem];
+    
+    BBThemeManager *themeManager = [BBThemeManager defaultManager];
+    
+    switch (themeManager.theme)
+    {
+        default:
+            self.emptyStateView.backgroundColor = [UIColor colorWithHEX:0xFBFBFBFF];
+            self.emptyStateLabel.textColor = [UIColor colorWithHEX:0x999999FF];
+            break;
+    }
+    
+    self.emptyStateLabel.font = [BBFont boldFontLikeFont:self.emptyStateLabel.font];
+    self.emptyStateLabel.text = [[self titleForEmptyState] uppercaseString];
+    
+    NSString *imageName = [self imageNameForEmptyState];
+    imageName = [@"table_view" stringByAppendingPathComponent:imageName];
+    self.emptyStateImageView.image = [themeManager imageNamed:imageName];
+}
+
+- (void)updateEmptyStateVisibility
+{
+    BOOL isEmpty = (self.fetchedResultsController.fetchedObjects.count == 0);
+    self.emptyStateView.hidden = !isEmpty;
 }
 
 - (void)configureCell:(BBMixesTableViewCell *)cell withEntity:(BBMix *)mix
@@ -86,8 +126,16 @@ BBAudioManagerDelegate
     cell.detailLabel.text = [self detailTextForMix:mix];
     [cell.image setImageWithURL:[NSURL URLWithString:mix.imageUrl] placeholderImage:[BBUIUtils defaultImage]];
     
-    cell.paused = mix == audioManager.mix ? audioManager.paused : YES;
+    cell.paused = (mix == audioManager.mix) ? audioManager.paused : YES;
     
+    BBMixesTableViewCellState mixCellState = mix.favorite ? BBMixesTableViewCellStateFavorite : BBMixesTableViewCellStateNormal;
+    
+    if (mix.isNew)
+    {
+        mixCellState = BBMixesTableViewCellStateNew;
+    }
+    
+    cell.mixState = mixCellState;
     cell.delegate = self;
 }
 
@@ -136,44 +184,28 @@ BBAudioManagerDelegate
     return [BBMixesTableSectionHeaderView instanceFromNib:_sectionHeaderNib];
 }
 
-- (void)showTableFooterView {
-    
+- (void)showTableFooterView
+{
     self.tableView.tableFooterView = self.tableFooterView;
 }
 
-- (void)hideTableFooterView {
-    
+- (void)hideTableFooterView
+{
     self.tableView.tableFooterView = nil;
 }
 
-- (BBMixesTableFooterView *)tableFooterView {
-    
-    if (_tableFooterView == nil) {
+- (BBMixesTableFooterView *)tableFooterView
+{
+    if (_tableFooterView == nil)
+    {
         _tableFooterView = [BBMixesTableFooterView instanceFromNib:nil];
     }
     
     return _tableFooterView;
 }
 
-- (void)showNowPlayingBarButtonItem
+- (void)setTitle:(NSString *)title
 {
-    BBSpectrumAnalyzerView *spectrumAnalyzerView = [[BBSpectrumAnalyzerView alloc] initWithFrame:CGRectMake(0.f, 0.f, 40.f, 24.f)];
-    spectrumAnalyzerView.backgroundColor = [UIColor clearColor];
-    spectrumAnalyzerView.barBackgroundColor = [UIColor clearColor];
-    spectrumAnalyzerView.barFillColor = [UIColor colorWithHEX:0xD6D6D6FF];
-    
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nowPlayingBarButtonItemPressed)];
-    [spectrumAnalyzerView addGestureRecognizer:tapGestureRecognizer];
-    
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:spectrumAnalyzerView];
-    item.width = 40.f;
-    self.navigationItem.rightBarButtonItem = item;
-    
-//    [self barButtonItemWithImageName:@"now_playing" selector:@selector(nowPlayingBarButtonItemPressed)];
-}
-
-- (void)setTitle:(NSString *)title {
-    
     NSString *tabBarItemTitle = self.tabBarItem.title;
     
     [super setTitle:title];
@@ -183,8 +215,8 @@ BBAudioManagerDelegate
 
 #pragma mark - Model
 
-- (void)modelManagerDidFinishSaveNotification {
-    
+- (void)modelManagerDidFinishSaveNotification
+{
     [super modelManagerDidFinishSaveNotification];
 }
 
@@ -216,10 +248,10 @@ BBAudioManagerDelegate
     return [fetchedResultsController.fetchedObjects objectAtIndex:newMixIndex];
 }
 
-- (NSDateFormatter *)detailTextDateFormatter {
-    
-    if (_detailTextDateFormatter == nil) {
-        
+- (NSDateFormatter *)detailTextDateFormatter
+{
+    if (_detailTextDateFormatter == nil)
+    {
         _detailTextDateFormatter = [NSDateFormatter new];
         [_detailTextDateFormatter setDateStyle:NSDateFormatterNoStyle];
         [_detailTextDateFormatter setTimeStyle:NSDateFormatterShortStyle];
@@ -250,46 +282,19 @@ BBAudioManagerDelegate
     return _headerDateFormatter;
 }
 
-- (NSInteger)sectionIDFromDate:(NSDate *)date components:(NSUInteger)components {
-    
-    NSAssert(date, @"%s date == nil", __FUNCTION__);
-    
-    NSInteger sectionID = 0;
-    
-    NSDateComponents *dateComponents =
-    [[NSCalendar currentCalendar] components:components fromDate:date];
-    
-    if (components & NSDayCalendarUnit) {
-        sectionID |= dateComponents.day;
-    }
-    
-    if (components & NSMonthCalendarUnit) {
-        sectionID |= dateComponents.month << 5; // 31 (11111)
-    }
-    
-    if (components & NSYearCalendarUnit) {
-        sectionID |= dateComponents.year << 9; // 12 (1100)
-    }
-    
-    return sectionID;
-}
-
 - (NSString *)sectionNameKeyPath
 {
+    if (_tableModelSectionRule == BBMixesTableModelSectionRuleNone)
+    {
+        return nil;
+    }
+    
     if (self.mixesSelectionOptions.sortKey == eMixPlaybackDateSortKey)
     {
         return (_tableModelSectionRule == BBMixesTableModelSectionRuleEachDay) ? BBMixPlaybackDaySectionIdentifierKey : BBMixPlaybackMonthSectionIdentifierKey;
     }
     
     return (_tableModelSectionRule == BBMixesTableModelSectionRuleEachDay) ? BBMixDaySectionIdentifierKey : BBMixMonthSectionIdentifierKey;
-}
-
-- (NSInteger)sectionIDForMix:(BBMix *)mix
-{
-    NSString *keyPath = [self sectionNameKeyPath];
-    NSNumber *sectionID = [mix valueForKey:keyPath];
-    
-    return [sectionID integerValue];
 }
 
 #pragma mark - Actions
@@ -299,31 +304,23 @@ BBAudioManagerDelegate
     [[BBAppDelegate rootViewController] toggleTagsVisibility];
 }
 
-- (void)nowPlayingBarButtonItemPressed {
-    
-    [[BBAppDelegate rootViewController] toggleNowPlayingVisibilityFromNavigationController:self.navigationController];
-}
-
 #pragma mark - Notifications
 
-- (void)startObserveNotifications {
-    
+- (void)startObserveNotifications
+{
     [super startObserveNotifications];
     
-    [self addSelector:@selector(audioManagerDidStartPlayNotification)
-    forNotificationWithName:BBAudioManagerDidStartPlayNotification];
-    
-    [self addSelector:@selector(audioManagerDidStopNotification:)
-    forNotificationWithName:BBAudioManagerDidStopNotification];
+    [self addSelector:@selector(audioManagerDidStartPlayNotification) forNotificationWithName:BBAudioManagerDidStartPlayNotification];
+    [self addSelector:@selector(audioManagerDidStopNotification:) forNotificationWithName:BBAudioManagerDidStopNotification];
 }
 
-- (void)audioManagerDidStartPlayNotification {
-    
+- (void)audioManagerDidStartPlayNotification
+{
     [self updateNowPlayingCellAndSelectRow:YES];
 }
 
-- (void)audioManagerDidStopNotification:(NSNotification *)notification{
-    
+- (void)audioManagerDidStopNotification:(NSNotification *)notification
+{
     BBAudioManagerStopReason reason = [notification.userInfo[BBAudioManagerStopReasonKey] integerValue];
     
     [self updateNowPlayingCellAndSelectRow:reason != BBAudioManagerWillChangeMix];
@@ -486,6 +483,16 @@ BBAudioManagerDelegate
     }
     
     return mix.date;
+}
+
+- (NSString *)titleForEmptyState
+{
+    return nil;
+}
+
+- (NSString *)imageNameForEmptyState
+{
+    return nil;
 }
 
 @end

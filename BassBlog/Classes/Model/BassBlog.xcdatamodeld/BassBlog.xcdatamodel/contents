@@ -8,6 +8,7 @@
         <attribute name="favorite" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="ID" attributeType="String" syncable="YES"/>
         <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isNew" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="localUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="monthSectionIdentifier" optional="YES" transient="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
@@ -26,7 +27,7 @@
     </entity>
     <elements>
         <element name="BBEntity" positionX="160" positionY="192" width="128" height="45"/>
-        <element name="BBMix" positionX="160" positionY="192" width="128" height="283"/>
+        <element name="BBMix" positionX="160" positionY="192" width="128" height="300"/>
         <element name="BBTag" positionX="160" positionY="192" width="128" height="90"/>
     </elements>
 </model>

@@ -15,7 +15,8 @@
 
 
 typedef NS_ENUM(NSInteger, BBMixesTableModelSectionRule)
-{    
+{
+    BBMixesTableModelSectionRuleNone = 0,
     BBMixesTableModelSectionRuleEachDay,
     BBMixesTableModelSectionRuleEachMonth
 };
@@ -33,6 +34,8 @@ typedef NS_ENUM(NSInteger, BBMixesTableModelSectionRule)
 @property (nonatomic, strong) NSMutableDictionary *detailTextsDictionary;
 @property (nonatomic, strong) NSMutableDictionary *headerTextsDictionary;
 
+- (void)updateEmptyStateVisibility;
+
 @end
 
 #pragma mark -
@@ -42,17 +45,13 @@ typedef NS_ENUM(NSInteger, BBMixesTableModelSectionRule)
 
 @interface BBMixesViewController (Protected)
 
-- (NSInteger)sectionIDForMix:(BBMix *)mix;
-
-- (BBMixesViewControllerModelLoadOperation *)modelLoadOperation;
-
 - (NSString *)detailTextForMix:(BBMix *)mix;
-
 - (NSString *)composeDetailTextForMix:(BBMix *)mix;
-
 - (NSString *)composeHeaderTextForMix:(BBMix *)mix;
 
 - (NSDate *)dateOfMix:(BBMix *)mix;
 
+- (NSString *)titleForEmptyState;
+- (NSString *)imageNameForEmptyState;
 
 @end

@@ -35,9 +35,7 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
     
     self.title = NSLocalizedString(@"MORE", @"");
     
-    [self setTabBarItemTitle:self.title
-                  imageNamed:@"more_tab"
-                         tag:4];
+    [self setTabBarItemImageNamed:@"more_tab" tag:4];
 }
 
 - (void)viewDidLoad
@@ -48,8 +46,16 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
     self.tableView.backgroundColor = [UIColor colorWithHEX:0xEFEFF4FF];
 }
 
-- (NSString *)cellNibNameAtIndexPath:(NSIndexPath *)indexPath {
+- (void)updateTheme
+{
+    [super updateTheme];
     
+    [self showNowPlayingBarButtonItem];
+}
+
+
+- (NSString *)cellNibNameAtIndexPath:(NSIndexPath *)indexPath
+{    
     return [BBAboutTableViewCell nibName];
 }
 

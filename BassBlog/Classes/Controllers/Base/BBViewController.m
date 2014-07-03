@@ -16,6 +16,7 @@
 #import "BBAppDelegate.h"
 
 #import "BBFont.h"
+#import "BBSpectrumAnalyzerView.h"
 
 #import "NSObject+Notification.h"
 #import "NSObject+Nib.h"
@@ -84,8 +85,8 @@
     
 }
 
-- (void)updateTheme {
-    
+- (void)updateTheme
+{
     BBThemeManager *themeManager = [BBThemeManager defaultManager];
     
     UIColor *color = nil;
@@ -162,9 +163,7 @@
     [item setTitleTextAttributes:attributes forState:UIControlStateNormal];
 }
 
-- (void)setTabBarItemTitle:(NSString *)title
-                imageNamed:(NSString *)imageName
-                       tag:(NSInteger)tag
+- (void)setTabBarItemImageNamed:(NSString *)imageName tag:(NSInteger)tag
 {
     BBThemeManager *themeManager = [BBThemeManager defaultManager];
     
@@ -174,21 +173,38 @@
     imageName = [imageName stringByAppendingString:@"_selected"];
     UIImage *selectedImage = [themeManager imageNamed:imageName];
     
-    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:title
+    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:nil
                                                     image:image
                                             selectedImage:selectedImage];
     self.tabBarItem.tag = tag;
-    
-    NSDictionary *attributes = @{NSFontAttributeName : [BBFont boldFontOfSize:9.f]};
-
-    [self.tabBarItem setTitleTextAttributes:attributes
-                                   forState:UIControlStateNormal];
+    self.tabBarItem.imageInsets = UIEdgeInsetsMake(6.f, 0.f, -6.f, 0.f);
 }
 
-- (void)startObserveNotifications {
+- (void)startObserveNotifications
+{
+    [self addSelector:@selector(themeManagerDidToggleThemeNotification:) forNotificationWithName:BBThemeManagerDidToggleThemeNotification];
+}
+
+- (void)showNowPlayingBarButtonItem
+{
+    BBSpectrumAnalyzerView *spectrumAnalyzerView = [[BBSpectrumAnalyzerView alloc] initWithFrame:CGRectMake(0.f, 0.f, 40.f, 24.f)];
+    spectrumAnalyzerView.backgroundColor = [UIColor clearColor];
+    spectrumAnalyzerView.barBackgroundColor = [UIColor colorWithHEX:0xFFFFFF11];
+    spectrumAnalyzerView.barFillColor = BBThemeManagerWinterOrangeColor;
     
-    [self addSelector:@selector(themeManagerDidToggleThemeNotification:)
-    forNotificationWithName:BBThemeManagerDidToggleThemeNotification];
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nowPlayingBarButtonItemPressed)];
+    [spectrumAnalyzerView addGestureRecognizer:tapGestureRecognizer];
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:spectrumAnalyzerView];
+    item.width = 40.f;
+    self.navigationItem.rightBarButtonItem = item;
+    
+    //    [self barButtonItemWithImageName:@"now_playing" selector:@selector(nowPlayingBarButtonItemPressed)];
+}
+
+- (void)nowPlayingBarButtonItemPressed
+{
+    [[BBAppDelegate rootViewController] toggleNowPlayingVisibilityFromNavigationController:self.navigationController];
 }
 
 @end

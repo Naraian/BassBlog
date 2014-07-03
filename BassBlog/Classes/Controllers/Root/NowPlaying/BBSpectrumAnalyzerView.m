@@ -15,6 +15,7 @@ const CGFloat kDefaultMinDbLevel = -40.f;
 const CGFloat kDefaultMinDbFS = -110.f;
 const CGFloat kDBLogFactor = 4.0f;
 const NSUInteger kMaxQueuedDataBlocks = 2;
+const NSInteger kFrameInterval = 3;
 
 @interface BBSpectrumAnalyzerView()
 
@@ -56,17 +57,17 @@ const NSUInteger kMaxQueuedDataBlocks = 2;
 {
     self.columnMargin = 1.f;
     self.columnWidth = 4.f;
-    self.showsBlocks = NO;
+    self.showsBlocks = YES;
     
     self.clearsContextBeforeDrawing = YES;
     self.opaque = NO;
     
     self.spectrumData = [NSMutableArray arrayWithCapacity:kMaxQueuedDataBlocks];
-    
+
     [self addSelector:@selector(audioManagerDidChangeSpectrumData:) forNotificationWithName:BBAudioManagerDidChangeSpectrumData];
     
     self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(setNeedsDisplay)];
-    self.displayLink.frameInterval = 2; //30FPS
+    self.displayLink.frameInterval = kFrameInterval;
     [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
 }
 
@@ -91,7 +92,7 @@ const NSUInteger kMaxQueuedDataBlocks = 2;
 
 - (void)drawRect:(CGRect)rect
 {
-//    static NSTimeInterval timeInterval0 = 0;
+//    static NSTimeInterval timeInterval0 = 0;
 //    NSTimeInterval timeInterval1 = [[NSDate date] timeIntervalSince1970];
 //    NSLog(@"FPS: %f", 1.f/(timeInterval1 - timeInterval0));
 //    timeInterval0 = timeInterval1;
@@ -111,7 +112,7 @@ const NSUInteger kMaxQueuedDataBlocks = 2;
         }
     }
     
-    int count = currentSpectrumData.count;
+    NSUInteger count = currentSpectrumData.count;
     CGFloat maxWidth = self.bounds.size.width;
     CGFloat maxHeight = self.bounds.size.height;
     
@@ -120,10 +121,12 @@ const NSUInteger kMaxQueuedDataBlocks = 2;
     
     if (width <= 0.f)
     {
-        width = (maxWidth - (count - 1) * offset) / count;
-        width = floorf(width);
+        if (count > 0)
+        {
+            width = (maxWidth - (count - 1) * offset) / count;
+            width = floorf(width);
+        }
     }
-    
     
     CGFloat restSpace = maxWidth - (count * width + (count - 1) * offset);
     CGFloat x = restSpace/2.f;
@@ -146,6 +149,7 @@ const NSUInteger kMaxQueuedDataBlocks = 2;
                 y += width + lineWidth;
             }
          
+            [clipBezierPath closePath];
             [clipBezierPath addClip];
         }
     }

@@ -55,7 +55,7 @@ static const NSTimeInterval kBBMixesRequestRepeatInterval = 60. * 5;
 
 static const NSTimeInterval kBBMainContextAutoSaveDelay = 30.;
 
-static const NSUInteger kBBMaxNumberOfUpdatedObjectsForAutoSave = 10;
+static const NSUInteger kBBMaxNumberOfUpdatedObjectsForAutoSave = 1;
 
 #pragma mark -
 
@@ -247,7 +247,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     
     if (NO == self.autoSaveInProgress)
     {
-        if ([self.rootContext updatedObjects].count > kBBMaxNumberOfUpdatedObjectsForAutoSave)
+        if ([self.rootContext updatedObjects].count >= kBBMaxNumberOfUpdatedObjectsForAutoSave)
         {
             [self mainContextAutoSave];
             return;
@@ -428,6 +428,9 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
 - (void)modelStateDiscoverCompletionBlock:(void(^)())completionBlock
 {
+#warning FIX
+#warning FIX
+#warning FIX
     [self.operationQueue addOperationWithBlock:^
     {
         NSFetchRequest *fetchRequest = [BBTag fetchRequest];
@@ -737,7 +740,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         {
             tag = [BBTag createInContext:context];
             tag.name = aName;
-            tag.mainTag = [aName isEqualToString:[BBTag allName]];
+            tag.mainTag = [aName isEqualToString:[BBTag allNameInternal]];
              
             [tagsDictionary setObject:tag forKey:aName];
         }

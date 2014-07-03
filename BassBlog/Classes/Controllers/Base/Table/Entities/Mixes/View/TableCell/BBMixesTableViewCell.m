@@ -12,6 +12,13 @@
 
 #import "BBFont.h"
 
+@interface BBMixesTableViewCell()
+
+@property (nonatomic, strong) IBOutlet UIImageView *infoImageView;
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint *infoImageViewWidthConstraint;
+
+@end
+
 
 @implementation BBMixesTableViewCell
 
@@ -43,14 +50,52 @@
     [self setPaused:YES];
 }
 
-- (UILabel *)textLabel {
-    
+- (UILabel *)textLabel
+{
     return self.label;
 }
 
-- (UILabel *)detailTextLabel {
-    
+- (UILabel *)detailTextLabel
+{
     return self.detailLabel;
+}
+
+- (void)setMixState:(BBMixesTableViewCellState)mixState
+{
+    _mixState = mixState;
+    
+    if (!self.infoImageView)
+    {
+        return;
+    }
+    
+    UIImage *image = nil;
+    NSString *imageName = nil;
+    
+    switch (mixState)
+    {
+        case BBMixesTableViewCellStateNew:
+            imageName = @"new_mix";
+            break;
+            
+        case BBMixesTableViewCellStateFavorite:
+            imageName = @"favorite";
+            break;
+            
+        default:
+            break;
+    }
+    
+    if (imageName)
+    {
+        BBThemeManager *themeManager = [BBThemeManager defaultManager];
+        
+        imageName = [@"table_view/cell" stringByAppendingPathComponent:imageName];
+        image = [themeManager imageNamed:imageName];
+    }
+    
+    self.infoImageView.image = image;
+    self.infoImageViewWidthConstraint.constant = image ? image.size.width + 4.f : 0.f;
 }
 
 #pragma mark - Actions

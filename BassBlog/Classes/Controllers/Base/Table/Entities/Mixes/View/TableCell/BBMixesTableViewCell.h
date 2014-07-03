@@ -11,6 +11,13 @@
 
 @protocol BBMixesTableViewCellDelegate;
 
+typedef NS_ENUM(NSInteger, BBMixesTableViewCellState)
+{
+    BBMixesTableViewCellStateNormal = 0,
+    BBMixesTableViewCellStateFavorite,
+    BBMixesTableViewCellStateNew
+};
+
 @interface BBMixesTableViewCell : BBHighlightableTableViewCell
 
 @property (nonatomic, strong) IBOutlet UIImageView *image;
@@ -20,6 +27,8 @@
 @property (nonatomic, weak) id<BBMixesTableViewCellDelegate> delegate;
 
 @property (nonatomic, assign) BOOL paused;
+
+@property (nonatomic, assign) BBMixesTableViewCellState mixState;
 
 @end
 

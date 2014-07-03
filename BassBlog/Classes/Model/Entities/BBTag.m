@@ -25,6 +25,11 @@
 
 + (NSString *)allName
 {
+    return @"ALL MIXES";
+}
+
++ (NSString *)allNameInternal
+{
     return @"drum and bass";
 }
 

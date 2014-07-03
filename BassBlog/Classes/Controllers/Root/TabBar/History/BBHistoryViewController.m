@@ -25,9 +25,7 @@
     
     self.title = NSLocalizedString(@"HISTORY", @"");
         
-    [self setTabBarItemTitle:self.title
-                  imageNamed:@"history_tab"
-                         tag:eListenedMixesCategory];
+    [self setTabBarItemImageNamed:@"history_tab" tag:eListenedMixesCategory];
     
     _tableModelSectionRule = BBMixesTableModelSectionRuleEachDay;
     
@@ -53,6 +51,8 @@
         
         [BBModelManager saveContext:self.fetchedResultsController.managedObjectContext withCompletionBlock:nil];
     }
+    
+    [self updateEmptyStateVisibility];
 }
 
 #pragma mark - View
@@ -71,6 +71,16 @@
     cell.paused = mix == audioManager.mix ? audioManager.paused : YES;
     
     cell.delegate = self;
+}
+
+- (NSString *)titleForEmptyState
+{
+    return NSLocalizedString(@"History is empty", nil);
+}
+
+- (NSString *)imageNameForEmptyState
+{
+    return @"no_history";
 }
 
 #pragma mark - Notifications

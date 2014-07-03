@@ -134,26 +134,12 @@ UInt32 NextPowerOfTwo(UInt32 x);
             return;
         }
         
-        vDSP_vmul((Float32 *)audioBuffer.mData, 1, _windowBuffer, 1, channelInputs[i], 1, numSamples);
+        memcpy(channelInputs[i], audioBuffer.mData, sizeof(Float32) * numSamples);
+//        vDSP_vmul((Float32 *)audioBuffer.mData, 1, _windowBuffer, 1, channelInputs[i], 1, numSamples);
     }
     
     [self.operationQueue addOperationWithBlock:^
     {
-        for (int i = 0; i < maxChannels; i++)
-        {
-            channelInputs[i] = (Float32*)malloc(sizeof(Float32)*numSamples);
-            
-            AudioBuffer audioBuffer = bufferListInOut->mBuffers[i];
-            
-            if (!audioBuffer.mData)
-            {
-                [self cleanupChannelInputs:channelInputs ofSize:maxChannels];
-                return;
-            }
-            
-            memcpy(channelInputs[i], audioBuffer.mData, sizeof(Float32) * numSamples);
-        }
-        
         UInt32 dataBlocksCount = MIN(numSamples/FFTHelperMaxInputSize, FFTHelperMaxBlocksBeforSkipping);
         
         for (int i = 0; i < dataBlocksCount; i++)
@@ -163,7 +149,6 @@ UInt32 NextPowerOfTwo(UInt32 x);
             UInt32 bins = FFTHelperMaxInputSize>>1;
 
             Float32 one = 1.f;
-            Float32 two= 2.f;
             Float32 fGainOffset = -3.2f;
             Float32 fBins = bins;
             
@@ -194,7 +179,7 @@ UInt32 NextPowerOfTwo(UInt32 x);
                 vDSP_vdbcon(_tmpFFTData0[channel], 1, &one, _tmpFFTData0[channel], 1, bins, 1);
 
                 // db correction considering window
-                vDSP_vsadd(_tmpFFTData0[channel], 1, &fGainOffset, _tmpFFTData0[channel], 1, bins);
+//                vDSP_vsadd(_tmpFFTData0[channel], 1, &fGainOffset, _tmpFFTData0[channel], 1, bins);
             }
 
             memcpy(_outFFTData, _tmpFFTData0[0], sizeof(Float32) * bins);

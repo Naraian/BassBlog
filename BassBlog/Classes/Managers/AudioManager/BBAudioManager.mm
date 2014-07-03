@@ -52,6 +52,7 @@ static NSString *const AVPlayerStatusKeyPath = @"status";
 
 @implementation BBAudioManager
 
+@synthesize paused = _paused;
 @dynamic progress;
 
 SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
@@ -79,11 +80,11 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
 
 #pragma mark - Playback
 
-- (void)setMix:(BBMix *)mix paused:(BOOL)paused
+- (void)setMix:(BBMix *)mix paused:(BOOL)aPaused
 {
     self.mix = mix;
     
-    self.paused = paused;
+    self.paused = aPaused;
 }
 
 - (void)setMix:(BBMix *)mix
@@ -217,6 +218,11 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     [self setMix:[self.delegate prevMix] paused:NO];
 }
 
+- (BOOL)paused
+{
+    return (self.player.rate == 0.f);
+}
+
 - (void)setPaused:(BOOL)paused
 {
     _paused = paused;
@@ -332,6 +338,8 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
 - (void)playerItemDidPlayToEndTimeNotification:(NSNotification *)notification
 {
     [self postDidStopNotificationWithReason:BBAudioManagerDidPlayToEnd];
+    
+    [self playNext];
 }
 
 - (void)playerItemFailedToPlayToEndTimeNotification:(NSNotification *)notification
@@ -433,7 +441,7 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
             
             self.nowPlayingInfoCenter.playbackDuration = self.duration;
             
-            if (self.paused == NO)
+            if (_paused == NO)
             {
                 [self.player play];
                 

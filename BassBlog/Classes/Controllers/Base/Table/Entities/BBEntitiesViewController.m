@@ -160,21 +160,6 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
     [_activityView removeFromSuperview];
 }
 
-- (void)showStubView {
-    
-#warning TODO: implement...
-}
-
-- (void)hideStubView {
-    
-#warning TODO: implement...
-}
-
-- (UIView *)stubView {
-    
-    return nil;
-}
-
 #pragma mark - Model
 
 - (void)modelManagerDidFinishSaveNotification
@@ -217,15 +202,6 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 - (void)contentDidChange
 {
     [super contentDidChange];
-    
-    if ([self.tableView numberOfSections])
-    {
-        [self hideStubView];
-    }
-    else
-    {
-        [self showStubView];
-    }
     
     [self hideActivityView];
 }

@@ -36,9 +36,7 @@
     
     self.title = NSLocalizedString(@"ALL MIXES", @"");
     
-    [self setTabBarItemTitle:self.title
-                  imageNamed:@"mixes_tab"
-                         tag:eAllMixesCategory];
+    [self setTabBarItemImageNamed:@"mixes_tab" tag:eAllMixesCategory];
         
     _tableModelSectionRule = BBMixesTableModelSectionRuleEachMonth;
     

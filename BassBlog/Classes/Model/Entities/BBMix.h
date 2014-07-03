@@ -33,6 +33,7 @@ extern NSString *const BBMixPlaybackMonthSectionIdentifierKey;
 @property (nonatomic, strong) NSSet *tags;
 @property (nonatomic) int16_t bitrate;
 @property (nonatomic) BOOL favorite;
+@property (nonatomic) BOOL isNew;
 
 @property (nonatomic, readonly) int32_t daySectionIdentifier;
 @property (nonatomic, readonly) int32_t monthSectionIdentifier;

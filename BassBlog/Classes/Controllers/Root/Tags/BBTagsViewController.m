@@ -90,9 +90,17 @@ const NSInteger kBBAllTagTableModelRow = 0;
 
 - (void)configureCell:(BBTagsTableViewCell *)cell withEntity:(BBTag *)tag
 {
-    NSUInteger mixesCount = tag.mixes.count;
-    cell.label.text = tag.formattedName;
-    cell.detailLabel.text = [NSString stringWithFormat:@"%d", mixesCount];
+    if (tag.mainTag)
+    {
+        NSUInteger mixesCount = tag.mixes.count;
+        cell.label.text = [BBTag allName];
+        cell.detailLabel.text = [NSString stringWithFormat:@"%d", mixesCount];
+    }
+    else
+    {
+        cell.label.text = tag.formattedName;
+        cell.detailLabel.text = nil;
+    }
 }
 
 - (void)updateTheme

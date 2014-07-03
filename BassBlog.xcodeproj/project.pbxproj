@@ -22,7 +22,6 @@
 		08C04E921715F0C700726742 /* BBTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C04E901715F0C700726742 /* BBTableViewController.m */; };
 		08C1264D1763B1D500F444D1 /* BBEntitiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C1D1A11763510C00513530 /* BBEntitiesViewController.m */; };
 		08C1D1A21763510C00513530 /* BBMixesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C1D19E1763510C00513530 /* BBMixesViewController.m */; };
-		08C1D1A41763510C00513530 /* BBMixesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08C1D19F1763510C00513530 /* BBMixesViewController.xib */; };
 		08C4375E175E4A2600929669 /* BBAllMixesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C43748175E4A2600929669 /* BBAllMixesViewController.m */; };
 		08C43760175E4A2600929669 /* BBTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C4374A175E4A2600929669 /* BBTabBarController.m */; };
 		08C43762175E4A2600929669 /* BBFavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C4374D175E4A2600929669 /* BBFavoritesViewController.m */; };
@@ -132,7 +131,6 @@
 		08C126481763A2FC00F444D1 /* BBDownloadedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBDownloadedViewController.m; sourceTree = "<group>"; };
 		08C1D19D1763510C00513530 /* BBMixesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMixesViewController.h; sourceTree = "<group>"; };
 		08C1D19E1763510C00513530 /* BBMixesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMixesViewController.m; sourceTree = "<group>"; };
-		08C1D19F1763510C00513530 /* BBMixesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BBMixesViewController.xib; sourceTree = "<group>"; };
 		08C1D1A01763510C00513530 /* BBEntitiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBEntitiesViewController.h; sourceTree = "<group>"; };
 		08C1D1A11763510C00513530 /* BBEntitiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBEntitiesViewController.m; sourceTree = "<group>"; };
 		08C43747175E4A2600929669 /* BBAllMixesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAllMixesViewController.h; sourceTree = "<group>"; };
@@ -419,7 +417,6 @@
 			children = (
 				08C1D19D1763510C00513530 /* BBMixesViewController.h */,
 				08C1D19E1763510C00513530 /* BBMixesViewController.m */,
-				08C1D19F1763510C00513530 /* BBMixesViewController.xib */,
 				08D08ED117D251ED00E462EC /* Model */,
 				08BFAE8E176E231E0041E8B1 /* View */,
 			);
@@ -1118,7 +1115,6 @@
 				C19BAF1418BEAD2C00F3BAE8 /* default_image.png in Resources */,
 				080463D517147E26009EBD9C /* Default.png in Resources */,
 				080463D617147E26009EBD9C /* Default@2x.png in Resources */,
-				08C1D1A41763510C00513530 /* BBMixesViewController.xib in Resources */,
 				08D69800176F6B6900941621 /* BBMixesTableSectionHeaderView.xib in Resources */,
 				9ADC7BF71960BAED0028576B /* iTunesArtwork in Resources */,
 				9A57211E18FF1F8300169E6A /* Main.storyboard in Resources */,

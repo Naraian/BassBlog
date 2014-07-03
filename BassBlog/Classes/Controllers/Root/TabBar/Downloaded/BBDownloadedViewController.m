@@ -17,9 +17,7 @@
     
     self.title = NSLocalizedString(@"DOWNLOADED", @"");
         
-    [self setTabBarItemTitle:self.title
-                       image:[UIImage imageNamed:@"downloads_icon"]
-                         tag:eDownloadedMixesCategory];
+    [self setTabBarItemImageNamed:@"downloads_icon" tag:eDownloadedMixesCategory];
         
     mixesSelectionOptions.category = eDownloadedMixesCategory;
 }

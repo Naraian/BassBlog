@@ -24,6 +24,8 @@
 
 #pragma mark View
 
+- (void)showNowPlayingBarButtonItem;
+
 - (UIBarButtonItem *)barButtonItemWithImageName:(NSString *)imageName
                                        selector:(SEL)selector;
 
@@ -32,9 +34,7 @@
 
 - (void)updateTheme;
 
-- (void)setTabBarItemTitle:(NSString *)title
-                imageNamed:(NSString *)imageName
-                       tag:(NSInteger)tag;
+- (void)setTabBarItemImageNamed:(NSString *)imageName tag:(NSInteger)tag;
 
 #pragma mark - Model
 

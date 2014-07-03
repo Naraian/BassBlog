@@ -25,13 +25,12 @@
     
     self.title = NSLocalizedString(@"FAVORITES", @"");
         
-    [self setTabBarItemTitle:self.title
-                  imageNamed:@"favorites_tab"
-                         tag:eFavoriteMixesCategory];
+    [self setTabBarItemImageNamed:@"favorites_tab" tag:eFavoriteMixesCategory];
     
     [self showLeftBarButtonItem];
     
     _mixesSelectionOptions.category = eFavoriteMixesCategory;
+    _tableModelSectionRule = BBMixesTableModelSectionRuleNone;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -65,7 +64,6 @@
     return [BBFavoritesTableViewCell nibName];
 }
 
-
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return YES;
@@ -85,7 +83,7 @@
         BBMix *mix = [self entityAtIndexPath:indexPath inTableView:tableView];
         mix.favorite = NO;
         
-        [BBModelManager saveContext:mix.managedObjectContext withCompletionBlock:nil];
+        [self updateEmptyStateVisibility];
         
         if (resetEditing)
         {
@@ -94,11 +92,14 @@
     }
 }
 
-#pragma mark - Notifications
-
-- (void)startObserveNotifications
+- (NSString *)titleForEmptyState
 {
-    [super startObserveNotifications];
+    return NSLocalizedString(@"No favorites", nil);
+}
+
+- (NSString *)imageNameForEmptyState
+{
+    return @"no_favorites";
 }
 
 @end

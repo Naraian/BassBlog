@@ -74,7 +74,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
         switch (BBThemeManager.defaultManager().theme)
         {
             default:
-                self.slider.minimumTrackTintColor = UIColor(HEX: 0xF45D5DFF);
+                self.slider.minimumTrackTintColor = UIColor.clearColor();//UIColor(HEX: 0xF45D5DFF);
                 self.slider.maximumTrackTintColor = UIColor.clearColor();
         }
 
@@ -126,7 +126,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
 
     func playClick(sender : AnyObject)
     {
-        BBAudioManager.defaultManager().paused = false;
+        BBAudioManager.defaultManager().togglePlayPause();
     }
     
     func prevClick(sender : AnyObject)
@@ -152,14 +152,25 @@ class BBNowPlayingViewControllerSwift : BBViewController
     {
         refreshTimeInfo();
     }
+    
+    func refreshMainTimeInfo()
+    {
+        let audioManager = BBAudioManager.defaultManager();
+        let currentMix = audioManager.mix;
+        
+        self.playButton.selected = !audioManager.paused;
+        
+        self.currentTimeLabel.text = BBUIUtils.timeStringFromTime(audioManager.currentTime());
+    }
 
     func refreshTimeInfo()
     {
         let audioManager = BBAudioManager.defaultManager();
         let currentMix = audioManager.mix;
-
-        self.currentTimeLabel.text = BBUIUtils.timeStringFromTime(audioManager.currentTime());
-        self.remainingTimeLabel.text = BBUIUtils.timeStringFromTime(audioManager.currentTimeLeft());
+        
+        self.refreshMainTimeInfo();
+        
+        self.remainingTimeLabel.text = BBUIUtils.timeStringFromTime(audioManager.duration());
         
         if (self.slider)
         {
@@ -249,7 +260,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
     
         self.updateTrackInfo(false);
     
-        self.refreshTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "refreshTimerFired:", userInfo: nil, repeats: true);
+        self.refreshTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "refreshTimerFired:", userInfo: nil, repeats: true);
     }
     
     override func viewDidDisappear(animated : Bool)
@@ -300,7 +311,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
     {
         BBAudioManager.defaultManager().progress = slider.value;
     
-        self.refreshTimeInfo();
+        self.refreshMainTimeInfo();
     }
     
     func backBarButtonItemPressed()

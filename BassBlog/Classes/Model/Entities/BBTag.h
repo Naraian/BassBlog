@@ -20,5 +20,6 @@
 + (NSSet *)formalNamesOfTags:(NSSet *)tags;
 
 + (NSString *)allName;
++ (NSString *)allNameInternal;
 
 @end

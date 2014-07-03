@@ -66,6 +66,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
 @dynamic bitrate;
 @dynamic localUrl, primitiveLocalUrl;
 @dynamic favorite, primitiveFavorite;
+@dynamic isNew;
 @dynamic tracklist;
 @dynamic playbackDate, primitivePlaybackDate;
 
@@ -116,8 +117,13 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
     [self setPrimitiveMonthSectionIdentifier:nil];
 }
 
-- (void)setPlaybackDate:(NSDate *)playbackDate {
-    
+- (void)setPlaybackDate:(NSDate *)playbackDate
+{
+    if (playbackDate)
+    {
+        self.isNew = NO;
+    }
+
     [self willChangeValueForKey:BBMixPlaybackDateKey];
     
     [self setPrimitivePlaybackDate:playbackDate];
