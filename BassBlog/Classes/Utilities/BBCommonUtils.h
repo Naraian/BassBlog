@@ -11,6 +11,9 @@
 @interface BBCommonUtils : NSObject
 
 + (BOOL)isCMTimeNumberic:(CMTime)time;
++ (BOOL)isCMTimeValid:(CMTime)time;
+
++ (NSTimeInterval)secondsFromCMTime:(CMTime)time;
 
 @end
 

@@ -7,6 +7,7 @@
 //
 
 #import "BBCommonUtils.h"
+#import "BBThemeManager.h"
 #import "BBProgressView.h"
 
 @implementation BBProgressView
@@ -18,21 +19,33 @@
     [self setNeedsDisplay];
 }
 
+#define kBBProgressViewLineWith 2.f
+
 - (void)drawRect:(CGRect)rect
 {
-    UIBezierPath *path = [UIBezierPath bezierPath];
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(context, kBBProgressViewLineWith);
+    CGFloat centerY = self.bounds.size.height/2.f;
     
+    [BBThemeManagerSliderLineColor setStroke];
+    CGContextBeginPath(context);
+    CGContextMoveToPoint(context, 0.f, centerY);
+    CGContextAddLineToPoint(context, self.bounds.size.width, centerY);
+    CGContextStrokePath(context);
+    CGContextClosePath(context);
+    
+    [BBThemeManagerWinterOragneColor setStroke];
+    CGContextBeginPath(context);
     for (BBRange *range in self.progressRanges)
     {
-        CGFloat x = range.location * self.bounds.size.width;
-        CGFloat width = range.length * self.bounds.size.width;
-        CGRect pieceRect = CGRectMake(x, 0.f, width, self.bounds.size.height);
+        CGFloat x = (range.location + range.length) * self.bounds.size.width;
         
-        [path appendPath:[UIBezierPath bezierPathWithRect:pieceRect]];
+        CGContextMoveToPoint(context, 0.f, centerY);
+        CGContextAddLineToPoint(context, x, centerY);
     }
-
-    [[UIColor blackColor] setFill];
-    [path fill];
+    
+    CGContextStrokePath(context);
+    CGContextClosePath(context);
 }
 
 @end

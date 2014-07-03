@@ -15,6 +15,7 @@
 #import "BBMix.h"
 
 #import "BBMacros.h"
+#import "BBCommonUtils.h"
 
 #import "BBNowPlayingInfoCenter.h"
 
@@ -307,24 +308,12 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
 
 - (NSTimeInterval)duration
 {
-    CMTime duration = self.player.currentItem.duration;
-    if (CMTIME_IS_VALID(duration))
-    {
-        return CMTimeGetSeconds(duration);
-    }
-    
-    return 0.0;
+    return [BBCommonUtils secondsFromCMTime:self.player.currentItem.duration];
 }
 
 - (NSTimeInterval)currentTime
 {
-    CMTime currentTime = self.player.currentItem.currentTime;
-    if (CMTIME_IS_VALID(currentTime))
-    {
-        return CMTimeGetSeconds(currentTime);
-    }
-
-    return 0.f;
+    return [BBCommonUtils secondsFromCMTime:self.player.currentItem.currentTime];
 }
 
 - (NSTimeInterval)currentTimeLeft
@@ -342,7 +331,6 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
 
 - (void)playerItemDidPlayToEndTimeNotification:(NSNotification *)notification
 {
-    
     [self postDidStopNotificationWithReason:BBAudioManagerDidPlayToEnd];
 }
 
@@ -434,8 +422,6 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
         case AVPlayerStatusReadyToPlay:
         {
             self.playerIsReady = YES;
-            
-#warning TODO: start play on correct manualy estimated buffering stage...
             
             AVURLAsset *asset = (AVURLAsset *)self.playerItem.asset;
             

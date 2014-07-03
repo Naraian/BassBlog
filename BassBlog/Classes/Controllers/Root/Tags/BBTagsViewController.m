@@ -166,6 +166,11 @@ const NSInteger kBBAllTagTableModelRow = 0;
 
 #pragma mark - UITableViewDelegate
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44.f;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BBTag *tag = (BBTag *)[self entityAtIndexPath:indexPath inTableView:tableView];

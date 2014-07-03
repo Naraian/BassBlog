@@ -153,6 +153,11 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
     return title;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44.f;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BBAboutTableViewCell *cell = (BBAboutTableViewCell*)[super tableView:tableView cellForRowAtIndexPath:indexPath];

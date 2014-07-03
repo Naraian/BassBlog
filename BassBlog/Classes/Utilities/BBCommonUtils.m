@@ -15,11 +15,26 @@
     return CMTIME_IS_NUMERIC(time);
 }
 
++ (BOOL)isCMTimeValid:(CMTime)time
+{
+    return CMTIME_IS_VALID(time);
+}
+
++ (NSTimeInterval)secondsFromCMTime:(CMTime)time
+{
+    if ([self isCMTimeValid:time])
+    {
+        return CMTimeGetSeconds(time);
+    }
+    
+    return 0.0;
+}
+
 @end
 
 @implementation BBRange
 
-+ (instancetype)rangeWithLocation:(float)location length:(float)length
++ (instancetype)rangeWithLocation:(NSTimeInterval)location length:(NSTimeInterval)length
 {
     BBRange *range = [self new];
     range.location = location;

@@ -13,7 +13,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
     @IBOutlet var titleLabel : UILabel;
     @IBOutlet var tagsLabel : UILabel;
     
-    @IBOutlet var progressView : BBProgressView;
+    var progressView : BBProgressView!;
     @IBOutlet var slider : UISlider;
     @IBOutlet var currentTimeLabel : UILabel;
     @IBOutlet var remainingTimeLabel : UILabel;
@@ -75,7 +75,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
         {
             default:
                 self.slider.minimumTrackTintColor = UIColor(HEX: 0xF45D5DFF);
-                self.slider.maximumTrackTintColor = UIColor(HEX: 0x666666FF);
+                self.slider.maximumTrackTintColor = UIColor.clearColor();
         }
 
         let tm = BBThemeManager.defaultManager();
@@ -92,6 +92,17 @@ class BBNowPlayingViewControllerSwift : BBViewController
         {
             self.slider.setThumbImage(image, forState: UIControlState.Highlighted);
         }
+        
+        self.slider.setValue(1, animated: false);
+        self.slider.setValue(0, animated: false);
+        
+        self.progressView = BBProgressView(frame: CGRectInset(self.slider.bounds, 2, 0));
+        self.progressView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
+        self.progressView.userInteractionEnabled = false;
+        self.progressView.backgroundColor = UIColor.clearColor();
+        
+        let subviews = self.slider.subviews as NSArray;
+        self.slider.addSubview(self.progressView);
     }
     
     func customizeButtons()
@@ -156,25 +167,34 @@ class BBNowPlayingViewControllerSwift : BBViewController
         }
 
         let trackDuration = audioManager.duration() as NSTimeInterval;
-        let timeRanges = audioManager.playerItem.loadedTimeRanges as NSValue[];
-        var scaledTimeRanges : Array = [];
-
-        for timeRangeValue in timeRanges
+        
+        if (trackDuration > 0.0)
         {
-            let timeRange = timeRangeValue.CMTimeRangeValue();
+            let timeRanges = audioManager.playerItem.loadedTimeRanges as NSValue[];
+            println("ranges \(timeRanges)");
+            
+            let seekableTimeRanges = audioManager.playerItem.seekableTimeRanges as NSValue[];
+            println("seekableTimeRanges \(seekableTimeRanges)");
+            
+            var scaledTimeRanges : BBRange[] = [];
 
-            let startSeconds = CMTimeGetSeconds(timeRange.start) as NSTimeInterval;
-            let durationSeconds = CMTimeGetSeconds(timeRange.duration) as NSTimeInterval;
+            for timeRangeValue in timeRanges
+            {
+                let timeRange = timeRangeValue.CMTimeRangeValue();
 
-            let start = startSeconds/trackDuration;
-            let duration = durationSeconds/trackDuration;
+                let startSeconds = BBCommonUtils.secondsFromCMTime(timeRange.start);
+                let durationSeconds = BBCommonUtils.secondsFromCMTime(timeRange.duration);
 
-            let bbRange = BBRange(location: start, length: duration);
+                let start = startSeconds/trackDuration;
+                let duration = durationSeconds/trackDuration;
 
-            scaledTimeRanges += bbRange;
+                let bbRange = BBRange(location: start, length: duration);
+
+                scaledTimeRanges += bbRange;
+            }
+
+            self.progressView.progressRanges = scaledTimeRanges;
         }
-
-        self.progressView.progressRanges = scaledTimeRanges;
     }
     
     func updateTrackInfo(animated : Bool)

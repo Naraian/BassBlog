@@ -74,7 +74,7 @@ static const NSUInteger kBBMaxNumberOfUpdatedObjectsForAutoSave = 10;
 
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 
-@property (retain) GTLServiceTicket *blogListTicket;
+@property (atomic, retain) GTLServiceTicket *blogListTicket;
 
 TIME_PROFILER_PROPERTY_DECLARATION
 
@@ -886,7 +886,6 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
                 {
                     completionBlock(error == nil);
                 }
-
             }];
         }];
     });
@@ -1136,10 +1135,10 @@ static NSString *const BBManagedObjectContextDescriptionKey =
 {
     NSManagedObjectContext *context = notification.object;
     
-//    if (context != _rootContext)
-//    {
-//        return;
-//    }
+    if (context != _rootContext)
+    {
+        return;
+    }
     
     NSMutableString *dump = [NSMutableString string];
     
@@ -1178,9 +1177,10 @@ static NSString *const BBManagedObjectContextDescriptionKey =
         
         dispatch_async(dispatch_get_main_queue(), ^
         {
-            [_rootContext performBlockAndWait:^
+            [_rootContext performBlock:^
             {
                 [_rootContext mergeChangesFromContextDidSaveNotification:notification];
+                [self mainContextAutoSave];
             }];
         });
     }
