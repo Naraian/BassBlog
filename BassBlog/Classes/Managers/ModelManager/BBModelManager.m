@@ -29,7 +29,7 @@
 
 typedef NS_ENUM(NSUInteger, BBModelState) {
   
-    BBModelNotInitialzed,
+    BBModelNotInitialzed = 0,
     BBModelIsEmpty,
     BBModelIsPopulated
 };
@@ -86,9 +86,12 @@ TIME_PROFILER_PROPERTY_DECLARATION
 
 - (id)init
 {
-    self = [super init];
-    
-    [self startObserveNotifications];
+    if (self = [super init])
+    {
+        [self startObserveNotifications];
+        
+        [self determineModelState];
+    }
     
     return self;
 }
@@ -104,6 +107,22 @@ TIME_PROFILER_PROPERTY_DECLARATION
     return _operationQueue;
 }
 
+- (void)determineModelState
+{
+    NSFetchRequest *fetchRequest = [BBTag fetchRequest];
+    fetchRequest.fetchLimit = 1;
+    
+    NSUInteger tagsCount = [self countOfFetchedEntitiesWithRequest:fetchRequest
+                                                         inContext:[self currentThreadContext]];
+    
+    self.modelState = (tagsCount > 0) ? BBModelIsPopulated : BBModelIsEmpty;
+    
+    if (self.modelState == BBModelIsEmpty)
+    {
+        [self.class setNewestItemDate:nil];
+        [self.class setNextPageToken:nil];
+    }
+}
 
 SINGLETON_IMPLEMENTATION(BBModelManager, defaultManager)
 
@@ -395,15 +414,12 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         return;
     }
     
-    [self modelStateDiscoverCompletionBlock:^
+    if (self.modelState == BBModelIsPopulated)
     {
-        if (self.modelState == BBModelIsPopulated)
-        {
-            [self postNotificationWithName:BBModelManagerDidInitializeNotification];
-        }
-        
-        [self loadMixes];
-    }];
+        [self postNotificationWithName:BBModelManagerDidInitializeNotification];
+    }
+    
+    [self loadMixes];
 }
 
 - (BOOL)fetchDatabaseIfNecessary
@@ -424,34 +440,6 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     }
     
     return NO;
-}
-
-- (void)modelStateDiscoverCompletionBlock:(void(^)())completionBlock
-{
-#warning FIX
-#warning FIX
-#warning FIX
-    [self.operationQueue addOperationWithBlock:^
-    {
-        NSFetchRequest *fetchRequest = [BBTag fetchRequest];
-        fetchRequest.fetchLimit = 1;
-        
-        NSUInteger tagsCount = [self countOfFetchedEntitiesWithRequest:fetchRequest
-                                                             inContext:[self currentThreadContext]];
-        
-        self.modelState = (tagsCount > 0) ? BBModelIsPopulated : BBModelIsEmpty;
-        
-        if (self.modelState == BBModelIsEmpty)
-        {
-            [self.class setNewestItemDate:nil];
-            [self.class setNextPageToken:nil];
-        }
-        
-        if (completionBlock)
-        {
-            completionBlock();
-        }        
-    }];
 }
 
 - (GTLServiceBlogger *)bloggerService
