@@ -21,6 +21,8 @@
 #import "NSObject+Notification.h"
 #import "NSObject+Nib.h"
 
+static const CGFloat kBBViewControllerNowPlayingItemWidth = 34.f;
+static const CGFloat kBBViewControllerNowPlayingItemHeight = 24.f;
 
 @implementation BBViewController
 
@@ -115,7 +117,7 @@
     }
 
     NSDictionary *attributes = @{NSForegroundColorAttributeName:[UIColor whiteColor],
-                                 NSFontAttributeName:[BBFont boldFontOfSize:23]};
+                                 NSFontAttributeName:[BBFont boldFontOfSize:21]};
     
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
 }
@@ -134,14 +136,6 @@
                                            action:selector];
 }
 
-- (UIBarButtonItem *)editButtonItem
-{
-    UIBarButtonItem *editButtonItem = [super editButtonItem];
-    [self.class applyDefaultAttributesToBarButtonItem:editButtonItem];
-    
-    return editButtonItem;
-}
-
 - (UIBarButtonItem *)barButtonItemWithTitle:(NSString *)title
                                    selector:(SEL)selector
 {
@@ -150,17 +144,7 @@
                                                              target:self
                                                             action:selector];
     
-    [self.class applyDefaultAttributesToBarButtonItem:item];
-    
     return item;
-}
-
-+ (void)applyDefaultAttributesToBarButtonItem:(UIBarButtonItem *)item
-{
-    NSDictionary *attributes = @{NSForegroundColorAttributeName :[UIColor whiteColor],
-                                 NSFontAttributeName            :[BBFont boldFontOfSize:14]};
-    
-    [item setTitleTextAttributes:attributes forState:UIControlStateNormal];
 }
 
 - (void)setTabBarItemImageNamed:(NSString *)imageName tag:(NSInteger)tag
@@ -187,7 +171,8 @@
 
 - (void)showNowPlayingBarButtonItem
 {
-    BBSpectrumAnalyzerView *spectrumAnalyzerView = [[BBSpectrumAnalyzerView alloc] initWithFrame:CGRectMake(0.f, 0.f, 40.f, 24.f)];
+    BBSpectrumAnalyzerView *spectrumAnalyzerView = [[BBSpectrumAnalyzerView alloc] initWithFrame:CGRectMake(0.f, 0.f,
+                                                                                                            kBBViewControllerNowPlayingItemWidth, kBBViewControllerNowPlayingItemHeight)];
     spectrumAnalyzerView.backgroundColor = [UIColor clearColor];
     spectrumAnalyzerView.barBackgroundColor = [UIColor colorWithHEX:0xFFFFFF11];
     spectrumAnalyzerView.barFillColor = BBThemeManagerWinterOrangeColor;
@@ -196,7 +181,7 @@
     [spectrumAnalyzerView addGestureRecognizer:tapGestureRecognizer];
     
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:spectrumAnalyzerView];
-    item.width = 40.f;
+    item.width = kBBViewControllerNowPlayingItemWidth;
     self.navigationItem.rightBarButtonItem = item;
     
     //    [self barButtonItemWithImageName:@"now_playing" selector:@selector(nowPlayingBarButtonItemPressed)];

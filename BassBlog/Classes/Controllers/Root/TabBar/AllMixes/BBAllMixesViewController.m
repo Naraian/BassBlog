@@ -71,7 +71,9 @@
     
     [self showLeftBarButtonItem];
     
-    self.searchBar.backgroundImage = [UIImage new];
+    [self.searchBar setBackgroundImage:[UIColor imageWithColor:[UIColor colorWithHEX:0xD8D8D8FF] andSize:CGSizeMake(1.f, 1.f)]
+                        forBarPosition:UIBarPositionAny
+                            barMetrics:UIBarMetricsDefault];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -92,7 +94,14 @@
     
     if (hasMixes)
     {
-        self.title = self.mixesSelectionOptions.tag ? self.mixesSelectionOptions.tag.formattedName : [[BBTag allName] uppercaseString];
+        NSString *titleName = self.mixesSelectionOptions.tag.formattedName;
+        
+        if (!self.mixesSelectionOptions.tag || self.mixesSelectionOptions.tag.mainTag)
+        {
+            titleName = [BBTag allName];
+        }
+        
+        self.title = titleName;
     }
     else
     {

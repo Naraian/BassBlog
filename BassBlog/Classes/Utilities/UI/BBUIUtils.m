@@ -10,6 +10,7 @@
 
 #import "BBTag.h"
 #import "BBMix.h"
+#import "BBFont.h"
 
 @implementation BBUIUtils
 
@@ -58,8 +59,25 @@
     NSUInteger dMinutes = floor(dTotalSeconds % 3600 / 60);
     NSUInteger dSeconds = floor(dTotalSeconds % 3600 % 60);
     
-    return [NSString stringWithFormat:@"%i:%02i:%02i",dHours, dMinutes, dSeconds];
+    if (dHours == 0)
+    {
+        return [NSString stringWithFormat:@"%02i:%02i", dMinutes, dSeconds];
+    }
+    
+    return [NSString stringWithFormat:@"%02i:%02i:%02i", dHours, dMinutes, dSeconds];
 }
 
++ (void)customizeBackButton
+{
+    id appearance = [UIBarButtonItem appearance];
+    
+    NSDictionary *attributes = @{NSForegroundColorAttributeName :[UIColor colorWithHEX:0xBBBBBBFF],
+                                 NSFontAttributeName            :[BBFont boldFontOfSize:14]};
+    
+    [appearance setTitleTextAttributes:attributes forState:UIControlStateNormal];
+    [appearance setTitlePositionAdjustment:UIOffsetMake(6.f, 0.f) forBarMetrics:UIBarMetricsDefault];
+    
+//    [appearance setBackButtonTitlePositionAdjustment:UIOffsetMake(<#CGFloat horizontal#>, <#CGFloat vertical#>) forBarMetrics:<#(UIBarMetrics)#>
+}
 
 @end

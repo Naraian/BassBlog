@@ -13,7 +13,6 @@ class BBNowPlayingViewControllerSwift : BBViewController
     @IBOutlet var titleLabel : UILabel;
     @IBOutlet var tagsLabel : UILabel;
     
-    var progressView : BBProgressView!;
     @IBOutlet var slider : UISlider;
     @IBOutlet var currentTimeLabel : UILabel;
     @IBOutlet var remainingTimeLabel : UILabel;
@@ -48,7 +47,6 @@ class BBNowPlayingViewControllerSwift : BBViewController
     override func commonInit()
     {
         super.commonInit();
-        self.showBackBarButtonItem();
 
         self.title = "NOW PLAYING";
     }
@@ -78,35 +76,18 @@ class BBNowPlayingViewControllerSwift : BBViewController
         switch (BBThemeManager.defaultManager().theme)
         {
             default:
-                self.slider.minimumTrackTintColor = UIColor.clearColor();//UIColor(HEX: 0xF45D5DFF);
-                self.slider.maximumTrackTintColor = UIColor.clearColor();
+                self.slider.minimumTrackTintColor = UIColor(HEX: 0xF45D5DFF);
+                self.slider.maximumTrackTintColor = UIColor(HEX: 0xCCCCCCFF);
         }
 
         let tm = BBThemeManager.defaultManager();
         
         let thumbImageNormalName = "controls/slider";
-        let thumbImagePressedName = "controls/slider_pressed";
 
         if let image = tm.imageNamed(thumbImageNormalName)
         {
             self.slider.setThumbImage(image, forState: UIControlState.Normal);
         }
-
-        if let image = tm.imageNamed(thumbImagePressedName)
-        {
-            self.slider.setThumbImage(image, forState: UIControlState.Highlighted);
-        }
-        
-        self.slider.setValue(1, animated: false);
-        self.slider.setValue(0, animated: false);
-        
-        self.progressView = BBProgressView(frame: CGRectInset(self.slider.bounds, 2, 0));
-        self.progressView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
-        self.progressView.userInteractionEnabled = false;
-        self.progressView.backgroundColor = UIColor.clearColor();
-        
-        let subviews = self.slider.subviews as NSArray;
-        self.slider.addSubview(self.progressView);
     }
     
     func customizeButtons()
@@ -157,7 +138,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
         {
             selfVar.favoriteNotificationTopConstraint.constant = 0.0;
             
-            UIView.animateWithDuration(0.25, animations:
+            UIView.animateWithDuration(0.2, animations:
             {
                 selfVar.view.layoutIfNeeded();
             },
@@ -169,7 +150,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
                 {
                     selfVar.favoriteNotificationTopConstraint.constant = -selfVar.favoriteNotificationView.bounds.size.height;
                     
-                    UIView.animateWithDuration(0.25, delay: 2.0, options: UIViewAnimationOptions.LayoutSubviews, animations:
+                    UIView.animateWithDuration(0.2, delay: 1.0, options: UIViewAnimationOptions.LayoutSubviews, animations:
                     {
                         selfVar.view.layoutIfNeeded();
                     }, completion:nil);
@@ -205,36 +186,6 @@ class BBNowPlayingViewControllerSwift : BBViewController
         if (self.slider)
         {
             self.slider.value = audioManager.progress;
-        }
-
-        let trackDuration = audioManager.duration() as NSTimeInterval;
-        
-        if (trackDuration > 0.0)
-        {
-            let timeRanges = audioManager.playerItem.loadedTimeRanges as NSValue[];
-//            println("ranges \(timeRanges)");
-            
-//            let seekableTimeRanges = audioManager.playerItem.seekableTimeRanges as NSValue[];
-//            println("seekableTimeRanges \(seekableTimeRanges)");
-            
-            var scaledTimeRanges : BBRange[] = [];
-
-            for timeRangeValue in timeRanges
-            {
-                let timeRange = timeRangeValue.CMTimeRangeValue();
-
-                let startSeconds = BBCommonUtils.secondsFromCMTime(timeRange.start);
-                let durationSeconds = BBCommonUtils.secondsFromCMTime(timeRange.duration);
-
-                let start = startSeconds/trackDuration;
-                let duration = durationSeconds/trackDuration;
-
-                let bbRange = BBRange(location: start, length: duration);
-
-                scaledTimeRanges += bbRange;
-            }
-
-            self.progressView.progressRanges = scaledTimeRanges;
         }
     }
     
@@ -304,11 +255,6 @@ class BBNowPlayingViewControllerSwift : BBViewController
     
         self.refreshTimer.invalidate();
         self.refreshTimer = nil;
-    }
-    
-    func showBackBarButtonItem()
-    {
-        self.navigationItem.leftBarButtonItem = self.barButtonItemWithImageName("back", selector: "backBarButtonItemPressed");
     }
     
     func sliderTouchDown(sender : AnyObject)

@@ -8,6 +8,7 @@
 
 #import "BBAboutViewController.h"
 #import "BBAboutTableViewCell.h"
+#import "BBMixesTableSectionHeaderView.h"
 
 #import "BBThemeManager.h"
 
@@ -26,6 +27,12 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
     BBAboutTableModelSocialSectionRowVkontakte,
     BBAboutTableModelSocialSectionRowCount
 };
+
+@interface BBAboutViewController()
+
+@property (nonatomic, strong) UINib *sectionHeaderNib;
+
+@end
 
 @implementation BBAboutViewController
 
@@ -180,12 +187,22 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    return [UIView new];
+    if (!_sectionHeaderNib)
+    {
+        _sectionHeaderNib = [BBMixesTableSectionHeaderView nib];
+    }
+    
+    return [BBMixesTableSectionHeaderView instanceFromNib:_sectionHeaderNib];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    return [UIView new];
+    if (!_sectionHeaderNib)
+    {
+        _sectionHeaderNib = [BBMixesTableSectionHeaderView nib];
+    }
+    
+    return [BBMixesTableSectionHeaderView instanceFromNib:_sectionHeaderNib];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -208,7 +225,7 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
     switch (section)
     {
         case BBAboutTableModelSectionFeedback:
-            return 18.f;
+            return RUNNING_ON_3_5_INCH ? 18.f : 84.f;
             
         default:
             break;
@@ -227,11 +244,11 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
         case BBAboutTableModelSectionSocial:
             if (indexPath.row == BBAboutTableModelSocialSectionRowFacebook)
             {
-                urlString = @"http://www.facebook.com/dnb.mix.blog";
+                urlString = @"http://www.facebook.com/bass.blog";
             }
             else if (indexPath.row == BBAboutTableModelSocialSectionRowTwitter)
             {
-                urlString = @"https://twitter.com/bass_blog";
+                urlString = @"http://twitter.com/bass_blog";
             }
             else
             {
@@ -245,7 +262,7 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
             urlString = nil;
             break;
         case BBAboutTableModelSectionFeedback:
-            urlString = nil;
+            urlString = @"mailto:bassblo.pro@gmail.com";
             break;
         default:
             

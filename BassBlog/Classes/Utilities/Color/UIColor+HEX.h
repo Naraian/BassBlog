@@ -10,4 +10,16 @@
 
 + (UIColor *)colorWithHEX:(NSUInteger)hex;
 
++ (UIImage *)imageWithColor:(UIColor *)aColor andSize:(CGSize)aSize;
+
++ (UIImage *)imageWithColor:(UIColor *)aColor andSize:(CGSize)aSize
+                borderColor:(UIColor *)aBorderColor borderWidth:(CGFloat)aBorderWidth
+               borderRadius:(CGFloat)aRadius;
+
++ (UIImage *)imageWithColor:(UIColor *)aColor andSize:(CGSize)aSize
+                borderColor:(UIColor *)aBorderColor borderWidth:(CGFloat)aBorderWidth
+               borderRadius:(CGFloat)aRadius borderInset:(CGFloat)aBorderInset;
+
++ (UIImage *)imageWithBezierPath:(UIBezierPath *)aBezierPath color:(UIColor *)aColor andSize:(CGSize)aSize borderColor:(UIColor *)aBorderColor;
+
 @end
