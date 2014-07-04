@@ -408,12 +408,6 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
 - (void)refresh
 {
-    if (self.modelState != BBModelNotInitialzed)
-    {
-        [self loadMixes];
-        return;
-    }
-    
     if (self.modelState == BBModelIsPopulated)
     {
         [self postNotificationWithName:BBModelManagerDidInitializeNotification];
@@ -424,7 +418,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
 - (BOOL)fetchDatabaseIfNecessary
 {
-    if (self.modelState == BBModelNotInitialzed)
+    if (self.modelState == BBModelIsEmpty)
     {
         [self loadMixes];
         return YES;
