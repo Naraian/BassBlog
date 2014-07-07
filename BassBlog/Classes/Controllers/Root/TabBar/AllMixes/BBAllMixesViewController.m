@@ -151,11 +151,6 @@
     return [BBAllMixesTableViewCell nibName];
 }
 
-- (NSString *)composeDetailTextForMix:(BBMix *)mix
-{
-    return [BBUIUtils tagsStringForMix:mix];
-}
-
 - (void)contentDidChange
 {
     [super contentDidChange];

@@ -67,17 +67,26 @@
     return [NSString stringWithFormat:@"%02i:%02i:%02i", dHours, dMinutes, dSeconds];
 }
 
-+ (void)customizeBackButton
++ (void)customizeAppearance
 {
-    id appearance = [UIBarButtonItem appearance];
-    
+    [self customizeBarButtons];
+}
+
++ (void)customizeBarButtons
+{
     NSDictionary *attributes = @{NSForegroundColorAttributeName :[UIColor colorWithHEX:0xBBBBBBFF],
                                  NSFontAttributeName            :[BBFont boldFontOfSize:14]};
-    
+
+    id appearance = [UIBarButtonItem appearance];
     [appearance setTitleTextAttributes:attributes forState:UIControlStateNormal];
     [appearance setTitlePositionAdjustment:UIOffsetMake(6.f, 0.f) forBarMetrics:UIBarMetricsDefault];
-    
-//    [appearance setBackButtonTitlePositionAdjustment:UIOffsetMake(<#CGFloat horizontal#>, <#CGFloat vertical#>) forBarMetrics:<#(UIBarMetrics)#>
+
+    attributes = @{NSForegroundColorAttributeName :[UIColor colorWithHEX:0x222222FF],
+                   NSFontAttributeName            :[BBFont boldFontOfSize:18]};
+
+    id appearanceInSearchBar = [UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil];
+    [appearanceInSearchBar setTitleTextAttributes:attributes forState:UIControlStateNormal];
+    [appearanceInSearchBar setTitlePositionAdjustment:UIOffsetMake(0.f, 0.f) forBarMetrics:UIBarMetricsDefault];
 }
 
 @end

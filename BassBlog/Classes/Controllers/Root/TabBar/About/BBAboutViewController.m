@@ -60,7 +60,6 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
     [self showNowPlayingBarButtonItem];
 }
 
-
 - (NSString *)cellNibNameAtIndexPath:(NSIndexPath *)indexPath
 {    
     return [BBAboutTableViewCell nibName];
@@ -154,7 +153,7 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
             title = @"tell a friend";
             break;
         case BBAboutTableModelSectionFeedback:
-            title = @"leave feedback";
+            title = @"leave a feedback";
             break;
         default:
             

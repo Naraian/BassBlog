@@ -51,6 +51,13 @@ class BBNowPlayingViewControllerSwift : BBViewController
         self.title = "NOW PLAYING";
     }
     
+    override func updateTheme()
+    {
+        super.updateTheme();
+        
+        self.showNowPlayingBarButtonItem();
+    }
+    
     override func startObserveNotifications()
     {
         self.addSelector("audioManagerDidStartPlayNotification", forNotificationWithName: BBAudioManagerDidStartPlayNotification);

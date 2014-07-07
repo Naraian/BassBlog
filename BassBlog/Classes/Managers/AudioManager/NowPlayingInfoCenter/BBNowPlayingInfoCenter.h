@@ -8,7 +8,7 @@
 
 @class BBMix;
 
-@interface BBNowPlayingInfoCenter : UIImageView
+@interface BBNowPlayingInfoCenter : UIImageView //HACK
 
 @property (nonatomic, strong) BBMix *mix;
 

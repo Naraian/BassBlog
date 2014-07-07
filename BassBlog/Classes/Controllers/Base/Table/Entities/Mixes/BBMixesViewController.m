@@ -343,6 +343,11 @@ BBAudioManagerDelegate
     _mixesSelectionOptions.tag = tag;
     
     [self reloadModel];
+    
+    if (self.fetchedResultsController.fetchedObjects.count > 0)
+    {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    }
 }
 
 - (BBMixesSelectionOptions *)mixesSelectionOptions
@@ -468,7 +473,8 @@ BBAudioManagerDelegate
 
 - (NSString *)composeDetailTextForMix:(BBMix *)mix
 {
-    return [self.detailTextDateFormatter stringFromDate:[self dateOfMix:mix]];
+//    return [self.detailTextDateFormatter stringFromDate:[self dateOfMix:mix]];
+    return [BBUIUtils tagsStringForMix:mix];
 }
 
 - (NSString *)composeHeaderTextForMix:(BBMix *)mix

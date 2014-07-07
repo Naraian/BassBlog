@@ -64,13 +64,9 @@
 
 - (void)configureCell:(BBMixesTableViewCell *)cell withEntity:(BBMix *)mix
 {
-    BBAudioManager *audioManager = [BBAudioManager defaultManager];
-
+    [super configureCell:cell withEntity:mix];
+    
     cell.label.text = [NSString stringWithFormat:@"%@ [%@]", mix.name, [self detailTextForMix:mix]];
-    
-    cell.paused = mix == audioManager.mix ? audioManager.paused : YES;
-    
-    cell.delegate = self;
 }
 
 - (NSString *)titleForEmptyState

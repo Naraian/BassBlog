@@ -37,7 +37,7 @@ class BBAppDelegateSwift: UIResponder, UIApplicationDelegate
     
     func application(application: UIApplication!, didFinishLaunchingWithOptions launchOptions: NSDictionary!) -> Bool
     {
-        BBUIUtils.customizeBackButton();
+        BBUIUtils.customizeAppearance();
         
         BBModelManager.defaultManager().rootContext();
         

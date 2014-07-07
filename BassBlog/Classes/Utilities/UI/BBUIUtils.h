@@ -23,6 +23,6 @@
 + (NSString *)timeStringFromCMTime:(CMTime)time;
 + (NSString *)timeStringFromTime:(NSTimeInterval)time;
 
-+ (void)customizeBackButton;
++ (void)customizeAppearance;
 
 @end

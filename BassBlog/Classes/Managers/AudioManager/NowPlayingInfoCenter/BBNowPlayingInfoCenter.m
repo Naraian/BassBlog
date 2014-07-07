@@ -15,6 +15,8 @@
 #import "BBMix.h"
 
 #import "BBUIUtils.h"
+#import "UIImage+ImageEffects.h"
+#import "UIImage+ProportionalFill.h"
 
 
 @interface BBNowPlayingInfoCenter ()
@@ -62,7 +64,7 @@
 - (void)setArtworkImage:(UIImage *)artworkImage
 {
     _artwork = [[MPMediaItemArtwork alloc] initWithImage:artworkImage];
-    
+
     [self updateInfo];
 }
 
@@ -70,15 +72,15 @@
 {
     NSMutableDictionary *info = [NSMutableDictionary dictionary];
     
-    info[MPMediaItemPropertyTitle] = self.mix.name;
-    
     if (self.artwork)
     {
         info[MPMediaItemPropertyArtwork] = self.artwork;
-        info[MPMediaItemPropertyPlaybackDuration] = @(self.playbackDuration);
-        info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = @(self.elapsedTime);
-        info[MPNowPlayingInfoPropertyPlaybackRate] = @(1.0);
     }
+    
+    info[MPMediaItemPropertyTitle] = self.mix.name;
+    info[MPMediaItemPropertyPlaybackDuration] = @(self.playbackDuration);
+    info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = @(self.elapsedTime);
+    info[MPNowPlayingInfoPropertyPlaybackRate] = @(1.0);
     
     return info;
 }
