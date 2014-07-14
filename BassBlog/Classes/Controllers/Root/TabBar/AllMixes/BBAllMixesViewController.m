@@ -20,11 +20,12 @@
 #import "BBAppDelegate.h"
 #import "BBModelManager.h"
 #import "BBRootViewController.h"
+#import "BBRefreshControl.h"
 
 @interface BBAllMixesViewController()
 
 @property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
-@property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (nonatomic, strong) BBRefreshControl *refreshControl;
 
 @end
 
@@ -48,8 +49,7 @@
 {
     [super viewDidLoad];
     
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"PULL TO REFRESH", nil)];
+    self.refreshControl = [BBRefreshControl new];
     [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
     
     // Create a UITableViewController so we can use a UIRefreshControl.

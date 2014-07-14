@@ -17,6 +17,9 @@
 @property (nonatomic, strong) IBOutlet UIImageView *infoImageView;
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint *infoImageViewWidthConstraint;
 
+@property (nonatomic, strong) IBOutlet UIImageView *playingImageView;
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint *playingImageViewWidthConstraint;
+
 @end
 
 
@@ -64,44 +67,70 @@
 {
     _mixState = mixState;
     
-    if (!self.infoImageView)
-    {
-        return;
-    }
+    BBThemeManager *themeManager = [BBThemeManager defaultManager];
     
-    UIImage *image = nil;
-    NSString *imageName = nil;
-    
-    switch (mixState)
+    if (self.infoImageView)
     {
-        case BBMixesTableViewCellStateNew:
-            imageName = @"new_mix";
-            break;
-            
-        case BBMixesTableViewCellStateFavorite:
-            imageName = @"favorite";
-            break;
-            
-        default:
-            break;
-    }
-    
-    if (imageName)
-    {
-        BBThemeManager *themeManager = [BBThemeManager defaultManager];
+        UIImage *image = nil;
+        NSString *imageName = nil;
         
-        imageName = [@"table_view/cell" stringByAppendingPathComponent:imageName];
-        image = [themeManager imageNamed:imageName];
+        switch (mixState)
+        {
+            case BBMixesTableViewCellStateNew:
+                imageName = @"new_mix";
+                break;
+                
+            case BBMixesTableViewCellStateFavorite:
+                imageName = @"favorite";
+                break;
+                
+            default:
+                break;
+        }
+        
+        if (imageName)
+        {
+            imageName = [@"table_view/cell" stringByAppendingPathComponent:imageName];
+            image = [themeManager imageNamed:imageName];
+        }
+        
+        self.infoImageView.image = image;
+        self.infoImageViewWidthConstraint.constant = image ? image.size.width + 4.f : 0.f;
     }
     
-    self.infoImageView.image = image;
-    self.infoImageViewWidthConstraint.constant = image ? image.size.width + 4.f : 0.f;
+    if (self.playingImageView)
+    {
+        NSString *imageName = [@"table_view/cell" stringByAppendingPathComponent:@"now_playing_icon"];
+        UIImage *image = [themeManager imageNamed:imageName];
+        self.playingImageView.image = image;
+        self.playingImageViewWidthConstraint.constant = image ? image.size.width + 5.f : 0.f;
+
+    }
+}
+
+- (void)setPaused:(BOOL)paused
+{
+    _paused = paused;
+    
+    if (self.playingImageView)
+    {
+        CGFloat playingImageViewWidth = 0.f;
+        
+        if (!paused && self.playingImageView.image)
+        {
+            playingImageViewWidth = self.playingImageView.image.size.width + 5.f;
+        }
+        
+        self.playingImageViewWidthConstraint.constant = playingImageViewWidth;
+        self.playingImageView.hidden = paused;
+        [self.contentView layoutIfNeeded];
+    }
 }
 
 #pragma mark - Actions
 
-- (IBAction)buttonPressed {
-    
+- (IBAction)buttonPressed
+{    
     self.paused = (self.paused == NO);
     
     [self.delegate mixesTableViewCell:self paused:self.paused];
