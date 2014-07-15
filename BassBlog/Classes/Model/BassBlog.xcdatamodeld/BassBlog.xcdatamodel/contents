@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6172.15" systemVersion="14A238x" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6198" systemVersion="14A283o" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="BBEntity" representedClassName="BBEntity" isAbstract="YES" syncable="YES"/>
     <entity name="BBMix" representedClassName="BBMix" parentEntity="BBEntity" syncable="YES">
         <attribute name="bitrate" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="daySectionIdentifier" optional="YES" transient="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="favorite" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="favoriteDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="ID" attributeType="String" syncable="YES"/>
         <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="isNew" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="localUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="monthSectionIdentifier" optional="YES" transient="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
@@ -27,7 +26,7 @@
     </entity>
     <elements>
         <element name="BBEntity" positionX="160" positionY="192" width="128" height="45"/>
-        <element name="BBMix" positionX="160" positionY="192" width="128" height="300"/>
+        <element name="BBMix" positionX="160" positionY="192" width="128" height="285"/>
         <element name="BBTag" positionX="160" positionY="192" width="128" height="90"/>
     </elements>
 </model>

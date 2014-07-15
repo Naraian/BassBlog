@@ -50,6 +50,9 @@
             
         case eMixPlaybackDateSortKey:
             return @"playback date";
+            
+        case eMixFavoriteDateSortKey:
+            return @"favorite date";
     
         default:
             return [super sortKeyString];

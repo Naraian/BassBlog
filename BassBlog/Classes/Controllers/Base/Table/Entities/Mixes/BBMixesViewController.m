@@ -128,9 +128,9 @@ BBAudioManagerDelegate
     
     cell.paused = (mix == audioManager.mix) ? audioManager.paused : YES;
     
-    BBMixesTableViewCellState mixCellState = mix.favorite ? BBMixesTableViewCellStateFavorite : BBMixesTableViewCellStateNormal;
+    BBMixesTableViewCellState mixCellState = mix.favoriteDate ? BBMixesTableViewCellStateFavorite : BBMixesTableViewCellStateNormal;
     
-    if (mix.isNew)
+    if (!mix.playbackDate)
     {
         mixCellState = BBMixesTableViewCellStateNew;
     }
@@ -145,7 +145,6 @@ BBAudioManagerDelegate
     
     BBMix *mix = audioManager.mix;
     
-#warning deal with this
     if ([self hasEntity:mix inTableView:self.tableView] == NO)
     {
         return;
@@ -159,19 +158,7 @@ BBAudioManagerDelegate
         return;
     }
     
-    cell.paused = audioManager.paused;
-    
-    if (selectRow)
-    {
-        [self.tableView selectRowAtIndexPath:indexPath
-                                    animated:YES
-                              scrollPosition:UITableViewScrollPositionNone];
-    }
-    else
-    {
-        [self.tableView deselectRowAtIndexPath:indexPath
-                                      animated:YES];
-    }
+    cell.paused = !selectRow;
 }
 
 - (BBMixesTableSectionHeaderView *)sectionHeaderView

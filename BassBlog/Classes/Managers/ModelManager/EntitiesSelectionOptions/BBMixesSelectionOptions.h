@@ -12,7 +12,8 @@
 NS_ENUM(BBEntitiesSortKey, BBMixesSortKey)
 {
     eMixDateSortKey = eEntityNoneSortKey + 1,
-    eMixPlaybackDateSortKey
+    eMixPlaybackDateSortKey,
+    eMixFavoriteDateSortKey
 };
 
 @class BBTag;

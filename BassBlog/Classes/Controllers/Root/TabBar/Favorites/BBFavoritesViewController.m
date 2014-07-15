@@ -30,6 +30,7 @@
     [self showLeftBarButtonItem];
     
     _mixesSelectionOptions.category = eFavoriteMixesCategory;
+    _mixesSelectionOptions.sortKey = eMixFavoriteDateSortKey;
     _tableModelSectionRule = BBMixesTableModelSectionRuleNone;
 }
 
@@ -80,14 +81,21 @@
     {
         BOOL resetEditing = (self.fetchedResultsController.fetchedObjects.count == 1);
         
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        if (!cell.showingDeleteConfirmation)
+        {
+            //If deleting single cell, reset editing state
+            resetEditing = YES;
+        }
+        
         BBMix *mix = [self entityAtIndexPath:indexPath inTableView:tableView];
-        mix.favorite = NO;
+        mix.favoriteDate = nil;
         
         [self updateEmptyStateVisibility];
         
         if (resetEditing)
         {
-            [self setEditing:NO animated:NO];
+            [self setEditing:NO animated:YES];
         }
     }
 }

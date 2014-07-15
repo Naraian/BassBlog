@@ -261,7 +261,7 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
             urlString = nil;
             break;
         case BBAboutTableModelSectionFeedback:
-            urlString = @"mailto:bassblo.pro@gmail.com";
+            urlString = @"mailto:bassblog.pro@gmail.com";
             break;
         default:
             

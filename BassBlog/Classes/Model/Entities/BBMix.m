@@ -22,9 +22,9 @@ DEFINE_CONST_NSSTRING(BBMixDidChangePlaybackDateNotification);
 DEFINE_CONST_NSSTRING(BBMixDidChangeFavoriteNotification);
 
 static NSString *const BBMixLocalUrlKey = @"localUrl";
-static NSString *const BBMixFavoriteKey = @"favorite";
 static NSString *const BBMixDateKey = @"date";
 static NSString *const BBMixPlaybackDateKey = @"playbackDate";
+static NSString *const BBMixFavoriteDateKey = @"favoriteDate";
 
 NSString *const BBMixDaySectionIdentifierKey = @"daySectionIdentifier";
 NSString *const BBMixMonthSectionIdentifierKey = @"monthSectionIdentifier";
@@ -42,7 +42,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
 @property (nonatomic, strong) NSDate *primitiveDate;
 @property (nonatomic, strong) NSDate *primitivePlaybackDate;
 
-@property (nonatomic, strong) NSNumber *primitiveFavorite;
+@property (nonatomic, strong) NSDate *primitiveFavoriteDate;
 
 @property (nonatomic, strong) NSNumber *primitiveDaySectionIdentifier;
 @property (nonatomic, strong) NSNumber *primitiveMonthSectionIdentifier;
@@ -65,8 +65,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
 @dynamic tags;
 @dynamic bitrate;
 @dynamic localUrl, primitiveLocalUrl;
-@dynamic favorite, primitiveFavorite;
-@dynamic isNew;
+@dynamic favoriteDate, primitiveFavoriteDate;
 @dynamic tracklist;
 @dynamic playbackDate, primitivePlaybackDate;
 
@@ -94,13 +93,13 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
     [self postNotificationWithName:BBMixDidChangeLocalUrlNotification];
 }
 
-- (void)setFavorite:(BOOL)favorite {
+- (void)setFavoriteDate:(NSDate *)favoriteDate
+{
+    [self willChangeValueForKey:BBMixFavoriteDateKey];
     
-    [self willChangeValueForKey:BBMixFavoriteKey];
+    [self setPrimitiveFavoriteDate:favoriteDate];
     
-    [self setPrimitiveFavorite:@(favorite)];
-    
-    [self didChangeValueForKey:BBMixFavoriteKey];
+    [self didChangeValueForKey:BBMixFavoriteDateKey];
     
     [self postNotificationWithName:BBMixDidChangeFavoriteNotification];
 }
@@ -119,11 +118,6 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
 
 - (void)setPlaybackDate:(NSDate *)playbackDate
 {
-    if (playbackDate)
-    {
-        self.isNew = NO;
-    }
-
     [self willChangeValueForKey:BBMixPlaybackDateKey];
     
     [self setPrimitivePlaybackDate:playbackDate];
@@ -319,6 +313,11 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
     return [NSSortDescriptor sortDescriptorWithKey:@"playbackDate" ascending:NO];
 }
 
++ (NSSortDescriptor *)favoriteDateSortDescriptor
+{
+    return [NSSortDescriptor sortDescriptorWithKey:@"favoriteDate" ascending:NO];
+}
+
 #pragma mark - Predicate format
 
 + (NSString *)downloadedPredicateFormat
@@ -333,7 +332,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
 
 + (NSString *)favoritePredicateFormat
 {
-    return @"favorite == YES";
+    return @"favoriteDate != NIL";
 }
 
 #pragma mark - Key path dependencies

@@ -35,6 +35,8 @@
 
 + (NSSortDescriptor *)playbackDateSortDescriptor;
 
++ (NSSortDescriptor *)favoriteDateSortDescriptor;
+
 #pragma mark - Predicate format
 
 + (NSString *)downloadedPredicateFormat;

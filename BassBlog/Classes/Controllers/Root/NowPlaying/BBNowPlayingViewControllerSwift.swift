@@ -133,11 +133,18 @@ class BBNowPlayingViewControllerSwift : BBViewController
     
     func favoritesClick(sender : AnyObject)
     {
-        let shouldFavorite = !BBAudioManager.defaultManager().mix.favorite;
+        let shouldFavorite = (BBAudioManager.defaultManager().mix.favoriteDate == nil);
 
-        self.favoritesButton.selected = shouldFavorite;
-    
-        BBAudioManager.defaultManager().mix.favorite = shouldFavorite;
+        if (shouldFavorite)
+        {
+            self.favoritesButton.selected = true;
+            BBAudioManager.defaultManager().mix.favoriteDate = NSDate.date();
+        }
+        else
+        {
+            self.favoritesButton.selected = false;
+            BBAudioManager.defaultManager().mix.favoriteDate = nil;
+        }
         
         let selfVar = self;
         
@@ -208,7 +215,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
             self!.titleLabel.text = currentMix.name.uppercaseString;
             self!.tagsLabel.text = BBUIUtils.tagsStringForMix(currentMix);
             
-            self!.favoritesButton.selected = currentMix.favorite;
+            self!.favoritesButton.selected = (currentMix.favoriteDate != nil);
         
             self!.artworkImageView.setImageWithURL(NSURL.URLWithString(currentMix.imageUrl), placeholderImage:BBUIUtils.defaultImage());
 

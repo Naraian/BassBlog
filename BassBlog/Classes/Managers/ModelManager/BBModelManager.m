@@ -226,6 +226,10 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         case eMixPlaybackDateSortKey:
             sortDescriptor = [BBMix playbackDateSortDescriptor];
             break;
+
+        case eMixFavoriteDateSortKey:
+            sortDescriptor = [BBMix favoriteDateSortDescriptor];
+            break;
             
         default:
             break;
