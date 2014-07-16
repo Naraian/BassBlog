@@ -39,6 +39,7 @@ DEFINE_CONST_NSSTRING(BBAudioManagerStopReasonKey);
 
 
 static NSString *const AVPlayerStatusKeyPath = @"status";
+static NSString *const AVPlayerTracksKeyPath = @"tracks";
 
 @interface BBAudioManager ()
 
@@ -188,6 +189,7 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     if (_player)
     {
         [_player pause];
+        [_player.currentItem removeObserver:self forKeyPath:AVPlayerTracksKeyPath];
         [_player removeObserver:self forKeyPath:AVPlayerStatusKeyPath];
         [_player removeTimeObserver:self.playerTimeObserver];
     }
@@ -196,7 +198,7 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     
     self.playerIsReady = NO;
     
-    if (self.player == nil)
+    if (_player == nil)
     {
         return;
     }
@@ -212,10 +214,8 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
         [weakSelf postNotificationWithName:BBAudioManagerDidChangeProgressNotification];
     }];
     
-    [self.player addObserver:self
-                  forKeyPath:AVPlayerStatusKeyPath
-                     options:kNilOptions
-                     context:NULL];
+    [self.player addObserver:self forKeyPath:AVPlayerStatusKeyPath options:kNilOptions context:NULL];
+    [self.player.currentItem addObserver:self forKeyPath:AVPlayerTracksKeyPath options:kNilOptions context:NULL];
     
     self.player.actionAtItemEnd = AVPlayerActionAtItemEndPause;
 }
@@ -426,33 +426,41 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
                         change:(NSDictionary *)change
                        context:(void *)context
 {
-    NSAssert(object == self.player, @"%s object != self.player", __FUNCTION__);
-    
-    if (![keyPath isEqualToString:AVPlayerStatusKeyPath])
+    if ([keyPath isEqualToString:AVPlayerStatusKeyPath])
     {
-        return;
-    }
-    
-    switch (self.player.status)
-    {
-        case AVPlayerStatusUnknown:
-        case AVPlayerStatusFailed:
+        switch (self.player.status)
         {
-            BB_ERR(@"%@", self.player.error);
-            
-            [self postDidStopNotificationWithReason:BBAudioManagerFailedToPlayToEnd];
-            break;
+            case AVPlayerStatusUnknown:
+            case AVPlayerStatusFailed:
+            {
+                BB_ERR(@"%@", self.player.error);
+                
+                [self postDidStopNotificationWithReason:BBAudioManagerFailedToPlayToEnd];
+                break;
+            }
+                
+            case AVPlayerStatusReadyToPlay:
+            {
+                
+            }
+                
+            default:
+                break;
         }
-            
-        case AVPlayerStatusReadyToPlay:
+    }
+    else if ([keyPath isEqualToString:AVPlayerTracksKeyPath])
+    {
+        if (self.player.currentItem.tracks.count > 0)
         {
             self.playerIsReady = YES;
             
-            AVURLAsset *asset = (AVURLAsset *)self.playerItem.asset;
+            AVURLAsset *asset = (AVURLAsset *)self.playerItem.asset;
             
-            if (asset.tracks.count > 0)
+            NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeAudio];
+            if (tracks.count > 0)
             {
-                AVAssetTrack *audioTrack = [asset tracksWithMediaType:AVMediaTypeAudio][0];
+                AVAssetTrack *audioTrack = tracks[0];
+                
                 [self beginRecordingAudioFromTrack:audioTrack];
             }
             
@@ -463,13 +471,8 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
                 [self.player play];
                 
                 [self postNotificationWithName:BBAudioManagerDidStartPlayNotification];
-            }
-            
-            break;
+            }            
         }
-            
-        default:
-            break;
     }
 }
 

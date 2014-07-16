@@ -871,26 +871,16 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         {
             [self.class saveContext:self.rootContext withCompletionBlock:^(NSError *error)
             {
-                if (completionBlock)
+                dispatch_async(dispatch_get_main_queue(), ^
                 {
-                    completionBlock(error == nil);
-                }
+                    if (completionBlock)
+                    {
+                        completionBlock(error == nil);
+                    }
+                });
             }];
         }];
     });
-
-        #warning ???
-//        if (!saved || !context.parentContext)
-//        {
-//            if (completionBlock)
-//            {
-//                completionBlock(saved);
-//            }
-//        
-//            return;
-//        }
-        
-        //[self deepSaveFromContext:context.parentContext withCompletionBlock:completionBlock];
 }
 
 + (void)saveContext:(NSManagedObjectContext *)context withCompletionBlock:(void(^)(NSError *error))completionBlock
@@ -904,36 +894,37 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         return;
     }
     
-    __block BOOL saved = NO;
-    __block NSError *error = nil;
-	
-    @try
-	{
-        [context performBlockAndWait:^
+    [context performBlock:^
+    {
+        BOOL saved = NO;
+        
+        NSError *error = nil;
+        
+        @try
         {
             saved = [context save:&error];
-        }];
-	}
-	@catch (NSException *exception)
-	{
-        BB_ERR(@"%@ context save exception (%@)", description, exception);
-	}
-	@finally
-    {
-        if (saved)
-        {
-            BB_INF(@"%@ context saved", description);
         }
-        else
+        @catch (NSException *exception)
         {
-            [self handleError:error];
+            BB_ERR(@"%@ context save exception (%@)", description, exception);
         }
-        
-        if (completionBlock)
+        @finally
         {
-            completionBlock(error);
+            if (saved)
+            {
+                BB_INF(@"%@ context saved", description);
+            }
+            else
+            {
+                [self handleError:error];
+            }
+            
+            if (completionBlock)
+            {
+                completionBlock(error);
+            }
         }
-    }
+    }];
 }
 
 #pragma mark * Stack
@@ -1024,7 +1015,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
 - (BOOL)addAutoMigratingSqliteStore
 {
-    NSDictionary *sqliteOptions = @{@"journal_mode" : @"DELETE"};
+    NSDictionary *sqliteOptions = @{@"journal_mode" : @"WAL"};
     NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption : @YES,
                               NSInferMappingModelAutomaticallyOption: @YES,
                               NSSQLitePragmasOption : sqliteOptions};
