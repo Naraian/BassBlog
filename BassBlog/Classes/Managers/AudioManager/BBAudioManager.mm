@@ -453,8 +453,8 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
         if (self.player.currentItem.tracks.count > 0)
         {
             self.playerIsReady = YES;
-            
-            AVURLAsset *asset = (AVURLAsset *)self.playerItem.asset;
+
+            AVURLAsset *asset = (AVURLAsset *)self.playerItem.asset;
             
             NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeAudio];
             if (tracks.count > 0)
@@ -471,7 +471,7 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
                 [self.player play];
                 
                 [self postNotificationWithName:BBAudioManagerDidStartPlayNotification];
-            }            
+            }
         }
     }
 }

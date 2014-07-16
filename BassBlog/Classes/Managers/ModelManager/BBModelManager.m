@@ -865,22 +865,23 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
 - (void)deepSaveRootContextWithCompletionBlock:(void(^)(BOOL saved))completionBlock
 {
-    dispatch_async(dispatch_get_main_queue(), ^
+    NSTimeInterval timeInterval0 = [[NSDate date] timeIntervalSince1970];
+    
+    [self.rootContext performBlock:^
     {
-        [self.rootContext performBlock:^
+        [self.class saveContext:self.rootContext withCompletionBlock:^(NSError *error)
         {
-            [self.class saveContext:self.rootContext withCompletionBlock:^(NSError *error)
+            dispatch_async(dispatch_get_main_queue(), ^
             {
-                dispatch_async(dispatch_get_main_queue(), ^
+                NSTimeInterval timeInterval1 = [[NSDate date] timeIntervalSince1970];
+                NSLog(@"deepSaveRootContextWithCompletionBlock: %f", timeInterval1 - timeInterval0);
+                if (completionBlock)
                 {
-                    if (completionBlock)
-                    {
-                        completionBlock(error == nil);
-                    }
-                });
-            }];
+                    completionBlock(error == nil);
+                }
+            });
         }];
-    });
+    }];
 }
 
 + (void)saveContext:(NSManagedObjectContext *)context withCompletionBlock:(void(^)(NSError *error))completionBlock
@@ -1155,14 +1156,11 @@ static NSString *const BBManagedObjectContextDescriptionKey =
             return;
         }
         
-        dispatch_async(dispatch_get_main_queue(), ^
+        [_rootContext performBlock:^
         {
-            [_rootContext performBlock:^
-            {
-                [_rootContext mergeChangesFromContextDidSaveNotification:notification];
-                [self mainContextAutoSave];
-            }];
-        });
+            [_rootContext mergeChangesFromContextDidSaveNotification:notification];
+            [self mainContextAutoSave];
+        }];
     }
 }
 
