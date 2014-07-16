@@ -23,9 +23,9 @@
 {
     [super commonInit];
     
-    self.title = NSLocalizedString(@"FAVORITES", @"");
-        
-    [self setTabBarItemImageNamed:@"favorites_tab" tag:eFavoriteMixesCategory];
+    NSString *title = NSLocalizedString(@"Favorites", nil);
+    self.title = title.uppercaseString;
+    [self setTabBarItemTitle:title imageNamed:@"favorites_tab" tag:eFavoriteMixesCategory];
     
     [self showLeftBarButtonItem];
     

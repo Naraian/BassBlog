@@ -15,10 +15,10 @@
 {
     [super commonInit];
     
-    self.title = NSLocalizedString(@"DOWNLOADED", @"");
-        
-    [self setTabBarItemImageNamed:@"downloads_icon" tag:eDownloadedMixesCategory];
-        
+    NSString *title = NSLocalizedString(@"Downloaded", nil);
+    self.title = title.uppercaseString;
+    [self setTabBarItemTitle:title imageNamed:@"downloads_icon" tag:eDownloadedMixesCategory];
+
     mixesSelectionOptions.category = eDownloadedMixesCategory;
 }
 

@@ -40,9 +40,9 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
 {
     [super commonInit];
     
-    self.title = NSLocalizedString(@"MORE", @"");
-    
-    [self setTabBarItemImageNamed:@"more_tab" tag:4];
+    NSString *title = NSLocalizedString(@"More", @"");
+    self.title = title.uppercaseString;
+    [self setTabBarItemTitle:title imageNamed:@"more_tab" tag:4];
 }
 
 - (void)viewDidLoad

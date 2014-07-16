@@ -147,7 +147,9 @@ static const CGFloat kBBViewControllerNowPlayingItemHeight = 24.f;
     return item;
 }
 
-- (void)setTabBarItemImageNamed:(NSString *)imageName tag:(NSInteger)tag
+- (void)setTabBarItemTitle:(NSString *)title
+                imageNamed:(NSString *)imageName
+                       tag:(NSInteger)tag
 {
     BBThemeManager *themeManager = [BBThemeManager defaultManager];
     
@@ -157,11 +159,11 @@ static const CGFloat kBBViewControllerNowPlayingItemHeight = 24.f;
     imageName = [imageName stringByAppendingString:@"_selected"];
     UIImage *selectedImage = [themeManager imageNamed:imageName];
     
-    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:nil
+    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:title
                                                     image:image
                                             selectedImage:selectedImage];
     self.tabBarItem.tag = tag;
-    self.tabBarItem.imageInsets = UIEdgeInsetsMake(6.f, 0.f, -6.f, 0.f);
+//    self.tabBarItem.imageInsets = UIEdgeInsetsMake(6.f, 0.f, -6.f, 0.f);
 }
 
 - (void)startObserveNotifications

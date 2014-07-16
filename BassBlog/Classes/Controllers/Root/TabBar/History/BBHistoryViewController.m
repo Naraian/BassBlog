@@ -23,9 +23,9 @@
 {
     [super commonInit];
     
-    self.title = NSLocalizedString(@"HISTORY", @"");
-        
-    [self setTabBarItemImageNamed:@"history_tab" tag:eListenedMixesCategory];
+    NSString *title = NSLocalizedString(@"History", nil);
+    self.title = title.uppercaseString;
+    [self setTabBarItemTitle:title imageNamed:@"history_tab" tag:eListenedMixesCategory];
     
     _tableModelSectionRule = BBMixesTableModelSectionRuleEachDay;
     

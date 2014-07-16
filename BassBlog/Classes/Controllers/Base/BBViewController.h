@@ -34,7 +34,9 @@
 
 - (void)updateTheme;
 
-- (void)setTabBarItemImageNamed:(NSString *)imageName tag:(NSInteger)tag;
+- (void)setTabBarItemTitle:(NSString *)title
+                imageNamed:(NSString *)imageName
+                       tag:(NSInteger)tag;
 
 #pragma mark - Model
 
