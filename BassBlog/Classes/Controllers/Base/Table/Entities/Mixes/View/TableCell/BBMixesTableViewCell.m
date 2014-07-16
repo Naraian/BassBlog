@@ -123,7 +123,7 @@
         
         self.playingImageViewWidthConstraint.constant = playingImageViewWidth;
         self.playingImageView.hidden = paused;
-        [self.contentView layoutIfNeeded];
+        [self.contentView setNeedsLayout];
     }
 }
 
