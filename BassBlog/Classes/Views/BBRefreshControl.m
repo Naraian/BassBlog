@@ -34,7 +34,7 @@
         
         NSDictionary *views = NSDictionaryOfVariableBindings(overlayView);
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[overlayView]|" views:views]];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[overlayView]|" views:views]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[overlayView(82)]" views:views]];
         
         self.customLabel = [UILabel new];
         self.customLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -121,7 +121,20 @@
         self.customLabel.text = [NSLocalizedString(@"Pull down to refresh", nil) uppercaseString];
     }
     completion:nil];
+}
+
+- (void)setFrame:(CGRect)frame
+{
+    frame.size.height = 82.f;
     
+    [super setFrame:frame];
+}
+
+- (void)setBounds:(CGRect)bounds
+{
+    bounds.size.height = 82.f;
+    
+    [super setBounds:bounds];
 }
 
 @end

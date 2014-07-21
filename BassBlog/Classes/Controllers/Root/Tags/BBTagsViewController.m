@@ -37,6 +37,8 @@ const NSInteger kBBAllTagTableModelRow = 0;
     BBTag *_tag;
 }
 
+@property (nonatomic, weak) IBOutlet UIView *leftColorView;
+
 @end
 
 @implementation BBTagsViewController
@@ -113,8 +115,12 @@ const NSInteger kBBAllTagTableModelRow = 0;
     {
         default:
         {
+            self.leftColorView.backgroundColor = [UIColor colorWithHEX:0x1E1E1EFF];
+            self.leftColorView.layer.borderWidth = 1.f;
+            self.leftColorView.layer.borderColor = [UIColor colorWithHEX:0x1E1E1EFF].CGColor;
+            
             self.view.backgroundColor = [UIColor colorWithHEX:0x252525FF];
-            self.tableView.backgroundColor = [UIColor colorWithHEX:0x252525FF];
+            self.tableView.backgroundColor = [UIColor clearColor];
         }
         break;
     }

@@ -35,6 +35,7 @@ typedef NS_ENUM(NSInteger, BBMixesTableModelSectionRule)
 @property (nonatomic, strong) NSMutableDictionary *headerTextsDictionary;
 
 - (void)updateEmptyStateVisibility;
+- (void)tagsBarButtonItemPressed;
 
 @end
 
