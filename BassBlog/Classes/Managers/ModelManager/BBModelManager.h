@@ -54,6 +54,7 @@ typedef NS_ENUM(NSUInteger, BBModelManagerRefreshStage) {
 
 - (BOOL)isSaveInProgress;
 
+- (void)forceRefresh;
 - (void)refresh;
 - (BOOL)fetchDatabaseIfNecessary;
 

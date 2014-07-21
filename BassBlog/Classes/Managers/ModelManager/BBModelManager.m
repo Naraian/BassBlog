@@ -410,6 +410,11 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
 #pragma mark - Refresh
 
+- (void)forceRefresh
+{
+    [self loadMixes:YES];
+}
+
 - (void)refresh
 {
     if (self.modelState == BBModelIsPopulated)
@@ -417,14 +422,14 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         [self postNotificationWithName:BBModelManagerDidInitializeNotification];
     }
     
-    [self loadMixes];
+    [self loadMixes:NO];
 }
 
 - (BOOL)fetchDatabaseIfNecessary
 {
     if (self.modelState == BBModelIsEmpty)
     {
-        [self loadMixes];
+        [self loadMixes:NO];
         return YES;
     }
 
@@ -433,7 +438,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
     if (nextPageToken || newestItemDate)
     {
-        [self loadMixes];
+        [self loadMixes:NO];
         return YES;
     }
     
@@ -460,7 +465,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     return service;
 }
 
-- (void)loadMixes
+- (void)loadMixes:(BOOL)forceRefresh
 {
     dispatch_async(dispatch_get_main_queue(), ^
     {
@@ -476,22 +481,25 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         query.fetchUserInfo = YES;
         query.orderBy = kGTLBloggerOrderByPublished;
         
-        NSString *nextPageToken = [self.class nextPageToken];
-        if (nextPageToken)
+        if (!forceRefresh)
         {
-            NSDate *nextPageStartDate = [self.class nextPageStartDate];
-            
-            query.pageToken = nextPageToken;
-            query.startDate = [GTLDateTime dateTimeWithDate:nextPageStartDate timeZone:nil];
-        }
-        else
-        {
-            NSDate *newestItemDate = [self.class newestItemDate];
-            
-            if (newestItemDate)
+            NSString *nextPageToken = [self.class nextPageToken];
+            if (nextPageToken)
             {
-                query.startDate = [GTLDateTime dateTimeWithDate:newestItemDate timeZone:nil];
-                [self.class setNextPageStartDate:newestItemDate];
+                NSDate *nextPageStartDate = [self.class nextPageStartDate];
+                
+                query.pageToken = nextPageToken;
+                query.startDate = [GTLDateTime dateTimeWithDate:nextPageStartDate timeZone:nil];
+            }
+            else
+            {
+                NSDate *newestItemDate = [self.class newestItemDate];
+                
+                if (newestItemDate)
+                {
+                    query.startDate = [GTLDateTime dateTimeWithDate:newestItemDate timeZone:nil];
+                    [self.class setNextPageStartDate:newestItemDate];
+                }
             }
         }
         
@@ -509,12 +517,12 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
             
             self.refreshStage = BBModelManagerParsingStage;
             
-            [self refreshDatabaseWithMixesPostList:postList];
+            [self refreshDatabase:forceRefresh withMixesPostList:postList];
         }];
     });
 }
 
-- (void)refreshDatabaseWithMixesPostList:(GTLBloggerPostList *)postList
+- (void)refreshDatabase:(BOOL)forceRefresh withMixesPostList:(GTLBloggerPostList *)postList
 {
     [self.operationQueue addOperationWithBlock:^
     {
@@ -524,7 +532,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         
         TIME_PROFILER_MARK_TIME
         
-        [self updateDatabaseInContext:context fromPostList:postList];
+        [self updateDatabase:forceRefresh inContext:context fromPostList:postList];
     }];
 }
 
@@ -533,8 +541,9 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     
 }
 
-- (void)updateDatabaseInContext:(NSManagedObjectContext *)context
-                   fromPostList:(GTLBloggerPostList *)postList
+- (void)updateDatabase:(BOOL)forceRefresh
+             inContext:(NSManagedObjectContext *)context
+          fromPostList:(GTLBloggerPostList *)postList
 {
     NSMutableDictionary *tagsDictionary = [self tagsDictionaryInContext:context];
     
@@ -544,7 +553,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         lastPostDate = [NSDate dateWithTimeIntervalSince1970:0.0];
     }
     
-    if (postList.nextPageToken)
+    if (postList.nextPageToken && !forceRefresh)
     {
         [self.class mainThreadBlock:^
         {
@@ -575,6 +584,10 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
             mix = [BBMix createInContext:context];
             mix.ID = parsedID;
         }
+        else
+        {
+//            NSLog(@"Mix already exists: name %@ date %@", mix.name, mix.date);
+        }
         
         mix.url = [self.class urlStringFromPost:post];
         
@@ -586,13 +599,19 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         }
     }
     
-    [self.class setNewestItemDate:lastPostDate];
+    if (!forceRefresh)
+    {
+        [self.class setNewestItemDate:lastPostDate];
+    }
     
-    [self refreshCompletionInContext:context nextPageToken:postList.nextPageToken];
+    [self refreshCompletion:forceRefresh
+                  inContext:context
+              nextPageToken:postList.nextPageToken];
 }
 
-- (void)refreshCompletionInContext:(NSManagedObjectContext *)context
-                     nextPageToken:(NSString *)nextPageToken
+- (void)refreshCompletion:(BOOL)forceRefresh
+                inContext:(NSManagedObjectContext *)context
+            nextPageToken:(NSString *)nextPageToken
 
 {
 #ifdef DEBUG
@@ -625,7 +644,10 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         {
             TIME_PROFILER_LOG(@"Database saving")
 
-            [self.class setNextPageToken:nextPageToken];
+            if (!forceRefresh)
+            {
+                [self.class setNextPageToken:nextPageToken];
+            }
             
             self.modelState = BBModelIsPopulated;
 

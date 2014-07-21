@@ -11,13 +11,17 @@
 #import "BBMixesTableSectionHeaderView.h"
 
 #import "BBThemeManager.h"
+#import "BBModelManager.h"
+#import "Flurry.h"
 
 typedef NS_ENUM(NSInteger, BBAboutTableModelSection)
 {
-    BBAboutTableModelSectionSocial = 0,
+    BBAboutTableModelSectionRefresh = 0,
+    BBAboutTableModelSectionSocial,
     BBAboutTableModelSectionBassblog,
     BBAboutTableModelSectionTellAFriend,
-    BBAboutTableModelSectionFeedback
+    BBAboutTableModelSectionFeedback,
+    BBAboutTableModelSectionsCount
 };
 
 typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
@@ -67,7 +71,7 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return BBAboutTableModelSectionsCount;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -89,6 +93,9 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
     NSString *imageName = nil;
     switch (indexPath.section)
     {
+        case BBAboutTableModelSectionRefresh:
+            imageName = @"";
+            break;
         case BBAboutTableModelSectionSocial:
             if (indexPath.row == BBAboutTableModelSocialSectionRowFacebook)
             {
@@ -132,6 +139,9 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
     NSString *title = nil;
     switch (indexPath.section)
     {
+        case BBAboutTableModelSectionRefresh:
+            title = @"force refresh";
+            break;
         case BBAboutTableModelSectionSocial:
             if (indexPath.row == BBAboutTableModelSocialSectionRowFacebook)
             {
@@ -240,6 +250,9 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
     NSString *urlString = nil;
     switch (indexPath.section)
     {
+        case BBAboutTableModelSectionRefresh:
+            [[BBModelManager defaultManager] forceRefresh];
+            break;
         case BBAboutTableModelSectionSocial:
             if (indexPath.row == BBAboutTableModelSocialSectionRowFacebook)
             {
@@ -270,6 +283,8 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
     
     if (urlString != nil)
     {
+        [Flurry logEvent:urlString];
+
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
     }
 }
