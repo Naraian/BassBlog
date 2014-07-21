@@ -133,12 +133,18 @@ class BBNowPlayingViewControllerSwift : BBViewController
     
     func favoritesClick(sender : AnyObject)
     {
-        let shouldFavorite = (BBAudioManager.defaultManager().mix.favoriteDate == nil);
+        let currentMix = BBAudioManager.defaultManager().mix;
+        let shouldFavorite = (currentMix.favoriteDate == nil);
 
         if (shouldFavorite)
         {
             self.favoritesButton.selected = true;
             BBAudioManager.defaultManager().mix.favoriteDate = NSDate.date();
+            
+            if (currentMix.name)
+            {
+                Flurry.logEvent("mix_favorited", withParameters: ["mix_name" : currentMix.name]);
+            }
         }
         else
         {

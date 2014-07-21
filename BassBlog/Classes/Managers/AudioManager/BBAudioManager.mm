@@ -16,6 +16,7 @@
 
 #import "BBMacros.h"
 #import "BBCommonUtils.h"
+#import "Flurry.h"
 
 #import "BBNowPlayingInfoCenter.h"
 
@@ -108,6 +109,19 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     if (_mix == mix)
     {
         return;
+    }
+
+    if (_mix.name)
+    {
+        [Flurry endTimedEvent:@"mix_played"
+               withParameters:@{@"mix_name" : _mix.name}];
+    }
+    
+    if (mix.name)
+    {
+        [Flurry logEvent:@"mix_played"
+          withParameters:@{@"mix_name" : mix.name}
+                   timed:YES];
     }
     
     if (_mix)

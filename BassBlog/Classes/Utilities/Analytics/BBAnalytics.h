@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 BassBlog. All rights reserved.
 //
 
+#import "Flurry.h"
+
 @interface BBAnalytics : NSObject
 
 + (void)startSession;

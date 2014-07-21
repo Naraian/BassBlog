@@ -13,6 +13,7 @@
 #import "BBThemeManager.h"
 
 #import "BBFont.h"
+#import "BBUIUtils.h"
 
 
 @implementation BBAppDelegate

@@ -9,21 +9,30 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BassBlog/Classes/Controllers/Root/BBRootViewController.m"
-            timestampString = "426032159.123153"
+            filePath = "BassBlog/Classes/Controllers/Base/Table/BBTableViewController.m"
+            timestampString = "427414123.609585"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "283"
-            endingLineNumber = "283">
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "-controllerWillChangeContent:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.AddressBreakpoint">
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            symbolName = "*0x35a5aef8">
+            filePath = "BassBlog/Classes/Controllers/Root/Tags/View/BBTagsTableViewCell.m"
+            timestampString = "427663057.453783"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "-setSelected:animated:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -25,7 +25,7 @@
 {
     [super viewDidLoad];
     
-    self.tableView.tableFooterView = [UIView new];
+    self.tableView.tableFooterView = [UIView new];    
 }
 
 - (void)viewWillAppear:(BOOL)animated

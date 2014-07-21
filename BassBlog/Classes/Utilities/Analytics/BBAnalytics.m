@@ -8,21 +8,12 @@
 
 #import "BBAnalytics.h"
 
-#import "Flurry.h"
-
-
 @implementation BBAnalytics
 
 + (void)startSession
 {
-    NSString *appKey =
-#ifdef FREE
-    @"ZBHFSJ2WSNR5NB65CRQQ";
-#else
-    @"XJZPM2PVQ99ZJSS3D5C4";
-#endif
-    
-    [Flurry startSession:appKey];
+//    [Flurry startSession:@"BXKC9ZNWB3ZDTPM24FTZ"]; //NIkita test
+    [Flurry startSession:@"SPJHK9FZNCGJ2BVY9MRY"];
 }
 
 @end
