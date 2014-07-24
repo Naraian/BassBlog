@@ -7,6 +7,7 @@
 //
 
 #import "BBRootViewController.h"
+#import "BassBlog-Swift.h"
 
 #import "BBTagsViewController.h"
 #import "BBTabBarController.h"

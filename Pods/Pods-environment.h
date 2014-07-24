@@ -48,3 +48,9 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 3
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 1
 
+// MarqueeLabel
+#define COCOAPODS_POD_AVAILABLE_MarqueeLabel
+#define COCOAPODS_VERSION_MAJOR_MarqueeLabel 2
+#define COCOAPODS_VERSION_MINOR_MarqueeLabel 0
+#define COCOAPODS_VERSION_PATCH_MarqueeLabel 0
+

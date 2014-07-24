@@ -10,23 +10,23 @@ import UIKit
 
 class BBNowPlayingViewControllerSwift : BBViewController
 {
-    @IBOutlet var titleLabel : UILabel;
-    @IBOutlet var tagsLabel : UILabel;
+    @IBOutlet var titleLabel : UILabel?;
+    @IBOutlet var tagsLabel : UILabel?;
     
-    @IBOutlet var slider : UISlider;
-    @IBOutlet var currentTimeLabel : UILabel;
-    @IBOutlet var remainingTimeLabel : UILabel;
+    @IBOutlet var slider : UISlider?;
+    @IBOutlet var currentTimeLabel : UILabel?;
+    @IBOutlet var remainingTimeLabel : UILabel?;
     
-    @IBOutlet var favoriteNotificationTopConstraint : NSLayoutConstraint;
-    @IBOutlet var favoriteNotificationView : UIView;
-    @IBOutlet var favoriteNotificationLabel : UILabel;
+    @IBOutlet var favoriteNotificationTopConstraint : NSLayoutConstraint?;
+    @IBOutlet var favoriteNotificationView : UIView?;
+    @IBOutlet var favoriteNotificationLabel : UILabel?;
     
-    @IBOutlet var prevButton : UIButton;
-    @IBOutlet var nextButton : UIButton;
-    @IBOutlet var playButton : UIButton;
-    @IBOutlet var favoritesButton : UIButton;
+    @IBOutlet var prevButton : UIButton?;
+    @IBOutlet var nextButton : UIButton?;
+    @IBOutlet var playButton : UIButton?;
+    @IBOutlet var favoritesButton : UIButton?;
 
-    @IBOutlet var artworkImageView : UIImageView;
+    @IBOutlet var artworkImageView : UIImageView?;
     
     var _dateFormatter : NSDateFormatter!;
     
@@ -83,8 +83,8 @@ class BBNowPlayingViewControllerSwift : BBViewController
         switch (BBThemeManager.defaultManager().theme)
         {
             default:
-                self.slider.minimumTrackTintColor = UIColor(HEX: 0xF45D5DFF);
-                self.slider.maximumTrackTintColor = UIColor(HEX: 0xCCCCCCFF);
+                self.slider!.minimumTrackTintColor = UIColor(HEX: 0xF45D5DFF);
+                self.slider!.maximumTrackTintColor = UIColor(HEX: 0xCCCCCCFF);
         }
 
         let tm = BBThemeManager.defaultManager();
@@ -93,7 +93,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
 
         if let image = tm.imageNamed(thumbImageNormalName)
         {
-            self.slider.setThumbImage(image, forState: UIControlState.Normal);
+            self.slider!.setThumbImage(image, forState: UIControlState.Normal);
         }
     }
     
@@ -101,19 +101,19 @@ class BBNowPlayingViewControllerSwift : BBViewController
     {
         let tm = BBThemeManager.defaultManager();
         
-        self.prevButton.setImage(tm.imageNamed("controls/player_previous_mix"), forState: UIControlState.Normal);
-        self.prevButton.setImage(tm.imageNamed("controls/player_previous_mix_pressed"), forState: UIControlState.Highlighted);
+        self.prevButton!.setImage(tm.imageNamed("controls/player_previous_mix"), forState: UIControlState.Normal);
+        self.prevButton!.setImage(tm.imageNamed("controls/player_previous_mix_pressed"), forState: UIControlState.Highlighted);
         
-        self.nextButton.setImage(tm.imageNamed("controls/player_next_mix"), forState: UIControlState.Normal);
-        self.nextButton.setImage(tm.imageNamed("controls/player_next_mix_pressed"), forState: UIControlState.Highlighted);
+        self.nextButton!.setImage(tm.imageNamed("controls/player_next_mix"), forState: UIControlState.Normal);
+        self.nextButton!.setImage(tm.imageNamed("controls/player_next_mix_pressed"), forState: UIControlState.Highlighted);
         
-        self.playButton.setImage(tm.imageNamed("controls/player_play"), forState: UIControlState.Normal);
-        self.playButton.setImage(tm.imageNamed("controls/player_play_pressed"), forState: UIControlState.Highlighted);
-        self.playButton.setImage(tm.imageNamed("controls/player_pause"), forState: UIControlState.Selected);
-        self.playButton.setImage(tm.imageNamed("controls/player_pause_pressed"), forState: UIControlState.Highlighted | UIControlState.Selected);
+        self.playButton!.setImage(tm.imageNamed("controls/player_play"), forState: UIControlState.Normal);
+        self.playButton!.setImage(tm.imageNamed("controls/player_play_pressed"), forState: UIControlState.Highlighted);
+        self.playButton!.setImage(tm.imageNamed("controls/player_pause"), forState: UIControlState.Selected);
+        self.playButton!.setImage(tm.imageNamed("controls/player_pause_pressed"), forState: UIControlState.Highlighted | UIControlState.Selected);
         
-        self.favoritesButton.setImage(tm.imageNamed("controls/add_to_favorites"), forState: UIControlState.Normal);
-        self.favoritesButton.setImage(tm.imageNamed("controls/add_to_favorites_selected"), forState: UIControlState.Selected);
+        self.favoritesButton!.setImage(tm.imageNamed("controls/add_to_favorites"), forState: UIControlState.Normal);
+        self.favoritesButton!.setImage(tm.imageNamed("controls/add_to_favorites_selected"), forState: UIControlState.Selected);
     }
 
     func playClick(sender : AnyObject)
@@ -138,7 +138,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
 
         if (shouldFavorite)
         {
-            self.favoritesButton.selected = true;
+            self.favoritesButton!.selected = true;
             BBAudioManager.defaultManager().mix.favoriteDate = NSDate.date();
             
             if (currentMix.name)
@@ -148,7 +148,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
         }
         else
         {
-            self.favoritesButton.selected = false;
+            self.favoritesButton!.selected = false;
             BBAudioManager.defaultManager().mix.favoriteDate = nil;
         }
         
@@ -156,7 +156,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
         
         if (shouldFavorite)
         {
-            selfVar.favoriteNotificationTopConstraint.constant = 0.0;
+            selfVar.favoriteNotificationTopConstraint!.constant = 0.0;
             
             UIView.animateWithDuration(0.2, animations:
             {
@@ -168,7 +168,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
                 
                 if (finished)
                 {
-                    selfVar.favoriteNotificationTopConstraint.constant = -selfVar.favoriteNotificationView.bounds.size.height;
+                    selfVar.favoriteNotificationTopConstraint!.constant = -selfVar.favoriteNotificationView!.bounds.size.height;
                     
                     UIView.animateWithDuration(0.2, delay: 1.0, options: UIViewAnimationOptions.LayoutSubviews, animations:
                     {
@@ -189,9 +189,9 @@ class BBNowPlayingViewControllerSwift : BBViewController
         let audioManager = BBAudioManager.defaultManager();
         let currentMix = audioManager.mix;
         
-        self.playButton.selected = !audioManager.paused;
+        self.playButton!.selected = !audioManager.paused;
         
-        self.currentTimeLabel.text = BBUIUtils.timeStringFromTime(audioManager.currentTime());
+        self.currentTimeLabel!.text = BBUIUtils.timeStringFromTime(audioManager.currentTime());
     }
 
     func refreshTimeInfo()
@@ -201,11 +201,11 @@ class BBNowPlayingViewControllerSwift : BBViewController
         
         self.refreshMainTimeInfo();
         
-        self.remainingTimeLabel.text = BBUIUtils.timeStringFromTime(audioManager.duration());
+        self.remainingTimeLabel!.text = BBUIUtils.timeStringFromTime(audioManager.duration());
         
         if (self.slider)
         {
-            self.slider.value = audioManager.progress;
+            self.slider!.value = audioManager.progress;
         }
     }
     
@@ -218,12 +218,12 @@ class BBNowPlayingViewControllerSwift : BBViewController
             let audioManager = BBAudioManager.defaultManager();
             let currentMix = audioManager.mix;
         
-            self!.titleLabel.text = currentMix.name.uppercaseString;
-            self!.tagsLabel.text = BBUIUtils.tagsStringForMix(currentMix);
+            self!.titleLabel!.text = currentMix.name.uppercaseString;
+            self!.tagsLabel!.text = BBUIUtils.tagsStringForMix(currentMix);
             
-            self!.favoritesButton.selected = (currentMix.favoriteDate != nil);
+            self!.favoritesButton!.selected = (currentMix.favoriteDate != nil);
         
-            self!.artworkImageView.setImageWithURL(NSURL.URLWithString(currentMix.imageUrl), placeholderImage:BBUIUtils.defaultImage());
+            self!.artworkImageView!.setImageWithURL(NSURL.URLWithString(currentMix.imageUrl), placeholderImage:BBUIUtils.defaultImage());
 
             self!.refreshTimeInfo();
         },
@@ -243,21 +243,21 @@ class BBNowPlayingViewControllerSwift : BBViewController
         switch (BBThemeManager.defaultManager().theme)
         {
             default:
-                self.titleLabel.textColor = UIColor(HEX: 0x333333FF);
-                self.tagsLabel.textColor = UIColor(HEX: 0x8A8A8AFF);
+                self.titleLabel!.textColor = UIColor(HEX: 0x333333FF);
+                self.tagsLabel!.textColor = UIColor(HEX: 0x8A8A8AFF);
                 
-                self.currentTimeLabel.textColor = UIColor.blackColor();
-                self.remainingTimeLabel.textColor = UIColor.blackColor();
+                self.currentTimeLabel!.textColor = UIColor.blackColor();
+                self.remainingTimeLabel!.textColor = UIColor.blackColor();
             
-                self.favoriteNotificationLabel.textColor = UIColor.whiteColor();
-                self.favoriteNotificationView.backgroundColor = UIColor(HEX: 0xF45D5DFF);
+                self.favoriteNotificationLabel!.textColor = UIColor.whiteColor();
+                self.favoriteNotificationView!.backgroundColor = UIColor(HEX: 0xF45D5DFF);
         }
     
-        self.titleLabel.font = BBFont.boldFontLikeFont(self.titleLabel.font);
-        self.tagsLabel.font = BBFont.fontLikeFont(self.tagsLabel.font);
+        self.titleLabel!.font = BBFont.boldFontLikeFont(self.titleLabel!.font);
+        self.tagsLabel!.font = BBFont.fontLikeFont(self.tagsLabel!.font);
         
-        self.favoriteNotificationLabel.font = BBFont.boldFontLikeFont(self.favoriteNotificationLabel.font);
-        self.favoriteNotificationLabel.text = NSLocalizedString("Mix Added to Favorites", comment: "").uppercaseString;
+        self.favoriteNotificationLabel!.font = BBFont.boldFontLikeFont(self.favoriteNotificationLabel!.font);
+        self.favoriteNotificationLabel!.text = NSLocalizedString("Mix Added to Favorites", comment: "").uppercaseString;
     }
     
     override func viewWillAppear(animated : Bool)

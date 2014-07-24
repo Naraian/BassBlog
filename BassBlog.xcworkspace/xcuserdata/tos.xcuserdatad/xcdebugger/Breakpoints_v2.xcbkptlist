@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BassBlog/Classes/Controllers/Base/Table/BBTableViewController.m"
-            timestampString = "427414123.609585"
+            filePath = "BassBlog/Classes/Controllers/Root/Tags/View/BBTagsTableViewCell.m"
+            timestampString = "427663057.453783"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
-            landmarkName = "-controllerWillChangeContent:"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "-setSelected:animated:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BassBlog/Classes/Controllers/Root/Tags/View/BBTagsTableViewCell.m"
-            timestampString = "427663057.453783"
+            filePath = "Pods/MarqueeLabel/MarqueeLabel.m"
+            timestampString = "427922910.515466"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
-            landmarkName = "-setSelected:animated:"
+            startingLineNumber = "737"
+            endingLineNumber = "737"
+            landmarkName = "-keyFrameAnimationForGradientFadeLength:interval:delay:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
