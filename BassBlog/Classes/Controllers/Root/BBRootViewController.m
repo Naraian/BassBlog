@@ -88,7 +88,10 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
     {
         _modelRefreshActivityView = [BBActivityView new];
         _modelRefreshActivityView.descriptionLabel.text = NSLocalizedString(@"Loading Database", nil);
+        _modelRefreshActivityView.subDescriptionLabel.text = NSLocalizedString(@"this can take some time", nil);
+        
         _modelRefreshActivityView.descriptionLabel.font = [BBFont boldFontOfSize:16.f];
+        _modelRefreshActivityView.subDescriptionLabel.font = [BBFont boldFontOfSize:14.f];
     }
     
     return _modelRefreshActivityView;
@@ -124,7 +127,10 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
         _nowPlayingViewController = (BBNowPlayingViewControllerSwift*)[self.storyboard instantiateViewControllerWithIdentifier:@"nowPlaying"];
     }
     
-    [navigationController pushViewController:_nowPlayingViewController animated:YES];
+    if (![navigationController.viewControllers containsObject:_nowPlayingViewController])
+    {
+        [navigationController pushViewController:_nowPlayingViewController animated:YES];
+    }
 }
 
 - (void)toggleVisibility:(BOOL *)visibility

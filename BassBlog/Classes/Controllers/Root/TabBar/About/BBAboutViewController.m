@@ -10,17 +10,19 @@
 #import "BBAboutTableViewCell.h"
 #import "BBMixesTableSectionHeaderView.h"
 
+#import "BBSettings.h"
+#import "BBMacros.h"
 #import "BBThemeManager.h"
 #import "BBModelManager.h"
 #import "Flurry.h"
 
+DEFINE_STATIC_CONST_NSSTRING(BBAboutViewControllerForceRefreshPopupKey);
+
 typedef NS_ENUM(NSInteger, BBAboutTableModelSection)
 {
-    BBAboutTableModelSectionRefresh = 0,
-    BBAboutTableModelSectionSocial,
+    BBAboutTableModelSectionSocial = 0,
     BBAboutTableModelSectionBassblog,
-    BBAboutTableModelSectionTellAFriend,
-    BBAboutTableModelSectionFeedback,
+    BBAboutTableModelSectionRefresh,
     BBAboutTableModelSectionsCount
 };
 
@@ -30,6 +32,14 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
     BBAboutTableModelSocialSectionRowTwitter,
     BBAboutTableModelSocialSectionRowVkontakte,
     BBAboutTableModelSocialSectionRowCount
+};
+
+typedef NS_ENUM(NSInteger, BBAboutTableModelBassblogSectionRow)
+{
+    BBAboutTableModelBassblogSectionRowWebsite = 0,
+    BBAboutTableModelBassblogSectionRowTellAFriend,
+    BBAboutTableModelBassblogSectionRowFeedback,
+    BBAboutTableModelBassblogSectionRowCount
 };
 
 @interface BBAboutViewController()
@@ -81,6 +91,9 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
         case BBAboutTableModelSectionSocial:
             return BBAboutTableModelSocialSectionRowCount;
             
+        case BBAboutTableModelSectionBassblog:
+            return BBAboutTableModelBassblogSectionRowCount;
+            
         default:
             break;
     }
@@ -93,9 +106,6 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
     NSString *imageName = nil;
     switch (indexPath.section)
     {
-        case BBAboutTableModelSectionRefresh:
-            imageName = @"";
-            break;
         case BBAboutTableModelSectionSocial:
             if (indexPath.row == BBAboutTableModelSocialSectionRowFacebook)
             {
@@ -110,25 +120,32 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
                 imageName = @"vk";
             }
             break;
-            
+        
         case BBAboutTableModelSectionBassblog:
-            imageName = @"website";
+            if (indexPath.row == BBAboutTableModelBassblogSectionRowWebsite)
+            {
+                imageName = @"website";
+            }
+            else if (indexPath.row == BBAboutTableModelBassblogSectionRowTellAFriend)
+            {
+                imageName = @"tell_a_friend";
+            }
+            else if (indexPath.row == BBAboutTableModelBassblogSectionRowFeedback)
+            {
+                imageName = @"feedback";
+            }
             break;
-            
-        case BBAboutTableModelSectionTellAFriend:
-            imageName = @"tell_a_friend";
+        
+        case BBAboutTableModelSectionRefresh:
+            imageName = @"";
             break;
-            
-        case BBAboutTableModelSectionFeedback:
-            imageName = @"feedback";
-            break;
-            
+
         default:
             imageName = @"about";
             break;
     }
     
-    imageName = [@"social" stringByAppendingPathComponent:imageName];
+    imageName = [@"settings" stringByAppendingPathComponent:imageName];
     UIImage *image = [[BBThemeManager defaultManager] imageNamed:imageName];
     
     return image;
@@ -139,9 +156,6 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
     NSString *title = nil;
     switch (indexPath.section)
     {
-        case BBAboutTableModelSectionRefresh:
-            title = @"force refresh";
-            break;
         case BBAboutTableModelSectionSocial:
             if (indexPath.row == BBAboutTableModelSocialSectionRowFacebook)
             {
@@ -156,15 +170,26 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
                 title = @"vkontakte";
             }
             break;
+            
         case BBAboutTableModelSectionBassblog:
-            title = @"bassblog.pro";
+            if (indexPath.row == BBAboutTableModelBassblogSectionRowWebsite)
+            {
+                title = @"bassblog.pro";
+            }
+            else if (indexPath.row == BBAboutTableModelBassblogSectionRowTellAFriend)
+            {
+                title = @"tell a friend";
+            }
+            else if (indexPath.row == BBAboutTableModelBassblogSectionRowFeedback)
+            {
+                title = @"leave a feedback";
+            }
             break;
-        case BBAboutTableModelSectionTellAFriend:
-            title = @"tell a friend";
+
+        case BBAboutTableModelSectionRefresh:
+            title = @"force refresh";
             break;
-        case BBAboutTableModelSectionFeedback:
-            title = @"leave a feedback";
-            break;
+
         default:
             
             break;
@@ -219,25 +244,19 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
     switch (section)
     {
         case BBAboutTableModelSectionSocial:
-            return RUNNING_ON_3_5_INCH ? 24.f : 36.f;
-        case BBAboutTableModelSectionBassblog:
-            return RUNNING_ON_3_5_INCH ? 18.f : 36.f;
-            
+            return RUNNING_ON_3_5_INCH ? 10.f : 36.f;
+
         default:
             break;
     }
     
-    return 18.f;
+    return RUNNING_ON_3_5_INCH ? 10.f : 36.f;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    switch (section)
+    if (section == BBAboutTableModelSectionsCount - 1)
     {
-        case BBAboutTableModelSectionFeedback:
-            return RUNNING_ON_3_5_INCH ? 18.f : 84.f;
-            
-        default:
-            break;
+        return RUNNING_ON_3_5_INCH ? 12.f : 40.f;
     }
     
     return 0.f;
@@ -250,9 +269,6 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
     NSString *urlString = nil;
     switch (indexPath.section)
     {
-        case BBAboutTableModelSectionRefresh:
-            [[BBModelManager defaultManager] forceRefresh];
-            break;
         case BBAboutTableModelSectionSocial:
             if (indexPath.row == BBAboutTableModelSocialSectionRowFacebook)
             {
@@ -267,15 +283,41 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelSocialSectionRow)
                 urlString = @"http://vk.com/bass_blog";
             }
             break;
+            
         case BBAboutTableModelSectionBassblog:
-            urlString = @"http://www.bassblog.pro";
+            if (indexPath.row == BBAboutTableModelBassblogSectionRowWebsite)
+            {
+                urlString = @"http://www.bassblog.pro";
+            }
+            else if (indexPath.row == BBAboutTableModelBassblogSectionRowTellAFriend)
+            {
+                urlString = nil;
+            }
+            else if (indexPath.row == BBAboutTableModelBassblogSectionRowFeedback)
+            {
+                urlString = @"mailto:bassblog.pro@gmail.com";
+            }
             break;
-        case BBAboutTableModelSectionTellAFriend:
-            urlString = nil;
+            
+        case BBAboutTableModelSectionRefresh:
+        {
+            BOOL popupWasShown = [BBSettings boolForKey:BBAboutViewControllerForceRefreshPopupKey];
+            
+            if (!popupWasShown)
+            {
+                [BBSettings setBool:YES forKey:BBAboutViewControllerForceRefreshPopupKey];
+                
+                [[[UIAlertView alloc] initWithTitle:nil
+                                            message:NSLocalizedString(@"Use this action when you find that some of new mixes didn't appear in the list", nil)
+                                           delegate:nil
+                                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                  otherButtonTitles:nil] show];
+            }
+            
+            [[BBModelManager defaultManager] forceRefresh];
             break;
-        case BBAboutTableModelSectionFeedback:
-            urlString = @"mailto:bassblog.pro@gmail.com";
-            break;
+        }
+            
         default:
             
             break;
