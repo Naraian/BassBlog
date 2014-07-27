@@ -85,6 +85,7 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
     [super startObserveNotifications];
     
     [self addSelector:@selector(modelManagerDidInitializeNotification) forNotificationWithName:BBModelManagerDidInitializeNotification];
+    [self addSelector:@selector(modelManagerWillStartRefreshNotification) forNotificationWithName:BBModelManagerWillStartRefreshNotification];
     [self addSelector:@selector(modelManagerDidFinishRefreshNotification) forNotificationWithName:BBModelManagerDidFinishRefreshNotification];
     [self addSelector:@selector(modelManagerRefreshErrorNotification) forNotificationWithName:BBModelManagerRefreshErrorNotification];
     [self addSelector:@selector(modelManagerDidFinishSaveNotification) forNotificationWithName:BBModelManagerDidFinishSaveNotification];
@@ -95,8 +96,14 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 
 }
 
+- (void)modelManagerWillStartRefreshNotification
+{
+    [self showActivityView];
+}
+
 - (void)modelManagerDidFinishRefreshNotification
 {
+    [self hideActivityView];
 }
 
 - (void)modelManagerRefreshErrorNotification
@@ -129,6 +136,13 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 #warning DEAL
     NSLog(@"self showDelayedBlockingActivityView: %@", self);
     
+    [self performSelector:@selector(showActivityView)
+               withObject:nil
+               afterDelay:BBActivityViewShowDelay];
+}
+
+- (void)showActivityView
+{
     if (self.activityView.superview)
     {
         return;
@@ -139,20 +153,13 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
     
     [self.view addSubview:self.activityView];
     
-    [self performSelector:@selector(showActivityView)
-               withObject:nil
-               afterDelay:BBActivityViewShowDelay];
-}
-
-- (void)showActivityView
-{
     NSLog(@"self showActivityView: %@", self);
     [UIView animateWithDuration:BBActivityViewShowAnimationDuration
                      animations:^{ self.activityView.alpha = 1.f; }];
 }
 
-- (void)hideActivityView {
-    
+- (void)hideActivityView
+{
     NSLog(@"self hideActivityView: %@", self);
     [NSObject cancelPreviousPerformRequestsWithTarget:self
                                              selector:@selector(showActivityView)
@@ -196,14 +203,14 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
 
 - (void)contentWillChange
 {
-    [self showDelayedBlockingActivityView];
+    //[self showDelayedBlockingActivityView];
 }
 
 - (void)contentDidChange
 {
     [super contentDidChange];
     
-    [self hideActivityView];
+//    [self hideActivityView];
 }
 
 - (void)filterContentForSearchText:(NSString*)searchText

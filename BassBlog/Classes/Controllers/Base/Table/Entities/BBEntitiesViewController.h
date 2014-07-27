@@ -44,6 +44,7 @@
            withRowAnimation:(UITableViewRowAnimation)rowAnimation;
 
 - (void)showDelayedBlockingActivityView;
+- (void)showActivityView;
 - (void)hideActivityView;
 
 #warning TODO: move to mixes controller...

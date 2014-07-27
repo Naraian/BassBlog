@@ -314,6 +314,7 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelBassblogSectionRow)
                                   otherButtonTitles:nil] show];
             }
             
+            self.tabBarController.selectedIndex = 0;
             [[BBModelManager defaultManager] forceRefresh];
             break;
         }

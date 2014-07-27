@@ -36,6 +36,7 @@ typedef NS_ENUM(NSUInteger, BBModelState) {
 
 DEFINE_CONST_NSSTRING(BBModelManagerDidInitializeNotification);
 
+DEFINE_CONST_NSSTRING(BBModelManagerWillStartRefreshNotification);
 DEFINE_CONST_NSSTRING(BBModelManagerDidFinishRefreshNotification);
 
 DEFINE_CONST_NSSTRING(BBModelManagerDidChangeRefreshStageNotification);
@@ -467,6 +468,11 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 
 - (void)loadMixes:(BOOL)forceRefresh
 {
+    if (forceRefresh)
+    {
+        [self postNotificationWithName:BBModelManagerWillStartRefreshNotification];
+    }
+    
     dispatch_async(dispatch_get_main_queue(), ^
     {
         self.bloggerService.APIKey = @"AIzaSyAgtNFIT3ZoYSEmR6oZ2vupakpyADkdhQI";
@@ -651,7 +657,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
             
             self.modelState = BBModelIsPopulated;
 
-            if (!nextPageToken.length)
+            if (!nextPageToken.length || forceRefresh)
             {
                 [self postAsyncNotificationWithName:BBModelManagerDidFinishRefreshNotification];
             }
