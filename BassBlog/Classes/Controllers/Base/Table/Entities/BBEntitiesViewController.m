@@ -8,8 +8,6 @@
 
 #import "BBEntitiesViewController.h"
 
-#import "BBActivityView.h"
-
 #import "BBEntity.h"
 
 #import "BBModelManager.h"
@@ -18,14 +16,7 @@
 #import "NSObject+Notification.h"
 #import "NSObject+Thread.h"
 
-
-static const NSTimeInterval BBActivityViewShowDelay = 0.2;
-static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
-
-
 @interface BBEntitiesViewController ()
-
-@property (nonatomic) BBActivityView *activityView;
 
 @property (nonatomic) BOOL reloadModelOnSaveFinish;
 @property (nonatomic) BOOL reloadDataOnViewWillAppear;
@@ -69,41 +60,19 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
     [super viewDidDisappear:animated];
 }
 
-- (BBActivityView *)activityView {
-    
-    if (_activityView == nil) {
-        _activityView = [BBActivityView new];
-    }
-    
-    return _activityView;
-}
-
 #pragma mark - Notifications
 
 - (void)startObserveNotifications {
     
     [super startObserveNotifications];
     
-    [self addSelector:@selector(modelManagerDidInitializeNotification) forNotificationWithName:BBModelManagerDidInitializeNotification];
-    [self addSelector:@selector(modelManagerWillStartRefreshNotification) forNotificationWithName:BBModelManagerWillStartRefreshNotification];
     [self addSelector:@selector(modelManagerDidFinishRefreshNotification) forNotificationWithName:BBModelManagerDidFinishRefreshNotification];
     [self addSelector:@selector(modelManagerRefreshErrorNotification) forNotificationWithName:BBModelManagerRefreshErrorNotification];
     [self addSelector:@selector(modelManagerDidFinishSaveNotification) forNotificationWithName:BBModelManagerDidFinishSaveNotification];
 }
 
-- (void)modelManagerDidInitializeNotification
-{
-
-}
-
-- (void)modelManagerWillStartRefreshNotification
-{
-    [self showActivityView];
-}
-
 - (void)modelManagerDidFinishRefreshNotification
 {
-    [self hideActivityView];
 }
 
 - (void)modelManagerRefreshErrorNotification
@@ -121,50 +90,6 @@ static const NSTimeInterval BBActivityViewShowAnimationDuration = 0.1;
     [self configureCell:cell withEntity:[self entityAtIndexPath:indexPath inTableView:tableView]];
     
     return cell;
-}
-
-@end
-
-#pragma mark -
-
-@implementation BBEntitiesViewController (Protected)
-
-#pragma mark View
-
-- (void)showDelayedBlockingActivityView
-{
-#warning DEAL
-    NSLog(@"self showDelayedBlockingActivityView: %@", self);
-    
-    [self performSelector:@selector(showActivityView)
-               withObject:nil
-               afterDelay:BBActivityViewShowDelay];
-}
-
-- (void)showActivityView
-{
-    if (self.activityView.superview)
-    {
-        return;
-    }
-    
-    self.activityView.frame = self.view.bounds;
-    self.activityView.alpha = 0.f;
-    
-    [self.view addSubview:self.activityView];
-    
-    NSLog(@"self showActivityView: %@", self);
-    [UIView animateWithDuration:BBActivityViewShowAnimationDuration
-                     animations:^{ self.activityView.alpha = 1.f; }];
-}
-
-- (void)hideActivityView
-{
-    NSLog(@"self hideActivityView: %@", self);
-    [NSObject cancelPreviousPerformRequestsWithTarget:self
-                                             selector:@selector(showActivityView)
-                                               object:nil];
-    [_activityView removeFromSuperview];
 }
 
 #pragma mark - Model

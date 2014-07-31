@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6185.11" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <development version="5000" identifier="xcode"/>
+        <deployment defaultVersion="1792" identifier="iOS"/>
+        <development version="5100" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6190.4"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -15,31 +17,35 @@
                     <rect key="frame" x="0.0" y="64" width="320" height="396"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="LOADING DATABASE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mtJ-X8-GOy" userLabel="Description Label">
-                            <rect key="frame" x="73" y="109" width="174.5" height="21.5"/>
+                            <rect key="frame" x="73" y="79.5" width="174.5" height="21.5"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="this can take some time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7" userLabel="SubDescription Label">
-                            <rect key="frame" x="65" y="138" width="191.5" height="21.5"/>
+                            <rect key="frame" x="65" y="108.5" width="191.5" height="21.5"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <activityIndicatorView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="3">
-                            <rect key="frame" x="150" y="168" width="20" height="20"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </activityIndicatorView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v4q-bD-9v3" customClass="ProgressPieView">
+                            <rect key="frame" x="120" y="138" width="80" height="80"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="80" id="fTV-rF-mMx"/>
+                                <constraint firstAttribute="width" secondItem="v4q-bD-9v3" secondAttribute="height" multiplier="1:1" id="njm-J2-Yyq"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="v4q-bD-9v3" firstAttribute="top" secondItem="7" secondAttribute="bottom" constant="8" id="9sh-9a-QaQ"/>
                         <constraint firstAttribute="centerX" secondItem="7" secondAttribute="centerX" id="BNh-Dj-qQT"/>
+                        <constraint firstAttribute="centerY" secondItem="v4q-bD-9v3" secondAttribute="centerY" constant="20" id="BPH-0s-7PF"/>
                         <constraint firstAttribute="centerX" secondItem="mtJ-X8-GOy" secondAttribute="centerX" id="XGx-g3-aIu"/>
-                        <constraint firstAttribute="centerX" secondItem="3" secondAttribute="centerX" constant="0.5" id="b6n-VU-7sp"/>
-                        <constraint firstAttribute="centerY" secondItem="3" secondAttribute="centerY" constant="20" id="ebq-0V-Bdl"/>
-                        <constraint firstItem="3" firstAttribute="top" secondItem="7" secondAttribute="bottom" constant="8" id="scC-g6-2pV"/>
+                        <constraint firstAttribute="centerX" secondItem="v4q-bD-9v3" secondAttribute="centerX" id="vyc-Se-3Qa"/>
                         <constraint firstItem="7" firstAttribute="top" secondItem="mtJ-X8-GOy" secondAttribute="bottom" constant="8" id="xEn-ma-URE"/>
                     </constraints>
                 </view>
@@ -53,7 +59,7 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="activityIndicator" destination="3" id="6"/>
+                <outlet property="activityIndicator" destination="v4q-bD-9v3" id="KPf-G9-6X0"/>
                 <outlet property="descriptionLabel" destination="mtJ-X8-GOy" id="Nhi-ej-P7N"/>
                 <outlet property="subDescriptionLabel" destination="7" id="14s-4b-4ww"/>
             </connections>

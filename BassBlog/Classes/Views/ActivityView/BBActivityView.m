@@ -13,9 +13,14 @@
 
 @implementation BBActivityView
 
-+ (id)new
++ (instancetype)new
 {    
-    return [self instanceFromNib:nil];
+    BBActivityView *activityView = [self instanceFromNib:nil];
+    activityView.activityIndicator.lineWidth = 4.f;
+    activityView.activityIndicator.trackTintColor = [UIColor colorWithHEX:0xEEEEEEFF];
+    activityView.activityIndicator.progressTintColor = [UIColor colorWithHEX:0xF24F4FFF];
+    
+    return activityView;
 }
 
 @end

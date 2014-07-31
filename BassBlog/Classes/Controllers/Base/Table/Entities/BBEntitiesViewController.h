@@ -16,36 +16,8 @@
 // - entities ID are cell IDs in tableModel.
 
 @interface BBEntitiesViewController : BBTableViewController
-{
-
-}
-
-@end
-
-#pragma mark -
-
-@interface BBEntitiesViewController (Abstract)
-
-- (void)configureCell:(UITableViewCell *)cell withEntity:(id)entity;
-
-@end
-
-#pragma mark -
-
-@interface BBEntitiesViewController (Protected)
-
 - (void)modelManagerDidFinishRefreshNotification;
 - (void)modelManagerRefreshErrorNotification;
-
-#pragma mark View
-
-- (void)updateCellForEntity:(id)entity; // "eBBTableViewRowAnimation"
-- (void)updateCellForEntity:(id)entity
-           withRowAnimation:(UITableViewRowAnimation)rowAnimation;
-
-- (void)showDelayedBlockingActivityView;
-- (void)showActivityView;
-- (void)hideActivityView;
 
 #warning TODO: move to mixes controller...
 
@@ -64,5 +36,17 @@ enum { eBBDefaultTableModelSectionID = 0 };
 
 - (BOOL)hasEntity:(id)entity inTableView:(UITableView *)tableView;
 - (void)reloadModel;
+
+@end
+
+#pragma mark -
+
+@interface BBEntitiesViewController (Abstract)
+
+- (void)configureCell:(UITableViewCell *)cell withEntity:(id)entity;
+
+- (void)updateCellForEntity:(id)entity; // "eBBTableViewRowAnimation"
+- (void)updateCellForEntity:(id)entity
+           withRowAnimation:(UITableViewRowAnimation)rowAnimation;
 
 @end

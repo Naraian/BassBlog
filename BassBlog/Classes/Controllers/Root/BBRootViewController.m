@@ -57,22 +57,24 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
     _tagsViewController = (BBTagsViewController *)self.rearViewController;
     _tabBarController = (BBTabBarController *)self.frontViewController;
     
+    [self startObserveModelRefreshNotifications];
+    
     if ([[BBModelManager defaultManager] fetchDatabaseIfNecessary])
     {
-        [self startObserveModelRefreshNotifications];
         [self showModelRefreshActivityView];
     }
 }
 
 - (void)showModelRefreshActivityView
 {
-    if (self.modelRefreshActivityView.superview)
+    if (_modelRefreshActivityView.superview)
     {
         return;
     }
     
     self.modelRefreshActivityView.frame = self.view.bounds;
     self.modelRefreshActivityView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.modelRefreshActivityView.activityIndicator startAnimating];
     [self.view addSubview:self.modelRefreshActivityView];
 }
 
@@ -90,8 +92,8 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
         _modelRefreshActivityView.descriptionLabel.text = NSLocalizedString(@"Loading Database", nil);
         _modelRefreshActivityView.subDescriptionLabel.text = NSLocalizedString(@"this can take some time", nil);
         
-        _modelRefreshActivityView.descriptionLabel.font = [BBFont boldFontOfSize:16.f];
-        _modelRefreshActivityView.subDescriptionLabel.font = [BBFont boldFontOfSize:14.f];
+        _modelRefreshActivityView.descriptionLabel.font = [BBFont boldFontOfSize:22.f];
+        _modelRefreshActivityView.subDescriptionLabel.font = [BBFont boldFontOfSize:16.f];
     }
     
     return _modelRefreshActivityView;
@@ -195,8 +197,14 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 
 - (void)startObserveModelRefreshNotifications
 {
+    [self addSelector:@selector(modelManagerWillStartRefreshNotification) forNotificationWithName:BBModelManagerWillStartRefreshNotification];
     [self addSelector:@selector(modelManagerDidFinishRefreshNotification) forNotificationWithName:BBModelManagerDidFinishRefreshNotification];
     [self addSelector:@selector(modelManagerRefreshErrorNotification) forNotificationWithName:BBModelManagerRefreshErrorNotification];
+}
+
+- (void)modelManagerWillStartRefreshNotification
+{
+    [self showModelRefreshActivityView];
 }
 
 - (void)modelManagerRefreshErrorNotification
@@ -206,8 +214,6 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 
 - (void)modelManagerDidFinishRefreshNotification
 {
-    [self removeNotificationSelectors];
-    
     [self hideModelRefreshActivityView];
     
     [self activate];
