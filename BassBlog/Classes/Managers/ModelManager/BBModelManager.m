@@ -1172,26 +1172,6 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     }
 }
 
-- (void)managedObjectContextDidSaveNotification:(NSNotification *)notification
-{
-    NSManagedObjectContext *savedContext = [notification object];
-    
-    // ignore change notifications for the main MOC
-    if (savedContext != _rootContext)
-    {
-        if (_rootContext.persistentStoreCoordinator != savedContext.persistentStoreCoordinator)
-        {
-            return;
-        }
-        
-        [_rootContext performBlock:^
-        {
-            [_rootContext mergeChangesFromContextDidSaveNotification:notification];
-            [self mainContextAutoSave];
-        }];
-    }
-}
-
 - (NSString *)descriptionOfEntities:(NSSet *)entities
 {
     return [self descriptionOfEntities:entities includingChanges:NO];
@@ -1344,5 +1324,25 @@ static NSString *const BBManagedObjectContextDescriptionKey =
 }
 
 #endif // DEBUG
+
+- (void)managedObjectContextDidSaveNotification:(NSNotification *)notification
+{
+    NSManagedObjectContext *savedContext = [notification object];
+    
+    // ignore change notifications for the main MOC
+    if (savedContext != _rootContext)
+    {
+        if (_rootContext.persistentStoreCoordinator != savedContext.persistentStoreCoordinator)
+        {
+            return;
+        }
+        
+        [_rootContext performBlock:^
+        {
+            [_rootContext mergeChangesFromContextDidSaveNotification:notification];
+            [self mainContextAutoSave];
+        }];
+    }
+}
 
 @end
