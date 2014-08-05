@@ -14,7 +14,7 @@ class BBAppDelegateSwift: UIResponder, UIApplicationDelegate
 {
     var window : UIWindow!;
     
-    init()
+    override init()
     {
         
     }

@@ -203,7 +203,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
         
         self.remainingTimeLabel!.text = BBUIUtils.timeStringFromTime(audioManager.duration());
         
-        if (self.slider)
+        if (self.slider != nil)
         {
             self.slider!.value = audioManager.progress;
         }
