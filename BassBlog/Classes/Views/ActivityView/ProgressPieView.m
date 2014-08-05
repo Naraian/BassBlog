@@ -53,6 +53,8 @@
 
 - (void)drawInContext:(CGContextRef)aContext
 {
+    const CGFloat pieSector = M_PI_4;
+    
     CGFloat theRadius = (MIN(self.bounds.size.width, self.bounds.size.height)) / 2.f;
     CGPoint theCenter = CGPointMake(self.bounds.size.width/2.f, self.bounds.size.height/2.f);
     
@@ -70,18 +72,19 @@
         CGContextEOClip(aContext);
     }
     
+    CGFloat startAngle = -M_PI_2 + M_PI * 2.f * self.progress;
+    
     if (self.progressTintColor && ![self.progressTintColor isEqual:[UIColor clearColor]])
     {
         CGContextSaveGState(aContext);
         
         UIBezierPath *thePiePath = [UIBezierPath bezierPath];
         [thePiePath moveToPoint:theCenter];
-        [thePiePath addLineToPoint:CGPointMake(theCenter.x, theCenter.y - theRadius)];
         
         [thePiePath addArcWithCenter:theCenter
                               radius:theRadius
-                          startAngle:-M_PI_2
-                            endAngle:-M_PI_2 - M_PI * 2.f * (1.f - self.progress)
+                          startAngle:startAngle
+                            endAngle:startAngle + pieSector
                            clockwise:YES];
         
         [thePiePath addLineToPoint:theCenter];
@@ -99,12 +102,13 @@
         
         UIBezierPath *thePiePath = [UIBezierPath bezierPath];
         [thePiePath moveToPoint:theCenter];
-        [thePiePath addLineToPoint:CGPointMake(theCenter.x, theCenter.y - theRadius)];
+        
+        
         
         [thePiePath addArcWithCenter:theCenter
                               radius:theRadius
-                          startAngle:-M_PI_2
-                            endAngle:-M_PI_2 + M_PI * 2.f * self.progress
+                          startAngle:startAngle
+                            endAngle:startAngle + pieSector
                            clockwise:NO];
         
         [thePiePath addLineToPoint:theCenter];
@@ -182,10 +186,15 @@
     animation.fromValue = [NSNumber numberWithFloat:0.f];
     animation.toValue = [NSNumber numberWithFloat:1.f];
     animation.removedOnCompletion = NO;
-    animation.repeatCount = 888;
+    animation.repeatCount = FLT_MAX;
     [self.progressPieLayer addAnimation:animation forKey:@"progressAnimation"];
     
     self.progressPieLayer.progress = -1.f;
+}
+
+- (void)stopAnimating
+{
+    [self.progressPieLayer removeAnimationForKey:@"progressAnimation"];
 }
 
 - (float)lineWidth
@@ -216,6 +225,13 @@
 - (void)setTrackTintColor:(UIColor *)aTrackTintColor
 {
     [self.progressPieLayer setTrackTintColor:aTrackTintColor];
+}
+
+- (void)setNeedsDisplay
+{
+    [super setNeedsDisplay];
+    
+    [self.layer setNeedsDisplay];
 }
 
 @end

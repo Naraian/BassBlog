@@ -24,5 +24,6 @@
 @property (strong, nonatomic) UIColor *trackTintColor;
 
 - (void)startAnimating;
+- (void)stopAnimating;
 
 @end
