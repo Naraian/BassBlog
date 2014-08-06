@@ -12,20 +12,24 @@
 	<dict>
 		<key>05E85AE6-2E9E-46F5-B58B-9035B68D02FC</key>
 		<string>ssh://github.com/Naraian/BassBlog.git</string>
+		<key>454D75EF168C6DD50D50941886C51F5040678967</key>
+		<string>github.com:Naraian/BassBlog.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>BassBlog.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>05E85AE6-2E9E-46F5-B58B-9035B68D02FC</key>
+		<string>../../BassBlog</string>
+		<key>454D75EF168C6DD50D50941886C51F5040678967</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/Naraian/BassBlog.git</string>
+	<string>github.com:Naraian/BassBlog.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>05E85AE6-2E9E-46F5-B58B-9035B68D02FC</string>
+	<string>454D75EF168C6DD50D50941886C51F5040678967</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -35,6 +39,14 @@
 			<string>05E85AE6-2E9E-46F5-B58B-9035B68D02FC</string>
 			<key>IDESourceControlWCCName</key>
 			<string>BassBlog</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>454D75EF168C6DD50D50941886C51F5040678967</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Designs</string>
 		</dict>
 	</array>
 </dict>

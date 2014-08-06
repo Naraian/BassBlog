@@ -137,7 +137,7 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelBassblogSectionRow)
             break;
         
         case BBAboutTableModelSectionRefresh:
-            imageName = @"";
+            imageName = @"force_refresh";
             break;
 
         default:
