@@ -7,12 +7,15 @@
 //
 
 #import "BBRefreshControl.h"
+#import "ProgressPieView.h"
 #import "NSLayoutConstraint+Extensions.h"
 #import "BBFont.h"
 #import "BBThemeManager.h"
 
 @interface BBRefreshControl()
 
+
+@property (nonatomic, strong) ProgressPieView *progressView;
 @property (nonatomic, strong) UILabel *customLabel;
 @property (nonatomic, strong) UIImageView *leftIndicatorImageView;
 @property (nonatomic, strong) UIImageView *rightIndicatorImageView;
@@ -36,6 +39,16 @@
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[overlayView]|" views:views]];
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[overlayView(82)]" views:views]];
         
+        self.progressView = [ProgressPieView new];
+        self.progressView.translatesAutoresizingMaskIntoConstraints = NO;
+        self.progressView.backgroundColor = [UIColor clearColor];
+        self.progressView.lineWidth = 4.f;
+        self.progressView.trackTintColor = [UIColor colorWithHEX:0xEEEEEEFF];
+        self.progressView.progressTintColor = [UIColor colorWithHEX:0xF24F4FFF];
+        [overlayView addSubview:self.progressView];
+        
+        [overlayView addConstraint:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.progressView attribute:NSLayoutAttributeHeight multiplier:1.f constant:0.f]];
+        
         self.customLabel = [UILabel new];
         self.customLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.customLabel.textAlignment = NSTextAlignmentCenter;
@@ -45,7 +58,6 @@
         self.customLabel.numberOfLines = 1;
         [overlayView addSubview:self.customLabel];
         
-        [overlayView addConstraint:[NSLayoutConstraint constraintWithItem:self.customLabel attribute:NSLayoutAttributeCenterX toItem:overlayView]];
         [overlayView addConstraint:[NSLayoutConstraint constraintWithItem:self.customLabel attribute:NSLayoutAttributeCenterY toItem:overlayView]];
         
         NSString *imageName = [@"table_view/cell" stringByAppendingPathComponent:@"mini_arrow"];
@@ -63,8 +75,8 @@
         self.rightIndicatorImageView.contentMode = UIViewContentModeCenter;
         [overlayView addSubview:self.rightIndicatorImageView];
         
-        views = NSDictionaryOfVariableBindings(_customLabel, _leftIndicatorImageView, _rightIndicatorImageView);
-        [overlayView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(30)-[_leftIndicatorImageView(10)]-[_customLabel]-[_rightIndicatorImageView(10)]-(30)-|" options:NSLayoutFormatAlignAllCenterY metrics:nil views:views]];
+        views = NSDictionaryOfVariableBindings(_customLabel, _leftIndicatorImageView, _rightIndicatorImageView, _progressView);
+        [overlayView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(45)-[_leftIndicatorImageView(10)]-[_progressView(40)]-[_customLabel]-[_rightIndicatorImageView(10)]-(45)-|" options:NSLayoutFormatAlignAllCenterY metrics:nil views:views]];
     }
     return self;
 }
@@ -73,6 +85,8 @@
 {
     if (self.isRefreshing)
     {
+        [self.progressView startAnimating];
+        
         CABasicAnimation *leftAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
         leftAnimation.duration = 0.5;
         leftAnimation.fromValue = @(0.0);
@@ -98,6 +112,8 @@
 - (void)endRefreshing
 {
     [super endRefreshing];
+    
+    [self.progressView stopAnimating];
     
     [self.leftIndicatorImageView.layer removeAllAnimations];
     [self.rightIndicatorImageView.layer removeAllAnimations];

@@ -67,6 +67,11 @@ const NSInteger kBBAllTagTableModelRow = 0;
 {
     [super viewDidAppear:animated];
     
+    [self updateSelectedRow];
+}
+
+- (void)updateSelectedRow
+{
     NSIndexPath *indexPath = [self indexPathOfEntity:_tag inTableView:self.tableView];
     
     if (!indexPath)
@@ -83,6 +88,13 @@ const NSInteger kBBAllTagTableModelRow = 0;
                                     animated:NO
                               scrollPosition:UITableViewScrollPositionNone];
     }
+}
+
+- (void)modelManagerDidFinishSaveNotification
+{
+    [super modelManagerDidFinishSaveNotification];
+    
+    [self updateSelectedRow];
 }
 
 - (NSString *)cellNibNameAtIndexPath:(NSIndexPath *)indexPath
