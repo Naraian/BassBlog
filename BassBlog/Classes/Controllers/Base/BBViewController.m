@@ -102,9 +102,9 @@ static const CGFloat kBBViewControllerNowPlayingItemHeight = 24.f;
     self.view.backgroundColor = color;
     
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.translucent = YES;
     
-    UIColor *barColor = [UIColor colorWithHEX:0x2B2B2BFF];
+    UIColor *barColor = [UIColor colorWithHEX:0x0B0B0BFF];
     
     if (RUNNING_ON_IOS7)
     {

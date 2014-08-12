@@ -14,7 +14,6 @@
 
 @interface BBRefreshControl()
 
-
 @property (nonatomic, strong) ProgressPieView *progressView;
 @property (nonatomic, strong) UILabel *customLabel;
 @property (nonatomic, strong) UIImageView *leftIndicatorImageView;
@@ -87,21 +86,13 @@
     {
         [self.progressView startAnimating];
         
-        CABasicAnimation *leftAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-        leftAnimation.duration = 0.5;
-        leftAnimation.fromValue = @(0.0);
-        leftAnimation.toValue = @(M_PI);
-        leftAnimation.autoreverses = NO;
-        leftAnimation.removedOnCompletion = NO;
-        leftAnimation.fillMode = kCAFillModeForwards;
-        
-        CABasicAnimation *rightAnimation = [leftAnimation copy];
-        rightAnimation.toValue = @(-M_PI);
-        
-        [self.leftIndicatorImageView.layer addAnimation:leftAnimation forKey:nil];
-        [self.rightIndicatorImageView.layer addAnimation:rightAnimation forKey:nil];
-        
-        [UIView transitionWithView:self duration:0.1 options:UIViewAnimationOptionTransitionCrossDissolve animations:^
+        [UIView animateWithDuration:0.2 animations:^
+        {
+            self.leftIndicatorImageView.transform = CGAffineTransformMakeRotation(M_PI/3.0);
+            self.rightIndicatorImageView.transform = CGAffineTransformMakeRotation(-M_PI/3.0);
+        }];
+
+        [UIView transitionWithView:self duration:0.2 options:UIViewAnimationOptionTransitionCrossDissolve animations:^
         {
             self.customLabel.text = [NSLocalizedString(@"Loading", nil) uppercaseString];
         }
@@ -115,42 +106,17 @@
     
     [self.progressView stopAnimating];
     
-    [self.leftIndicatorImageView.layer removeAllAnimations];
-    [self.rightIndicatorImageView.layer removeAllAnimations];
+    [UIView animateWithDuration:0.2 animations:^
+    {
+        self.leftIndicatorImageView.transform = CGAffineTransformIdentity;
+        self.rightIndicatorImageView.transform = CGAffineTransformIdentity;
+    }];
     
-    CABasicAnimation* leftAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-    leftAnimation.duration = 0.5;
-    leftAnimation.fromValue = @(M_PI);
-    leftAnimation.toValue = @(0.f);
-    leftAnimation.autoreverses = NO;
-    leftAnimation.removedOnCompletion = YES;
-    
-    CABasicAnimation *rightAnimation = [leftAnimation copy];
-    rightAnimation.fromValue = @(-M_PI);
-    rightAnimation.toValue = @(0.f);
-    
-    [self.leftIndicatorImageView.layer addAnimation:leftAnimation forKey:nil];
-    [self.rightIndicatorImageView.layer addAnimation:rightAnimation forKey:nil];
-    
-    [UIView transitionWithView:self duration:0.1 options:UIViewAnimationOptionTransitionCrossDissolve animations:^
+    [UIView transitionWithView:self duration:0.2 options:UIViewAnimationOptionTransitionCrossDissolve animations:^
     {
         self.customLabel.text = [NSLocalizedString(@"Pull down to refresh", nil) uppercaseString];
     }
     completion:nil];
-}
-
-- (void)setFrame:(CGRect)frame
-{
-    frame.size.height = 82.f;
-    
-    [super setFrame:frame];
-}
-
-- (void)setBounds:(CGRect)bounds
-{
-    bounds.size.height = 82.f;
-    
-    [super setBounds:bounds];
 }
 
 @end
