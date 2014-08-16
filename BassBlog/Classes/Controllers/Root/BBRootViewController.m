@@ -93,7 +93,7 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
         _modelRefreshActivityView.subDescriptionLabel.text = NSLocalizedString(@"this can take some time", nil);
         
         _modelRefreshActivityView.descriptionLabel.font = [BBFont boldFontOfSize:22.f];
-        _modelRefreshActivityView.subDescriptionLabel.font = [BBFont boldFontOfSize:18.f];
+        _modelRefreshActivityView.subDescriptionLabel.font = [BBFont boldFontOfSize:14.f];
     }
     
     return _modelRefreshActivityView;

@@ -60,10 +60,12 @@
     
     if (self.lineWidth != 0.f)
     {
-        CGRect circleRect = CGRectMake((self.bounds.size.width - theRadius)/2.f, (self.bounds.size.height - theRadius)/2.f, theRadius, theRadius);
+        CGFloat theDiameter = 2.f * theRadius;
+        CGRect circleRect = CGRectMake((self.bounds.size.width - theDiameter)/2.f, (self.bounds.size.height - theDiameter)/2.f, theDiameter, theDiameter);
         
         CGFloat internalRadius = theRadius - self.lineWidth;
-        CGRect internalCircleRect = CGRectMake((self.bounds.size.width - internalRadius)/2.f, (self.bounds.size.height - internalRadius)/2.f, internalRadius, internalRadius);
+        CGFloat internalDiameter = 2.f * internalRadius;
+        CGRect internalCircleRect = CGRectMake((self.bounds.size.width - internalDiameter)/2.f, (self.bounds.size.height - internalDiameter)/2.f, internalDiameter, internalDiameter);
         
         UIBezierPath *clipPath = [UIBezierPath bezierPathWithOvalInRect:circleRect];
         [clipPath appendPath:[UIBezierPath bezierPathWithOvalInRect:internalCircleRect]];

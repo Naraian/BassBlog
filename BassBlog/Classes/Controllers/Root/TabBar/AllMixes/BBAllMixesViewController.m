@@ -49,14 +49,22 @@
 {
     [super viewDidLoad];
     
-    self.refreshControl = [BBRefreshControl new];
-    [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
+    self.tableView.backgroundColor = [UIColor clearColor];
     
-    // Create a UITableViewController so we can use a UIRefreshControl.
-    UITableViewController *tvc = [[UITableViewController alloc] initWithStyle:self.tableView.style];
-    tvc.tableView = self.tableView;
-    tvc.refreshControl = self.refreshControl;
-    [self addChildViewController:tvc];
+    self.searchBar.clipsToBounds = YES;
+}
+
+- (void)viewDidLayoutSubviews
+{
+    if (!self.refreshControl)
+    {
+        self.refreshControl = [[BBRefreshControl alloc] initWithScrollView:self.tableView];
+        [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
+        
+        [self.view layoutSubviews];
+    }
+    
+    [super viewDidLayoutSubviews];
 }
 
 - (void)showLeftBarButtonItem
@@ -111,8 +119,6 @@
 
 - (void)refreshTable
 {
-    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"LOADING"];
-
     [[BBModelManager defaultManager] refresh];
 }
 
@@ -173,6 +179,19 @@
 - (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
 {
     [self setNeedsStatusBarAppearanceUpdate];
+}
+
+#pragma mark - 
+#pragma mark Refresh control
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [self.refreshControl containingScrollViewDidEndDragging:scrollView];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.refreshControl containingScrollViewDidScroll:scrollView];
 }
 
 @end

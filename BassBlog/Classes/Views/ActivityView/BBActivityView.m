@@ -16,7 +16,7 @@
 + (instancetype)new
 {    
     BBActivityView *activityView = [self instanceFromNib:nil];
-    activityView.activityIndicator.lineWidth = 4.f;
+    activityView.activityIndicator.lineWidth = 3.f;
     activityView.activityIndicator.trackTintColor = [UIColor colorWithHEX:0xEEEEEEFF];
     activityView.activityIndicator.progressTintColor = [UIColor colorWithHEX:0xF24F4FFF];
     

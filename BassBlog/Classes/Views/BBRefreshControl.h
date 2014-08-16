@@ -8,6 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BBRefreshControl : UIRefreshControl
+extern const CGFloat kBBRefreshControlHeight;
+
+@interface BBRefreshControl : UIControl
+
+- (id)initWithScrollView:(UIScrollView *)scrollView;
+
+@property (nonatomic, weak) UIScrollView *scrollView;
+@property (nonatomic, readonly, getter=isRefreshing) BOOL refreshing;
+
+- (void)beginRefreshing;
+- (void)endRefreshing;
+
+- (void)containingScrollViewDidEndDragging:(UIScrollView *)scrollView;
+- (void)containingScrollViewDidScroll:(UIScrollView *)scrollView;
 
 @end
