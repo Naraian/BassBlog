@@ -59,7 +59,7 @@
                                                                             error:&error];
 	if (defaultSettingsDictionary == nil)
 	{        
-		BB_ERR(@"%@, format: %u", error, format);
+		BB_ERR(@"%@, format: %lu", error, format);
 	}
 }
 

@@ -49,7 +49,7 @@
     NSUInteger dMinutes = floor(dTotalSeconds % 3600 / 60);
     NSUInteger dSeconds = floor(dTotalSeconds % 3600 % 60);
     
-    return [NSString stringWithFormat:@"%i:%02i:%02i",dHours, dMinutes, dSeconds];
+    return [NSString stringWithFormat:@"%lu:%02lu:%02lu",(unsigned long)dHours, (unsigned long)dMinutes, (unsigned long)dSeconds];
 }
 
 + (NSString *)timeStringFromTime:(NSTimeInterval)time
@@ -61,10 +61,10 @@
     
     if (dHours == 0)
     {
-        return [NSString stringWithFormat:@"%02i:%02i", dMinutes, dSeconds];
+        return [NSString stringWithFormat:@"%02lu:%02lu", (unsigned long)dMinutes, (unsigned long)dSeconds];
     }
     
-    return [NSString stringWithFormat:@"%02i:%02i:%02i", dHours, dMinutes, dSeconds];
+    return [NSString stringWithFormat:@"%02lu:%02lu:%02lu", (unsigned long)dHours, (unsigned long)dMinutes, (unsigned long)dSeconds];
 }
 
 + (void)customizeAppearance

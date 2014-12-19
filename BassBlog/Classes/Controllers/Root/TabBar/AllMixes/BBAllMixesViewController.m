@@ -181,7 +181,15 @@
     [self setNeedsStatusBarAppearanceUpdate];
 }
 
-#pragma mark - 
+- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
+{
+    if (!self.refreshControl.isRefreshing && self.tableView.contentOffset.y < -self.tableView.contentInset.top)
+    {
+        [self.tableView setContentOffset:CGPointMake(0.f, -self.tableView.contentInset.top) animated:YES];
+    }
+}
+
+#pragma mark -
 #pragma mark Refresh control
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate

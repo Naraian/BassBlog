@@ -103,7 +103,7 @@ UInt32 NextPowerOfTwo(UInt32 x);
 {
     AudioBuffer audioBuffer0 = bufferListInOut->mBuffers[0];
     
-    UInt32 numSamples = MIN(audioBuffer0.mDataByteSize/sizeof(Float32), _numberOfSamples);
+    UInt32 numSamples = (UInt32)MIN(audioBuffer0.mDataByteSize/sizeof(Float32), _numberOfSamples);
     numSamples = NextPowerOfTwo(numSamples);
     
     if (!completion || !numSamples)

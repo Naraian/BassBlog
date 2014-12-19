@@ -122,7 +122,7 @@
 {
     if (index >= logPathsArray.count)
     {
-        BB_ERR(@"\"index\" is out of bounds [0, %d)", logPathsArray.count);
+        BB_ERR(@"\"index\" is out of bounds [0, %lu)", logPathsArray.count);
         
         return nil;
     }
@@ -141,13 +141,13 @@
                                     | NSSecondCalendarUnit;
     NSDateComponents *currentDateComponents = [gregorianCalendar components:calendarComponents
                                                                    fromDate:[NSDate date]];
-    NSString *logName = [NSString stringWithFormat:@"%04d.%02d.%02d-%02d.%02d.%02d-%@",
-                         [currentDateComponents year], 
-                         [currentDateComponents month], 
-                         [currentDateComponents day],
-                         [currentDateComponents hour], 
-                         [currentDateComponents minute], 
-                         [currentDateComponents second],
+    NSString *logName = [NSString stringWithFormat:@"%04ld.%02ld.%02ld-%02ld.%02ld.%02ld-%@",
+                         (long)[currentDateComponents year], 
+                         (long)[currentDateComponents month],
+                         (long)[currentDateComponents day],
+                         (long)[currentDateComponents hour],
+                         (long)[currentDateComponents minute],
+                         (long)[currentDateComponents second],
                          suffix];
     
     NSString *logPath = [[self logDirectory] stringByAppendingPathComponent:logName];    

@@ -32,7 +32,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
     
     func dateFormatter() -> NSDateFormatter
     {
-        if (!_dateFormatter)
+        if (_dateFormatter == nil)
         {
             _dateFormatter = NSDateFormatter();
             _dateFormatter.dateStyle = NSDateFormatterStyle.NoStyle;
@@ -139,9 +139,9 @@ class BBNowPlayingViewControllerSwift : BBViewController
         if (shouldFavorite)
         {
             self.favoritesButton!.selected = true;
-            BBAudioManager.defaultManager().mix.favoriteDate = NSDate.date();
+            BBAudioManager.defaultManager().mix.favoriteDate = NSDate();
             
-            if (currentMix.name)
+            if (currentMix.name != nil)
             {
                 Flurry.logEvent("mix_favorited", withParameters: ["mix_name" : currentMix.name]);
             }
@@ -223,7 +223,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
             
             self!.favoritesButton!.selected = (currentMix.favoriteDate != nil);
         
-            self!.artworkImageView!.setImageWithURL(NSURL.URLWithString(currentMix.imageUrl), placeholderImage:BBUIUtils.defaultImage());
+            self!.artworkImageView!.setImageWithURL(NSURL(string: currentMix.imageUrl), placeholderImage:BBUIUtils.defaultImage());
 
             self!.refreshTimeInfo();
         },
@@ -317,6 +317,6 @@ class BBNowPlayingViewControllerSwift : BBViewController
     
     func backBarButtonItemPressed()
     {
-        self.navigationController.popViewControllerAnimated(true);
+        self.navigationController?.popViewControllerAnimated(true);
     }
 }

@@ -390,7 +390,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     
     if (entities.count > 1)
     {
-        BB_ERR(@"Unexpected number of mixes (%d) with ID (%@)", entities.count, ID);
+        BB_ERR(@"Unexpected number of mixes (%lu) with ID (%@)", entities.count, ID);
     }
     
     return [entities lastObject];
@@ -403,7 +403,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     
     if (entities.count > 1)
     {
-        BB_ERR(@"Unexpected number of tags (%d) with name (%@)", entities.count, name);
+        BB_ERR(@"Unexpected number of tags (%lu) with name (%@)", (unsigned long)entities.count, name);
     }
     
     return [entities lastObject];
@@ -818,7 +818,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         [self.rootContext deleteObject:entity];
     }];
     
-    BB_WRN(@"Deleted %d \"%@\"", entities.count, fetchRequest.entityName);
+    BB_WRN(@"Deleted %lu \"%@\"", (unsigned long)entities.count, fetchRequest.entityName);
 }
 
 #pragma mark - Core Data
@@ -1202,16 +1202,16 @@ static NSString *const BBManagedObjectContextDescriptionKey =
         }
     }];
     
-    NSMutableString *description = [NSMutableString stringWithFormat:@"%d", entities.count];
+    NSMutableString *description = [NSMutableString stringWithFormat:@"%lu", (unsigned long)entities.count];
     
     if (mixesCount)
     {
-        [description appendFormat:@"\n\n\tMixes: %d %@", mixesCount, changesDescription];
+        [description appendFormat:@"\n\n\tMixes: %lu %@", (unsigned long)mixesCount, changesDescription];
     }
     
     if (tagsCount)
     {
-        [description appendFormat:@"\n\n\tTags: %d", tagsCount];
+        [description appendFormat:@"\n\n\tTags: %lu", (unsigned long)tagsCount];
     }
 
     return description;
@@ -1240,8 +1240,8 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     fetchRequest = [BBEntity fetchRequest];
     [fetchRequest setIncludesSubentities:YES];
     
-    [dump appendFormat:@"\nEntities: %d",
-     [self countOfFetchedEntitiesWithRequest:fetchRequest
+    [dump appendFormat:@"\nEntities: %lu",
+     (unsigned long)[self countOfFetchedEntitiesWithRequest:fetchRequest
                                    inContext:context]];
     
     // All mixes ---------------------------------------------------------------
@@ -1249,8 +1249,8 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     fetchRequest =
     [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions forSearch:NO];
     
-    [dump appendFormat:@"\n\n\tAll mixes: %d",
-     [self countOfFetchedEntitiesWithRequest:fetchRequest
+    [dump appendFormat:@"\n\n\tAll mixes: %lu",
+     (unsigned long)[self countOfFetchedEntitiesWithRequest:fetchRequest
                                    inContext:context]];
     
     // Favorite mixes ----------------------------------------------------------
@@ -1259,8 +1259,8 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     fetchRequest =
     [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions forSearch:NO];
     
-    [dump appendFormat:@"\n\t\tFavorite mixes: %d",
-     [self countOfFetchedEntitiesWithRequest:fetchRequest
+    [dump appendFormat:@"\n\t\tFavorite mixes: %lu",
+     (unsigned long)[self countOfFetchedEntitiesWithRequest:fetchRequest
                                    inContext:context]];
     
     // Listened mixes ----------------------------------------------------------
@@ -1269,8 +1269,8 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     fetchRequest =
     [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions forSearch:NO];
     
-    [dump appendFormat:@"\n\t\tListened mixes: %d",
-     [self countOfFetchedEntitiesWithRequest:fetchRequest
+    [dump appendFormat:@"\n\t\tListened mixes: %lu",
+     (unsigned long)[self countOfFetchedEntitiesWithRequest:fetchRequest
                                    inContext:context]];
     
     // Downloaded mixes --------------------------------------------------------
@@ -1279,8 +1279,8 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     fetchRequest =
     [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions forSearch:NO];
     
-    [dump appendFormat:@"\n\t\tDownloaded mixes: %d",
-     [self countOfFetchedEntitiesWithRequest:fetchRequest
+    [dump appendFormat:@"\n\t\tDownloaded mixes: %lu",
+     (unsigned long)[self countOfFetchedEntitiesWithRequest:fetchRequest
                                    inContext:context]];
     
     // All tags ----------------------------------------------------------------
@@ -1288,8 +1288,8 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     fetchRequest =
     [self fetchRequestForTagsWithSelectionOptions:tagsSelectionOptions];
 
-    [dump appendFormat:@"\n\n\tAll formal tags: %d",
-     [self countOfFetchedEntitiesWithRequest:fetchRequest
+    [dump appendFormat:@"\n\n\tAll formal tags: %lu",
+     (unsigned long)[self countOfFetchedEntitiesWithRequest:fetchRequest
                                    inContext:context]];
     
     // Mixes per tag -----------------------------------------------------------
@@ -1307,8 +1307,8 @@ static NSString *const BBManagedObjectContextDescriptionKey =
         fetchRequest =
         [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions forSearch:NO];
         
-        [dump appendFormat:@"\n\t\t%@ : %d mixes",
-         tag.name, [self countOfFetchedEntitiesWithRequest:fetchRequest
+        [dump appendFormat:@"\n\t\t%@ : %lu mixes",
+         tag.name, (unsigned long)[self countOfFetchedEntitiesWithRequest:fetchRequest
                                                  inContext:context]];
     }];
     

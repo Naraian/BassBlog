@@ -490,9 +490,6 @@ SINGLETON_IMPLEMENTATION(BBAudioManager, defaultManager)
     }
 }
 
-#define LAKE_LEFT_CHANNEL (0)
-#define LAKE_RIGHT_CHANNEL (1)
-
 void init(MTAudioProcessingTapRef tap, void *clientInfo, void **tapStorageOut)
 {
     BB_INF(@"Initialising the Audio Tap Processor");

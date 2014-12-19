@@ -33,11 +33,11 @@
     [NSMutableString stringWithFormat:@"category(%@)", [self categoryString]];
     
     if (self.offset) {
-        [string appendFormat:@", offset(%d)", self.offset];
+        [string appendFormat:@", offset(%lu)", (unsigned long)self.offset];
     }
     
     if (self.limit) {
-        [string appendFormat:@", limit(%d)", self.limit];
+        [string appendFormat:@", limit(%lu)", (unsigned long)self.limit];
     }
     
     return string;

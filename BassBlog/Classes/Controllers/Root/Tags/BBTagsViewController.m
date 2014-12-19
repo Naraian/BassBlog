@@ -108,7 +108,7 @@ const NSInteger kBBAllTagTableModelRow = 0;
     {
         NSUInteger mixesCount = tag.mixes.count;
         cell.label.text = [BBTag allName];
-        cell.detailLabel.text = [NSString stringWithFormat:@"%d", mixesCount];
+        cell.detailLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)mixesCount];
     }
     else
     {

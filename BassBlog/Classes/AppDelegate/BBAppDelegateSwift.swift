@@ -42,7 +42,7 @@ class BBAppDelegateSwift: UIResponder, UIApplicationDelegate
         BBModelManager.defaultManager().rootContext();
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds);
-        self.window.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() as UIViewController;
+        self.window.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() as? UIViewController;
         
         self.window.makeKeyAndVisible();
         
@@ -53,7 +53,7 @@ class BBAppDelegateSwift: UIResponder, UIApplicationDelegate
         return true;
     }
     
-    override func remoteControlReceivedWithEvent(event: UIEvent!)
+    override func remoteControlReceivedWithEvent(event: UIEvent)
     {
         super.remoteControlReceivedWithEvent(event);
         

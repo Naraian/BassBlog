@@ -173,7 +173,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
         [self setPrimitiveDaySectionIdentifier:tmp];
     }
     
-    return [tmp integerValue];
+    return (int32_t)[tmp integerValue];
 }
 
 - (int32_t)monthSectionIdentifier
@@ -190,7 +190,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
         [self setPrimitiveMonthSectionIdentifier:tmp];
     }
     
-    return [tmp integerValue];
+    return (int32_t)[tmp integerValue];
 }
 
 - (int32_t)playbackDaySectionIdentifier
@@ -207,7 +207,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
         [self setPrimitivePlaybackDaySectionIdentifier:tmp];
     }
     
-    return [tmp integerValue];
+    return (int32_t)[tmp integerValue];
 }
 
 - (int32_t)playbackMonthSectionIdentifier
@@ -224,7 +224,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
         [self setPrimitivePlaybackMonthSectionIdentifier:tmp];
     }
     
-    return [tmp integerValue];
+    return (int32_t)[tmp integerValue];
 }
 
 @end

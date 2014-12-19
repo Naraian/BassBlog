@@ -215,8 +215,11 @@ typedef NS_ENUM(NSInteger, BBRefreshControlState)
 {
     if (self.didUserScrollFarEnoughToTriggerRefresh)
     {
-        [self beginRefreshing];
-        [self sendActionsForControlEvents:UIControlEventValueChanged];
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
+            [self beginRefreshing];
+            [self sendActionsForControlEvents:UIControlEventValueChanged];
+        });
     }
 }
 
