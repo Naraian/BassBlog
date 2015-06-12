@@ -12,7 +12,7 @@ import MediaPlayer
 @UIApplicationMain
 class BBAppDelegateSwift: UIResponder, UIApplicationDelegate
 {
-    var window : UIWindow!;
+    var window : UIWindow?;
     
     override init()
     {
@@ -23,7 +23,7 @@ class BBAppDelegateSwift: UIResponder, UIApplicationDelegate
     {
         get
         {
-            return self.instance.window.rootViewController as BBRootViewController;
+            return self.instance.window!.rootViewController as! BBRootViewController;
         }
     }
     
@@ -31,20 +31,20 @@ class BBAppDelegateSwift: UIResponder, UIApplicationDelegate
     {
         get
         {
-            return UIApplication.sharedApplication().delegate as BBAppDelegateSwift;
+            return UIApplication.sharedApplication().delegate as! BBAppDelegateSwift;
         }
     }
     
-    func application(application: UIApplication!, didFinishLaunchingWithOptions launchOptions: NSDictionary!) -> Bool
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool
     {
         BBUIUtils.customizeAppearance();
         
         BBModelManager.defaultManager().rootContext();
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds);
-        self.window.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() as? UIViewController;
+        self.window!.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() as? UIViewController;
         
-        self.window.makeKeyAndVisible();
+        self.window!.makeKeyAndVisible();
         
         BBAnalytics.startSession();
         
