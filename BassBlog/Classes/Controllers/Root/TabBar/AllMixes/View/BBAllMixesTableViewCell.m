@@ -23,7 +23,7 @@
 {
     [super awakeFromNib];
     
-    self.label.continuousMarqueeExtraBuffer = 100.f;
+    self.label.trailingBuffer = 100.f;
     self.label.animationDelay = 1.0;
     self.label.rate = 30.f;
     self.label.textAlignment = NSTextAlignmentLeft;

@@ -32,18 +32,15 @@
 #import "NSObject+Notification.h"
 
 #import "BBUIUtils.h"
+#import "BBMacros.h"
 
 #import <UIImageView+AFNetworking.h>
 
+DEFINE_STATIC_CONST_NSSTRING(kBBBBMixesViewControllerHeaderID);
+
 static const NSUInteger kBBMixesStartFetchRequestLimit = 30;
 
-@interface BBMixesViewController ()
-<
-BBAudioManagerDelegate
->
-{
-    UINib *_sectionHeaderNib;
-}
+@interface BBMixesViewController () <BBAudioManagerDelegate>
 
 @property (nonatomic) NSDateFormatter *detailTextDateFormatter;
 @property (nonatomic) NSDateFormatter *headerDateFormatter;
@@ -73,6 +70,13 @@ BBAudioManagerDelegate
 }
 
 #pragma mark - View
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [self.tableView registerNib:[BBMixesTableSectionHeaderView nib] forHeaderFooterViewReuseIdentifier:kBBBBMixesViewControllerHeaderID];
+}
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -159,16 +163,6 @@ BBAudioManagerDelegate
     }
     
     cell.paused = !selectRow;
-}
-
-- (BBMixesTableSectionHeaderView *)sectionHeaderView
-{
-    if (!_sectionHeaderNib)
-    {
-        _sectionHeaderNib = [BBMixesTableSectionHeaderView nib];
-    }
-
-    return [BBMixesTableSectionHeaderView instanceFromNib:_sectionHeaderNib];
 }
 
 - (void)showTableFooterView
@@ -397,7 +391,7 @@ BBAudioManagerDelegate
         return nil;
     }
     
-    BBMixesTableSectionHeaderView *headerView = [self sectionHeaderView];
+    BBMixesTableSectionHeaderView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:kBBBBMixesViewControllerHeaderID];
     headerView.label.text = sectionTitle;
     
     return headerView;

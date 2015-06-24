@@ -9,7 +9,7 @@
 #import "NSObject+Nib.h"
 
 
-@interface BBMixesTableSectionHeaderView : UIView
+@interface BBMixesTableSectionHeaderView : UITableViewHeaderFooterView
 
 @property (nonatomic, strong) IBOutlet UILabel *label;
 

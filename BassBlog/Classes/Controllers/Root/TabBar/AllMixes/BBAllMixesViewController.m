@@ -51,7 +51,7 @@
     
     self.tableView.backgroundColor = [UIColor clearColor];
     
-    self.searchBar.clipsToBounds = YES;
+    self.searchBar.clipsToBounds = NO;
 }
 
 - (void)viewDidLayoutSubviews
@@ -174,6 +174,8 @@
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller
 {
     [self setNeedsStatusBarAppearanceUpdate];
+    
+    [self.refreshControl endRefreshing];
 }
 
 - (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
@@ -183,10 +185,13 @@
 
 - (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
 {
-    if (!self.refreshControl.isRefreshing && self.tableView.contentOffset.y < -self.tableView.contentInset.top)
+    if ([BBModelManager defaultManager].refreshStage != BBModelManagerWaitingStage)
     {
-        [self.tableView setContentOffset:CGPointMake(0.f, -self.tableView.contentInset.top) animated:YES];
-    }
+        if (self.tableView.contentOffset.y <= -self.tableView.contentInset.top)
+        {
+            [self.refreshControl beginRefreshing];
+        }
+    }        
 }
 
 #pragma mark -

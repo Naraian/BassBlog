@@ -7,6 +7,7 @@
 //
 
 #import <CoreMedia/CoreMedia.h>
+#import <MarqueeLabel/MarqueeLabel.h>
 
 @class BBMix;
 
@@ -24,5 +25,10 @@
 + (NSString *)timeStringFromTime:(NSTimeInterval)time;
 
 + (void)customizeAppearance;
+
+@end
+
+
+@interface MarqueeLabel (Fix)
 
 @end

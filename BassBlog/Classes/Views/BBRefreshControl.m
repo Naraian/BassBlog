@@ -11,6 +11,15 @@
 #import "NSLayoutConstraint+Extensions.h"
 #import "BBFont.h"
 #import "BBThemeManager.h"
+#import <objc/runtime.h>
+#import <JRSwizzle/JRSwizzle.h>
+
+@interface UIScrollView (BBRefreshControl)
+
+@property (nonatomic, strong) BBRefreshControl *refreshControl;
+
+@end
+
 
 const CGFloat kBBRefreshControlHeight = 40.f;
 const CGFloat kBBRefreshControlBottomContentMargin = -10.f;
@@ -29,6 +38,8 @@ typedef NS_ENUM(NSInteger, BBRefreshControlState)
 @property (nonatomic, strong) ProgressPieView *progressView;
 @property (nonatomic, strong) UILabel *customLabel;
 @property (nonatomic, strong) UIImageView *leftIndicatorImageView;
+
+@property (nonatomic, assign) UIEdgeInsets addedContentInset;
 
 @end
 
@@ -101,7 +112,7 @@ typedef NS_ENUM(NSInteger, BBRefreshControlState)
 {
     _scrollView = scrollView;
     
-    [_scrollView addSubview:self];
+    _scrollView.refreshControl = self;
 }
 
 - (void)beginRefreshing
@@ -189,18 +200,58 @@ typedef NS_ENUM(NSInteger, BBRefreshControlState)
     self.refreshState = BBRefreshControlStateResetting;
 }
 
+- (void)resetContentInset
+{
+    UIEdgeInsets contentInset = self.scrollView.contentInset;
+    contentInset.top -= _addedContentInset.top;
+    contentInset.left -= _addedContentInset.left;
+    contentInset.right -= _addedContentInset.right;
+    contentInset.bottom -= _addedContentInset.bottom;
+    self.scrollView.contentInset = contentInset;
+    
+    _addedContentInset = UIEdgeInsetsZero;
+}
+
+- (void)setAddedContentInset:(UIEdgeInsets)addedInsets
+{
+    if (!UIEdgeInsetsEqualToEdgeInsets(_addedContentInset, addedInsets))
+    {
+        UIEdgeInsets contentInset = self.scrollView.contentInset;
+        CGPoint contentOffset = self.scrollView.contentOffset;
+        
+        contentInset.top -= _addedContentInset.top;
+        contentInset.left -= _addedContentInset.left;
+        contentInset.right -= _addedContentInset.right;
+        contentInset.bottom -= _addedContentInset.bottom;
+        
+        contentInset.top += addedInsets.top;
+        contentInset.left += addedInsets.left;
+        contentInset.right += addedInsets.right;
+        contentInset.bottom += addedInsets.bottom;
+        
+        
+        _addedContentInset = addedInsets;
+        
+//        _ignoreOffsetChanged = YES;
+        self.scrollView.contentInset = contentInset;
+//        _ignoreOffsetChanged = NO;
+        self.scrollView.contentOffset = contentOffset;
+    }
+}
+
+
 - (void)adjustContainerInsetsWithCompletion:(dispatch_block_t)completion
 {
-    CGFloat difference = self.refreshing ? kBBRefreshControlHeight : -kBBRefreshControlHeight;
-    
-    UIScrollView *scrollView = (UIScrollView *)self.superview;
-    
-    UIEdgeInsets contentInsets = scrollView.contentInset;
-    contentInsets.top += difference;
-    
     [UIView animateWithDuration:0.5 animations:^
     {
-        scrollView.contentInset = contentInsets;
+        if (self.refreshing)
+        {
+            self.addedContentInset = UIEdgeInsetsMake(kBBRefreshControlHeight, 0.f, 0.f, 0.f);
+        }
+        else
+        {
+            [self resetContentInset];
+        }
     }
     completion:^(BOOL finished)
     {
@@ -264,6 +315,96 @@ typedef NS_ENUM(NSInteger, BBRefreshControlState)
     self.frame = newFrame;
     
     [self layoutIfNeeded];
+}
+
+@end
+
+@implementation UIScrollView (BBRefreshControl)
+
+- (void)setRefreshControl:(BBRefreshControl *)refreshControl
+{
+    [self.refreshControl removeFromSuperview];
+    
+    objc_setAssociatedObject(self, @selector(refreshControl), refreshControl, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
+    [self insertSubview:refreshControl atIndex:0];
+}
+
+- (BBRefreshControl *)refreshControl
+{
+    return objc_getAssociatedObject(self, @selector(refreshControl));
+}
+
+@end
+
+@implementation UITableView (BBRefreshControl)
+
+- (void)setRefreshControl:(BBRefreshControl *)refreshControl
+{
+    if (self.refreshControl != refreshControl)
+    {
+        [super setRefreshControl:refreshControl];
+        
+        [self addSubview:refreshControl];
+    }
+}
+
++ (void)load
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^
+    {
+        NSError *error;
+        BOOL result = [[self class] jr_swizzleMethod:@selector(layoutSubviews) withMethod:@selector(TNK_layoutSubviews) error:&error];
+        if (!result || error)
+        {
+            NSLog(@"Can't swizzle methods - %@", [error description]);
+        }
+    });
+}
+
+- (void)TNK_layoutSubviews
+{
+    [self TNK_layoutSubviews]; // this will call viewWillAppear implementation, because we have exchanged them.
+    
+    // UITableView has a nasty habbit of placing it's section headers below contentInset
+    // We aren't changing that behavior, just adjusting for the inset that we added
+    
+    if (self.refreshControl.addedContentInset.top != 0.0)
+    {
+        //http://b2cloud.com.au/tutorial/uitableview-section-header-positions/
+        const NSUInteger numberOfSections = self.numberOfSections;
+        const UIEdgeInsets contentInset = self.contentInset;
+        const CGPoint contentOffset = self.contentOffset;
+        
+        const CGFloat sectionViewMinimumOriginY = contentOffset.y + contentInset.top - self.refreshControl.addedContentInset.top;
+        
+        //	Layout each header view
+        for(NSUInteger section = 0; section < numberOfSections; section++)
+        {
+            UIView* sectionView = [self headerViewForSection:section];
+            
+            if(sectionView == nil)
+                continue;
+            
+            const CGRect sectionFrame = [self rectForSection:section];
+            
+            CGRect sectionViewFrame = sectionView.frame;
+            
+            sectionViewFrame.origin.y = ((sectionFrame.origin.y < sectionViewMinimumOriginY) ? sectionViewMinimumOriginY : sectionFrame.origin.y);
+            
+            //	If it's not last section, manually 'stick' it to the below section if needed
+            if(section < numberOfSections - 1)
+            {
+                const CGRect nextSectionFrame = [self rectForSection:section + 1];
+                
+                if(CGRectGetMaxY(sectionViewFrame) > CGRectGetMinY(nextSectionFrame))
+                    sectionViewFrame.origin.y = nextSectionFrame.origin.y - sectionViewFrame.size.height;
+            }
+            
+            [sectionView setFrame:sectionViewFrame];
+        }
+    }
 }
 
 @end

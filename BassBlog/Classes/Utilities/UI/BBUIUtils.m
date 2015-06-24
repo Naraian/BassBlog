@@ -90,3 +90,12 @@
 }
 
 @end
+
+@implementation MarqueeLabel (Fix)
+
+- (void)forwardPropertiesToSubLabel
+{
+    
+}
+
+@end
