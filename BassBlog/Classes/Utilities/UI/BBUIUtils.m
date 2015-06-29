@@ -95,7 +95,7 @@
 
 - (void)forwardPropertiesToSubLabel
 {
-    
+    [super setText:nil];
 }
 
 @end

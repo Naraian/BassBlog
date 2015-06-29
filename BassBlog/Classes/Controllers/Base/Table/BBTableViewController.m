@@ -117,7 +117,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     id<NSFetchedResultsSectionInfo> sectionInfo = [[[self fetchedResultsControllerForTableView:tableView] sections] objectAtIndex:section];
-    return MIN([sectionInfo numberOfObjects], 1);
+    return [sectionInfo numberOfObjects];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -213,9 +213,16 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
-    [[self tableViewForFetchedResultsController:controller] endUpdates];
-    
+    @try
+    {
+        // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
+        [[self tableViewForFetchedResultsController:controller] endUpdates];
+    }
+    @catch (NSException *exception)
+    {
+        
+    }
+
     [self contentDidChange];
 }
 
