@@ -1098,6 +1098,8 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = BB;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = BassBlog;
 				TargetAttributes = {

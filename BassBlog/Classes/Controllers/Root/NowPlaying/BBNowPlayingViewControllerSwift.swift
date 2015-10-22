@@ -110,7 +110,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
         self.playButton!.setImage(tm.imageNamed("controls/player_play"), forState: UIControlState.Normal);
         self.playButton!.setImage(tm.imageNamed("controls/player_play_pressed"), forState: UIControlState.Highlighted);
         self.playButton!.setImage(tm.imageNamed("controls/player_pause"), forState: UIControlState.Selected);
-        self.playButton!.setImage(tm.imageNamed("controls/player_pause_pressed"), forState: UIControlState.Highlighted | UIControlState.Selected);
+        self.playButton!.setImage(tm.imageNamed("controls/player_pause_pressed"), forState: [UIControlState.Highlighted, UIControlState.Selected]);
         
         self.favoritesButton!.setImage(tm.imageNamed("controls/add_to_favorites"), forState: UIControlState.Normal);
         self.favoritesButton!.setImage(tm.imageNamed("controls/add_to_favorites_selected"), forState: UIControlState.Selected);

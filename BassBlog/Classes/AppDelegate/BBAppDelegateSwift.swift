@@ -42,7 +42,7 @@ class BBAppDelegateSwift: UIResponder, UIApplicationDelegate
         BBModelManager.defaultManager().rootContext();
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds);
-        self.window!.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() as? UIViewController;
+        self.window!.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController();
         
         self.window!.makeKeyAndVisible();
         
@@ -53,31 +53,34 @@ class BBAppDelegateSwift: UIResponder, UIApplicationDelegate
         return true;
     }
     
-    override func remoteControlReceivedWithEvent(event: UIEvent)
+    override func remoteControlReceivedWithEvent(event: UIEvent?)
     {
         super.remoteControlReceivedWithEvent(event);
         
-        switch(event.subtype)
+        if let subtype = event?.subtype
         {
-            case .RemoteControlPlay:
-                BBAudioManager.defaultManager().paused = false;
-            
-            case .RemoteControlPause, .RemoteControlStop:
-                BBAudioManager.defaultManager().paused = true;
-            
-            case .RemoteControlTogglePlayPause:
-                BBAudioManager.defaultManager().togglePlayPause();
-            
-            case .RemoteControlNextTrack:
-                BBAudioManager.defaultManager().playNext();
-            
-            case .RemoteControlPreviousTrack:
-                BBAudioManager.defaultManager().playPrev();
-            
-            case .RemoteControlEndSeekingBackward, .RemoteControlEndSeekingForward: ()
-//                println(MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo);
-            
-            default: ()
+            switch(subtype)
+            {
+                case .RemoteControlPlay:
+                    BBAudioManager.defaultManager().paused = false;
+                
+                case .RemoteControlPause, .RemoteControlStop:
+                    BBAudioManager.defaultManager().paused = true;
+                
+                case .RemoteControlTogglePlayPause:
+                    BBAudioManager.defaultManager().togglePlayPause();
+                
+                case .RemoteControlNextTrack:
+                    BBAudioManager.defaultManager().playNext();
+                
+                case .RemoteControlPreviousTrack:
+                    BBAudioManager.defaultManager().playPrev();
+                
+                case .RemoteControlEndSeekingBackward, .RemoteControlEndSeekingForward: ()
+    //                println(MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo);
+                
+                default: ()
+            }
         }
     }
 }
