@@ -187,7 +187,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
     func refreshMainTimeInfo()
     {
         let audioManager = BBAudioManager.defaultManager();
-        let currentMix = audioManager.mix;
+//        let currentMix = audioManager.mix;
         
         self.playButton!.selected = !audioManager.paused;
         
@@ -197,7 +197,7 @@ class BBNowPlayingViewControllerSwift : BBViewController
     func refreshTimeInfo()
     {
         let audioManager = BBAudioManager.defaultManager();
-        let currentMix = audioManager.mix;
+//        let currentMix = audioManager.mix;
         
         self.refreshMainTimeInfo();
         

@@ -63,8 +63,8 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelBassblogSectionRow)
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor colorWithHEX:0xEFEFF4FF];
-    self.tableView.backgroundColor = [UIColor colorWithHEX:0xEFEFF4FF];
+    self.view.backgroundColor = [UIColor colorWithHEX:0xFFFFFFFF];
+    self.tableView.backgroundColor = [UIColor colorWithHEX:0xFFFFFFFF];
 }
 
 - (void)updateTheme

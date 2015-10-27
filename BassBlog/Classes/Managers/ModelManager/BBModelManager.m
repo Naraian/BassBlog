@@ -390,7 +390,7 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     
     if (entities.count > 1)
     {
-        BB_ERR(@"Unexpected number of mixes (%lu) with ID (%@)", entities.count, ID);
+        BB_ERR(@"Unexpected number of mixes (%lu) with ID (%@)", (unsigned long)entities.count, ID);
     }
     
     return [entities lastObject];

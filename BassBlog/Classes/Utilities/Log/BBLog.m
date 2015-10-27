@@ -122,7 +122,7 @@
 {
     if (index >= logPathsArray.count)
     {
-        BB_ERR(@"\"index\" is out of bounds [0, %lu)", logPathsArray.count);
+        BB_ERR(@"\"index\" is out of bounds [0, %lu)", (unsigned long)logPathsArray.count);
         
         return nil;
     }
