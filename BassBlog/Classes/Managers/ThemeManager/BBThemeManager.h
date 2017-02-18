@@ -9,13 +9,13 @@
 
 typedef NS_ENUM(NSInteger, BBTheme)
 {
-    BBThemeBlack,
-    BBThemeWinter,
+    BBThemeDefault,
     BBNumberOfThemes
 };
 
-#define BBThemeManagerWinterOrangeColor [UIColor colorWithHEX:0xF45D5DFF]
-#define BBThemeManagerSliderLineColor   [UIColor colorWithHEX:0xDFDFDFFF]
+#define BBThemeManagerTabBarTintColor           [UIColor colorWithHEX:0xF45D5DFF]
+#define BBThemeManagerBarBarTintColor           [UIColor colorWithHEX:0xFAFAFAFF]
+#define BBThemeManagerSliderLineColor           [UIColor colorWithHEX:0xDFDFDFFF]
 
 extern NSString *const BBThemeManagerDidToggleThemeNotification;
 

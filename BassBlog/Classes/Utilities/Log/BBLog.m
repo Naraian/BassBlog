@@ -132,13 +132,14 @@
 
 + (NSString *)generateCurrentLogPathWithSuffix:(NSString *)suffix
 {
-	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	NSUInteger calendarComponents = NSYearCalendarUnit 
-                                    | NSMonthCalendarUnit 
-                                    | NSDayCalendarUnit
-                                    | NSHourCalendarUnit 
-                                    | NSMinuteCalendarUnit 
-                                    | NSSecondCalendarUnit;
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+	NSUInteger calendarComponents = NSCalendarUnitYear
+                                    | NSCalendarUnitMonth
+                                    | NSCalendarUnitDay
+                                    | NSCalendarUnitHour
+                                    | NSCalendarUnitMinute
+                                    | NSCalendarUnitSecond;
+    
     NSDateComponents *currentDateComponents = [gregorianCalendar components:calendarComponents
                                                                    fromDate:[NSDate date]];
     NSString *logName = [NSString stringWithFormat:@"%04ld.%02ld.%02ld-%02ld.%02ld.%02ld-%@",

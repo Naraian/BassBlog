@@ -16,7 +16,7 @@
 
 #pragma mark -
 
-@interface BBViewController (Protected)
+@interface UIViewController (BB)
 
 #pragma mark Common Initialization
 

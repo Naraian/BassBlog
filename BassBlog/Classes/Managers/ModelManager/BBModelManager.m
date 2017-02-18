@@ -36,6 +36,7 @@ typedef NS_ENUM(NSUInteger, BBModelState) {
 
 DEFINE_CONST_NSSTRING(BBModelManagerDidInitializeNotification);
 
+DEFINE_CONST_NSSTRING(BBModelManagerWillStartFullRefreshNotification);
 DEFINE_CONST_NSSTRING(BBModelManagerWillStartRefreshNotification);
 DEFINE_CONST_NSSTRING(BBModelManagerDidFinishRefreshNotification);
 
@@ -43,8 +44,7 @@ DEFINE_CONST_NSSTRING(BBModelManagerDidChangeRefreshStageNotification);
 
 DEFINE_CONST_NSSTRING(BBModelManagerDidFinishSaveNotification);
 
-DEFINE_CONST_NSSTRING(BBModelManagerRefreshProgressNotification);
-DEFINE_CONST_NSSTRING(BBModelManagerRefreshProgressNotificationKey);
+DEFINE_CONST_NSSTRING(BBModelManagerDidLoadFirstPageNotification);
 
 DEFINE_CONST_NSSTRING(BBModelManagerRefreshErrorNotification);
 DEFINE_CONST_NSSTRING(BBModelManagerRefreshErrorNotificationKey);
@@ -470,6 +470,10 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
 {
     if (forceRefresh)
     {
+        [self postNotificationWithName:BBModelManagerWillStartFullRefreshNotification];
+    }
+    else
+    {
         [self postNotificationWithName:BBModelManagerWillStartRefreshNotification];
     }
     
@@ -648,6 +652,8 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
         
         if (!error)
         {
+            BBModelState oldModelState = self.modelState;
+            
             TIME_PROFILER_LOG(@"Database saving")
 
             if (!forceRefresh)
@@ -656,6 +662,11 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
             }
             
             self.modelState = BBModelIsPopulated;
+            
+            if (oldModelState == BBModelIsEmpty)
+            {
+                [self postNotificationForFirstLoadedPage];
+            }
 
             if (!nextPageToken.length || forceRefresh)
             {
@@ -775,15 +786,9 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     [self postAsyncNotificationWithName:BBModelManagerDidChangeRefreshStageNotification];
 }
 
-- (void)postNotificationForRefreshProgress:(float)progress
+- (void)postNotificationForFirstLoadedPage
 {
-    if (progress < 0.f)
-    {
-        return;
-    }
-    
-    [self postNotificationWithName:BBModelManagerRefreshProgressNotification
-                          userInfo:@{BBModelManagerRefreshProgressNotificationKey: @(progress)}];
+    [self postNotificationWithName:BBModelManagerDidLoadFirstPageNotification];
 }
 
 - (void)postNotificationForRefreshError:(NSError *)error

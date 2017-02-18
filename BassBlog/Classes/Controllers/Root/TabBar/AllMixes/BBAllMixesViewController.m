@@ -122,6 +122,18 @@
     [[BBModelManager defaultManager] refresh];
 }
 
+- (void)modelManagerWillStartRefreshNotification
+{
+    [super modelManagerWillStartRefreshNotification];
+    
+    [self.refreshControl beginRefreshing];
+}
+
+- (void)modelManagerWillStartFullRefreshNotification
+{
+    [super modelManagerWillStartFullRefreshNotification];
+}
+
 - (void)modelManagerDidFinishRefreshNotification
 {
     [super modelManagerDidFinishRefreshNotification];

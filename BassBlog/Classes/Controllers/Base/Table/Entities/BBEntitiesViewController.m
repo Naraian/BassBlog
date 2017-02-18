@@ -53,8 +53,8 @@
     self.viewDidAppear = YES;
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    
+- (void)viewDidDisappear:(BOOL)animated
+{
     self.viewDidAppear = NO;
     
     [super viewDidDisappear:animated];
@@ -62,13 +62,23 @@
 
 #pragma mark - Notifications
 
-- (void)startObserveNotifications {
-    
+- (void)startObserveNotifications
+{
     [super startObserveNotifications];
     
+    [self addSelector:@selector(modelManagerWillStartRefreshNotification) forNotificationWithName:BBModelManagerWillStartRefreshNotification];
+    [self addSelector:@selector(modelManagerWillStartFullRefreshNotification) forNotificationWithName:BBModelManagerWillStartFullRefreshNotification];
     [self addSelector:@selector(modelManagerDidFinishRefreshNotification) forNotificationWithName:BBModelManagerDidFinishRefreshNotification];
     [self addSelector:@selector(modelManagerRefreshErrorNotification) forNotificationWithName:BBModelManagerRefreshErrorNotification];
     [self addSelector:@selector(modelManagerDidFinishSaveNotification) forNotificationWithName:BBModelManagerDidFinishSaveNotification];
+}
+
+- (void)modelManagerWillStartRefreshNotification
+{
+}
+
+- (void)modelManagerWillStartFullRefreshNotification
+{
 }
 
 - (void)modelManagerDidFinishRefreshNotification

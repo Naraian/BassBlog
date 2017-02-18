@@ -1,5 +1,5 @@
 //
-//  BBTableViewController.m
+//  BBTableViewController.mself.text = self.recurrence.title()
 //  BassBlog
 //
 //  Created by Evgeny Sivko on 10.04.13.

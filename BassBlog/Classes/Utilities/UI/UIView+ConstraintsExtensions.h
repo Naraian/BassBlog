@@ -9,6 +9,5 @@
 @interface UIView (ConstraintsExtensions)
 
 - (void)removeAllConstraints;
-- (void)safeRemoveFromSuperview;
 
 @end

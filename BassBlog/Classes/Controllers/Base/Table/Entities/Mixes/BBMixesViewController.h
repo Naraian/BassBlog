@@ -42,7 +42,6 @@ typedef NS_ENUM(NSInteger, BBMixesTableModelSectionRule)
 #pragma mark -
 
 @class BBMix;
-@class BBMixesViewControllerModelLoadOperation;
 
 @interface BBMixesViewController (Protected)
 

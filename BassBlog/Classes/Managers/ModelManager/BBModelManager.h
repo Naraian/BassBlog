@@ -9,6 +9,7 @@
 
 extern NSString *const BBModelManagerDidInitializeNotification;
 
+extern NSString *const BBModelManagerWillStartFullRefreshNotification;
 extern NSString *const BBModelManagerWillStartRefreshNotification;
 extern NSString *const BBModelManagerDidFinishRefreshNotification;
 
@@ -16,8 +17,7 @@ extern NSString *const BBModelManagerDidChangeRefreshStageNotification;
 
 extern NSString *const BBModelManagerDidFinishSaveNotification;
 
-extern NSString *const BBModelManagerRefreshProgressNotification;
-extern NSString *const BBModelManagerRefreshProgressNotificationKey;
+extern NSString *const BBModelManagerDidLoadFirstPageNotification;
 
 extern NSString *const BBModelManagerRefreshErrorNotification;
 extern NSString *const BBModelManagerRefreshErrorNotificationKey;

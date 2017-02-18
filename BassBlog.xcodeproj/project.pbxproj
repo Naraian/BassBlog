@@ -64,6 +64,10 @@
 		08FFCB131712A2C900F21D86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08FFCB111712A2C900F21D86 /* InfoPlist.strings */; };
 		08FFCB2E1712ADE300F21D86 /* BBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FFCB2D1712ADE300F21D86 /* BBAppDelegate.m */; };
 		96940F09422A42528654E1C6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16EF097EE4F24CABA9AEC4A0 /* libPods.a */; };
+		9A15C22B1CBB9C7900F8087D /* BBNowPlayingTitleCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A15C2261CBB9C7900F8087D /* BBNowPlayingTitleCollectionCell.swift */; };
+		9A15C2311CBB9CFD00F8087D /* BBNowPlayingControlsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A15C22D1CBB9CFD00F8087D /* BBNowPlayingControlsHeaderView.swift */; };
+		9A15C2321CBB9CFD00F8087D /* BBNowPlayingArtworkCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A15C22E1CBB9CFD00F8087D /* BBNowPlayingArtworkCollectionCell.swift */; };
+		9A15C2331CBB9CFD00F8087D /* BBNowPlayingTimeCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A15C22F1CBB9CFD00F8087D /* BBNowPlayingTimeCollectionCell.swift */; };
 		9A2CCCCF195DC6C60032632A /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2CCCCE195DC6C60032632A /* MediaToolbox.framework */; };
 		9A2CCCD2195DC9420032632A /* FFTHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A2CCCD1195DC9420032632A /* FFTHelper.m */; };
 		9A2CCCD4195DCB670032632A /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2CCCD3195DCB670032632A /* Accelerate.framework */; };
@@ -71,6 +75,9 @@
 		9A3BE221193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3BE220193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift */; };
 		9A3BE228193FA1EB0048C9C0 /* BBCommonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3BE227193FA1EB0048C9C0 /* BBCommonUtils.m */; };
 		9A4DE9ED1961749900DF9EB9 /* BebasNeueCyrillic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A4DE9EC1961749900DF9EB9 /* BebasNeueCyrillic.ttf */; };
+		9A5422BB1CCEA02E006814CB /* BBNowPlayingCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5422BA1CCEA02E006814CB /* BBNowPlayingCollectionViewFlowLayout.swift */; };
+		9A5422BD1CCF5CE1006814CB /* Array+BB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5422BC1CCF5CE1006814CB /* Array+BB.swift */; };
+		9A5422BF1CCF6A65006814CB /* BBNowPlayingTrackListCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5422BE1CCF6A65006814CB /* BBNowPlayingTrackListCollectionCell.swift */; };
 		9A57211E18FF1F8300169E6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A57211D18FF1F8300169E6A /* Main.storyboard */; };
 		9A57212118FF29D500169E6A /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A57212018FF29D500169E6A /* SWRevealViewController.m */; };
 		9A60F617194FAE68009220DE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A60F616194FAE68009220DE /* main.m */; };
@@ -87,8 +94,6 @@
 		9AD25AB31BE010B7009DABED /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AD25AB21BE010B7009DABED /* libz.1.dylib */; };
 		9AD279F01974739200186707 /* BBRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD279EF1974739200186707 /* BBRefreshControl.m */; };
 		9AD60F9119169615000C49BD /* BBAboutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD60F8F19169615000C49BD /* BBAboutTableViewCell.m */; };
-		9AD60F961916A2D2000C49BD /* BlackTheme.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9AD60F941916A2D2000C49BD /* BlackTheme.bundle */; };
-		9AD60F971916A2D2000C49BD /* WinterTheme.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9AD60F951916A2D2000C49BD /* WinterTheme.bundle */; };
 		9ADC7BF71960BAED0028576B /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 9ADC7BE81960BAED0028576B /* iTunesArtwork */; };
 		9ADC7BF91960BB290028576B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9ADC7BF81960BB290028576B /* Images.xcassets */; };
 		9AE77066193EAB25002E2684 /* BBAppDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE77065193EAB25002E2684 /* BBAppDelegateSwift.swift */; };
@@ -217,6 +222,10 @@
 		08FFCB2D1712ADE300F21D86 /* BBAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAppDelegate.m; sourceTree = "<group>"; };
 		16EF097EE4F24CABA9AEC4A0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		93EB51393EAC7296395C8A09 /* Pods.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.adhoc.xcconfig; path = "Pods/Target Support Files/Pods/Pods.adhoc.xcconfig"; sourceTree = "<group>"; };
+		9A15C2261CBB9C7900F8087D /* BBNowPlayingTitleCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingTitleCollectionCell.swift; sourceTree = "<group>"; };
+		9A15C22D1CBB9CFD00F8087D /* BBNowPlayingControlsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingControlsHeaderView.swift; sourceTree = "<group>"; };
+		9A15C22E1CBB9CFD00F8087D /* BBNowPlayingArtworkCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingArtworkCollectionCell.swift; sourceTree = "<group>"; };
+		9A15C22F1CBB9CFD00F8087D /* BBNowPlayingTimeCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingTimeCollectionCell.swift; sourceTree = "<group>"; };
 		9A2CCCCE195DC6C60032632A /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
 		9A2CCCD0195DC9420032632A /* FFTHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTHelper.h; sourceTree = "<group>"; };
 		9A2CCCD1195DC9420032632A /* FFTHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTHelper.m; sourceTree = "<group>"; };
@@ -227,6 +236,9 @@
 		9A3BE226193FA1EB0048C9C0 /* BBCommonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCommonUtils.h; sourceTree = "<group>"; };
 		9A3BE227193FA1EB0048C9C0 /* BBCommonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCommonUtils.m; sourceTree = "<group>"; };
 		9A4DE9EC1961749900DF9EB9 /* BebasNeueCyrillic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BebasNeueCyrillic.ttf; sourceTree = "<group>"; };
+		9A5422BA1CCEA02E006814CB /* BBNowPlayingCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		9A5422BC1CCF5CE1006814CB /* Array+BB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+BB.swift"; sourceTree = "<group>"; };
+		9A5422BE1CCF6A65006814CB /* BBNowPlayingTrackListCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingTrackListCollectionCell.swift; sourceTree = "<group>"; };
 		9A57211D18FF1F8300169E6A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9A57211F18FF29D500169E6A /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		9A57212018FF29D500169E6A /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
@@ -254,8 +266,6 @@
 		9AD279EF1974739200186707 /* BBRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBRefreshControl.m; sourceTree = "<group>"; };
 		9AD60F8E19169615000C49BD /* BBAboutTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAboutTableViewCell.h; sourceTree = "<group>"; };
 		9AD60F8F19169615000C49BD /* BBAboutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAboutTableViewCell.m; sourceTree = "<group>"; };
-		9AD60F941916A2D2000C49BD /* BlackTheme.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = BlackTheme.bundle; sourceTree = "<group>"; };
-		9AD60F951916A2D2000C49BD /* WinterTheme.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WinterTheme.bundle; sourceTree = "<group>"; };
 		9ADC7BE81960BAED0028576B /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = BassBlog/iTunesArtwork; sourceTree = SOURCE_ROOT; };
 		9ADC7BF81960BB290028576B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9AE77064193EAB25002E2684 /* BassBlog-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BassBlog-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -352,8 +362,6 @@
 		084501B717DDC40F002B09F7 /* Themes */ = {
 			isa = PBXGroup;
 			children = (
-				9AD60F941916A2D2000C49BD /* BlackTheme.bundle */,
-				9AD60F951916A2D2000C49BD /* WinterTheme.bundle */,
 			);
 			path = Themes;
 			sourceTree = "<group>";
@@ -411,7 +419,6 @@
 				08C1D19C1763510C00513530 /* Mixes */,
 				08C1D1A01763510C00513530 /* BBEntitiesViewController.h */,
 				08C1D1A11763510C00513530 /* BBEntitiesViewController.m */,
-				08EFB34317F89E6400FBCA83 /* Model */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -442,19 +449,12 @@
 		08C43740175E4A2600929669 /* NowPlaying */ = {
 			isa = PBXGroup;
 			children = (
-				08C43744175E4A2600929669 /* ShareMix */,
+				9A15C2211CBB9C7900F8087D /* Cells */,
 				9A3BE220193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift */,
 				9AC0BE49195F5D420073D31E /* BBSpectrumAnalyzerView.h */,
 				9AC0BE4A195F5D420073D31E /* BBSpectrumAnalyzerView.m */,
 			);
 			path = NowPlaying;
-			sourceTree = "<group>";
-		};
-		08C43744175E4A2600929669 /* ShareMix */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ShareMix;
 			sourceTree = "<group>";
 		};
 		08C43745175E4A2600929669 /* TabBar */ = {
@@ -744,6 +744,7 @@
 				08DBE75417134FCD00FFCC3F /* BBMacros.h */,
 				9A3BE226193FA1EB0048C9C0 /* BBCommonUtils.h */,
 				9A3BE227193FA1EB0048C9C0 /* BBCommonUtils.m */,
+				9A5422BC1CCF5CE1006814CB /* Array+BB.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -847,13 +848,6 @@
 			sourceTree = "<group>";
 		};
 		08EF067A17D1322D00B07616 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		08EFB34317F89E6400FBCA83 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -969,6 +963,19 @@
 				93EB51393EAC7296395C8A09 /* Pods.adhoc.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		9A15C2211CBB9C7900F8087D /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				9A5422BE1CCF6A65006814CB /* BBNowPlayingTrackListCollectionCell.swift */,
+				9A15C22D1CBB9CFD00F8087D /* BBNowPlayingControlsHeaderView.swift */,
+				9A15C22E1CBB9CFD00F8087D /* BBNowPlayingArtworkCollectionCell.swift */,
+				9A15C22F1CBB9CFD00F8087D /* BBNowPlayingTimeCollectionCell.swift */,
+				9A15C2261CBB9C7900F8087D /* BBNowPlayingTitleCollectionCell.swift */,
+				9A5422BA1CCEA02E006814CB /* BBNowPlayingCollectionViewFlowLayout.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		9A81CAC6196B3FD20006E1C3 /* UIImage */ = {
@@ -1106,10 +1113,12 @@
 				CLASSPREFIX = BB;
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = BassBlog;
 				TargetAttributes = {
 					08FFCB021712A2C900F21D86 = {
+						DevelopmentTeam = 63CYS7W6F4;
+						LastSwiftMigration = 0820;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1151,9 +1160,7 @@
 				9AA6538819070CB1000BAA6E /* HelveticaLTStd-Cond.ttf in Resources */,
 				9A4DE9ED1961749900DF9EB9 /* BebasNeueCyrillic.ttf in Resources */,
 				9AB0929D1B41301D009595E5 /* LaunchScreen.xib in Resources */,
-				9AD60F971916A2D2000C49BD /* WinterTheme.bundle in Resources */,
 				C1EB985E18CE4669008A3303 /* BBMixesTableFooterView.xib in Resources */,
-				9AD60F961916A2D2000C49BD /* BlackTheme.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1198,11 +1205,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				08FFCB2E1712ADE300F21D86 /* BBAppDelegate.m in Sources */,
+				9A5422BD1CCF5CE1006814CB /* Array+BB.swift in Sources */,
 				08DBE74A17134C5C00FFCC3F /* BBLog.m in Sources */,
+				9A15C2311CBB9CFD00F8087D /* BBNowPlayingControlsHeaderView.swift in Sources */,
 				08DBE75A17134FCD00FFCC3F /* NSObject+Nib.m in Sources */,
 				08DBE75B17134FCD00FFCC3F /* NSObject+Notification.m in Sources */,
 				9A3BE221193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift in Sources */,
 				C14D4A9718BE953200ED7041 /* BBHistoryTableViewCell.m in Sources */,
+				9A15C2331CBB9CFD00F8087D /* BBNowPlayingTimeCollectionCell.swift in Sources */,
 				085953B31714766A000991B9 /* BBFileManager.m in Sources */,
 				9AD60F9119169615000C49BD /* BBAboutTableViewCell.m in Sources */,
 				08C04E921715F0C700726742 /* BBTableViewController.m in Sources */,
@@ -1218,11 +1228,13 @@
 				08CBFDF217592BE900C19C22 /* NSString+HTML.m in Sources */,
 				080FB78F175A0C4E0047B395 /* BBEntity.m in Sources */,
 				9A57212118FF29D500169E6A /* SWRevealViewController.m in Sources */,
+				9A15C22B1CBB9C7900F8087D /* BBNowPlayingTitleCollectionCell.swift in Sources */,
 				9A2CCCD2195DC9420032632A /* FFTHelper.m in Sources */,
 				080FB79D175A29060047B395 /* BBEntitiesSelectionOptions.m in Sources */,
 				080FB7A1175A2BB70047B395 /* BBMixesSelectionOptions.m in Sources */,
 				08C85850175B3FF50024281E /* BBTimeProfiler.m in Sources */,
 				08C85858175B91770024281E /* NSObject+Thread.m in Sources */,
+				9A5422BF1CCF6A65006814CB /* BBNowPlayingTrackListCollectionCell.swift in Sources */,
 				08C4375E175E4A2600929669 /* BBAllMixesViewController.m in Sources */,
 				9AE77066193EAB25002E2684 /* BBAppDelegateSwift.swift in Sources */,
 				C1FEAF4F18C5390C009D755F /* BBNowPlayingInfoCenter.m in Sources */,
@@ -1243,9 +1255,11 @@
 				9A81CACC196B3FD20006E1C3 /* UIImage+ProportionalFill.m in Sources */,
 				08C8EF381766216A003C87F4 /* UIColor+HEX.m in Sources */,
 				9ABB6AA91901C5EC00691B3F /* DeviceUtils.m in Sources */,
+				9A5422BB1CCEA02E006814CB /* BBNowPlayingCollectionViewFlowLayout.swift in Sources */,
 				08DC1067176C67EC00F09024 /* BBTagsSelectionOptions.m in Sources */,
 				9AD279F01974739200186707 /* BBRefreshControl.m in Sources */,
 				9A81CACB196B3FD20006E1C3 /* UIImage+ImageEffects.m in Sources */,
+				9A15C2321CBB9CFD00F8087D /* BBNowPlayingArtworkCollectionCell.swift in Sources */,
 				08DC106F176C879900F09024 /* BBAnalytics.m in Sources */,
 				08EEF4DE176DC80E00D003DA /* BBAudioManager.mm in Sources */,
 				C1E9960D18BDDFB400B7ABC7 /* BBUIUtils.m in Sources */,
@@ -1305,14 +1319,14 @@
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PREPROCESSOR_DEFINITIONS = EXT_LOG;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = YES;
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1328,7 +1342,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Oleg Kuroptiev (63CYS7W6F4)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Oleg Kuroptiev (63CYS7W6F4)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1342,7 +1356,7 @@
 					FREE,
 				);
 				INFOPLIST_FILE = "BassBlog/BassBlog-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1355,6 +1369,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BassBlog/Classes/AppDelegate/BassBlog-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1382,6 +1397,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1391,14 +1407,14 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = YES;
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -1429,14 +1445,14 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = YES;
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1466,7 +1482,7 @@
 					FREE,
 				);
 				INFOPLIST_FILE = "BassBlog/BassBlog-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1478,6 +1494,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BassBlog/Classes/AppDelegate/BassBlog-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1490,7 +1507,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Oleg Kuroptiev (63CYS7W6F4)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Oleg Kuroptiev (63CYS7W6F4)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1504,7 +1521,7 @@
 					FREE,
 				);
 				INFOPLIST_FILE = "BassBlog/BassBlog-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1516,6 +1533,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BassBlog/Classes/AppDelegate/BassBlog-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

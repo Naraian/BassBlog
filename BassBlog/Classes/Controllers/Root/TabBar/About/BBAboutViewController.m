@@ -145,7 +145,6 @@ typedef NS_ENUM(NSInteger, BBAboutTableModelBassblogSectionRow)
             break;
     }
     
-    imageName = [@"settings" stringByAppendingPathComponent:imageName];
     UIImage *image = [[BBThemeManager defaultManager] imageNamed:imageName];
     
     return image;

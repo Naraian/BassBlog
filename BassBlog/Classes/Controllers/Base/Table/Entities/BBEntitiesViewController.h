@@ -16,6 +16,9 @@
 // - entities ID are cell IDs in tableModel.
 
 @interface BBEntitiesViewController : BBTableViewController
+
+- (void)modelManagerWillStartRefreshNotification;
+- (void)modelManagerWillStartFullRefreshNotification;
 - (void)modelManagerDidFinishRefreshNotification;
 - (void)modelManagerRefreshErrorNotification;
 

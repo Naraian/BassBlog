@@ -91,7 +91,7 @@
     {
         sourceRect = CGRectMake(sourceRect.origin.y, sourceRect.origin.x, sourceRect.size.height, sourceRect.size.width);
     }
-	if ([UIScreen instancesRespondToSelector:@selector(scale)]) {
+	if ([UIScreen instancesRespondToSelector:@selector((scale))]) {
         float newScale = (ignoreScale) ? 1.0f : 0;
 		UIGraphicsBeginImageContextWithOptions(destRect.size, NO, newScale); // 0.f for scale means "scale for device's main screen".
 		sourceImg = CGImageCreateWithImageInRect([self CGImage], sourceRect); // cropping happens here.
@@ -114,9 +114,9 @@
 		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 		CGContextRef context = CGBitmapContextCreate(NULL, scaledWidth, scaledHeight, 8, (scaledWidth * 4), 
 													 colorSpace, (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
-		CGImageRef sourceImg = CGImageCreateWithImageInRect([self CGImage], sourceRect);
-		CGContextDrawImage(context, destRect, sourceImg);
-		CGImageRelease(sourceImg);
+		CGImageRef fallbackSourceImg = CGImageCreateWithImageInRect([self CGImage], sourceRect);
+		CGContextDrawImage(context, destRect, fallbackSourceImg);
+		CGImageRelease(fallbackSourceImg);
 		CGImageRef finalImage = CGBitmapContextCreateImage(context);	
 		CGContextRelease(context);
 		CGColorSpaceRelease(colorSpace);

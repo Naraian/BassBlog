@@ -11,23 +11,23 @@
 
 @implementation BBFont
 
-+ (UIFont *)fontOfSize:(CGFloat)fontSize {
- 
++ (UIFont *)fontOfSize:(CGFloat)fontSize
+{
     return [UIFont fontWithName:@"HelveticaLTStd-Cond" size:fontSize];
 }
 
-+ (UIFont *)fontLikeFont:(UIFont *)font {
-    
++ (UIFont *)fontLikeFont:(UIFont *)font
+{
     return [self fontOfSize:font.pointSize];
 }
 
-+ (UIFont *)boldFontOfSize:(CGFloat)fontSize {
-    
++ (UIFont *)boldFontOfSize:(CGFloat)fontSize
+{
     return [UIFont fontWithName:@"BebasNeueCyrillic" size:fontSize];
 }
 
-+ (UIFont *)boldFontLikeFont:(UIFont *)font {
-    
++ (UIFont *)boldFontLikeFont:(UIFont *)font
+{    
     return [self boldFontOfSize:font.pointSize];
 }
 

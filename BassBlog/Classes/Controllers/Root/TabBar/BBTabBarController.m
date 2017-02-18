@@ -46,13 +46,11 @@
 
 - (void)updateTheme
 {
-    BBThemeManager *tm = [BBThemeManager defaultManager];
-    
     self.tabBar.barStyle = UIBarStyleDefault;
     self.tabBar.translucent = NO;
-    self.tabBar.tintColor = BBThemeManagerWinterOrangeColor;
-    self.tabBar.barTintColor = [UIColor colorWithHEX:0xF7F7F7FF];
-    self.tabBar.selectedImageTintColor = BBThemeManagerWinterOrangeColor;
+    self.tabBar.tintColor = BBThemeManagerTabBarTintColor;
+    self.tabBar.barTintColor = BBThemeManagerBarBarTintColor;
+    self.tabBar.selectedImageTintColor = BBThemeManagerTabBarTintColor;
 }
 
 - (void)setUserInteractionEnabled:(BOOL)enabled

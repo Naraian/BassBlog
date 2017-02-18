@@ -2,6 +2,7 @@
 
 import UIKit
 
+/*
 let htmlBody = NSString.stringWithContentsOfFile("/Users/tos/Desktop/BB.txt") as NSString
 
 var error: NSError? = nil
@@ -18,4 +19,4 @@ let mp3Matches = mp3Regex.numberOfMatchesInString(htmlBody, options: NSMatchingO
 let mp3MatchRange = mp3Regex.rangeOfFirstMatchInString(htmlBody, options: NSMatchingOptions.ReportCompletion, range: NSMakeRange(0, htmlBody.length))
 let mp3Match = htmlBody.substringWithRange(mp3MatchRange)
 
-
+*/

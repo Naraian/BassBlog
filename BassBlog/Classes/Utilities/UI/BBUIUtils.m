@@ -11,6 +11,7 @@
 #import "BBTag.h"
 #import "BBMix.h"
 #import "BBFont.h"
+#import "BBThemeManager.h"
 
 @implementation BBUIUtils
 

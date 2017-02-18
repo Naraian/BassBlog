@@ -1,0 +1,42 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "454D75EF168C6DD50D50941886C51F5040678967",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "0469e985-34cd-46e0-8691-f04ed1ad5bf4++6468" : {
+
+    },
+    "0469e985-34cd-46e0-8691-f04ed1ad5bf4++9594" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "0469e985-34cd-46e0-8691-f04ed1ad5bf4++6468" : 0,
+    "454D75EF168C6DD50D50941886C51F5040678967" : 0,
+    "0469e985-34cd-46e0-8691-f04ed1ad5bf4++9594" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "64CC5541-54BE-4A3B-8080-87C7A394F7DD",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "0469e985-34cd-46e0-8691-f04ed1ad5bf4++6468" : "BassBlog\/BassBlog\/Libraries\/Flurry\/",
+    "454D75EF168C6DD50D50941886C51F5040678967" : "BassBlog\/",
+    "0469e985-34cd-46e0-8691-f04ed1ad5bf4++9594" : "BassBlog\/BassBlog\/Classes\/Controllers\/Base\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "BassBlog",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "BassBlog.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/subversion.assembla.com\/svn\/null-projects",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0469e985-34cd-46e0-8691-f04ed1ad5bf4++6468"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/subversion.assembla.com\/svn\/null-projects",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0469e985-34cd-46e0-8691-f04ed1ad5bf4++9594"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/github.com\/Naraian\/BassBlog.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "454D75EF168C6DD50D50941886C51F5040678967"
+    }
+  ]
+}

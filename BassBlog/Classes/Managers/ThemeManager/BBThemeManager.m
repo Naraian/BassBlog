@@ -33,10 +33,10 @@ SINGLETON_IMPLEMENTATION(BBThemeManager, defaultManager)
     
     if (self) {
         
-        _themeNames = @[@"Black", @"Winter"];
-        _bundleNames = @[@"BlackTheme.bundle",@"WinterTheme.bundle"];
+        _themeNames = @[@""];
+        _bundleNames = @[@"Default.bundle"];
         
-        self.theme = BBThemeBlack;
+        self.theme = BBThemeDefault;
     }
     
     return self;
@@ -78,7 +78,7 @@ SINGLETON_IMPLEMENTATION(BBThemeManager, defaultManager)
 
 - (UIImage *)imageNamed:(NSString *)name {
     
-    NSString *fullName = [[self bundleName] stringByAppendingPathComponent:name];
+    NSString *fullName = [name stringByAppendingString:[self themeName]];
     
     return [UIImage imageNamed:fullName];
 }

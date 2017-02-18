@@ -79,12 +79,9 @@ typedef NS_ENUM(NSInteger, BBRefreshControlState)
         self.customLabel.numberOfLines = 1;
         [overlayView addSubview:self.customLabel];
         
-        NSString *imageName = [@"table_view/cell" stringByAppendingPathComponent:@"mini_arrow"];
-        UIImage *arrowImage = [[BBThemeManager defaultManager] imageNamed:imageName];
-        
         self.leftIndicatorImageView = [UIImageView new];
         self.leftIndicatorImageView.translatesAutoresizingMaskIntoConstraints = NO;
-        self.leftIndicatorImageView.image = arrowImage;
+        self.leftIndicatorImageView.image = [[BBThemeManager defaultManager] imageNamed:@"mini_arrow"];;
         self.leftIndicatorImageView.contentMode = UIViewContentModeCenter;
         [overlayView addSubview:self.leftIndicatorImageView];
         
@@ -112,7 +109,7 @@ typedef NS_ENUM(NSInteger, BBRefreshControlState)
 {
     _scrollView = scrollView;
     
-    _scrollView.refreshControl = self;
+    _scrollView.bb_refreshControl = self;
 }
 
 - (void)beginRefreshing
@@ -321,16 +318,16 @@ typedef NS_ENUM(NSInteger, BBRefreshControlState)
 
 @implementation UIScrollView (BBRefreshControl)
 
-- (void)setRefreshControl:(BBRefreshControl *)refreshControl
+- (void)setBb_refreshControl:(BBRefreshControl *)bb_refreshControl
 {
-    [self.refreshControl removeFromSuperview];
+    [self.bb_refreshControl removeFromSuperview];
     
-    objc_setAssociatedObject(self, @selector(refreshControl), refreshControl, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(refreshControl), bb_refreshControl, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
-    [self insertSubview:refreshControl atIndex:0];
+    [self insertSubview:bb_refreshControl atIndex:0];
 }
 
-- (BBRefreshControl *)refreshControl
+- (BBRefreshControl *)bb_refreshControl
 {
     return objc_getAssociatedObject(self, @selector(refreshControl));
 }
@@ -339,29 +336,29 @@ typedef NS_ENUM(NSInteger, BBRefreshControlState)
 
 @implementation UITableView (BBRefreshControl)
 
-- (void)setRefreshControl:(BBRefreshControl *)refreshControl
+- (void)setBb_refreshControl:(BBRefreshControl *)bb_refreshControl
 {
-    if (self.refreshControl != refreshControl)
+    if (self.bb_refreshControl != bb_refreshControl)
     {
-        [super setRefreshControl:refreshControl];
+        [super setBb_refreshControl:bb_refreshControl];
         
-        [self addSubview:refreshControl];
+        [self addSubview:bb_refreshControl];
     }
 }
 
-+ (void)load
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^
-    {
-        NSError *error;
-        BOOL result = [[self class] jr_swizzleMethod:@selector(layoutSubviews) withMethod:@selector(TNK_layoutSubviews) error:&error];
-        if (!result || error)
-        {
-            NSLog(@"Can't swizzle methods - %@", [error description]);
-        }
-    });
-}
+//+ (void)load
+//{
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^
+//    {
+//        NSError *error;
+//        BOOL result = [[self class] jr_swizzleMethod:@selector(layoutSubviews) withMethod:@selector(TNK_layoutSubviews) error:&error];
+//        if (!result || error)
+//        {
+//            NSLog(@"Can't swizzle methods - %@", [error description]);
+//        }
+//    });
+//}
 
 - (void)TNK_layoutSubviews
 {
@@ -370,14 +367,14 @@ typedef NS_ENUM(NSInteger, BBRefreshControlState)
     // UITableView has a nasty habbit of placing it's section headers below contentInset
     // We aren't changing that behavior, just adjusting for the inset that we added
     
-    if (self.refreshControl.addedContentInset.top != 0.0)
+    if (self.bb_refreshControl.addedContentInset.top != 0.0)
     {
         //http://b2cloud.com.au/tutorial/uitableview-section-header-positions/
         const NSUInteger numberOfSections = self.numberOfSections;
         const UIEdgeInsets contentInset = self.contentInset;
         const CGPoint contentOffset = self.contentOffset;
         
-        const CGFloat sectionViewMinimumOriginY = contentOffset.y + contentInset.top - self.refreshControl.addedContentInset.top;
+        const CGFloat sectionViewMinimumOriginY = contentOffset.y + contentInset.top - self.bb_refreshControl.addedContentInset.top;
         
         //	Layout each header view
         for(NSUInteger section = 0; section < numberOfSections; section++)

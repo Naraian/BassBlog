@@ -141,17 +141,17 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
     
     NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:components fromDate:date];
     
-    if (components & NSDayCalendarUnit)
+    if (components & NSCalendarUnitDay)
     {
         sectionID |= dateComponents.day;
     }
     
-    if (components & NSMonthCalendarUnit)
+    if (components & NSCalendarUnitMonth)
     {
         sectionID |= dateComponents.month << 5; // *32
     }
     
-    if (components & NSYearCalendarUnit)
+    if (components & NSCalendarUnitYear)
     {
         sectionID |= dateComponents.year << 9; // *512
     }
@@ -168,7 +168,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
     
     if (tmp.integerValue == 0)
     {
-        tmp = [self sectionIDFromDate:self.date components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit];
+        tmp = [self sectionIDFromDate:self.date components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay];
         
         [self setPrimitiveDaySectionIdentifier:tmp];
     }
@@ -185,7 +185,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
     
     if (tmp.integerValue == 0)
     {
-        tmp = [self sectionIDFromDate:self.date components:NSYearCalendarUnit | NSMonthCalendarUnit];
+        tmp = [self sectionIDFromDate:self.date components:NSCalendarUnitYear | NSCalendarUnitMonth];
         
         [self setPrimitiveMonthSectionIdentifier:tmp];
     }
@@ -202,7 +202,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
     
     if (tmp.integerValue == 0)
     {
-        tmp = [self sectionIDFromDate:self.playbackDate components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit];
+        tmp = [self sectionIDFromDate:self.playbackDate components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay];
         
         [self setPrimitivePlaybackDaySectionIdentifier:tmp];
     }
@@ -219,7 +219,7 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
     
     if (tmp.integerValue == 0)
     {
-        tmp = [self sectionIDFromDate:self.playbackDate components:NSYearCalendarUnit | NSMonthCalendarUnit];
+        tmp = [self sectionIDFromDate:self.playbackDate components:NSCalendarUnitYear | NSCalendarUnitMonth];
         
         [self setPrimitivePlaybackMonthSectionIdentifier:tmp];
     }

@@ -18,3 +18,5 @@
 #import "BBFont.h"
 
 #import <UIImageView+AFNetworking.h>
+
+#import <TLYShyNavBar/TLYShyNavBarManager.h>

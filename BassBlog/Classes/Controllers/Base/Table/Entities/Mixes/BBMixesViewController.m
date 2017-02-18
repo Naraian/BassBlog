@@ -111,9 +111,7 @@ static const NSUInteger kBBMixesStartFetchRequestLimit = 30;
     self.emptyStateLabel.font = [BBFont boldFontLikeFont:self.emptyStateLabel.font];
     self.emptyStateLabel.text = [[self titleForEmptyState] uppercaseString];
     
-    NSString *imageName = [self imageNameForEmptyState];
-    imageName = [@"table_view" stringByAppendingPathComponent:imageName];
-    self.emptyStateImageView.image = [themeManager imageNamed:imageName];
+    self.emptyStateImageView.image = [themeManager imageNamed:[self imageNameForEmptyState]];
 }
 
 - (void)updateEmptyStateVisibility

@@ -29,23 +29,11 @@
 {
     [super awakeFromNib];
     
-    switch ([BBThemeManager defaultManager].theme)
-    {
-        case BBThemeBlack:
-        case BBThemeWinter:
-        {
-            self.backgroundColor = [UIColor whiteColor];
-            self.highlightedBackgroundColor = [UIColor colorWithHEX:0xCCCCCCFF];
-            
-            self.label.textColor = [UIColor colorWithHEX:0x515151FF];
-            self.detailLabel.textColor = [UIColor colorWithHEX:0x8A8A8AFF];
-            
-            break;
-        }
-            
-        default:
-            break;
-    }
+    self.backgroundColor = [UIColor whiteColor];
+    self.highlightedBackgroundColor = [UIColor colorWithHEX:0xCCCCCCFF];
+    
+    self.label.textColor = [UIColor colorWithHEX:0x515151FF];
+    self.detailLabel.textColor = [UIColor colorWithHEX:0x8A8A8AFF];
     
     self.label.font = [BBFont boldFontLikeFont:self.label.font];
     self.detailLabel.font = [BBFont fontLikeFont:self.detailLabel.font];
@@ -71,7 +59,6 @@
     
     if (self.infoImageView)
     {
-        UIImage *image = nil;
         NSString *imageName = nil;
         
         switch (mixState)
@@ -87,21 +74,15 @@
             default:
                 break;
         }
-        
-        if (imageName)
-        {
-            imageName = [@"table_view/cell" stringByAppendingPathComponent:imageName];
-            image = [themeManager imageNamed:imageName];
-        }
-        
+
+        UIImage *image = [themeManager imageNamed:imageName];
         self.infoImageView.image = image;
         self.infoImageViewWidthConstraint.constant = image ? image.size.width + 4.f : 0.f;
     }
     
     if (self.playingImageView)
     {
-        NSString *imageName = [@"table_view/cell" stringByAppendingPathComponent:@"now_playing_icon"];
-        UIImage *image = [themeManager imageNamed:imageName];
+        UIImage *image = [themeManager imageNamed:@"now_playing_icon"];
         self.playingImageView.image = image;
         self.playingImageViewWidthConstraint.constant = image ? image.size.width + 5.f : 0.f;
 

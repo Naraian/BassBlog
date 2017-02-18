@@ -17,23 +17,10 @@
 {
     [super awakeFromNib];
     
-    switch ([BBThemeManager defaultManager].theme)
-    {
-        case BBThemeBlack:
-        case BBThemeWinter:
-        {
-            self.backgroundColor = [UIColor whiteColor];
-            self.highlightedBackgroundColor = [UIColor colorWithHEX:0xCCCCCCFF];
-            
-            self.label.textColor = [UIColor colorWithHEX:0x515151FF];
-            
-            break;
-        }
-            
-        default:
-            break;
-    }
+    self.backgroundColor = [UIColor whiteColor];
+    self.highlightedBackgroundColor = [UIColor colorWithHEX:0xCCCCCCFF];
     
+    self.label.textColor = [UIColor colorWithHEX:0x515151FF];    
     self.label.font = [BBFont boldFontLikeFont:self.label.font];
 }
 

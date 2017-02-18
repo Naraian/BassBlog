@@ -24,3 +24,15 @@ extern const CGFloat kBBRefreshControlHeight;
 - (void)containingScrollViewDidScroll:(UIScrollView *)scrollView;
 
 @end
+
+@interface UIScrollView (BBRefreshControl)
+
+@property (nonatomic, strong, nullable) BBRefreshControl *bb_refreshControl;
+
+@end
+
+@interface UITableView (BBRefreshControl)
+
+@property (nonatomic, strong, nullable) BBRefreshControl *bb_refreshControl;
+
+@end

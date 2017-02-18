@@ -49,9 +49,10 @@ static const CGFloat kBBViewControllerNowPlayingItemHeight = 24.f;
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-
+    
     BB_WRN(@"");
 }
+
 
 #pragma mark - View
 
@@ -69,18 +70,18 @@ static const CGFloat kBBViewControllerNowPlayingItemHeight = 24.f;
     return UIStatusBarStyleLightContent;
 }
 
+@end
+
+
+@implementation UIViewController (BB)
+
+
 #pragma mark - Notifications
 
 - (void)themeManagerDidToggleThemeNotification:(NSNotification *)notification
 {
     [self updateTheme];
 }
-
-@end
-
-#pragma mark -
-
-@implementation BBViewController (Protected)
 
 - (void)commonInit
 {
@@ -101,22 +102,11 @@ static const CGFloat kBBViewControllerNowPlayingItemHeight = 24.f;
     
     self.view.backgroundColor = color;
     
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    self.navigationController.navigationBar.translucent = YES;
-    
-    UIColor *barColor = [UIColor colorWithHEX:0x0B0B0BFF];
-    
-    if (RUNNING_ON_IOS7)
-    {
-        self.navigationController.navigationBar.barTintColor = barColor;
-        self.navigationController.navigationBar.tintColor = [UIColor colorWithHEX:0xECECECFF];
-    }
-    else
-    {
-        self.navigationController.navigationBar.tintColor = barColor;
-    }
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.tintColor = BBThemeManagerBarBarTintColor;
 
-    NSDictionary *attributes = @{NSForegroundColorAttributeName:[UIColor whiteColor],
+    NSDictionary *attributes = @{NSForegroundColorAttributeName:[UIColor colorWithHEX:0x333333FF],
                                  NSFontAttributeName:[BBFont boldFontOfSize:21]};
     
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
@@ -125,10 +115,7 @@ static const CGFloat kBBViewControllerNowPlayingItemHeight = 24.f;
 - (UIBarButtonItem *)barButtonItemWithImageName:(NSString *)imageName
                                        selector:(SEL)selector
 {
-    BBThemeManager *tm = [BBThemeManager defaultManager];
-    imageName = [@"navigation_bar/item" stringByAppendingPathComponent:imageName];
-    
-    UIImage *image = [tm imageNamed:imageName];
+    UIImage *image = [[BBThemeManager defaultManager] imageNamed:imageName];
 
     return [[UIBarButtonItem alloc] initWithImage:image
                                             style:UIBarButtonItemStylePlain
@@ -152,12 +139,8 @@ static const CGFloat kBBViewControllerNowPlayingItemHeight = 24.f;
                        tag:(NSInteger)tag
 {
     BBThemeManager *themeManager = [BBThemeManager defaultManager];
-    
-    imageName = [@"tab_bar/item" stringByAppendingPathComponent:imageName];
     UIImage *image = [themeManager imageNamed:imageName];
-    
-    imageName = [imageName stringByAppendingString:@"_selected"];
-    UIImage *selectedImage = [themeManager imageNamed:imageName];
+    UIImage *selectedImage = [themeManager imageNamed:[imageName stringByAppendingString:@"_selected"]];
     
     self.tabBarItem = [[UITabBarItem alloc] initWithTitle:title
                                                     image:image
@@ -177,7 +160,7 @@ static const CGFloat kBBViewControllerNowPlayingItemHeight = 24.f;
                                                                                                             kBBViewControllerNowPlayingItemWidth, kBBViewControllerNowPlayingItemHeight)];
     spectrumAnalyzerView.backgroundColor = [UIColor clearColor];
     spectrumAnalyzerView.barBackgroundColor = [UIColor colorWithHEX:0xFFFFFF11];
-    spectrumAnalyzerView.barFillColor = BBThemeManagerWinterOrangeColor;
+    spectrumAnalyzerView.barFillColor = BBThemeManagerTabBarTintColor;
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nowPlayingBarButtonItemPressed)];
     [spectrumAnalyzerView addGestureRecognizer:tapGestureRecognizer];

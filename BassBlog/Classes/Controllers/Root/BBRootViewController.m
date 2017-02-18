@@ -198,11 +198,17 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 - (void)startObserveModelRefreshNotifications
 {
     [self addSelector:@selector(modelManagerWillStartRefreshNotification) forNotificationWithName:BBModelManagerWillStartRefreshNotification];
+    [self addSelector:@selector(modelManagerWillStartFullRefreshNotification) forNotificationWithName:BBModelManagerWillStartFullRefreshNotification];
     [self addSelector:@selector(modelManagerDidFinishRefreshNotification) forNotificationWithName:BBModelManagerDidFinishRefreshNotification];
     [self addSelector:@selector(modelManagerRefreshErrorNotification) forNotificationWithName:BBModelManagerRefreshErrorNotification];
+    [self addSelector:@selector(modelManagerDidLoadFirstPageNotification) forNotificationWithName:BBModelManagerDidLoadFirstPageNotification];
 }
 
 - (void)modelManagerWillStartRefreshNotification
+{
+}
+
+- (void)modelManagerWillStartFullRefreshNotification
 {
     [self showModelRefreshActivityView];
 }
@@ -214,6 +220,14 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
 
 - (void)modelManagerDidFinishRefreshNotification
 {
+    [self hideModelRefreshActivityView];
+    
+    [self activate];
+}
+
+- (void)modelManagerDidLoadFirstPageNotification
+{
+    // After first page is loaded, hide refresh activity view
     [self hideModelRefreshActivityView];
     
     [self activate];
