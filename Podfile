@@ -1,5 +1,6 @@
-platform :ios, '7.0'
-pod "AFNetworking", "~> 2.0"
-pod "MarqueeLabel"
-pod "JRSwizzle"
-pod "TLYShyNavBar"
+target "BassBlog" do
+    pod "AFNetworking", "~> 2.0"
+    pod "MarqueeLabel"
+    pod "JRSwizzle"
+    pod "TLYShyNavBar"
+end

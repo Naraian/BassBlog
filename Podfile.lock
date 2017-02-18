@@ -21,8 +21,10 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - JRSwizzle (1.0)
-  - MarqueeLabel (2.5.2)
-  - TLYShyNavBar (1.0.0)
+  - MarqueeLabel (3.0.1):
+    - MarqueeLabel/ObjC (= 3.0.1)
+  - MarqueeLabel/ObjC (3.0.1)
+  - TLYShyNavBar (1.1.1)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
@@ -33,7 +35,9 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   JRSwizzle: dd5ead5d913a0f29e7f558200165849f006bb1e3
-  MarqueeLabel: c82ca09a3a969b4d34ce5d65f0f82840525ab259
-  TLYShyNavBar: d313a1c50c58cb7af744829120eaa33ca8a998ce
+  MarqueeLabel: 80ba85d2b76a9f5fa6c13de337db80bcd94feb1d
+  TLYShyNavBar: d200e598923fbc2bd21a5c5efdfabf4898b11da0
 
-COCOAPODS: 0.38.2
+PODFILE CHECKSUM: 0ff5f8fc2c0a83afced5d60373d5ab19ae95ab3b
+
+COCOAPODS: 1.2.0

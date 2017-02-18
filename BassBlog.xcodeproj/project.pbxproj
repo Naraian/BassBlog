@@ -63,7 +63,7 @@
 		08FFCB0D1712A2C900F21D86 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FFCB0C1712A2C900F21D86 /* CoreData.framework */; };
 		08FFCB131712A2C900F21D86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08FFCB111712A2C900F21D86 /* InfoPlist.strings */; };
 		08FFCB2E1712ADE300F21D86 /* BBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FFCB2D1712ADE300F21D86 /* BBAppDelegate.m */; };
-		96940F09422A42528654E1C6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16EF097EE4F24CABA9AEC4A0 /* libPods.a */; };
+		24DBF886ADC802384AB6A2FD /* libPods-BassBlog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A931308EEBF0890AA6CE3793 /* libPods-BassBlog.a */; };
 		9A15C22B1CBB9C7900F8087D /* BBNowPlayingTitleCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A15C2261CBB9C7900F8087D /* BBNowPlayingTitleCollectionCell.swift */; };
 		9A15C2311CBB9CFD00F8087D /* BBNowPlayingControlsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A15C22D1CBB9CFD00F8087D /* BBNowPlayingControlsHeaderView.swift */; };
 		9A15C2321CBB9CFD00F8087D /* BBNowPlayingArtworkCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A15C22E1CBB9CFD00F8087D /* BBNowPlayingArtworkCollectionCell.swift */; };
@@ -220,8 +220,6 @@
 		08FFCB161712A2C900F21D86 /* BassBlog-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BassBlog-Prefix.pch"; sourceTree = "<group>"; };
 		08FFCB2C1712ADE300F21D86 /* BBAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAppDelegate.h; sourceTree = "<group>"; };
 		08FFCB2D1712ADE300F21D86 /* BBAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAppDelegate.m; sourceTree = "<group>"; };
-		16EF097EE4F24CABA9AEC4A0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		93EB51393EAC7296395C8A09 /* Pods.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.adhoc.xcconfig; path = "Pods/Target Support Files/Pods/Pods.adhoc.xcconfig"; sourceTree = "<group>"; };
 		9A15C2261CBB9C7900F8087D /* BBNowPlayingTitleCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingTitleCollectionCell.swift; sourceTree = "<group>"; };
 		9A15C22D1CBB9CFD00F8087D /* BBNowPlayingControlsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingControlsHeaderView.swift; sourceTree = "<group>"; };
 		9A15C22E1CBB9CFD00F8087D /* BBNowPlayingArtworkCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingArtworkCollectionCell.swift; sourceTree = "<group>"; };
@@ -272,6 +270,7 @@
 		9AE77065193EAB25002E2684 /* BBAppDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBAppDelegateSwift.swift; sourceTree = "<group>"; };
 		9AEFE8C6198AD8620010F784 /* ProgressPieView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressPieView.h; sourceTree = "<group>"; };
 		9AEFE8C7198AD8620010F784 /* ProgressPieView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressPieView.m; sourceTree = "<group>"; };
+		A931308EEBF0890AA6CE3793 /* libPods-BassBlog.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BassBlog.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C12D9DEF18BA21DB00F7693A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		C14D4A8F18BE94FA00ED7041 /* BBFavoritesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFavoritesTableViewCell.h; sourceTree = "<group>"; };
 		C14D4A9018BE94FA00ED7041 /* BBFavoritesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFavoritesTableViewCell.m; sourceTree = "<group>"; };
@@ -288,8 +287,9 @@
 		C1EBC3F318B9D30F00B77297 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		C1FEAF4D18C5390C009D755F /* BBNowPlayingInfoCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBNowPlayingInfoCenter.h; sourceTree = "<group>"; };
 		C1FEAF4E18C5390C009D755F /* BBNowPlayingInfoCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBNowPlayingInfoCenter.m; sourceTree = "<group>"; };
-		C4F69B17BB38E6C101062F4A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		E5B36F7C09E9D79215FCEC98 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		C6FC77D8CCE53218E53134D3 /* Pods-BassBlog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BassBlog.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BassBlog/Pods-BassBlog.debug.xcconfig"; sourceTree = "<group>"; };
+		DF9F6321A43A1532B3AA082E /* Pods-BassBlog.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BassBlog.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-BassBlog/Pods-BassBlog.adhoc.xcconfig"; sourceTree = "<group>"; };
+		F1CF9B294C358270F5FE3BDE /* Pods-BassBlog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BassBlog.release.xcconfig"; path = "Pods/Target Support Files/Pods-BassBlog/Pods-BassBlog.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,7 +314,7 @@
 				08DC1075176C87E800F09024 /* libFlurry.a in Frameworks */,
 				08E767F117CD16A6006B2320 /* AVFoundation.framework in Frameworks */,
 				08D08EDD17D267FD00E462EC /* MobileCoreServices.framework in Frameworks */,
-				96940F09422A42528654E1C6 /* libPods.a in Frameworks */,
+				24DBF886ADC802384AB6A2FD /* libPods-BassBlog.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -870,7 +870,7 @@
 				08FFCB0E1712A2C900F21D86 /* BassBlog */,
 				08FFCB051712A2C900F21D86 /* Frameworks */,
 				08FFCB041712A2C900F21D86 /* Products */,
-				449D6E83E672247FC60BAD5C /* Pods */,
+				9AC6A554F56F6349CBE471B1 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -903,7 +903,7 @@
 				08FFCB0C1712A2C900F21D86 /* CoreData.framework */,
 				08C85852175B43CE0024281E /* QuartzCore.framework */,
 				08DC1069176C85F300F09024 /* SystemConfiguration.framework */,
-				16EF097EE4F24CABA9AEC4A0 /* libPods.a */,
+				A931308EEBF0890AA6CE3793 /* libPods-BassBlog.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -955,16 +955,6 @@
 			path = AppDelegate;
 			sourceTree = "<group>";
 		};
-		449D6E83E672247FC60BAD5C /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				C4F69B17BB38E6C101062F4A /* Pods.debug.xcconfig */,
-				E5B36F7C09E9D79215FCEC98 /* Pods.release.xcconfig */,
-				93EB51393EAC7296395C8A09 /* Pods.adhoc.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		9A15C2211CBB9C7900F8087D /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -996,6 +986,16 @@
 				9ABB6AA81901C5EC00691B3F /* DeviceUtils.m */,
 			);
 			path = Device;
+			sourceTree = "<group>";
+		};
+		9AC6A554F56F6349CBE471B1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C6FC77D8CCE53218E53134D3 /* Pods-BassBlog.debug.xcconfig */,
+				F1CF9B294C358270F5FE3BDE /* Pods-BassBlog.release.xcconfig */,
+				DF9F6321A43A1532B3AA082E /* Pods-BassBlog.adhoc.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		9AD60F8D19169615000C49BD /* View */ = {
@@ -1089,11 +1089,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 08FFCB251712A2C900F21D86 /* Build configuration list for PBXNativeTarget "BassBlog" */;
 			buildPhases = (
-				2EAABEBB17074C46BF7A280A /* Check Pods Manifest.lock */,
+				4D86A24BFEAFFAB581EE043A /* [CP] Check Pods Manifest.lock */,
 				08FFCAFF1712A2C900F21D86 /* Sources */,
 				08FFCB001712A2C900F21D86 /* Frameworks */,
 				08FFCB011712A2C900F21D86 /* Resources */,
-				7F174341586D4FE8B1BCCB4F /* Copy Pods Resources */,
+				6215075253AA12CACAE07691 /* [CP] Embed Pods Frameworks */,
+				E3537FBD9481CF976A17E191 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1167,34 +1168,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2EAABEBB17074C46BF7A280A /* Check Pods Manifest.lock */ = {
+		4D86A24BFEAFFAB581EE043A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		7F174341586D4FE8B1BCCB4F /* Copy Pods Resources */ = {
+		6215075253AA12CACAE07691 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BassBlog/Pods-BassBlog-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E3537FBD9481CF976A17E191 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BassBlog/Pods-BassBlog-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1337,7 +1353,7 @@
 		};
 		08D69803176F968F00941621 /* AdHoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 93EB51393EAC7296395C8A09 /* Pods.adhoc.xcconfig */;
+			baseConfigurationReference = DF9F6321A43A1532B3AA082E /* Pods-BassBlog.adhoc.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1463,7 +1479,7 @@
 		};
 		08FFCB261712A2C900F21D86 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C4F69B17BB38E6C101062F4A /* Pods.debug.xcconfig */;
+			baseConfigurationReference = C6FC77D8CCE53218E53134D3 /* Pods-BassBlog.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1502,7 +1518,7 @@
 		};
 		08FFCB271712A2C900F21D86 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E5B36F7C09E9D79215FCEC98 /* Pods.release.xcconfig */;
+			baseConfigurationReference = F1CF9B294C358270F5FE3BDE /* Pods-BassBlog.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
