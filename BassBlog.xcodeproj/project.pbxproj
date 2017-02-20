@@ -64,10 +64,6 @@
 		08FFCB131712A2C900F21D86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08FFCB111712A2C900F21D86 /* InfoPlist.strings */; };
 		08FFCB2E1712ADE300F21D86 /* BBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FFCB2D1712ADE300F21D86 /* BBAppDelegate.m */; };
 		24DBF886ADC802384AB6A2FD /* libPods-BassBlog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A931308EEBF0890AA6CE3793 /* libPods-BassBlog.a */; };
-		9A15C22B1CBB9C7900F8087D /* BBNowPlayingTitleCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A15C2261CBB9C7900F8087D /* BBNowPlayingTitleCollectionCell.swift */; };
-		9A15C2311CBB9CFD00F8087D /* BBNowPlayingControlsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A15C22D1CBB9CFD00F8087D /* BBNowPlayingControlsHeaderView.swift */; };
-		9A15C2321CBB9CFD00F8087D /* BBNowPlayingArtworkCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A15C22E1CBB9CFD00F8087D /* BBNowPlayingArtworkCollectionCell.swift */; };
-		9A15C2331CBB9CFD00F8087D /* BBNowPlayingTimeCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A15C22F1CBB9CFD00F8087D /* BBNowPlayingTimeCollectionCell.swift */; };
 		9A2CCCCF195DC6C60032632A /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2CCCCE195DC6C60032632A /* MediaToolbox.framework */; };
 		9A2CCCD2195DC9420032632A /* FFTHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A2CCCD1195DC9420032632A /* FFTHelper.m */; };
 		9A2CCCD4195DCB670032632A /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2CCCD3195DCB670032632A /* Accelerate.framework */; };
@@ -75,9 +71,7 @@
 		9A3BE221193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3BE220193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift */; };
 		9A3BE228193FA1EB0048C9C0 /* BBCommonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3BE227193FA1EB0048C9C0 /* BBCommonUtils.m */; };
 		9A4DE9ED1961749900DF9EB9 /* BebasNeueCyrillic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A4DE9EC1961749900DF9EB9 /* BebasNeueCyrillic.ttf */; };
-		9A5422BB1CCEA02E006814CB /* BBNowPlayingCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5422BA1CCEA02E006814CB /* BBNowPlayingCollectionViewFlowLayout.swift */; };
 		9A5422BD1CCF5CE1006814CB /* Array+BB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5422BC1CCF5CE1006814CB /* Array+BB.swift */; };
-		9A5422BF1CCF6A65006814CB /* BBNowPlayingTrackListCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5422BE1CCF6A65006814CB /* BBNowPlayingTrackListCollectionCell.swift */; };
 		9A57211E18FF1F8300169E6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A57211D18FF1F8300169E6A /* Main.storyboard */; };
 		9A57212118FF29D500169E6A /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A57212018FF29D500169E6A /* SWRevealViewController.m */; };
 		9A60F617194FAE68009220DE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A60F616194FAE68009220DE /* main.m */; };
@@ -220,10 +214,6 @@
 		08FFCB161712A2C900F21D86 /* BassBlog-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BassBlog-Prefix.pch"; sourceTree = "<group>"; };
 		08FFCB2C1712ADE300F21D86 /* BBAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAppDelegate.h; sourceTree = "<group>"; };
 		08FFCB2D1712ADE300F21D86 /* BBAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAppDelegate.m; sourceTree = "<group>"; };
-		9A15C2261CBB9C7900F8087D /* BBNowPlayingTitleCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingTitleCollectionCell.swift; sourceTree = "<group>"; };
-		9A15C22D1CBB9CFD00F8087D /* BBNowPlayingControlsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingControlsHeaderView.swift; sourceTree = "<group>"; };
-		9A15C22E1CBB9CFD00F8087D /* BBNowPlayingArtworkCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingArtworkCollectionCell.swift; sourceTree = "<group>"; };
-		9A15C22F1CBB9CFD00F8087D /* BBNowPlayingTimeCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingTimeCollectionCell.swift; sourceTree = "<group>"; };
 		9A2CCCCE195DC6C60032632A /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
 		9A2CCCD0195DC9420032632A /* FFTHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTHelper.h; sourceTree = "<group>"; };
 		9A2CCCD1195DC9420032632A /* FFTHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTHelper.m; sourceTree = "<group>"; };
@@ -234,9 +224,7 @@
 		9A3BE226193FA1EB0048C9C0 /* BBCommonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCommonUtils.h; sourceTree = "<group>"; };
 		9A3BE227193FA1EB0048C9C0 /* BBCommonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCommonUtils.m; sourceTree = "<group>"; };
 		9A4DE9EC1961749900DF9EB9 /* BebasNeueCyrillic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BebasNeueCyrillic.ttf; sourceTree = "<group>"; };
-		9A5422BA1CCEA02E006814CB /* BBNowPlayingCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		9A5422BC1CCF5CE1006814CB /* Array+BB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+BB.swift"; sourceTree = "<group>"; };
-		9A5422BE1CCF6A65006814CB /* BBNowPlayingTrackListCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBNowPlayingTrackListCollectionCell.swift; sourceTree = "<group>"; };
 		9A57211D18FF1F8300169E6A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9A57211F18FF29D500169E6A /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		9A57212018FF29D500169E6A /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
@@ -449,7 +437,6 @@
 		08C43740175E4A2600929669 /* NowPlaying */ = {
 			isa = PBXGroup;
 			children = (
-				9A15C2211CBB9C7900F8087D /* Cells */,
 				9A3BE220193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift */,
 				9AC0BE49195F5D420073D31E /* BBSpectrumAnalyzerView.h */,
 				9AC0BE4A195F5D420073D31E /* BBSpectrumAnalyzerView.m */,
@@ -955,19 +942,6 @@
 			path = AppDelegate;
 			sourceTree = "<group>";
 		};
-		9A15C2211CBB9C7900F8087D /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				9A5422BE1CCF6A65006814CB /* BBNowPlayingTrackListCollectionCell.swift */,
-				9A15C22D1CBB9CFD00F8087D /* BBNowPlayingControlsHeaderView.swift */,
-				9A15C22E1CBB9CFD00F8087D /* BBNowPlayingArtworkCollectionCell.swift */,
-				9A15C22F1CBB9CFD00F8087D /* BBNowPlayingTimeCollectionCell.swift */,
-				9A15C2261CBB9C7900F8087D /* BBNowPlayingTitleCollectionCell.swift */,
-				9A5422BA1CCEA02E006814CB /* BBNowPlayingCollectionViewFlowLayout.swift */,
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
 		9A81CAC6196B3FD20006E1C3 /* UIImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -1223,12 +1197,10 @@
 				08FFCB2E1712ADE300F21D86 /* BBAppDelegate.m in Sources */,
 				9A5422BD1CCF5CE1006814CB /* Array+BB.swift in Sources */,
 				08DBE74A17134C5C00FFCC3F /* BBLog.m in Sources */,
-				9A15C2311CBB9CFD00F8087D /* BBNowPlayingControlsHeaderView.swift in Sources */,
 				08DBE75A17134FCD00FFCC3F /* NSObject+Nib.m in Sources */,
 				08DBE75B17134FCD00FFCC3F /* NSObject+Notification.m in Sources */,
 				9A3BE221193EB8DB0048C9C0 /* BBNowPlayingViewControllerSwift.swift in Sources */,
 				C14D4A9718BE953200ED7041 /* BBHistoryTableViewCell.m in Sources */,
-				9A15C2331CBB9CFD00F8087D /* BBNowPlayingTimeCollectionCell.swift in Sources */,
 				085953B31714766A000991B9 /* BBFileManager.m in Sources */,
 				9AD60F9119169615000C49BD /* BBAboutTableViewCell.m in Sources */,
 				08C04E921715F0C700726742 /* BBTableViewController.m in Sources */,
@@ -1244,13 +1216,11 @@
 				08CBFDF217592BE900C19C22 /* NSString+HTML.m in Sources */,
 				080FB78F175A0C4E0047B395 /* BBEntity.m in Sources */,
 				9A57212118FF29D500169E6A /* SWRevealViewController.m in Sources */,
-				9A15C22B1CBB9C7900F8087D /* BBNowPlayingTitleCollectionCell.swift in Sources */,
 				9A2CCCD2195DC9420032632A /* FFTHelper.m in Sources */,
 				080FB79D175A29060047B395 /* BBEntitiesSelectionOptions.m in Sources */,
 				080FB7A1175A2BB70047B395 /* BBMixesSelectionOptions.m in Sources */,
 				08C85850175B3FF50024281E /* BBTimeProfiler.m in Sources */,
 				08C85858175B91770024281E /* NSObject+Thread.m in Sources */,
-				9A5422BF1CCF6A65006814CB /* BBNowPlayingTrackListCollectionCell.swift in Sources */,
 				08C4375E175E4A2600929669 /* BBAllMixesViewController.m in Sources */,
 				9AE77066193EAB25002E2684 /* BBAppDelegateSwift.swift in Sources */,
 				C1FEAF4F18C5390C009D755F /* BBNowPlayingInfoCenter.m in Sources */,
@@ -1271,11 +1241,9 @@
 				9A81CACC196B3FD20006E1C3 /* UIImage+ProportionalFill.m in Sources */,
 				08C8EF381766216A003C87F4 /* UIColor+HEX.m in Sources */,
 				9ABB6AA91901C5EC00691B3F /* DeviceUtils.m in Sources */,
-				9A5422BB1CCEA02E006814CB /* BBNowPlayingCollectionViewFlowLayout.swift in Sources */,
 				08DC1067176C67EC00F09024 /* BBTagsSelectionOptions.m in Sources */,
 				9AD279F01974739200186707 /* BBRefreshControl.m in Sources */,
 				9A81CACB196B3FD20006E1C3 /* UIImage+ImageEffects.m in Sources */,
-				9A15C2321CBB9CFD00F8087D /* BBNowPlayingArtworkCollectionCell.swift in Sources */,
 				08DC106F176C879900F09024 /* BBAnalytics.m in Sources */,
 				08EEF4DE176DC80E00D003DA /* BBAudioManager.mm in Sources */,
 				C1E9960D18BDDFB400B7ABC7 /* BBUIUtils.m in Sources */,

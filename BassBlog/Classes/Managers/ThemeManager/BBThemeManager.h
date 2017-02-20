@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 BassBlog. All rights reserved.
 //
 
+NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, BBTheme)
 {
@@ -25,7 +26,7 @@ extern NSString *const BBThemeManagerDidToggleThemeNotification;
 
 + (BBThemeManager *)defaultManager;
 
-- (NSString *)themeName;
+- (nullable NSString *)themeName;
 
 - (BBTheme)nextTheme;
 
@@ -33,8 +34,10 @@ extern NSString *const BBThemeManagerDidToggleThemeNotification;
 
 #pragma mark - UI
 
-- (UIImage *)imageNamed:(NSString *)name;
+- (nullable UIImage *)imageNamed:(NSString *)name;
 
-- (UIColor *)colorWithPatternImageNamed:(NSString *)name;
+- (nullable UIColor *)colorWithPatternImageNamed:(NSString *)name;
 
 @end
+
+NS_ASSUME_NONNULL_END

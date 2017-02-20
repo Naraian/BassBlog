@@ -13,7 +13,7 @@
 
 + (UIFont *)fontOfSize:(CGFloat)fontSize
 {
-    return [UIFont fontWithName:@"HelveticaLTStd-Cond" size:fontSize];
+    return [UIFont fontWithName:@"Avenir-Heavy" size:fontSize];
 }
 
 + (UIFont *)fontLikeFont:(UIFont *)font
@@ -23,7 +23,7 @@
 
 + (UIFont *)boldFontOfSize:(CGFloat)fontSize
 {
-    return [UIFont fontWithName:@"BebasNeueCyrillic" size:fontSize];
+    return [UIFont fontWithName:@"Avenir-Heavy" size:fontSize];
 }
 
 + (UIFont *)boldFontLikeFont:(UIFont *)font

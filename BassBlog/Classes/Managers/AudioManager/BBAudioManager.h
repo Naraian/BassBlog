@@ -9,6 +9,8 @@
 #import <CoreMedia/CoreMedia.h>
 #import <AVFoundation/AVFoundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString *const BBAudioManagerDidStartPlayNotification;
 extern NSString *const BBAudioManagerDidChangeProgressNotification;
 extern NSString *const BBAudioManagerDidStopNotification;
@@ -33,10 +35,10 @@ typedef NS_ENUM(NSInteger, BBAudioManagerStopReason) {
 
 @interface BBAudioManager : NSObject
 
-@property (nonatomic, strong) AVPlayerItem *playerItem;
+@property (nonatomic, strong, nullable) AVPlayerItem *playerItem;
 
-@property (nonatomic, weak) id<BBAudioManagerDelegate> delegate;
-@property (nonatomic, strong) BBMix *mix;
+@property (nonatomic, weak, nullable) id<BBAudioManagerDelegate> delegate;
+@property (nonatomic, strong, nullable) BBMix *mix;
 @property (nonatomic, assign) float progress;
 @property (nonatomic, assign) BOOL paused;
 
@@ -44,7 +46,7 @@ typedef NS_ENUM(NSInteger, BBAudioManagerStopReason) {
 
 + (BBAudioManager *)defaultManager;
 
-- (void)setMix:(BBMix *)mix paused:(BOOL)paused;
+- (void)setMix:(nullable BBMix *)mix paused:(BOOL)paused;
 
 - (void)togglePlayPause;
 - (void)playNext;
@@ -60,7 +62,9 @@ typedef NS_ENUM(NSInteger, BBAudioManagerStopReason) {
 
 @protocol BBAudioManagerDelegate
 
-- (BBMix *)nextMix;
-- (BBMix *)prevMix;
+- (nullable BBMix *)nextMix;
+- (nullable BBMix *)prevMix;
 
 @end
+
+NS_ASSUME_NONNULL_END

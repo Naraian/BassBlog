@@ -1,4 +1,4 @@
-    //
+//
 //  BBNowPlayingViewControllerSwift.swift
 //  BassBlog
 //
@@ -8,231 +8,235 @@
 
 import UIKit
 
-protocol Row
+class BBNowPlayingViewControllerSwift : BBViewController
 {
-    func cellID() -> String
-    func height() -> CGFloat
+    @IBOutlet var titleLabel : UILabel!
+    @IBOutlet var tagsLabel : UILabel!
     
-    static func count() -> Int
-}
-
-extension Row
-{
-    func height() -> CGFloat
-    {
-        return 44
-    }
-}
-
-open class BBNowPlayingViewControllerSwift : UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, BBNowPlayingControlsHeaderViewDelegate
-{
-    enum Section: Int
-    {
-        case titleTime = 0
-        case controlsArtwork
-        
-        static let Count = controlsArtwork.rawValue + 1
-        
-        func row(atIndex row: Int) -> Row!
-        {
-            switch self
-            {
-                case .titleTime:        return SectionTitleTimeRow(rawValue: row)
-                case .controlsArtwork:  return SectionControlsArtworkRow(rawValue: row)
-            }
-        }
-        
-        func numberOfRows() -> Int
-        {
-            switch self
-            {
-                case .titleTime:        return SectionTitleTimeRow.count()
-                case .controlsArtwork:  return SectionControlsArtworkRow.count()
-            }
-        }
-        
-        func headerID() -> String
-        {
-            switch self
-            {
-                case .titleTime:        return Constant.defaultHeaderID
-                case .controlsArtwork:  return "controlsHeaderID"
-            }
-        }
-        
-        func footerID() -> String
-        {
-            return "defaultFooterID"
-        }
-        
-        func footerHeight() -> CGFloat
-        {
-            return 0
-        }
-    }
-    
-    enum SectionTitleTimeRow: Int, Row
-    {
-        case title = 0
-        case time
-        
-        static func count() -> Int { return time.rawValue + 1 }
-        
-        func cellID() -> String
-        {
-            switch self
-            {
-                case .title: return "titleCellID"
-                case .time:  return "timeCellID"
-            }
-        }
-        
-        func height() -> CGFloat
-        {
-            switch self
-            {
-                case .title: return 100
-                case .time:  return 100
-            }
-        }
-    }
-    
-    enum SectionControlsArtworkRow: Int, Row
-    {
-        case artwork = 0
-        case trackList
-        
-        static func count() -> Int { return trackList.rawValue + 1 }
-        
-        func cellID() -> String
-        {
-            switch self
-            {
-                case .artwork:      return "artworkCellID"
-                case .trackList:    return "trackListCellID"
-            }
-        }
-        
-        func height() -> CGFloat
-        {
-            switch self
-            {
-                case .artwork: return 176
-                case .trackList : return 0
-            }
-        }
-    }
-    
-    fileprivate struct Constant
-    {
-        static let defaultHeaderID = "defaultHeaderID"
-//        static let circleDetailsHeaderOriginalHeight : CGFloat = 170
-//        static let circleDetailsHeaderMinHeight : CGFloat = 0
-        static let defaultHeaderHeight : CGFloat = 16
-        static let controlsHeaderHeight : CGFloat = 44
-    }
-
-    @IBOutlet var collectionView : UICollectionView!
-    
-    var titleCell : BBNowPlayingTitleCollectionCell?
-    var timeCell : BBNowPlayingTimeCollectionCell?
-    var artworkCell : BBNowPlayingArtworkCollectionCell?
-    var trackListCell : BBNowPlayingTrackListCollectionCell?
-    
-    var controlsHeader : BBNowPlayingControlsHeaderView?
+    @IBOutlet var slider : UISlider!
+    @IBOutlet var currentTimeLabel : UILabel!
+    @IBOutlet var remainingTimeLabel : UILabel!
     
     @IBOutlet var favoriteNotificationTopConstraint : NSLayoutConstraint!
     @IBOutlet var favoriteNotificationView : UIView!
     @IBOutlet var favoriteNotificationLabel : UILabel!
     
-    var refreshTimer : Timer!
+    @IBOutlet var prevButton : UIButton!
+    @IBOutlet var nextButton : UIButton!
+    @IBOutlet var playButton : UIButton!
+    @IBOutlet var favoritesButton : UIButton!
+
+    @IBOutlet var artworkImageView : UIImageView!
     
-    var _dateFormatter : DateFormatter!
-    
-    func dateFormatter() -> DateFormatter
+    lazy var dateFormatter : DateFormatter =
     {
-        if (_dateFormatter == nil)
-        {
-            _dateFormatter = DateFormatter()
-            _dateFormatter.dateStyle = DateFormatter.Style.none
-            _dateFormatter.timeStyle = DateFormatter.Style.short
-        }
-        
-        return _dateFormatter
-    }
+        var dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .none
+        dateFormatter.timeStyle = .short
+        return dateFormatter
+    }()
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
-    {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        
-        self.commonInit()
-    }
+    var refreshTimer : Timer?
     
-    public required init?(coder aDecoder: NSCoder)
-    {
-        super.init(coder: aDecoder)
-        
-        self.commonInit()
-    }
-    
-    open override func commonInit()
+    override func commonInit()
     {
         super.commonInit()
 
         self.title = "NOW PLAYING"
     }
     
-    open override func updateTheme()
+    override func updateTheme()
     {
         super.updateTheme()
         
         self.showNowPlayingBarButtonItem()
     }
     
-    open override func startObserveNotifications()
+    override func startObserveNotifications()
     {
-        self.add(#selector(BBNowPlayingViewControllerSwift.audioManagerDidStartPlayNotification), forNotificationWithName: NSNotification.Name.BBAudioManagerDidStartPlay.rawValue)
-        self.add(#selector(BBNowPlayingViewControllerSwift.audioManagerDidStopNotification(_:)), forNotificationWithName: NSNotification.Name.BBAudioManagerDidStop.rawValue)
-        self.add(#selector(BBNowPlayingViewControllerSwift.audioManagerDidChangeMixNotification), forNotificationWithName: NSNotification.Name.BBAudioManagerDidChangeMix.rawValue)
+        self.add(#selector(audioManagerDidStartPlayNotification(_:)), forNotificationWithName: NSNotification.Name.BBAudioManagerDidStartPlay)
+        self.add(#selector(audioManagerDidStopNotification(_:)), forNotificationWithName: NSNotification.Name.BBAudioManagerDidStop)
+        self.add(#selector(audioManagerDidChangeMixNotification(_:)), forNotificationWithName: NSNotification.Name.BBAudioManagerDidChangeMix)
     }
     
-    func audioManagerDidStartPlayNotification()
-    {
-    }
-    
-    func audioManagerDidStopNotification(_ notification : Notification)
+    func audioManagerDidStartPlayNotification(_ notification : NSNotification)
     {
     }
     
-    func audioManagerDidChangeMixNotification()
+    func audioManagerDidStopNotification(_ notification : NSNotification)
     {
-        self.updateTrackInfo(true)
     }
     
-    func refreshTimerFired(_ aTimer : Timer)
+    func audioManagerDidChangeMixNotification(_ notification : NSNotification)
     {
-        self.refreshTimeInfo()
+        updateTrackInfo(animated: true)
     }
     
+    func customizeSlider()
+    {
+        switch (BBThemeManager.default().theme)
+        {
+            default:
+                self.slider!.minimumTrackTintColor = UIColor(hex: 0xF45D5DFF)
+                self.slider!.maximumTrackTintColor = UIColor(hex: 0xCCCCCCFF)
+        }
+
+        let tm = BBThemeManager.default()
+        
+        let thumbImageNormalName = "slider"
+
+        if let image = tm.imageNamed(thumbImageNormalName)
+        {
+            self.slider!.setThumbImage(image, for: .normal)
+        }
+    }
+    
+    func customizeButtons()
+    {
+        let tm = BBThemeManager.default()
+        
+        self.prevButton.setImage(tm.imageNamed("player_previous_mix"), for: .normal)
+        self.prevButton.setImage(tm.imageNamed("player_previous_mix_pressed"), for: .highlighted)
+        
+        self.nextButton.setImage(tm.imageNamed("player_next_mix"), for: .normal)
+        self.nextButton.setImage(tm.imageNamed("player_next_mix_pressed"), for: .highlighted)
+        
+        self.playButton.setImage(tm.imageNamed("player_play"), for: .normal)
+        self.playButton.setImage(tm.imageNamed("player_play_pressed"), for: .highlighted)
+        self.playButton.setImage(tm.imageNamed("player_pause"), for: .selected)
+        self.playButton.setImage(tm.imageNamed("player_pause_pressed"), for: [.highlighted, .selected])
+        
+        self.favoritesButton.setImage(tm.imageNamed("add_to_favorites"), for: .normal)
+        self.favoritesButton.setImage(tm.imageNamed("add_to_favorites_selected"), for: .selected)
+    }
+
+    @IBAction private func playClick(_ sender : AnyObject)
+    {
+        BBAudioManager.default().togglePlayPause()
+    }
+    
+    @IBAction private func prevClick(_ sender : AnyObject)
+    {
+        BBAudioManager.default().playPrev()
+    }
+    
+    @IBAction private func nextClick(_ sender : AnyObject)
+    {
+        BBAudioManager.default().playNext()
+    }
+    
+    @IBAction private func favoritesClick(_ sender : AnyObject)
+    {
+        guard let currentMix = BBAudioManager.default().mix else
+        {
+            return
+        }
+        
+        let shouldFavorite = (currentMix.favoriteDate == nil)
+
+        if (shouldFavorite)
+        {
+            self.favoritesButton.isSelected = true
+            currentMix.favoriteDate = Date()
+            
+            if (currentMix.name != nil)
+            {
+                Flurry.logEvent("mix_favorited", withParameters: ["mix_name" : currentMix.name])
+            }
+        }
+        else
+        {
+            self.favoritesButton.isSelected = false
+            currentMix.favoriteDate = nil
+        }
+        
+        let selfVar = self
+        
+        if (shouldFavorite)
+        {
+            selfVar.favoriteNotificationTopConstraint!.constant = 0.0
+            
+            UIView.animate(withDuration: 0.2, animations:
+            {
+                selfVar.view.layoutIfNeeded()
+            },
+            completion:
+            {
+                (finished: Bool) in
+                
+                if (finished)
+                {
+                    selfVar.favoriteNotificationTopConstraint!.constant = -selfVar.favoriteNotificationView!.bounds.size.height
+                    
+                    UIView.animate(withDuration: 0.2, delay: 1.0, options: .layoutSubviews, animations:
+                    {
+                        selfVar.view.layoutIfNeeded()
+                    }, completion:nil)
+                }
+            })
+        }
+    }
+    
+    @objc private func refreshTimerFired(_ timer : Timer)
+    {
+        refreshTimeInfo()
+    }
+    
+    func refreshMainTimeInfo()
+    {
+        let audioManager = BBAudioManager.default()
+//        let currentMix = audioManager.mix
+        
+        self.playButton.isSelected = !audioManager.paused
+        
+        self.currentTimeLabel.text = BBUIUtils.timeString(fromTime: audioManager.currentTime())
+    }
+
     func refreshTimeInfo()
     {
-        self.timeCell?.refresh()
-        self.controlsHeader?.refresh()
+        let audioManager = BBAudioManager.default()
+//        let currentMix = audioManager.mix
+        
+        self.refreshMainTimeInfo()
+        
+        self.remainingTimeLabel.text = BBUIUtils.timeString(fromTime: audioManager.duration())
+        
+        if (self.slider != nil)
+        {
+            self.slider!.value = audioManager.progress
+        }
     }
     
-    func updateTrackInfo(_ animated : Bool)
+    func updateTrackInfo(animated : Bool)
     {
-        UIView.transition(with: self.view, duration: animated ? 0.25 : 0.0, options: UIViewAnimationOptions.transitionCrossDissolve, animations:
+        UIView.transition(with: self.view, duration: animated ? 0.25 : 0.0, options: .transitionCrossDissolve, animations:
         {
-            for visibleCell in self.collectionView.visibleCells
+            [weak self] in
+            
+            guard let strongSelf = self else
             {
-                if let nowPlayingCell = visibleCell as? BBNowPlayingCollectionProtocol
-                {
-                    nowPlayingCell.refresh()
-                }
+                return
             }
             
-            self.controlsHeader?.refresh()
+            let audioManager = BBAudioManager.default()
+            let currentMix = audioManager.mix
+        
+            strongSelf.titleLabel.text = currentMix?.name.uppercased()
+            strongSelf.tagsLabel.text = BBUIUtils.tagsString(for: currentMix)
+            
+            strongSelf.favoritesButton.isSelected = (currentMix?.favoriteDate != nil)
+        
+            if let imageUrlString = currentMix?.imageUrl,
+               let imageUrl = URL(string: imageUrlString)
+            {
+                strongSelf.artworkImageView.setImageWith(imageUrl, placeholderImage:BBUIUtils.defaultImage())
+            }
+            else
+            {
+                strongSelf.artworkImageView.image = BBUIUtils.defaultImage()
+            }
+
+            strongSelf.refreshTimeInfo()
         },
         completion:
         {
@@ -240,254 +244,90 @@ open class BBNowPlayingViewControllerSwift : UIViewController, UICollectionViewD
         })
     }
     
-    open override func viewDidLoad()
+    override func viewDidLoad()
     {
         super.viewDidLoad()
+    
+        self.customizeSlider()
+        self.customizeButtons()
+    
+        switch (BBThemeManager.default().theme)
+        {
+            default:
+                self.titleLabel.textColor = UIColor(hex: 0x333333FF)
+                self.tagsLabel.textColor = UIColor(hex: 0x8A8A8AFF)
+                
+                self.currentTimeLabel.textColor = UIColor.black
+                self.remainingTimeLabel.textColor = UIColor.black
+            
+                self.favoriteNotificationLabel.textColor = UIColor.white
+                self.favoriteNotificationView!.backgroundColor = UIColor(hex: 0xF45D5DFF)
+        }
+    
+        self.titleLabel.font = BBFont.boldFontLike(self.titleLabel.font)
+        self.tagsLabel.font = BBFont.fontLike(self.tagsLabel.font)
         
-        self.favoriteNotificationLabel!.font = BBFont.boldFontLike(self.favoriteNotificationLabel!.font)
-        self.favoriteNotificationLabel!.text = NSLocalizedString("Mix Added to Favorites", comment: "").uppercased()
+        self.favoriteNotificationLabel.font = BBFont.boldFontLike(self.favoriteNotificationLabel.font)
+        self.favoriteNotificationLabel.text = NSLocalizedString("Mix Added to Favorites", comment: "").uppercased()
     }
     
-    open override func viewWillAppear(_ animated : Bool)
+    override func viewWillAppear(_ animated : Bool)
     {
         super.viewWillAppear(animated)
-        
-        self.navigationController?.hidesBarsOnSwipe = true
     
-        self.updateTrackInfo(false)
+        self.updateTrackInfo(animated: false)
     
-        self.refreshTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(BBNowPlayingViewControllerSwift.refreshTimerFired(_:)), userInfo: nil, repeats: true)
+        self.refreshTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(refreshTimerFired(_:)), userInfo: nil, repeats: true)
     }
     
-    open override func viewDidDisappear(_ animated : Bool)
+    override func viewDidDisappear(_ animated : Bool)
     {
         super.viewDidDisappear(animated)
-        
-        self.navigationController?.hidesBarsOnSwipe = false
     
-        self.refreshTimer.invalidate()
+        self.refreshTimer?.invalidate()
         self.refreshTimer = nil
     }
-        
+    
+    func sliderTouchDown(sender : AnyObject)
+    {
+        if (!BBAudioManager.default().paused)
+        {
+            BBAudioManager.default().togglePlayPause()
+        }
+    
+    //  self.sliderTouched = YES
+    }
+    
+    func sliderTouchUp(sender : AnyObject)
+    {
+    ///  if (self.sliderTouched)
+    //  {
+    //    [AudioPlayer pause]
+    
+        if (BBAudioManager.default().paused)
+        {
+            BBAudioManager.default().togglePlayPause()
+        }
+    
+    //  [AudioPlayer sliderChangedValueDidEnd:sender]
+    //    [AudioPlayer sliderChangedValue:sender]
+    //    [AudioPlayer play]
+    //    [AudioPlayer playSongWithMix:self.mix]
+    //  }
+    
+    //  self.sliderTouched = NO
+    
+    }
+    
+    func sliderValueChanged(slider : UISlider)
+    {
+        BBAudioManager.default().progress = slider.value
+    
+        self.refreshMainTimeInfo()
+    }
+    
     func backBarButtonItemPressed()
     {
-        self.navigationController?.popViewController(animated: true)
-    }
-  
-// MARK: Layout management
-    
-    func updateHeaderLayout()
-    {
-//        let flowLayout = self.collectionView!.collectionViewLayout as! HCAResizableHeaderFlowLayout
-//        flowLayout.originalHeaderHeight = Constant.circleDetailsHeaderOriginalHeight
-//        flowLayout.minimalHeaderHeight = Constant.circleDetailsHeaderMinHeight
-//        flowLayout.headerReferenceSize = CGSizeMake(CGRectGetWidth(self.view.bounds), Constant.defaultHeaderHeight)
-    }
-    
-    open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView
-    {
-        let section = Section(rawValue: indexPath.section)!
-        
-        guard (kind == UICollectionElementKindSectionHeader) else
-        {
-            return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: section.footerID(), for: indexPath)
-        }
-        
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: section.headerID(), for: indexPath)
-        
-        switch section
-        {
-            case .controlsArtwork:
-                guard let controlsHeader = header as? BBNowPlayingControlsHeaderView else
-                {
-                    fatalError("unexpected cell type")
-                }
-                
-                controlsHeader.delegate = self
-                self.controlsHeader = controlsHeader
-
-            default: ()
-        }
-        
-        return header
-    }
-    
-    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
-    {
-        let section = Section(rawValue: indexPath.section)!
-        let row = section.row(atIndex: indexPath.row)
-        
-        switch section
-        {
-            case .titleTime:
-                if let titleTimeRow = row as? SectionTitleTimeRow
-                {
-                }
-            
-            case .controlsArtwork:
-                if let controlsArtworkRow = row as? SectionControlsArtworkRow
-                {
-                    if (controlsArtworkRow == .trackList)
-                    {
-                        return CGSize(width: self.view.frame.width, height: self.view.frame.height - SectionControlsArtworkRow.artwork.height() - Constant.controlsHeaderHeight)
-                    }
-                }
-            
-            default: ()
-        }
-        
-        return CGSize(width: self.view.frame.width, height: row!.height())
-    }
-    
-    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize
-    {
-//        let flowLayout = self.collectionView!.collectionViewLayout as! HCAResizableHeaderFlowLayout
-        
-//        let referenceSize = flowLayout.headerReferenceSize
-        
-        let section = Section(rawValue: section)!
-        
-        switch section
-        {
-            case .titleTime:
-                return CGSize(width: self.view.frame.width, height: 0)
-            
-            default: ()
-        }
-        
-        return CGSize(width: self.view.frame.width, height: Constant.controlsHeaderHeight)
-    }
-    
-    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize
-    {
-        let section = Section(rawValue: section)!
-        
-        return CGSize(width: self.view.bounds.width, height: section.footerHeight())
-    }
-    
-    open func scrollViewDidScroll(_ scrollView: UIScrollView)
-    {
-        
-    }
-    
-    open func numberOfSections(in collectionView: UICollectionView) -> Int
-    {
-        return Section.Count
-    }
-    
-    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
-    {
-        let section = Section(rawValue: section)!
-        
-        return section.numberOfRows()
-    }
-    
-    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
-    {
-        let section = Section(rawValue: indexPath.section)!
-        let row = section.row(atIndex: indexPath.row)
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: (row?.cellID())!, for: indexPath)
-        
-        switch section
-        {
-            case .titleTime:
-                self.configureTitleTimeSectionCell(cell, forRow: row as! SectionTitleTimeRow)
-            
-            case .controlsArtwork:
-                self.configureControlsArtworkSectionCell(cell, forRow: row as! SectionControlsArtworkRow)
-        }
-        
-        if let nowPlayingCell = cell as? BBNowPlayingCollectionProtocol
-        {
-            nowPlayingCell.refresh()
-        }
-        
-        return cell
-    }
-    
-    fileprivate func configureTitleTimeSectionCell(_ cell: UICollectionViewCell, forRow row : SectionTitleTimeRow)
-    {
-        switch row
-        {
-            case .title:
-                guard let titleCell = cell as? BBNowPlayingTitleCollectionCell else
-                {
-                    fatalError("unexpected cell type")
-                }
-            
-                self.titleCell = titleCell
-            
-            case .time:
-                guard let timeCell = cell as? BBNowPlayingTimeCollectionCell else
-                {
-                    fatalError("unexpected cell type")
-                }
-                
-                self.timeCell = timeCell
-        }
-    }
-    
-    fileprivate func configureControlsArtworkSectionCell(_ cell: UICollectionViewCell, forRow row : SectionControlsArtworkRow)
-    {
-        switch row
-        {
-            case .artwork:
-                guard let artworkCell = cell as? BBNowPlayingArtworkCollectionCell else
-                {
-                    fatalError("unexpected cell type")
-                }
-                
-                self.artworkCell = artworkCell
-            
-            case .trackList:
-                guard let trackListCell = cell as? BBNowPlayingTrackListCollectionCell else
-                {
-                    fatalError("unexpected cell type")
-                }
-                
-                self.trackListCell = trackListCell
-        }
-    }
-    
-    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
-    {
-        collectionView.deselectItem(at: indexPath, animated: true)
-        
-        let section = Section(rawValue: indexPath.section)!
-        let _ = section.row(atIndex: indexPath.row)
-        
-//        switch section
-//        {
-//        case .HeaderOnly: () //No actions on cell selection here
-//        case .Calendar: () //No actions on cell selection here
-//        case .Participants: () //No actions on cell selection here
-//        }
-    }
-    
-// MARK: BBNowPlayingControlsHeaderViewDelegate
-    
-    func nowPlatingControlsHeaderView(_ headerView : BBNowPlayingControlsHeaderView, didFavoriteMix mix : BBMix)
-    {
-        self.favoriteNotificationTopConstraint!.constant = 0.0
-        
-        UIView.animate(withDuration: 0.2, animations:
-        {
-            self.view.layoutIfNeeded()
-        },
-        completion:
-        {
-            (finished: Bool) in
-            
-            if (finished)
-            {
-                self.favoriteNotificationTopConstraint!.constant = -self.topLayoutGuide.length - self.favoriteNotificationView!.bounds.size.height
-                
-                UIView.animate(withDuration: 0.2, delay: 1.0, options: UIViewAnimationOptions.layoutSubviews, animations:
-                {
-                    self.view.layoutIfNeeded()
-                }, completion:nil)
-            }
-        })
+        _ = self.navigationController?.popViewController(animated: true)
     }
 }

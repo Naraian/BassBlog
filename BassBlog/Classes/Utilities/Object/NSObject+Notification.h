@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 BassBlog. All rights reserved.
 //
 
+NS_ASSUME_NONNULL_BEGIN
 
 // Implementation performs NSNotification management on main thread always!
 
@@ -13,9 +14,9 @@
 
 #pragma mark - Listening
 
-- (void)addSelector:(SEL)selector forNotificationWithName:(NSString *)name;
+- (void)addSelector:(SEL)selector forNotificationWithName:(nullable NSNotificationName)name;
 
-- (void)removeSelectorForNotificationWithName:(NSString *)name;
+- (void)removeSelectorForNotificationWithName:(nullable NSNotificationName)name;
 
 - (void)removeNotificationSelectors;
 
@@ -25,16 +26,18 @@
 
 - (void)postNotification:(NSNotification *)notification;
 
-- (void)postNotificationWithName:(NSString *)name;
+- (void)postNotificationWithName:(nullable NSNotificationName)name;
 
-- (void)postNotificationWithName:(NSString *)name
+- (void)postNotificationWithName:(nullable NSNotificationName)name
                         userInfo:(NSDictionary *)userInfo;
 #pragma mark * Async
 
 - (void)postAsyncNotification:(NSNotification *)notification;
 
-- (void)postAsyncNotificationWithName:(NSString *)name;
+- (void)postAsyncNotificationWithName:(nullable NSNotificationName)name;
 
-- (void)postAsyncNotificationWithName:(NSString *)name
+- (void)postAsyncNotificationWithName:(nullable NSNotificationName)name
                              userInfo:(NSDictionary *)userInfo;
 @end
+
+NS_ASSUME_NONNULL_END
