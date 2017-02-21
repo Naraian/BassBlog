@@ -33,7 +33,7 @@
     CGContextAddLineToPoint(context, self.bounds.size.width, centerY);
     CGContextStrokePath(context); //Stroking resets CGContextBeginPath
     
-    [BBThemeManagerTabBarTintColor setStroke];
+    [BBThemeManagerOrangeColor setStroke];
     CGContextBeginPath(context);
     for (BBRange *range in self.progressRanges)
     {

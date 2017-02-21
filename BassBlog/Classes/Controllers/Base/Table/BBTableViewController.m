@@ -61,55 +61,37 @@
 
 - (NSFetchedResultsController *)fetchedResultsControllerForTableView:(UITableView *)tableView
 {
-    return (tableView == self.tableView) ? _fetchedResultsController : _searchFetchedResultsController;
+    return _fetchedResultsController;
 }
 
 - (UITableView *)tableViewForFetchedResultsController:(NSFetchedResultsController *)fetchedResultsController
 {
-    return (fetchedResultsController == _fetchedResultsController) ? self.tableView : self.searchDisplayController.searchResultsTableView;
+    return self.tableView;
+}
+
+- (NSFetchedResultsController *)createFetchedResultsController
+{
+    NSFetchRequest *fetchRequest = [self fetchRequest];
+    
+    NSString *sectionNameKeyPath = [self sectionNameKeyPath];
+    NSFetchedResultsController *theFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                                                  managedObjectContext:[[BBModelManager defaultManager] rootContext]
+                                                                                                    sectionNameKeyPath:sectionNameKeyPath
+                                                                                                             cacheName:nil]; //NSStringFromClass(self.class)];
+#warning deal with cache name
+    
+    theFetchedResultsController.delegate = self;
+    return theFetchedResultsController;
 }
 
 - (NSFetchedResultsController *)fetchedResultsController
 {
     if (!_fetchedResultsController)
     {
-        NSFetchRequest *fetchRequest = [self fetchRequestForSearch:NO];
-        
-        NSString *sectionNameKeyPath = [self sectionNameKeyPath];        
-        NSFetchedResultsController *theFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                                                      managedObjectContext:[[BBModelManager defaultManager] rootContext]
-                                                                                                        sectionNameKeyPath:sectionNameKeyPath
-                                                                                                                 cacheName:nil]; //NSStringFromClass(self.class)];
-        #warning deal with cache name
-
-        _fetchedResultsController = theFetchedResultsController;
-        _fetchedResultsController.delegate = self;
+        _fetchedResultsController = [self createFetchedResultsController];
     }
     
     return _fetchedResultsController;
-}
-
-- (NSFetchedResultsController *)searchFetchedResultsController
-{
-    if (!_searchFetchedResultsController)
-    {
-        NSFetchRequest *fetchRequest = [self fetchRequestForSearch:YES];
-        
-        NSFetchedResultsController *theFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                                                      managedObjectContext:[[BBModelManager defaultManager] rootContext]
-                                                                                                        sectionNameKeyPath:nil
-                                                                                                                 cacheName:nil]; //NSStringFromClass(self.class)];
-        _searchFetchedResultsController = theFetchedResultsController;
-        _searchFetchedResultsController.delegate = self;
-    }
-    
-    return _searchFetchedResultsController;
-}
-
-- (void)filterContentForSearchText:(NSString*)searchText
-{
-    _searchFetchedResultsController.delegate = nil;
-    _searchFetchedResultsController = nil;
 }
 
 #pragma mark - UITableViewDataSource
@@ -224,29 +206,6 @@
     }
 
     [self contentDidChange];
-}
-
-#pragma mark -
-#pragma mark Search Bar
-
-- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView
-{
-    tableView.tableFooterView = [UIView new];
-}
-
-- (void)searchDisplayController:(UISearchDisplayController *)controller willUnloadSearchResultsTableView:(UITableView *)tableView;
-{
-    // search is done so get rid of the search FRC and reclaim memory
-    self.searchFetchedResultsController.delegate = nil;
-    self.searchFetchedResultsController = nil;
-}
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-{
-    [self filterContentForSearchText:searchString];
-    
-    // Return YES to cause the search result table view to be reloaded.
-    return YES;
 }
 
 @end

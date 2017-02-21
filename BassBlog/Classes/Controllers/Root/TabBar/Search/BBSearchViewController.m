@@ -1,12 +1,13 @@
 //
-//  BBAllMixesViewController.m
+//  BBSearchViewController.m
 //  BassBlog
 //
 //  Created by Evgeny Sivko on 08.04.13.
 //  Copyright (c) 2013 BassBlog. All rights reserved.
 //
 
-#import "BBAllMixesViewController.h"
+#import "BBSearchViewController.h"
+#import "BBSearchViewController+Data.h"
 #import "BBTagsViewController.h"
 
 #import "BBMixesTableSectionHeaderView.h"
@@ -22,21 +23,41 @@
 #import "BBRootViewController.h"
 #import "BBRefreshControl.h"
 
-@interface BBAllMixesViewController()
+@interface BBSearchViewController() <UISearchResultsUpdating, UISearchControllerDelegate>
 
+@property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) BBRefreshControl *refreshControl;
 
 @end
 
-@implementation BBAllMixesViewController
+@implementation BBSearchViewController
+
+- (UISearchController *)searchController
+{
+    if (!_searchController)
+    {
+        _searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+        _searchController.searchResultsUpdater = self;
+        _searchController.delegate = self;
+        _searchController.dimsBackgroundDuringPresentation = NO;
+        _searchController.hidesNavigationBarDuringPresentation = NO;
+        _searchController.searchBar.clipsToBounds = NO;
+        
+        [_searchController.searchBar setBackgroundImage:[UIColor imageWithColor:[UIColor colorWithHEX:0xD8D8D8FF] andSize:CGSizeMake(1.f, 1.f)]
+                                         forBarPosition:UIBarPositionAny
+                                             barMetrics:UIBarMetricsDefault];
+    }
+    
+    return _searchController;
+}
 
 - (void)commonInit
 {
     [super commonInit];
     
-    NSString *title = NSLocalizedString(@"All Mixes", nil);
-    self.title = title.uppercaseString;    
-    [self setTabBarItemTitle:title imageNamed:@"mixes_tab" tag:eAllMixesCategory];
+    NSString *title = NSLocalizedString(@"Search", nil).uppercaseString;
+    self.title = title;
+    [self setTabBarItemTitle:title imageNamed:@"mixes_tab" tag:eSearchMixesCategory];
         
     _tableModelSectionRule = BBMixesTableModelSectionRuleEachMonth;
     
@@ -48,7 +69,14 @@
 {
     [super viewDidLoad];
     
+    self.tableView.tableHeaderView = self.searchController.searchBar;
     self.tableView.backgroundColor = [UIColor clearColor];
+    
+    self.searchController.searchBar.showsCancelButton = NO;
+    self.searchController.searchBar.translucent = NO;
+    self.searchController.searchBar.backgroundImage = nil;
+    self.searchController.searchBar.barTintColor = [UIColor whiteColor];
+    self.searchController.searchBar.placeholder = NSLocalizedString(@"Artist or mix name", nil).uppercaseString;
 }
 
 - (void)viewDidLayoutSubviews
@@ -64,21 +92,33 @@
     [super viewDidLayoutSubviews];
 }
 
-- (void)showLeftBarButtonItem
+- (void)showRightBarButtonItem
 {
-    self.navigationItem.leftBarButtonItem = [self barButtonItemWithImageName:@"tags"
-                                                                    selector:@selector(tagsBarButtonItemPressed)];
+    self.navigationItem.rightBarButtonItem = [self barButtonItemWithTitle:NSLocalizedString(@"History", nil).uppercaseString
+                                                                 selector:@selector(historyBarButtonItemPressed)];
+}
+
+- (void)historyBarButtonItemPressed
+{
+    [self.searchController setActive:NO];
+    
+    [self performSegueWithIdentifier:@"historySegueID" sender:nil];
 }
 
 - (void)updateTheme
 {
     [super updateTheme];
     
-    [self showLeftBarButtonItem];
+    [self showRightBarButtonItem];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
+    if (self.searchDisplayController.isActive)
+    {
+        return UIStatusBarStyleDefault;
+    }
+    
     return UIStatusBarStyleLightContent;
 }
 
@@ -147,6 +187,13 @@
     [[BBAppDelegate rootViewController] tagsViewController].delegate = self;
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.searchController setActive:NO];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return self.tableView.rowHeight;
@@ -162,6 +209,42 @@
     [super contentDidChange];
     
     [self updateNavigationBar];
+}
+
+#pragma mark - 
+#pragma mark Search
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    [self filterContentForSearchText:searchController.searchBar.text];
+}
+
+- (void)willPresentSearchController:(UISearchController *)searchController
+{
+    [self setNeedsStatusBarAppearanceUpdate];
+    
+    [self.refreshControl endRefreshing];
+}
+
+- (void)didPresentSearchController:(UISearchController *)searchController
+{
+    searchController.searchBar.showsCancelButton = NO;
+}
+
+- (void)willDismissSearchController:(UISearchController *)searchController;
+{
+    [self setNeedsStatusBarAppearanceUpdate];
+}
+
+- (void)didDismissSearchController:(UISearchController *)searchController
+{
+    if ([BBModelManager defaultManager].refreshStage != BBModelManagerWaitingStage)
+    {
+        if (self.tableView.contentOffset.y <= -self.tableView.contentInset.top)
+        {
+            [self.refreshControl beginRefreshing];
+        }
+    }        
 }
 
 #pragma mark -

@@ -10,6 +10,7 @@ typedef NS_ENUM(NSUInteger, BBMixesCategory)
 {
     eAllMixesCategory = 0,
     eFavoriteMixesCategory,
+    eSearchMixesCategory,
     eListenedMixesCategory,
     eDownloadedMixesCategory
 };

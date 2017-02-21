@@ -35,8 +35,8 @@
     self.label.textColor = [UIColor colorWithHEX:0x515151FF];
     self.detailLabel.textColor = [UIColor colorWithHEX:0x8A8A8AFF];
     
-    self.label.font = [BBFont boldFontLikeFont:self.label.font];
-    self.detailLabel.font = [BBFont fontLikeFont:self.detailLabel.font];
+    self.label.font = [BBFont boldFontOfSize:15.f];
+    self.detailLabel.font = [BBFont fontOfSize:10.f];
     
     [self setPaused:YES];
 }

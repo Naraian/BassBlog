@@ -23,8 +23,8 @@
 {
     [super commonInit];
     
-    NSString *title = NSLocalizedString(@"History", nil);
-    self.title = title.uppercaseString;
+    NSString *title = NSLocalizedString(@"History", nil).uppercaseString;
+    self.title = title;
     [self setTabBarItemTitle:title imageNamed:@"history_tab" tag:eListenedMixesCategory];
     
     _tableModelSectionRule = BBMixesTableModelSectionRuleEachDay;
@@ -32,12 +32,12 @@
     _mixesSelectionOptions.category = eListenedMixesCategory;
     _mixesSelectionOptions.sortKey = eMixPlaybackDateSortKey;
     
-    [self showLeftBarButtonItem];
+    [self showRightBarButtonItem];
 }
 
-- (void)showLeftBarButtonItem
+- (void)showRightBarButtonItem
 {
-    self.navigationItem.leftBarButtonItem = [self barButtonItemWithTitle:@"CLEAR" selector:@selector(clearHistory)];
+    self.navigationItem.rightBarButtonItem = [self barButtonItemWithTitle:@"CLEAR" selector:@selector(clearHistory)];
 }
 
 - (void)clearHistory

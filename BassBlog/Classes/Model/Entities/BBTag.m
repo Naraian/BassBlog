@@ -98,22 +98,20 @@
     
     NSMutableString *format = [NSMutableString stringWithString:@"name in %@"];
     
-    if (mixesCategory != eAllMixesCategory)
-    {
-        [format appendString:@" && ANY mixes."];
-    }
-    
     switch (mixesCategory)
     {
         case eDownloadedMixesCategory:
+            [format appendString:@" && ANY mixes."];
             [format appendString:[BBMix downloadedPredicateFormat]];
             break;
             
         case eFavoriteMixesCategory:
+            [format appendString:@" && ANY mixes."];
             [format appendString:[BBMix favoritePredicateFormat]];
             break;
             
         case eListenedMixesCategory:
+            [format appendString:@" && ANY mixes."];
             [format appendString:[BBMix listenedPredicateFormat]];
             break;
             

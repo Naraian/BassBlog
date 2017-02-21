@@ -236,7 +236,6 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
 #pragma mark Fetch
 
 + (NSFetchRequest *)fetchRequestWithCategory:(BBMixesCategory)category
-                             substringInName:(NSString *)substringInName
                                          tag:(BBTag *)tag
 {
     NSMutableString *format = [NSMutableString string];
@@ -271,20 +270,18 @@ NSString *const BBMixPlaybackMonthSectionIdentifierKey = @"playbackMonthSectionI
         [arguments addObject:tag];
     }
     
-    if (substringInName.length)
-    {
-        if (format.length)
-        {
-            [format appendString:@" && "];
-        }
-        
-        [format appendString:@"name CONTAINS[cd] %@"];
-        [arguments addObject:substringInName];
-    }
-    
     return [self fetchRequestWithPredicateFormat:format
                                    argumentArray:arguments];
 }
+
++ (NSFetchRequest *)fetchRequestForSearch:(NSString *)substringInName
+{
+    NSArray *arguments = @[((substringInName.length > 0) ? substringInName : @"")];
+    
+    return [self fetchRequestWithPredicateFormat:@"name CONTAINS[cd] %@"
+                                   argumentArray:arguments];
+}
+
 
 + (NSFetchRequest *)fetchRequestWithID:(NSString *)ID
 {

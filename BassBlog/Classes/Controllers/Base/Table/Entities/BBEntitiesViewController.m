@@ -148,14 +148,6 @@
 //    [self hideActivityView];
 }
 
-- (void)filterContentForSearchText:(NSString*)searchText
-{
-    [super filterContentForSearchText:searchText];
-
-    [self performFetch:self.searchFetchedResultsController];
-    [self.searchDisplayController.searchResultsTableView reloadData];
-}
-
 - (void)performFetch
 {
     [self performFetch:self.fetchedResultsController];

@@ -90,6 +90,12 @@
 		9AD60F9119169615000C49BD /* BBAboutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD60F8F19169615000C49BD /* BBAboutTableViewCell.m */; };
 		9ADC7BF71960BAED0028576B /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 9ADC7BE81960BAED0028576B /* iTunesArtwork */; };
 		9ADC7BF91960BB290028576B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9ADC7BF81960BB290028576B /* Images.xcassets */; };
+		9ADE5C451E5AF3E100334329 /* BBDownloadedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE5C441E5AF3E100334329 /* BBDownloadedTableViewCell.m */; };
+		9ADE5C4C1E5AF55500334329 /* BBSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE5C481E5AF55500334329 /* BBSearchViewController.m */; };
+		9ADE5C4D1E5AF55500334329 /* BBSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE5C4B1E5AF55500334329 /* BBSearchTableViewCell.m */; };
+		9ADE5C511E5B011E00334329 /* BBDownloadedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C126481763A2FC00F444D1 /* BBDownloadedViewController.m */; };
+		9ADE5C521E5B022400334329 /* BBSearchViewController+Data.h in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE5C501E5AFDE700334329 /* BBSearchViewController+Data.h */; };
+		9ADE5C531E5B029E00334329 /* BBSearchViewController+Data.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE5C4F1E5AFDA100334329 /* BBSearchViewController+Data.m */; };
 		9AE77066193EAB25002E2684 /* BBAppDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE77065193EAB25002E2684 /* BBAppDelegateSwift.swift */; };
 		9AEFE8C8198AD8620010F784 /* ProgressPieView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFE8C7198AD8620010F784 /* ProgressPieView.m */; };
 		C12D9DF018BA21DB00F7693A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C12D9DEF18BA21DB00F7693A /* MediaPlayer.framework */; };
@@ -254,6 +260,14 @@
 		9AD60F8F19169615000C49BD /* BBAboutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAboutTableViewCell.m; sourceTree = "<group>"; };
 		9ADC7BE81960BAED0028576B /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = BassBlog/iTunesArtwork; sourceTree = SOURCE_ROOT; };
 		9ADC7BF81960BB290028576B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		9ADE5C431E5AF3E100334329 /* BBDownloadedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBDownloadedTableViewCell.h; sourceTree = "<group>"; };
+		9ADE5C441E5AF3E100334329 /* BBDownloadedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBDownloadedTableViewCell.m; sourceTree = "<group>"; };
+		9ADE5C471E5AF55500334329 /* BBSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSearchViewController.h; sourceTree = "<group>"; };
+		9ADE5C481E5AF55500334329 /* BBSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSearchViewController.m; sourceTree = "<group>"; };
+		9ADE5C4A1E5AF55500334329 /* BBSearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSearchTableViewCell.h; sourceTree = "<group>"; };
+		9ADE5C4B1E5AF55500334329 /* BBSearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSearchTableViewCell.m; sourceTree = "<group>"; };
+		9ADE5C4F1E5AFDA100334329 /* BBSearchViewController+Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BBSearchViewController+Data.m"; sourceTree = "<group>"; };
+		9ADE5C501E5AFDE700334329 /* BBSearchViewController+Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BBSearchViewController+Data.h"; sourceTree = "<group>"; };
 		9AE77064193EAB25002E2684 /* BassBlog-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BassBlog-Bridging-Header.h"; sourceTree = "<group>"; };
 		9AE77065193EAB25002E2684 /* BBAppDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBAppDelegateSwift.swift; sourceTree = "<group>"; };
 		9AEFE8C6198AD8620010F784 /* ProgressPieView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressPieView.h; sourceTree = "<group>"; };
@@ -395,6 +409,7 @@
 		08C126461763A2FC00F444D1 /* Downloaded */ = {
 			isa = PBXGroup;
 			children = (
+				9ADE5C421E5AF3E100334329 /* View */,
 				08C126471763A2FC00F444D1 /* BBDownloadedViewController.h */,
 				08C126481763A2FC00F444D1 /* BBDownloadedViewController.m */,
 			);
@@ -447,6 +462,7 @@
 		08C43745175E4A2600929669 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
+				9ADE5C461E5AF55500334329 /* Search */,
 				08C43746175E4A2600929669 /* AllMixes */,
 				08C4374B175E4A2600929669 /* Favorites */,
 				08C126461763A2FC00F444D1 /* Downloaded */,
@@ -989,6 +1005,36 @@
 			name = Icons;
 			sourceTree = "<group>";
 		};
+		9ADE5C421E5AF3E100334329 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9ADE5C431E5AF3E100334329 /* BBDownloadedTableViewCell.h */,
+				9ADE5C441E5AF3E100334329 /* BBDownloadedTableViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9ADE5C461E5AF55500334329 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				9ADE5C471E5AF55500334329 /* BBSearchViewController.h */,
+				9ADE5C481E5AF55500334329 /* BBSearchViewController.m */,
+				9ADE5C4F1E5AFDA100334329 /* BBSearchViewController+Data.m */,
+				9ADE5C501E5AFDE700334329 /* BBSearchViewController+Data.h */,
+				9ADE5C491E5AF55500334329 /* View */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		9ADE5C491E5AF55500334329 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9ADE5C4A1E5AF55500334329 /* BBSearchTableViewCell.h */,
+				9ADE5C4B1E5AF55500334329 /* BBSearchTableViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		C14D4A8418BE93F000ED7041 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -1195,6 +1241,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08FFCB2E1712ADE300F21D86 /* BBAppDelegate.m in Sources */,
+				9ADE5C511E5B011E00334329 /* BBDownloadedViewController.m in Sources */,
 				9A5422BD1CCF5CE1006814CB /* Array+BB.swift in Sources */,
 				08DBE74A17134C5C00FFCC3F /* BBLog.m in Sources */,
 				08DBE75A17134FCD00FFCC3F /* NSObject+Nib.m in Sources */,
@@ -1210,6 +1257,7 @@
 				08CC79A817568B0E00A64212 /* BBMix.m in Sources */,
 				C14D4A9118BE94FA00ED7041 /* BBFavoritesTableViewCell.m in Sources */,
 				08CC79AC17568C1500A64212 /* BBTag.m in Sources */,
+				9ADE5C451E5AF3E100334329 /* BBDownloadedTableViewCell.m in Sources */,
 				08CBFDDF1759006300C19C22 /* BBSettings+iCloud.m in Sources */,
 				08CBFDE11759006300C19C22 /* BBSettings.m in Sources */,
 				C14D4A9418BE951100ED7041 /* BBAllMixesTableViewCell.m in Sources */,
@@ -1218,10 +1266,13 @@
 				9A57212118FF29D500169E6A /* SWRevealViewController.m in Sources */,
 				9A2CCCD2195DC9420032632A /* FFTHelper.m in Sources */,
 				080FB79D175A29060047B395 /* BBEntitiesSelectionOptions.m in Sources */,
+				9ADE5C521E5B022400334329 /* BBSearchViewController+Data.h in Sources */,
 				080FB7A1175A2BB70047B395 /* BBMixesSelectionOptions.m in Sources */,
 				08C85850175B3FF50024281E /* BBTimeProfiler.m in Sources */,
 				08C85858175B91770024281E /* NSObject+Thread.m in Sources */,
+				9ADE5C4C1E5AF55500334329 /* BBSearchViewController.m in Sources */,
 				08C4375E175E4A2600929669 /* BBAllMixesViewController.m in Sources */,
+				9ADE5C4D1E5AF55500334329 /* BBSearchTableViewCell.m in Sources */,
 				9AE77066193EAB25002E2684 /* BBAppDelegateSwift.swift in Sources */,
 				C1FEAF4F18C5390C009D755F /* BBNowPlayingInfoCenter.m in Sources */,
 				08C43760175E4A2600929669 /* BBTabBarController.m in Sources */,
@@ -1231,6 +1282,7 @@
 				08C43764175E4A2600929669 /* BBHistoryViewController.m in Sources */,
 				08C4376A175E4A2600929669 /* BBTagsViewController.m in Sources */,
 				08C43770175E4A9700929669 /* BBRootViewController.m in Sources */,
+				9ADE5C531E5B029E00334329 /* BBSearchViewController+Data.m in Sources */,
 				08D0D3E21761196C0052D7C7 /* BBViewController.m in Sources */,
 				08C1D1A21763510C00513530 /* BBMixesViewController.m in Sources */,
 				08C1264D1763B1D500F444D1 /* BBEntitiesViewController.m in Sources */,

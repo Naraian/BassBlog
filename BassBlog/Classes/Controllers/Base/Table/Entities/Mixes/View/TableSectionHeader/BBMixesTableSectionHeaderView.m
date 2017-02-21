@@ -19,18 +19,16 @@
 {
     [super awakeFromNib];
     
-    self.label.font = [BBFont boldFontLikeFont:self.label.font];
+    self.label.font = [BBFont boldFontOfSize:10.f];
     
     self.backgroundView =
     ({
         UIView * view = [[UIView alloc] initWithFrame:self.bounds];
-        view.backgroundColor = [UIColor colorWithHEX:0xEBEBEBFF];
+        view.backgroundColor = [UIColor whiteColor];
         view;
     });
     
-    self.layer.borderColor = [UIColor colorWithHEX:0xCCCCCCFF].CGColor;
-    self.layer.borderWidth = 1.f/UI_SCREEN_SCALE;
-    self.label.textColor = [UIColor colorWithHEX:0x5C5C5CFF];
+    self.label.textColor = [UIColor colorWithHEX:0x808080FF];
 }
 
 - (void)setFrame:(CGRect)frame
@@ -43,7 +41,7 @@
 
 + (CGFloat)height
 {
-    return 26.f;
+    return 22.f;
 }
 
 @end

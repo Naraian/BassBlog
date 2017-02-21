@@ -845,11 +845,22 @@ DEFINE_STATIC_CONST_NSSTRING(BBMixesJSONRequestNextPageStartDate);
     return fetchRequest;
 }
 
-- (NSFetchRequest *)fetchRequestForMixesWithSelectionOptions:(BBMixesSelectionOptions *)options forSearch:(BOOL)search
+- (NSFetchRequest *)fetchRequestForMixesWithSelectionOptions:(BBMixesSelectionOptions *)options
 {
     NSFetchRequest *fetchRequest = [BBMix fetchRequestWithCategory:options.category
-                                                   substringInName:search ? options.substringInName : nil
                                                                tag:options.tag];
+    
+    [fetchRequest setSortDescriptors:[self sortDescriptorsForMixesSelectionOptions:options]];
+    
+    fetchRequest.fetchOffset = options.offset;
+    fetchRequest.fetchLimit = options.limit;
+    
+    return fetchRequest;
+}
+
+- (NSFetchRequest *)fetchRequestForSearchMixesWithSelectionOptions:(BBMixesSelectionOptions *)options
+{
+    NSFetchRequest *fetchRequest = [BBMix fetchRequestForSearch:options.substringInName];
     
     [fetchRequest setSortDescriptors:[self sortDescriptorsForMixesSelectionOptions:options]];
     
@@ -1252,7 +1263,7 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     // All mixes ---------------------------------------------------------------
     
     fetchRequest =
-    [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions forSearch:NO];
+    [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions];
     
     [dump appendFormat:@"\n\n\tAll mixes: %lu",
      (unsigned long)[self countOfFetchedEntitiesWithRequest:fetchRequest
@@ -1262,7 +1273,7 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     
     mixesSelectionOptions.category = eFavoriteMixesCategory;
     fetchRequest =
-    [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions forSearch:NO];
+    [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions];
     
     [dump appendFormat:@"\n\t\tFavorite mixes: %lu",
      (unsigned long)[self countOfFetchedEntitiesWithRequest:fetchRequest
@@ -1272,7 +1283,7 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     
     mixesSelectionOptions.category = eListenedMixesCategory;
     fetchRequest =
-    [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions forSearch:NO];
+    [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions];
     
     [dump appendFormat:@"\n\t\tListened mixes: %lu",
      (unsigned long)[self countOfFetchedEntitiesWithRequest:fetchRequest
@@ -1282,7 +1293,7 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     
     mixesSelectionOptions.category = eDownloadedMixesCategory;
     fetchRequest =
-    [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions forSearch:NO];
+    [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions];
     
     [dump appendFormat:@"\n\t\tDownloaded mixes: %lu",
      (unsigned long)[self countOfFetchedEntitiesWithRequest:fetchRequest
@@ -1310,7 +1321,7 @@ static NSString *const BBManagedObjectContextDescriptionKey =
     {
         mixesSelectionOptions.tag = tag;
         fetchRequest =
-        [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions forSearch:NO];
+        [self fetchRequestForMixesWithSelectionOptions:mixesSelectionOptions];
         
         [dump appendFormat:@"\n\t\t%@ : %lu mixes",
          tag.name, (unsigned long)[self countOfFetchedEntitiesWithRequest:fetchRequest

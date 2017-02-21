@@ -48,9 +48,9 @@
 {
     self.tabBar.barStyle = UIBarStyleDefault;
     self.tabBar.translucent = NO;
-    self.tabBar.tintColor = BBThemeManagerTabBarTintColor;
+    self.tabBar.tintColor = BBThemeManagerOrangeColor;
     self.tabBar.barTintColor = BBThemeManagerBarBarTintColor;
-    self.tabBar.selectedImageTintColor = BBThemeManagerTabBarTintColor;
+    self.tabBar.selectedImageTintColor = BBThemeManagerOrangeColor;
 }
 
 - (void)setUserInteractionEnabled:(BOOL)enabled

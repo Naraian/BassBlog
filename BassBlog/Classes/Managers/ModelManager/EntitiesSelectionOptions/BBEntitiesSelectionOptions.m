@@ -53,14 +53,14 @@
         case eDownloadedMixesCategory:
             return @"downloaded";
             
+        case eSearchMixesCategory:
+            return @"search";
+            
         case eFavoriteMixesCategory:
             return @"favorite";
             
         case eListenedMixesCategory:
-            return @"listened";
-            
-        default:
-            return @"unknown";
+            return @"listened";            
     }
 }
 

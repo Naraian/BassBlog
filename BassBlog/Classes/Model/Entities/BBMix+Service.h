@@ -20,8 +20,9 @@
 #pragma mark Fetch
 
 + (NSFetchRequest *)fetchRequestWithCategory:(BBMixesCategory)category
-                             substringInName:(NSString *)substringInName
                                          tag:(BBTag *)tag;
+
++ (NSFetchRequest *)fetchRequestForSearch:(NSString *)substringInName;
 
 + (NSFetchRequest *)fetchRequestWithID:(NSString *)ID;
 

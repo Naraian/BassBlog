@@ -13,7 +13,7 @@
 
 + (UIFont *)fontOfSize:(CGFloat)fontSize
 {
-    return [UIFont fontWithName:@"Avenir-Heavy" size:fontSize];
+    return [UIFont fontWithName:@"Avenir-Roman" size:fontSize];
 }
 
 + (UIFont *)fontLikeFont:(UIFont *)font

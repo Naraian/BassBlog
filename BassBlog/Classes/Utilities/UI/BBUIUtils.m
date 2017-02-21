@@ -75,14 +75,14 @@
 
 + (void)customizeBarButtons
 {
-    NSDictionary *attributes = @{NSForegroundColorAttributeName :[UIColor colorWithHEX:0xBBBBBBFF],
-                                 NSFontAttributeName            :[BBFont boldFontOfSize:14]};
+    NSDictionary *attributes = @{NSForegroundColorAttributeName :BBThemeManagerOrangeColor,
+                                 NSFontAttributeName            :[BBFont boldFontOfSize:12]};
 
     id appearance = [UIBarButtonItem appearance];
     [appearance setTitleTextAttributes:attributes forState:UIControlStateNormal];
-    [appearance setTitlePositionAdjustment:UIOffsetMake(6.f, 0.f) forBarMetrics:UIBarMetricsDefault];
+    [appearance setTitlePositionAdjustment:UIOffsetMake(6.f, -2.f) forBarMetrics:UIBarMetricsDefault];
 
-    attributes = @{NSForegroundColorAttributeName :[UIColor colorWithHEX:0x222222FF],
+    attributes = @{NSForegroundColorAttributeName :BBThemeManagerOrangeColor,
                    NSFontAttributeName            :[BBFont boldFontOfSize:18]};
 
     id appearanceInSearchBar = [UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil];

@@ -14,7 +14,7 @@ typedef NS_ENUM(NSInteger, BBTheme)
     BBNumberOfThemes
 };
 
-#define BBThemeManagerTabBarTintColor           [UIColor colorWithHEX:0xF45D5DFF]
+#define BBThemeManagerOrangeColor               [UIColor colorWithHEX:0xF45D5DFF]
 #define BBThemeManagerBarBarTintColor           [UIColor colorWithHEX:0xFAFAFAFF]
 #define BBThemeManagerSliderLineColor           [UIColor colorWithHEX:0xDFDFDFFF]
 

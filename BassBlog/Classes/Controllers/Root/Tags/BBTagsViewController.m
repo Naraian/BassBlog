@@ -53,7 +53,7 @@ const NSInteger kBBAllTagTableModelRow = 0;
 
 #pragma mark - View
 
-- (NSFetchRequest *)fetchRequestForSearch:(BOOL)search
+- (NSFetchRequest *)fetchRequest
 {
     return [[BBModelManager defaultManager] fetchRequestForTagsWithSelectionOptions:_tagsSelectionOptions];
 }

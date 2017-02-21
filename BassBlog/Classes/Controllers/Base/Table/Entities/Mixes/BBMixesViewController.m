@@ -211,7 +211,7 @@ static const NSUInteger kBBMixesStartFetchRequestLimit = 30;
 {
     BBMix *currentMix = [BBAudioManager defaultManager].mix;
 
-    NSFetchedResultsController *fetchedResultsController = self.searchDisplayController.isActive ? self.searchFetchedResultsController : self.fetchedResultsController;
+    NSFetchedResultsController *fetchedResultsController = self.fetchedResultsController;
 
     NSInteger currentMixIndex = [fetchedResultsController.fetchedObjects indexOfObject:currentMix];
     
@@ -431,9 +431,9 @@ static const NSUInteger kBBMixesStartFetchRequestLimit = 30;
 
 @implementation BBMixesViewController (Protected)
 
-- (NSFetchRequest *)fetchRequestForSearch:(BOOL)search
+- (NSFetchRequest *)fetchRequest
 {
-    NSFetchRequest *fetchRequest = [[BBModelManager defaultManager] fetchRequestForMixesWithSelectionOptions:_mixesSelectionOptions forSearch:search];
+    NSFetchRequest *fetchRequest = [[BBModelManager defaultManager] fetchRequestForMixesWithSelectionOptions:_mixesSelectionOptions];
     return fetchRequest;
 }
 

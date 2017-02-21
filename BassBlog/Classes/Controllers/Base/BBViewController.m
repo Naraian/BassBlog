@@ -104,10 +104,11 @@ static const CGFloat kBBViewControllerNowPlayingItemHeight = 24.f;
     
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.tintColor = BBThemeManagerBarBarTintColor;
+    self.navigationController.navigationBar.tintColor = BBThemeManagerOrangeColor;
+    self.navigationController.navigationBar.barTintColor = BBThemeManagerBarBarTintColor;
 
-    NSDictionary *attributes = @{NSForegroundColorAttributeName:[UIColor colorWithHEX:0x333333FF],
-                                 NSFontAttributeName:[BBFont boldFontOfSize:21]};
+    NSDictionary *attributes = @{NSForegroundColorAttributeName:[UIColor colorWithHEX:0x4D4D4DFF],
+                                 NSFontAttributeName:[BBFont boldFontOfSize:15]};
     
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
 }
@@ -160,7 +161,7 @@ static const CGFloat kBBViewControllerNowPlayingItemHeight = 24.f;
                                                                                                             kBBViewControllerNowPlayingItemWidth, kBBViewControllerNowPlayingItemHeight)];
     spectrumAnalyzerView.backgroundColor = [UIColor clearColor];
     spectrumAnalyzerView.barBackgroundColor = [UIColor colorWithHEX:0xFFFFFF11];
-    spectrumAnalyzerView.barFillColor = BBThemeManagerTabBarTintColor;
+    spectrumAnalyzerView.barFillColor = BBThemeManagerOrangeColor;
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nowPlayingBarButtonItemPressed)];
     [spectrumAnalyzerView addGestureRecognizer:tapGestureRecognizer];
