@@ -15,7 +15,6 @@ const CGFloat kDefaultMinDbLevel = -40.f;
 const CGFloat kDefaultMinDbFS = -110.f;
 const CGFloat kDBLogFactor = 4.0f;
 const NSUInteger kMaxQueuedDataBlocks = 2;
-const NSInteger kFrameInterval = 3;
 
 @interface BBSpectrumAnalyzerView()
 
@@ -67,7 +66,7 @@ const NSInteger kFrameInterval = 3;
     [self addSelector:@selector(audioManagerDidChangeSpectrumData:) forNotificationWithName:BBAudioManagerDidChangeSpectrumData];
     
     self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(setNeedsDisplay)];
-    self.displayLink.frameInterval = kFrameInterval;
+    self.displayLink.preferredFramesPerSecond = 30;
     [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
 }
 

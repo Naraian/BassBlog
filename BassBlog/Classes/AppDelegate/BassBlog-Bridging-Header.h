@@ -4,6 +4,7 @@
 
 #import "BBRootViewController.h"
 #import "BBViewController.h"
+#import "BBMixesTableViewCell.h"
 #import "BBAnalytics.h"
 
 #import "NSObject+Notification.h"

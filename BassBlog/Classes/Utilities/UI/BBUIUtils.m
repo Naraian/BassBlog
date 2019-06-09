@@ -79,23 +79,15 @@
 
     id appearance = [UIBarButtonItem appearance];
     [appearance setTitleTextAttributes:attributes forState:UIControlStateNormal];
+    [appearance setTitleTextAttributes:@{NSFontAttributeName:[BBFont boldFontOfSize:14]} forState:UIControlStateHighlighted];
     [appearance setTitlePositionAdjustment:UIOffsetMake(6.f, 0.f) forBarMetrics:UIBarMetricsDefault];
 
     attributes = @{NSForegroundColorAttributeName :[UIColor colorWithHEX:0x222222FF],
                    NSFontAttributeName            :[BBFont boldFontOfSize:18]};
 
-    id appearanceInSearchBar = [UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil];
+    id appearanceInSearchBar = [UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UISearchBar class]]];
     [appearanceInSearchBar setTitleTextAttributes:attributes forState:UIControlStateNormal];
     [appearanceInSearchBar setTitlePositionAdjustment:UIOffsetMake(0.f, 0.f) forBarMetrics:UIBarMetricsDefault];
-}
-
-@end
-
-@implementation MarqueeLabel (Fix)
-
-- (void)forwardPropertiesToSubLabel
-{
-    [super setText:nil];
 }
 
 @end

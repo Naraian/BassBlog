@@ -72,10 +72,18 @@ static const NSTimeInterval kBBSlideAnimationInterval = 0.35;
         return;
     }
     
-    self.modelRefreshActivityView.frame = self.view.bounds;
-    self.modelRefreshActivityView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.modelRefreshActivityView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.modelRefreshActivityView.activityIndicator startAnimating];
     [self.view addSubview:self.modelRefreshActivityView];
+    
+    [self.modelRefreshActivityView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
+    [self.modelRefreshActivityView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
+    [self.modelRefreshActivityView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
+    [self.modelRefreshActivityView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
+    
+    [UIView performWithoutAnimation:^{
+        [self.view layoutIfNeeded];
+    }];
 }
 
 - (void)hideModelRefreshActivityView

@@ -11,21 +11,8 @@
 
 @implementation NSString(URLEncode)
 
-- (NSString *)urlEncodedString
-{
-	CFStringRef str =
-    CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                                            (__bridge CFStringRef)self,
-                                            NULL,
-                                            NULL,
-                                            kCFStringEncodingUTF8);
-    
-	NSString *result = (__bridge NSString *)str;
-    
-    if (str)
-        CFRelease(str);
-    
-	return result;
+- (NSString *)urlEncodedString {
+    return [self stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLPathAllowedCharacterSet];
 }
 
 @end

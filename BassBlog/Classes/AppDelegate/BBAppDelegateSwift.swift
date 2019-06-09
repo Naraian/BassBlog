@@ -10,77 +10,61 @@ import UIKit
 import MediaPlayer
 
 @UIApplicationMain
-class BBAppDelegateSwift: UIResponder, UIApplicationDelegate
-{
-    var window : UIWindow?;
+class BBAppDelegateSwift: UIResponder, UIApplicationDelegate {
+    var window: UIWindow?
     
-    override init()
-    {
-        
+    class var rootViewController: BBRootViewController {
+        return self.instance.window!.rootViewController as! BBRootViewController
     }
     
-    class var rootViewController : BBRootViewController
-    {
-        get
-        {
-            return self.instance.window!.rootViewController as! BBRootViewController;
+    class var instance: BBAppDelegateSwift {
+        return UIApplication.shared.delegate as! BBAppDelegateSwift
+    }
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        BBUIUtils.customizeAppearance()
+        
+        BBModelManager.default().rootContext()
+        
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        window.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+        window.makeKeyAndVisible()
+        self.window = window
+        
+        BBAnalytics.startSession()
+        
+        application.beginReceivingRemoteControlEvents()
+        
+        return true
+    }
+    
+    override func remoteControlReceived(with event: UIEvent?) {
+        super.remoteControlReceived(with: event)
+        
+        guard let subtype = event?.subtype else {
+            return
         }
-    }
-    
-    class var instance : BBAppDelegateSwift
-    {
-        get
-        {
-            return UIApplication.sharedApplication().delegate as! BBAppDelegateSwift;
-        }
-    }
-    
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool
-    {
-        BBUIUtils.customizeAppearance();
         
-        BBModelManager.defaultManager().rootContext();
-        
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds);
-        self.window!.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController();
-        
-        self.window!.makeKeyAndVisible();
-        
-        BBAnalytics.startSession();
-        
-        application.beginReceivingRemoteControlEvents();
-        
-        return true;
-    }
-    
-    override func remoteControlReceivedWithEvent(event: UIEvent?)
-    {
-        super.remoteControlReceivedWithEvent(event);
-        
-        if let subtype = event?.subtype
-        {
-            switch(subtype)
-            {
-                case .RemoteControlPlay:
-                    BBAudioManager.defaultManager().paused = false;
-                
-                case .RemoteControlPause, .RemoteControlStop:
-                    BBAudioManager.defaultManager().paused = true;
-                
-                case .RemoteControlTogglePlayPause:
-                    BBAudioManager.defaultManager().togglePlayPause();
-                
-                case .RemoteControlNextTrack:
-                    BBAudioManager.defaultManager().playNext();
-                
-                case .RemoteControlPreviousTrack:
-                    BBAudioManager.defaultManager().playPrev();
-                
-                case .RemoteControlEndSeekingBackward, .RemoteControlEndSeekingForward: ()
-    //                println(MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo);
-                
-                default: ()
-            }
+        switch(subtype) {
+            case .remoteControlPlay:
+                BBAudioManager.default().paused = false
+            
+            case .remoteControlPause, .remoteControlStop:
+                BBAudioManager.default().paused = true
+            
+            case .remoteControlTogglePlayPause:
+                BBAudioManager.default().togglePlayPause()
+            
+            case .remoteControlNextTrack:
+                BBAudioManager.default().playNext()
+            
+            case .remoteControlPreviousTrack:
+                BBAudioManager.default().playPrev()
+            
+            case .remoteControlEndSeekingBackward, .remoteControlEndSeekingForward: ()
+//                println(MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo)
+            
+            default: ()
         }
     }
 }

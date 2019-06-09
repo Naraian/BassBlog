@@ -9,6 +9,8 @@
 #import <CoreMedia/CoreMedia.h>
 #import <AVFoundation/AVFoundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString *const BBAudioManagerDidStartPlayNotification;
 extern NSString *const BBAudioManagerDidChangeProgressNotification;
 extern NSString *const BBAudioManagerDidStopNotification;
@@ -64,3 +66,5 @@ typedef NS_ENUM(NSInteger, BBAudioManagerStopReason) {
 - (BBMix *)prevMix;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -8,315 +8,266 @@
 
 import UIKit
 
-class BBNowPlayingViewControllerSwift : BBViewController
-{
-    @IBOutlet var titleLabel : UILabel?;
-    @IBOutlet var tagsLabel : UILabel?;
-    
-    @IBOutlet var slider : UISlider?;
-    @IBOutlet var currentTimeLabel : UILabel?;
-    @IBOutlet var remainingTimeLabel : UILabel?;
-    
-    @IBOutlet var favoriteNotificationTopConstraint : NSLayoutConstraint?;
-    @IBOutlet var favoriteNotificationView : UIView?;
-    @IBOutlet var favoriteNotificationLabel : UILabel?;
-    
-    @IBOutlet var prevButton : UIButton?;
-    @IBOutlet var nextButton : UIButton?;
-    @IBOutlet var playButton : UIButton?;
-    @IBOutlet var favoritesButton : UIButton?;
+class BBNowPlayingViewControllerSwift: BBViewController {
+    @IBOutlet private var titleLabel: UILabel!
+    @IBOutlet private var tagsLabel: UILabel!
 
-    @IBOutlet var artworkImageView : UIImageView?;
-    
-    var _dateFormatter : NSDateFormatter!;
-    
-    func dateFormatter() -> NSDateFormatter
-    {
-        if (_dateFormatter == nil)
-        {
-            _dateFormatter = NSDateFormatter();
-            _dateFormatter.dateStyle = NSDateFormatterStyle.NoStyle;
-            _dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle;
-        }
-        
-        return _dateFormatter;
-    }
-    
-    var refreshTimer : NSTimer!;
-    
-    override func commonInit()
-    {
-        super.commonInit();
+    @IBOutlet private var slider: UISlider!
+    @IBOutlet private var currentTimeLabel: UILabel!
+    @IBOutlet private var remainingTimeLabel: UILabel!
 
-        self.title = "NOW PLAYING";
+    @IBOutlet private var favoriteNotificationTopConstraint: NSLayoutConstraint!
+    @IBOutlet private var favoriteNotificationView: UIView!
+    @IBOutlet private var favoriteNotificationLabel: UILabel!
+
+    @IBOutlet private var prevButton: UIButton!
+    @IBOutlet private var nextButton: UIButton!
+    @IBOutlet private var playButton: UIButton!
+    @IBOutlet private var favoritesButton: UIButton!
+
+    @IBOutlet private var artworkImageView: UIImageView!
+
+    private lazy var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .none
+        dateFormatter.timeStyle = .short
+        return dateFormatter
+    }()
+
+    private var refreshTimer: Timer?
+
+    override func commonInit() {
+        super.commonInit()
+
+        self.title = "NOW PLAYING"
+    }
+
+    override func updateTheme() {
+        super.updateTheme()
+
+        self.showNowPlayingBarButtonItem()
+    }
+
+    override func startObserveNotifications() {
+        self.add(#selector(audioManagerDidStartPlayNotification), forNotificationWithName: NSNotification.Name.BBAudioManagerDidStartPlay.rawValue)
+        self.add(#selector(audioManagerDidStopNotification(_:)), forNotificationWithName: NSNotification.Name.BBAudioManagerDidStop.rawValue)
+        self.add(#selector(audioManagerDidChangeMixNotification), forNotificationWithName: NSNotification.Name.BBAudioManagerDidChangeMix.rawValue)
+    }
+
+    // MARK: Notiifcations
+    @objc private func audioManagerDidStartPlayNotification() {
+    }
+
+    @objc private func audioManagerDidStopNotification(_ notification: NSNotification) {
+    }
+
+    @objc private func audioManagerDidChangeMixNotification() {
+        updateTrackInfo(animated: true)
     }
     
-    override func updateTheme()
-    {
-        super.updateTheme();
-        
-        self.showNowPlayingBarButtonItem();
-    }
-    
-    override func startObserveNotifications()
-    {
-        self.addSelector("audioManagerDidStartPlayNotification", forNotificationWithName: BBAudioManagerDidStartPlayNotification);
-        self.addSelector("audioManagerDidStopNotification:", forNotificationWithName: BBAudioManagerDidStopNotification);
-        self.addSelector("audioManagerDidChangeMixNotification", forNotificationWithName: BBAudioManagerDidChangeMixNotification);
-    }
-    
-    func audioManagerDidStartPlayNotification()
-    {
-    }
-    
-    func audioManagerDidStopNotification(notification : NSNotification)
-    {
-    }
-    
-    func audioManagerDidChangeMixNotification()
-    {
-        updateTrackInfo(true);
-    }
-    
-    func customizeSlider()
-    {
-        switch (BBThemeManager.defaultManager().theme)
-        {
+    // MARK: Customize UI
+
+    func customizeSlider() {
+        switch (BBThemeManager.default().theme) {
             default:
-                self.slider!.minimumTrackTintColor = UIColor(HEX: 0xF45D5DFF);
-                self.slider!.maximumTrackTintColor = UIColor(HEX: 0xCCCCCCFF);
+                self.slider.minimumTrackTintColor = UIColor(hex: 0xF45D5DFF)
+                self.slider.maximumTrackTintColor = UIColor(hex: 0xCCCCCCFF)
         }
 
-        let tm = BBThemeManager.defaultManager();
-        
-        let thumbImageNormalName = "controls/slider";
+        let tm = BBThemeManager.default()!
+        let thumbImageNormalName = "controls/slider"
 
-        if let image = tm.imageNamed(thumbImageNormalName)
-        {
-            self.slider!.setThumbImage(image, forState: UIControlState.Normal);
+        if let image = tm.imageNamed(thumbImageNormalName) {
+            self.slider.setThumbImage(image, for: .normal)
         }
     }
+
+    func customizeButtons() {
+        let tm = BBThemeManager.default()!
+
+        self.prevButton.setImage(tm.imageNamed("controls/player_previous_mix"), for: .normal)
+        self.prevButton.setImage(tm.imageNamed("controls/player_previous_mix_pressed"), for: .highlighted)
+
+        self.nextButton.setImage(tm.imageNamed("controls/player_next_mix"), for: .normal)
+        self.nextButton.setImage(tm.imageNamed("controls/player_next_mix_pressed"), for: .highlighted)
+
+        self.playButton.setImage(tm.imageNamed("controls/player_play"), for: .normal)
+        self.playButton.setImage(tm.imageNamed("controls/player_play_pressed"), for: .highlighted)
+        self.playButton.setImage(tm.imageNamed("controls/player_pause"), for: .selected)
+        self.playButton.setImage(tm.imageNamed("controls/player_pause_pressed"), for: [.highlighted, .selected])
+
+        self.favoritesButton.setImage(tm.imageNamed("controls/add_to_favorites"), for: .normal)
+        self.favoritesButton.setImage(tm.imageNamed("controls/add_to_favorites_selected"), for: .selected)
+    }
     
-    func customizeButtons()
-    {
-        let tm = BBThemeManager.defaultManager();
+    func refreshMainTimeInfo() {
+        let audioManager = BBAudioManager.default()
         
-        self.prevButton!.setImage(tm.imageNamed("controls/player_previous_mix"), forState: UIControlState.Normal);
-        self.prevButton!.setImage(tm.imageNamed("controls/player_previous_mix_pressed"), forState: UIControlState.Highlighted);
-        
-        self.nextButton!.setImage(tm.imageNamed("controls/player_next_mix"), forState: UIControlState.Normal);
-        self.nextButton!.setImage(tm.imageNamed("controls/player_next_mix_pressed"), forState: UIControlState.Highlighted);
-        
-        self.playButton!.setImage(tm.imageNamed("controls/player_play"), forState: UIControlState.Normal);
-        self.playButton!.setImage(tm.imageNamed("controls/player_play_pressed"), forState: UIControlState.Highlighted);
-        self.playButton!.setImage(tm.imageNamed("controls/player_pause"), forState: UIControlState.Selected);
-        self.playButton!.setImage(tm.imageNamed("controls/player_pause_pressed"), forState: [UIControlState.Highlighted, UIControlState.Selected]);
-        
-        self.favoritesButton!.setImage(tm.imageNamed("controls/add_to_favorites"), forState: UIControlState.Normal);
-        self.favoritesButton!.setImage(tm.imageNamed("controls/add_to_favorites_selected"), forState: UIControlState.Selected);
+        self.playButton.isSelected = audioManager.paused
+        self.currentTimeLabel.text = BBUIUtils.timeString(fromTime: audioManager.currentTime())
     }
 
-    func playClick(sender : AnyObject)
-    {
-        BBAudioManager.defaultManager().togglePlayPause();
-    }
-    
-    func prevClick(sender : AnyObject)
-    {
-        BBAudioManager.defaultManager().playPrev();
-    }
-    
-    func nextClick(sender : AnyObject)
-    {
-        BBAudioManager.defaultManager().playNext();
-    }
-    
-    func favoritesClick(sender : AnyObject)
-    {
-        let currentMix = BBAudioManager.defaultManager().mix;
-        let shouldFavorite = (currentMix.favoriteDate == nil);
+    func refreshTimeInfo() {
+        let audioManager = BBAudioManager.default()
 
-        if (shouldFavorite)
-        {
-            self.favoritesButton!.selected = true;
-            BBAudioManager.defaultManager().mix.favoriteDate = NSDate();
-            
-            if (currentMix.name != nil)
-            {
-                Flurry.logEvent("mix_favorited", withParameters: ["mix_name" : currentMix.name]);
+        self.refreshMainTimeInfo()
+
+        self.remainingTimeLabel.text = BBUIUtils.timeString(fromTime: audioManager.duration())
+
+        self.slider.value = audioManager.progress
+    }
+
+    func updateTrackInfo(animated: Bool) {
+        UIView.transition(with: self.view, duration: animated ? 0.25 : 0.0, options: .transitionCrossDissolve, animations: { [weak self] in
+            guard let strongSelf = self else {
+                return
             }
-        }
-        else
-        {
-            self.favoritesButton!.selected = false;
-            BBAudioManager.defaultManager().mix.favoriteDate = nil;
-        }
-        
-        let selfVar = self;
-        
-        if (shouldFavorite)
-        {
-            selfVar.favoriteNotificationTopConstraint!.constant = 0.0;
             
-            UIView.animateWithDuration(0.2, animations:
-            {
-                selfVar.view.layoutIfNeeded();
-            },
-            completion:
-            {
-                (finished: Bool) in
-                
-                if (finished)
-                {
-                    selfVar.favoriteNotificationTopConstraint!.constant = -selfVar.favoriteNotificationView!.bounds.size.height;
-                    
-                    UIView.animateWithDuration(0.2, delay: 1.0, options: UIViewAnimationOptions.LayoutSubviews, animations:
-                    {
-                        selfVar.view.layoutIfNeeded();
-                    }, completion:nil);
-                }
-            });
-        }
-    }
-    
-    func refreshTimerFired(aTimer : NSTimer)
-    {
-        refreshTimeInfo();
-    }
-    
-    func refreshMainTimeInfo()
-    {
-        let audioManager = BBAudioManager.defaultManager();
-//        let currentMix = audioManager.mix;
+            let audioManager = BBAudioManager.default()
+            let currentMix = audioManager.mix
         
-        self.playButton!.selected = !audioManager.paused;
-        
-        self.currentTimeLabel!.text = BBUIUtils.timeStringFromTime(audioManager.currentTime());
-    }
-
-    func refreshTimeInfo()
-    {
-        let audioManager = BBAudioManager.defaultManager();
-//        let currentMix = audioManager.mix;
-        
-        self.refreshMainTimeInfo();
-        
-        self.remainingTimeLabel!.text = BBUIUtils.timeStringFromTime(audioManager.duration());
-        
-        if (self.slider != nil)
-        {
-            self.slider!.value = audioManager.progress;
-        }
-    }
-    
-    func updateTrackInfo(animated : Bool)
-    {
-        UIView.transitionWithView(self.view, duration: animated ? 0.25 : 0.0, options: UIViewAnimationOptions.TransitionCrossDissolve, animations:
-        {
-            [weak self] in
+            strongSelf.titleLabel.text = currentMix.name.uppercased()
+            strongSelf.tagsLabel.text = BBUIUtils.tagsString(for: currentMix)
+            strongSelf.favoritesButton.isSelected = (currentMix.favoriteDate != nil)
             
-            let audioManager = BBAudioManager.defaultManager();
-            let currentMix = audioManager.mix;
-        
-            self!.titleLabel!.text = currentMix.name.uppercaseString;
-            self!.tagsLabel!.text = BBUIUtils.tagsStringForMix(currentMix);
+            if let imageURL = URL(string: currentMix.imageUrl) {
+                strongSelf.artworkImageView.setImageWith(imageURL, placeholderImage: BBUIUtils.defaultImage())
+            }
             
-            self!.favoritesButton!.selected = (currentMix.favoriteDate != nil);
-        
-            self!.artworkImageView!.setImageWithURL(NSURL(string: currentMix.imageUrl), placeholderImage:BBUIUtils.defaultImage());
-
-            self!.refreshTimeInfo();
+            strongSelf.refreshTimeInfo()
         },
-        completion:
-        {
-            (finished: Bool) in
-        });
+        completion: { (finished: Bool) in
+        })
     }
-    
-    override func viewDidLoad()
-    {
-        super.viewDidLoad();
-    
-        self.customizeSlider();
-        self.customizeButtons();
-    
-        switch (BBThemeManager.defaultManager().theme)
-        {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.customizeSlider()
+        self.customizeButtons()
+
+        switch (BBThemeManager.default().theme) {
             default:
-                self.titleLabel!.textColor = UIColor(HEX: 0x333333FF);
-                self.tagsLabel!.textColor = UIColor(HEX: 0x8A8A8AFF);
-                
-                self.currentTimeLabel!.textColor = UIColor.blackColor();
-                self.remainingTimeLabel!.textColor = UIColor.blackColor();
-            
-                self.favoriteNotificationLabel!.textColor = UIColor.whiteColor();
-                self.favoriteNotificationView!.backgroundColor = UIColor(HEX: 0xF45D5DFF);
+                self.titleLabel.textColor = UIColor(hex: 0x333333FF)
+                self.tagsLabel.textColor = UIColor(hex: 0x8A8A8AFF)
+
+                self.currentTimeLabel.textColor = UIColor.black
+                self.remainingTimeLabel.textColor = UIColor.black
+
+                self.favoriteNotificationLabel.textColor = UIColor.white
+                self.favoriteNotificationView.backgroundColor = UIColor(hex: 0xF45D5DFF)
         }
+
+        self.titleLabel.font = BBFont.boldFontLike(self.titleLabel.font)
+        self.tagsLabel.font = BBFont.fontLike(self.tagsLabel.font)
+
+        self.favoriteNotificationLabel.font = BBFont.boldFontLike(self.favoriteNotificationLabel.font)
+        self.favoriteNotificationLabel.text = NSLocalizedString("Mix Added to Favorites", comment: "").uppercased()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        self.updateTrackInfo(animated: false)
+
+        self.refreshTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { [weak self] (timer) in
+            self?.refreshTimeInfo()
+        })
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        self.refreshTimer?.invalidate()
+        self.refreshTimer = nil
+    }
     
-        self.titleLabel!.font = BBFont.boldFontLikeFont(self.titleLabel!.font);
-        self.tagsLabel!.font = BBFont.fontLikeFont(self.tagsLabel!.font);
+    // MARK: IBActions
+    
+    @IBAction private func playClick() {
+        BBAudioManager.default().togglePlayPause()
+    }
+    
+    @IBAction private func prevClick() {
+        BBAudioManager.default().playPrev()
+    }
+    
+    @IBAction private func nextClick() {
+        BBAudioManager.default().playNext()
+    }
+    
+    @IBAction private func favoritesClick() {
+        let audioManager = BBAudioManager.default()
+        let currentMix = audioManager.mix
+        let shouldFavorite = (currentMix.favoriteDate == nil)
         
-        self.favoriteNotificationLabel!.font = BBFont.boldFontLikeFont(self.favoriteNotificationLabel!.font);
-        self.favoriteNotificationLabel!.text = NSLocalizedString("Mix Added to Favorites", comment: "").uppercaseString;
-    }
-    
-    override func viewWillAppear(animated : Bool)
-    {
-        super.viewWillAppear(animated);
-    
-        self.updateTrackInfo(false);
-    
-        self.refreshTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "refreshTimerFired:", userInfo: nil, repeats: true);
-    }
-    
-    override func viewDidDisappear(animated : Bool)
-    {
-        super.viewDidDisappear(animated);
-    
-        self.refreshTimer.invalidate();
-        self.refreshTimer = nil;
-    }
-    
-    func sliderTouchDown(sender : AnyObject)
-    {
-        if (!BBAudioManager.defaultManager().paused)
-        {
-            BBAudioManager.defaultManager().togglePlayPause();
+        if (shouldFavorite) {
+            self.favoritesButton.isSelected = true
+            audioManager.mix.favoriteDate = Date()
+            
+            if let mixName = currentMix.name {
+                Flurry.logEvent("mix_favorited", withParameters: ["mix_name" : mixName])
+            }
+        } else {
+            self.favoritesButton.isSelected = false
+            audioManager.mix.favoriteDate = nil
         }
-    
-    //  self.sliderTouched = YES;
-    }
-    
-    func sliderTouchUp(sender : AnyObject)
-    {
-    ///  if (self.sliderTouched)
-    //  {
-    //    [AudioPlayer pause];
-    
-        if (BBAudioManager.defaultManager().paused)
-        {
-            BBAudioManager.defaultManager().togglePlayPause();
+        
+        if (shouldFavorite) {
+            self.favoriteNotificationTopConstraint.constant = 0.0
+
+            UIView.animate(withDuration: 0.2, animations: {
+                self.view.layoutIfNeeded()
+            },
+            completion: { (finished: Bool) in
+                guard (finished) else {
+                    return
+                }
+
+                self.favoriteNotificationTopConstraint.constant = -self.favoriteNotificationView.bounds.size.height
+
+                UIView.animate(withDuration: 0.2, delay: 1.0, options: .layoutSubviews, animations: {
+                    self.view.layoutIfNeeded()
+                }, completion:nil)
+            })
         }
-    
-    //  [AudioPlayer sliderChangedValueDidEnd:sender];
-    //    [AudioPlayer sliderChangedValue:sender];
-    //    [AudioPlayer play];
-    //    [AudioPlayer playSongWithMix:self.mix];
-    //  }
-    
-    //  self.sliderTouched = NO;
-    
     }
-    
-    func sliderValueChanged(slider : UISlider)
-    {
-        BBAudioManager.defaultManager().progress = slider.value;
-    
-        self.refreshMainTimeInfo();
+
+    @IBAction private func sliderTouchDown() {
+        let audioManager = BBAudioManager.default()
+        
+        if (!audioManager.paused) {
+            audioManager.togglePlayPause()
+        }
+
+        //  self.sliderTouched = YES
     }
-    
-    func backBarButtonItemPressed()
-    {
-        self.navigationController?.popViewControllerAnimated(true);
+
+    @IBAction private func sliderTouchUp() {
+        let audioManager = BBAudioManager.default()
+        
+        ///  if (self.sliderTouched)
+        //  {
+        //    [AudioPlayer pause]
+
+        if (audioManager.paused) {
+            audioManager.togglePlayPause()
+        }
+
+        //  [AudioPlayer sliderChangedValueDidEnd:sender]
+        //    [AudioPlayer sliderChangedValue:sender]
+        //    [AudioPlayer play]
+        //    [AudioPlayer playSongWithMix:self.mix]
+        //  }
+
+        //  self.sliderTouched = NO
+    }
+
+    @IBAction private func sliderValueChanged() {
+        let audioManager = BBAudioManager.default()
+        
+        audioManager.progress = slider.value
+
+        self.refreshMainTimeInfo()
     }
 }

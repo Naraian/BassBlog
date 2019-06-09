@@ -47,7 +47,6 @@
 		08DC1067176C67EC00F09024 /* BBTagsSelectionOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DC1066176C67EC00F09024 /* BBTagsSelectionOptions.m */; };
 		08DC106A176C85F400F09024 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08DC1069176C85F300F09024 /* SystemConfiguration.framework */; };
 		08DC106F176C879900F09024 /* BBAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DC106E176C879900F09024 /* BBAnalytics.m */; };
-		08DC1075176C87E800F09024 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08DC1074176C87E800F09024 /* libFlurry.a */; };
 		08E084C6176498EA00C2BEE4 /* BBThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E084C5176498EA00C2BEE4 /* BBThemeManager.m */; };
 		08E084CE1764CB6E00C2BEE4 /* BBHighlightableTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E084CD1764CB6E00C2BEE4 /* BBHighlightableTableViewCell.m */; };
 		08E084D21764CC5400C2BEE4 /* BBTagsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E084D11764CC5400C2BEE4 /* BBTagsTableViewCell.m */; };
@@ -63,7 +62,7 @@
 		08FFCB0D1712A2C900F21D86 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FFCB0C1712A2C900F21D86 /* CoreData.framework */; };
 		08FFCB131712A2C900F21D86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08FFCB111712A2C900F21D86 /* InfoPlist.strings */; };
 		08FFCB2E1712ADE300F21D86 /* BBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FFCB2D1712ADE300F21D86 /* BBAppDelegate.m */; };
-		96940F09422A42528654E1C6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16EF097EE4F24CABA9AEC4A0 /* libPods.a */; };
+		0BBD4A92223C359F81042C59 /* libPods-BassBlog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FAB1C0CA2B85E6EC34175EA0 /* libPods-BassBlog.a */; };
 		9A2CCCCF195DC6C60032632A /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2CCCCE195DC6C60032632A /* MediaToolbox.framework */; };
 		9A2CCCD2195DC9420032632A /* FFTHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A2CCCD1195DC9420032632A /* FFTHelper.m */; };
 		9A2CCCD4195DCB670032632A /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2CCCD3195DCB670032632A /* Accelerate.framework */; };
@@ -93,9 +92,9 @@
 		9ADC7BF91960BB290028576B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9ADC7BF81960BB290028576B /* Images.xcassets */; };
 		9AE77066193EAB25002E2684 /* BBAppDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE77065193EAB25002E2684 /* BBAppDelegateSwift.swift */; };
 		9AEFE8C8198AD8620010F784 /* ProgressPieView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFE8C7198AD8620010F784 /* ProgressPieView.m */; };
+		9AF5582022AD8FAA00F171CA /* BBAllMixesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF5581F22AD8FAA00F171CA /* BBAllMixesTableViewCell.swift */; };
 		C12D9DF018BA21DB00F7693A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C12D9DEF18BA21DB00F7693A /* MediaPlayer.framework */; };
 		C14D4A9118BE94FA00ED7041 /* BBFavoritesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C14D4A9018BE94FA00ED7041 /* BBFavoritesTableViewCell.m */; };
-		C14D4A9418BE951100ED7041 /* BBAllMixesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C14D4A9318BE951100ED7041 /* BBAllMixesTableViewCell.m */; };
 		C14D4A9718BE953200ED7041 /* BBHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C14D4A9618BE953200ED7041 /* BBHistoryTableViewCell.m */; };
 		C19BAF1418BEAD2C00F3BAE8 /* default_image.png in Resources */ = {isa = PBXBuildFile; fileRef = C19BAF1318BEAD2C00F3BAE8 /* default_image.png */; };
 		C1E9960D18BDDFB400B7ABC7 /* BBUIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C1E9960C18BDDFB400B7ABC7 /* BBUIUtils.m */; };
@@ -188,8 +187,6 @@
 		08DC1069176C85F300F09024 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		08DC106D176C879900F09024 /* BBAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAnalytics.h; sourceTree = "<group>"; };
 		08DC106E176C879900F09024 /* BBAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAnalytics.m; sourceTree = "<group>"; };
-		08DC1073176C87E800F09024 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
-		08DC1074176C87E800F09024 /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry.a; sourceTree = "<group>"; };
 		08E084C4176498EA00C2BEE4 /* BBThemeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBThemeManager.h; sourceTree = "<group>"; };
 		08E084C5176498EA00C2BEE4 /* BBThemeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBThemeManager.m; sourceTree = "<group>"; };
 		08E084CC1764CB6E00C2BEE4 /* BBHighlightableTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBHighlightableTableViewCell.h; sourceTree = "<group>"; };
@@ -215,8 +212,7 @@
 		08FFCB161712A2C900F21D86 /* BassBlog-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BassBlog-Prefix.pch"; sourceTree = "<group>"; };
 		08FFCB2C1712ADE300F21D86 /* BBAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAppDelegate.h; sourceTree = "<group>"; };
 		08FFCB2D1712ADE300F21D86 /* BBAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAppDelegate.m; sourceTree = "<group>"; };
-		16EF097EE4F24CABA9AEC4A0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		93EB51393EAC7296395C8A09 /* Pods.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.adhoc.xcconfig; path = "Pods/Target Support Files/Pods/Pods.adhoc.xcconfig"; sourceTree = "<group>"; };
+		1FDE97A957B38FD6A8BB8F11 /* Pods-BassBlog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BassBlog.release.xcconfig"; path = "Pods/Target Support Files/Pods-BassBlog/Pods-BassBlog.release.xcconfig"; sourceTree = "<group>"; };
 		9A2CCCCE195DC6C60032632A /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
 		9A2CCCD0195DC9420032632A /* FFTHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTHelper.h; sourceTree = "<group>"; };
 		9A2CCCD1195DC9420032632A /* FFTHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTHelper.m; sourceTree = "<group>"; };
@@ -262,11 +258,10 @@
 		9AE77065193EAB25002E2684 /* BBAppDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBAppDelegateSwift.swift; sourceTree = "<group>"; };
 		9AEFE8C6198AD8620010F784 /* ProgressPieView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressPieView.h; sourceTree = "<group>"; };
 		9AEFE8C7198AD8620010F784 /* ProgressPieView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressPieView.m; sourceTree = "<group>"; };
+		9AF5581F22AD8FAA00F171CA /* BBAllMixesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBAllMixesTableViewCell.swift; sourceTree = "<group>"; };
 		C12D9DEF18BA21DB00F7693A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		C14D4A8F18BE94FA00ED7041 /* BBFavoritesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFavoritesTableViewCell.h; sourceTree = "<group>"; };
 		C14D4A9018BE94FA00ED7041 /* BBFavoritesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFavoritesTableViewCell.m; sourceTree = "<group>"; };
-		C14D4A9218BE951100ED7041 /* BBAllMixesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAllMixesTableViewCell.h; sourceTree = "<group>"; };
-		C14D4A9318BE951100ED7041 /* BBAllMixesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAllMixesTableViewCell.m; sourceTree = "<group>"; };
 		C14D4A9518BE953200ED7041 /* BBHistoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBHistoryTableViewCell.h; sourceTree = "<group>"; };
 		C14D4A9618BE953200ED7041 /* BBHistoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBHistoryTableViewCell.m; sourceTree = "<group>"; };
 		C19BAF1318BEAD2C00F3BAE8 /* default_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_image.png; sourceTree = "<group>"; };
@@ -278,8 +273,9 @@
 		C1EBC3F318B9D30F00B77297 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		C1FEAF4D18C5390C009D755F /* BBNowPlayingInfoCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBNowPlayingInfoCenter.h; sourceTree = "<group>"; };
 		C1FEAF4E18C5390C009D755F /* BBNowPlayingInfoCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBNowPlayingInfoCenter.m; sourceTree = "<group>"; };
-		C4F69B17BB38E6C101062F4A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		E5B36F7C09E9D79215FCEC98 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		E5F3553DA83F803E997D8D2A /* Pods-BassBlog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BassBlog.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BassBlog/Pods-BassBlog.debug.xcconfig"; sourceTree = "<group>"; };
+		EA88179B791200399E7EF5E4 /* Pods-BassBlog.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BassBlog.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-BassBlog/Pods-BassBlog.adhoc.xcconfig"; sourceTree = "<group>"; };
+		FAB1C0CA2B85E6EC34175EA0 /* libPods-BassBlog.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BassBlog.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,10 +297,9 @@
 				08FFCB0D1712A2C900F21D86 /* CoreData.framework in Frameworks */,
 				08C85854175B43E60024281E /* QuartzCore.framework in Frameworks */,
 				08DC106A176C85F400F09024 /* SystemConfiguration.framework in Frameworks */,
-				08DC1075176C87E800F09024 /* libFlurry.a in Frameworks */,
 				08E767F117CD16A6006B2320 /* AVFoundation.framework in Frameworks */,
 				08D08EDD17D267FD00E462EC /* MobileCoreServices.framework in Frameworks */,
-				96940F09422A42528654E1C6 /* libPods.a in Frameworks */,
+				0BBD4A92223C359F81042C59 /* libPods-BassBlog.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -784,18 +779,8 @@
 			children = (
 				9A57211F18FF29D500169E6A /* SWRevealViewController.h */,
 				9A57212018FF29D500169E6A /* SWRevealViewController.m */,
-				08DC1072176C87E800F09024 /* Flurry */,
 			);
 			path = Libraries;
-			sourceTree = "<group>";
-		};
-		08DC1072176C87E800F09024 /* Flurry */ = {
-			isa = PBXGroup;
-			children = (
-				08DC1073176C87E800F09024 /* Flurry.h */,
-				08DC1074176C87E800F09024 /* libFlurry.a */,
-			);
-			path = Flurry;
 			sourceTree = "<group>";
 		};
 		08E084C3176498BA00C2BEE4 /* ThemeManager */ = {
@@ -876,7 +861,7 @@
 				08FFCB0E1712A2C900F21D86 /* BassBlog */,
 				08FFCB051712A2C900F21D86 /* Frameworks */,
 				08FFCB041712A2C900F21D86 /* Products */,
-				449D6E83E672247FC60BAD5C /* Pods */,
+				66B68CCC5A93C04C1C85C85A /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -909,7 +894,7 @@
 				08FFCB0C1712A2C900F21D86 /* CoreData.framework */,
 				08C85852175B43CE0024281E /* QuartzCore.framework */,
 				08DC1069176C85F300F09024 /* SystemConfiguration.framework */,
-				16EF097EE4F24CABA9AEC4A0 /* libPods.a */,
+				FAB1C0CA2B85E6EC34175EA0 /* libPods-BassBlog.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -961,12 +946,12 @@
 			path = AppDelegate;
 			sourceTree = "<group>";
 		};
-		449D6E83E672247FC60BAD5C /* Pods */ = {
+		66B68CCC5A93C04C1C85C85A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C4F69B17BB38E6C101062F4A /* Pods.debug.xcconfig */,
-				E5B36F7C09E9D79215FCEC98 /* Pods.release.xcconfig */,
-				93EB51393EAC7296395C8A09 /* Pods.adhoc.xcconfig */,
+				E5F3553DA83F803E997D8D2A /* Pods-BassBlog.debug.xcconfig */,
+				1FDE97A957B38FD6A8BB8F11 /* Pods-BassBlog.release.xcconfig */,
+				EA88179B791200399E7EF5E4 /* Pods-BassBlog.adhoc.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1011,8 +996,7 @@
 		C14D4A8418BE93F000ED7041 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C14D4A9218BE951100ED7041 /* BBAllMixesTableViewCell.h */,
-				C14D4A9318BE951100ED7041 /* BBAllMixesTableViewCell.m */,
+				9AF5581F22AD8FAA00F171CA /* BBAllMixesTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1082,11 +1066,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 08FFCB251712A2C900F21D86 /* Build configuration list for PBXNativeTarget "BassBlog" */;
 			buildPhases = (
-				2EAABEBB17074C46BF7A280A /* Check Pods Manifest.lock */,
+				ECFA1348FDCC35CB02CBE45D /* [CP] Check Pods Manifest.lock */,
 				08FFCAFF1712A2C900F21D86 /* Sources */,
 				08FFCB001712A2C900F21D86 /* Frameworks */,
 				08FFCB011712A2C900F21D86 /* Resources */,
-				7F174341586D4FE8B1BCCB4F /* Copy Pods Resources */,
+				E8F210498287C2B01E005DC9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1123,6 +1107,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 08FFCAFA1712A2C900F21D86;
@@ -1160,34 +1145,48 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2EAABEBB17074C46BF7A280A /* Check Pods Manifest.lock */ = {
+		E8F210498287C2B01E005DC9 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
+			inputFileListPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-BassBlog/Pods-BassBlog-frameworks.sh",
+				"${PODS_ROOT}/Reveal-SDK/RevealServer-13/iOS/RevealServer.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RevealServer.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BassBlog/Pods-BassBlog-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7F174341586D4FE8B1BCCB4F /* Copy Pods Resources */ = {
+		ECFA1348FDCC35CB02CBE45D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
+			inputFileListPaths = (
 			);
-			name = "Copy Pods Resources";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BassBlog-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1214,7 +1213,6 @@
 				08CC79AC17568C1500A64212 /* BBTag.m in Sources */,
 				08CBFDDF1759006300C19C22 /* BBSettings+iCloud.m in Sources */,
 				08CBFDE11759006300C19C22 /* BBSettings.m in Sources */,
-				C14D4A9418BE951100ED7041 /* BBAllMixesTableViewCell.m in Sources */,
 				08CBFDF217592BE900C19C22 /* NSString+HTML.m in Sources */,
 				080FB78F175A0C4E0047B395 /* BBEntity.m in Sources */,
 				9A57212118FF29D500169E6A /* SWRevealViewController.m in Sources */,
@@ -1236,6 +1234,7 @@
 				08D0D3E21761196C0052D7C7 /* BBViewController.m in Sources */,
 				08C1D1A21763510C00513530 /* BBMixesViewController.m in Sources */,
 				08C1264D1763B1D500F444D1 /* BBEntitiesViewController.m in Sources */,
+				9AF5582022AD8FAA00F171CA /* BBAllMixesTableViewCell.swift in Sources */,
 				9A3BE228193FA1EB0048C9C0 /* BBCommonUtils.m in Sources */,
 				08E084C6176498EA00C2BEE4 /* BBThemeManager.m in Sources */,
 				08E084CE1764CB6E00C2BEE4 /* BBHighlightableTableViewCell.m in Sources */,
@@ -1312,18 +1311,19 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = AdHoc;
 		};
 		08D69803176F968F00941621 /* AdHoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 93EB51393EAC7296395C8A09 /* Pods.adhoc.xcconfig */;
+			baseConfigurationReference = EA88179B791200399E7EF5E4 /* Pods-BassBlog.adhoc.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1342,7 +1342,7 @@
 					FREE,
 				);
 				INFOPLIST_FILE = "BassBlog/BassBlog-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1398,9 +1398,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1436,18 +1437,19 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		08FFCB261712A2C900F21D86 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C4F69B17BB38E6C101062F4A /* Pods.debug.xcconfig */;
+			baseConfigurationReference = E5F3553DA83F803E997D8D2A /* Pods-BassBlog.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1466,7 +1468,7 @@
 					FREE,
 				);
 				INFOPLIST_FILE = "BassBlog/BassBlog-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1485,7 +1487,7 @@
 		};
 		08FFCB271712A2C900F21D86 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E5B36F7C09E9D79215FCEC98 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 1FDE97A957B38FD6A8BB8F11 /* Pods-BassBlog.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1504,7 +1506,7 @@
 					FREE,
 				);
 				INFOPLIST_FILE = "BassBlog/BassBlog-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

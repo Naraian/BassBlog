@@ -10,7 +10,6 @@
 #import "BBTagsViewController.h"
 
 #import "BBMixesTableSectionHeaderView.h"
-#import "BBAllMixesTableViewCell.h"
 
 #import "BBMix.h"
 #import "BBTag.h"
@@ -21,6 +20,8 @@
 #import "BBModelManager.h"
 #import "BBRootViewController.h"
 #import "BBRefreshControl.h"
+
+#import "BassBlog-Swift.h"
 
 @interface BBAllMixesViewController()
 

@@ -330,9 +330,14 @@ typedef NS_ENUM(NSInteger, BBRefreshControlState)
     [self insertSubview:refreshControl atIndex:0];
 }
 
-- (BBRefreshControl *)refreshControl
+- (BBRefreshControl *)TNK_refreshControl
 {
     return objc_getAssociatedObject(self, @selector(refreshControl));
+}
+
+- (UIRefreshControl *)refreshControl
+{
+    return [self TNK_refreshControl];
 }
 
 @end
@@ -370,14 +375,14 @@ typedef NS_ENUM(NSInteger, BBRefreshControlState)
     // UITableView has a nasty habbit of placing it's section headers below contentInset
     // We aren't changing that behavior, just adjusting for the inset that we added
     
-    if (self.refreshControl.addedContentInset.top != 0.0)
+    if (self.TNK_refreshControl.addedContentInset.top != 0.0)
     {
         //http://b2cloud.com.au/tutorial/uitableview-section-header-positions/
         const NSUInteger numberOfSections = self.numberOfSections;
         const UIEdgeInsets contentInset = self.contentInset;
         const CGPoint contentOffset = self.contentOffset;
         
-        const CGFloat sectionViewMinimumOriginY = contentOffset.y + contentInset.top - self.refreshControl.addedContentInset.top;
+        const CGFloat sectionViewMinimumOriginY = contentOffset.y + contentInset.top - self.TNK_refreshControl.addedContentInset.top;
         
         //	Layout each header view
         for(NSUInteger section = 0; section < numberOfSections; section++)
